@@ -34,7 +34,8 @@ li {
 }
 
 h1,
-p {
+p,
+label {
 	font-size: 14px;
 	line-height: 1.2142857143;
 	color: white;
