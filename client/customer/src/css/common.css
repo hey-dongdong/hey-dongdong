@@ -59,13 +59,14 @@ input[type=password]::placeholder {
 	top: 80px;
 	width: 147px;
 	height: 147px;
-	margin: 0 auto 160px;
+	margin: 0 auto 150px;
 }
 
 .form {
 	width: 300px;
 	margin: 0 auto;
 	margin-bottom: 25px;
+	padding-top: 25px;
 }
 
 .form-label {

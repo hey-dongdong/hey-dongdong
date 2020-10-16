@@ -19,7 +19,28 @@
 </template>
 
 <script>
-export default {};
+export default {
+	data() {
+		return {
+			id: '',
+			password: '',
+		};
+	},
+	methods: {
+		// async submitForm() {
+		// 	try {
+		// 		const userData = {
+		// 			id: this.id,
+		// 			password: this.password,
+		// 		};
+		// 		//await this.$store.dispatch('LOGIN', userData);
+		// 		this.$router.push('/user/no-show');
+		// 	} catch (error) {
+		// 		console.log(error.response.data);
+		// 	}
+		// },
+	},
+};
 </script>
 
 <style></style>
