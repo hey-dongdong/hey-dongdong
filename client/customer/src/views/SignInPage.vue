@@ -2,14 +2,21 @@
 	<div class="greenbg">
 		<img src="../assets/logo.png" alt="logo" class="logo" />
 		<form @submit.prevent="submitForm" class="form">
-			<label for="id" class="form-label">ID</label>
-			<input id="id" type="text" placeholder="아이디를 입력하세요" />
-			<label for="password" class="form-label">Password</label>
-			<input
-				id="password"
-				type="password"
-				placeholder="비밀번호를 입력하세요"
-			/>
+			<ul class="form-items">
+				<li>
+					<label for="id" class="form-label">ID</label>
+					<input id="id" type="text" placeholder="아이디를 입력하세요" />
+				</li>
+				<li>
+					<label for="password" class="form-label">Password</label>
+					<input
+						id="password"
+						type="password"
+						placeholder="비밀번호를 입력하세요"
+					/>
+				</li>
+			</ul>
+
 			<button type="submit" class="goldbtn">LOGIN</button>
 		</form>
 		<div class="links">

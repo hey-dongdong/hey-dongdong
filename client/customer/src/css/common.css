@@ -3,33 +3,6 @@ body {
 	color: white;
 }
 
-input {
-	display: block;
-	border-top-width: 0;
-	border-left-width: 0;
-	border-right-width: 0;
-	border-bottom-width: 1px;
-	border-bottom-color: rgba(255, 255, 255, 0.5);
-	background-color: transparent;
-	width: 300px;
-	margin: 0 auto 40px;
-	color: white;
-}
-
-input::placeholder {
-	color: rgba(255, 255, 255, 0.5);
-}
-
-input[type=password] {
-	font-family: sans-serif;
-}
-
-input[type=password]::placeholder {
-	font-family: 'NanumSquare', sans-serif;
-}
-
-
-
 /* Headers */
 .greenheader {
 	display: flex;
@@ -82,16 +55,48 @@ input[type=password]::placeholder {
 	margin: 0 auto 150px;
 }
 
+
+/* form */
+
 .form {
 	width: 300px;
 	margin: 0 auto;
 	margin-bottom: 25px;
-	padding-top: 25px;
+	padding-top: 40px;
+}
+
+input {
+	display: block;
+	border-top-width: 0;
+	border-left-width: 0;
+	border-right-width: 0;
+	border-bottom-width: 1px;
+	border-bottom-color: rgba(255, 255, 255, 0.5);
+	background-color: transparent;
+	width: 300px;
+	margin: 0 auto 40px;
+	color: white;
+}
+
+input::placeholder {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+input[type=password] {
+	font-family: sans-serif;
+}
+
+input[type=password]::placeholder {
+	font-family: 'NanumSquare', sans-serif;
 }
 
 .form-label {
 	display: block;
 	margin-bottom: 10px;
+}
+
+.form-items > li:last-child {
+	margin-bottom: 70px;
 }
 
 

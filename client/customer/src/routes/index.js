@@ -31,6 +31,10 @@ export default new VueRouter({
 			component: () => import('@/views/FindIdPage.vue'),
 		},
 		{
+			path: '/user/find-info/pw',
+			component: () => import('@/views/FindPwPage.vue'),
+		},
+		{
 			path: '/user/find-info/id/:id',
 			component: () => import('@/views/FindIdSuccessPage.vue'),
 		},

@@ -11,7 +11,7 @@
 				<span slot="next-todo" class="next-todo">회원님의 ID입니다.</span>
 				<span slot="userid">ewha***</span>
 				<router-link slot="next-btn" to="/sign-in" class="goldbtn"
-					>LOGIN</router-link
+					>로그인하러 가기</router-link
 				>
 			</FindSuccess>
 			<router-link to="/user/find-info/pw" class="greenbtn"
