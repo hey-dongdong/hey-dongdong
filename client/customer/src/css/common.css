@@ -294,3 +294,87 @@ input[type=password]::placeholder {
 	margin-bottom: 80px;
 	font-size: 14px;
 }
+
+
+/* map popup */
+
+.overlaybox {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: url('../assets//popup-marker.png');
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+	width: 300px;
+	height: 200px;
+}
+
+.map-popup-title {
+	display: flex;
+	justify-content: center;
+	padding-top: 15px;
+	margin-bottom: 15px;
+}
+
+.popup-name {
+	font-size: 16px;
+	color: #FFC52F;
+	margin-right: 8px;
+}
+
+.congestion {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 30px;
+	height: 16px;
+	background-color: red;
+	border-radius: 50px;
+}
+
+.congestion-text {
+	font-size: 10px;
+}
+
+.store-location {
+	display: block;
+	margin: 0 auto 5px;
+	font-size: 12px;
+}
+
+.when,
+.time-text,
+.bar,
+.telephone {
+	font-size: 10px;
+}
+
+.bar {
+	color: rgba(255, 255, 255, 0.5);
+}
+
+.telephone {
+	margin-top: 5px;
+	margin-bottom: 12px;
+}
+
+.popup-buttons {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.popup-button {
+	display: block;
+	background-color: transparent;
+	border: none;
+	border-top: 1px solid #8D734A ;
+	color: #FFC52F;
+	width: 150px;
+	height: 45px
+}
+
+.popup-button:first-child {
+	border-right: 1px solid #8D734A;
+}

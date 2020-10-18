@@ -33,29 +33,80 @@ export default {
 	},
 	methods: {
 		initMap() {
-			var container = document.getElementById('map');
-			var options = {
-				center: new kakao.maps.LatLng(37.566627, 126.948417),
-				level: 3,
-			};
+			var position = new kakao.maps.LatLng(37.566627, 126.948417);
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+				mapOption = {
+					center: position, // 지도의 중심좌표
+					level: 2, // 지도의 확대 레벨
+				};
 
-			var map2 = new kakao.maps.Map(container, options);
+			var map = new kakao.maps.Map(mapContainer, mapOption);
 
-			var imageSrc = '/src/assets/marker.png',
-				imageSize = new kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
-				imageOption = { offset: new kakao.maps.Point(27, 69) };
+			var imageSrc =
+					'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png', // 마커이미지의 주소입니다
+				imageSize = new kakao.maps.Size(24, 35), // 마커이미지의 크기입니다
+				imageOption = { offset: new kakao.maps.Point(12, 12) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
+			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 			var markerImage = new kakao.maps.MarkerImage(
-					imageSrc,
-					imageSize,
-					imageOption,
-				),
-				markerPosition = new kakao.maps.LatLng(37.566627, 126.948417);
+				imageSrc,
+				imageSize,
+				imageOption,
+			);
+
+			// 마커를 생성합니다
 			var marker = new kakao.maps.Marker({
-				position: markerPosition,
-				image: markerImage,
+				position: position,
+				image: markerImage, // 마커이미지 설정
 			});
-			marker.setMap(map2);
+
+			// 마커가 지도 위에 표시되도록 설정합니다
+			marker.setMap(map);
+
+			// 커스텀 오버레이에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+			var content =
+				'<div class="overlaybox">' +
+				'	<div class="map-popup-title">' +
+				'		<h3 class="popup-name">공학관점</h3>' +
+				'		<div class="congestion">' +
+				'			<span class="congestion-text">바쁨</span>' +
+				'		</div>' +
+				'	</div>' +
+				'	<span class="store-location">아산공학관 1층(110호)</span>' +
+				'	<div>' +
+				'		<span class="when">학기 중:</span>' +
+				'		<span class="time-text">평일 08:30~19:00</span>' +
+				'		<span class="bar">|</span>' +
+				'		<span class="time-text">주말 08:30~19:00</span>' +
+				'	</div>' +
+				'	<div>' +
+				'		<span class="when">방학 중:</span>' +
+				'		<span class="time-text">평일 08:30~19:00</span>' +
+				'		<span class="bar">|</span>' +
+				'		<span class="time-text">주말 08:30~19:00</span>' +
+				'	</div>' +
+				'	<span class="telephone">02-3277-4873</span>' +
+				'	<div class="popup-buttons">' +
+				'		<div>' +
+				'			<button class="popup-button" type="button">취소</button>' +
+				'		</div>' +
+				'		<div>' +
+				'			<button class="popup-button" type="button">선택</button>' +
+				'		</div>' +
+				'	</div>' +
+				'</div>';
+
+			// 커스텀 오버레이가 표시될 위치입니다
+
+			// 커스텀 오버레이를 생성합니다
+			var customOverlay = new kakao.maps.CustomOverlay({
+				map: map,
+				position: position,
+				content: content,
+				yAnchor: 1,
+			});
+
+			customOverlay.setMap(map);
 		},
 	},
 };
