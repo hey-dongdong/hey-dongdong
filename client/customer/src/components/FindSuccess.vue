@@ -5,6 +5,7 @@
 		<div class="found-info-box">
 			<slot name="userid"></slot>
 		</div>
+		<slot name="next-btn"></slot>
 	</div>
 </template>
 
