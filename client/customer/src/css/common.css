@@ -35,7 +35,7 @@ input[type=password]::placeholder {
 	display: flex;
 	width: 100%;
 	height: 44px;
-	background-color: #00462A;
+	background-color: #003127;
 }
 
 .blackheader {
@@ -64,7 +64,7 @@ input[type=password]::placeholder {
 .greenbg {
 	width: 100%;
 	height: 100vh;
-	background-color: #00462A;
+	background-color: #003127;
 }
 
 .blackbg {
@@ -98,12 +98,29 @@ input[type=password]::placeholder {
 /* buttons */
 
 .goldbtn {
+	display: flex;
 	width: 300px;
 	height: 52px;
 	background-color: #8D734A;
 	border: none;
 	border-radius: 100px;
 	color: white;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto 20px;
+}
+
+.greenbtn {
+	display: flex;
+	width: 300px;
+	height: 52px;
+	background-color: #00462A;
+	border: none;
+	border-radius: 100px;
+	color: white;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
 }
 
 .links {
@@ -223,3 +240,11 @@ input[type=password]::placeholder {
 .link-name {
 	line-height: 1.666667;
 }
+
+.find-success-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+

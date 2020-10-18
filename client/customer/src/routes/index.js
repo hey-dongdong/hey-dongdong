@@ -27,8 +27,12 @@ export default new VueRouter({
 			component: () => import('@/views/StoreInfoPage.vue'),
 		},
 		{
-			path: '/user/find-info',
+			path: '/user/find-info/id',
 			component: () => import('@/views/FindIdPage.vue'),
+		},
+		{
+			path: '/user/find-info/id/:id',
+			component: () => import('@/views/FindIdSuccessPage.vue'),
 		},
 	],
 });

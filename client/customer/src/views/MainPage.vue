@@ -18,21 +18,21 @@
 			<p class="progress-explain">주문 확인 중입니다</p>
 		</div>
 		<img src="../assets/barcode.png" alt="barcode" class="barcode" />
-		<div class="linkboxes">
-			<div class="page-link">
+		<ul class="linkboxes">
+			<li class="page-link">
 				<router-link class="link-name" to="/menu/all"
 					>전체<br />메뉴</router-link
 				>
-			</div>
-			<div class="page-link">
+			</li>
+			<li class="page-link">
 				<router-link class="link-name" to="/my-menu"
 					>나만의<br />메뉴</router-link
 				>
-			</div>
-			<div class="page-link">
+			</li>
+			<li class="page-link">
 				<router-link class="link-name" to="/history">히스토리</router-link>
-			</div>
-		</div>
+			</li>
+		</ul>
 	</div>
 </template>
 
