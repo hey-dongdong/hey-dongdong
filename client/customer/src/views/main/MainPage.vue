@@ -1,13 +1,7 @@
 <template>
 	<div class="blackbg">
 		<MainHeader></MainHeader>
-		<div class="pickup-store">
-			<h2 class="pickup-location">픽업위치:</h2>
-			<h2 class="storename">공학관점</h2>
-			<router-link v-bind:to="`/store-info/${storeName}`">
-				<ion-icon name="location"></ion-icon>
-			</router-link>
-		</div>
+		<PickUpStore></PickUpStore>
 		<div class="progress-container">
 			<img src="../../assets/progress50.png" alt="progress" class="progress" />
 			<img src="../../assets/logo.png" alt="logo" class="small-logo" />
@@ -38,10 +32,12 @@
 
 <script>
 import MainHeader from '@/components/common/MainHeader.vue';
+import PickUpStore from '@/components/main/PickUpStore.vue';
 
 export default {
 	components: {
 		MainHeader,
+		PickUpStore,
 	},
 	computed: {
 		storeName() {
