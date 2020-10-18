@@ -1,7 +1,7 @@
 <template>
-	<header class="appheader">
+	<header class="greenheader">
 		<router-link to="/sign-in">
-			<img src="../../assets/goback.png" alt="go back" class="goback" />
+			<ion-icon class="goback" name="arrow-back"></ion-icon>
 		</router-link>
 		<h1 class="pagename">
 			<slot name="pagename"></slot>

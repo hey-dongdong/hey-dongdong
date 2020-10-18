@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<AppHeader>
+		<GreenHeader>
 			<h1 slot="pagename">회원가입</h1>
-		</AppHeader>
+		</GreenHeader>
 		<div class="greenbg">
 			<form @submit.prevent="submitForm" class="form">
 				<label for="userId" class="form-label">ID</label>
@@ -24,12 +24,12 @@
 </template>
 
 <script>
-import AppHeader from '@/components/common/AppHeader.vue';
+import GreenHeader from '@/components/common/GreenHeader.vue';
 import { registerUser } from '@/api/index';
 
 export default {
 	components: {
-		AppHeader,
+		GreenHeader,
 	},
 	data() {
 		return {
@@ -65,4 +65,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style></style>

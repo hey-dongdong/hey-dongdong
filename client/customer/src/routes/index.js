@@ -22,5 +22,9 @@ export default new VueRouter({
 			path: '/user/no-show',
 			component: () => import('@/views/MainPage.vue'),
 		},
+		{
+			path: '/store-info/:storeName',
+			component: () => import('@/views/StoreInfoPage.vue'),
+		},
 	],
 });
