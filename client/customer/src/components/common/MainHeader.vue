@@ -1,6 +1,8 @@
 <template>
 	<div class="mainheader">
-		<router-link to="/user/no-show" class="appname">헤이동동</router-link>
+		<router-link to="/user/no-show" class="appname">
+			<h1>헤이동동</h1>
+		</router-link>
 		<ion-icon name="cart" class="cart"></ion-icon>
 	</div>
 </template>

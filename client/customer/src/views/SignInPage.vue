@@ -4,8 +4,12 @@
 		<form @submit.prevent="submitForm" class="form">
 			<label for="id" class="form-label">ID</label>
 			<input id="id" type="text" placeholder="아이디를 입력하세요" />
-			<label for="id" class="form-label">Password</label>
-			<input id="id" type="password" placeholder="비밀번호를 입력하세요" />
+			<label for="password" class="form-label">Password</label>
+			<input
+				id="password"
+				type="password"
+				placeholder="비밀번호를 입력하세요"
+			/>
 			<button type="submit" class="goldbtn">LOGIN</button>
 		</form>
 		<div class="links">

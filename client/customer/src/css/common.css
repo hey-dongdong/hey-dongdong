@@ -28,6 +28,9 @@ input[type=password]::placeholder {
 	font-family: 'NanumSquare', sans-serif;
 }
 
+
+
+/* Headers */
 .greenheader {
 	display: flex;
 	width: 100%;
@@ -48,6 +51,7 @@ input[type=password]::placeholder {
 	left: 14px;
 	font-size: 16px;
 	color: white;
+	margin-right: -30px;
 }
 
 .pagename {
@@ -116,6 +120,7 @@ input[type=password]::placeholder {
 	width: fit-content;
 	margin: auto;
 	font-size: 14px;
+	padding-left: 14px;
 }
 
 .cart {
