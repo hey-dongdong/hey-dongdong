@@ -58,6 +58,9 @@ input[type=password]::placeholder {
 	margin: auto;
 }
 
+
+/* background */
+
 .greenbg {
 	width: 100%;
 	height: 100vh;
@@ -90,6 +93,9 @@ input[type=password]::placeholder {
 	display: block;
 	margin-bottom: 10px;
 }
+
+
+/* buttons */
 
 .goldbtn {
 	width: 300px;
