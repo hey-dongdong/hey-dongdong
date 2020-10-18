@@ -248,3 +248,25 @@ input[type=password]::placeholder {
 	align-items: center;
 }
 
+.success-explain {
+	margin-top: 100px;
+	margin-bottom: 30px;
+	font-size: 18px;
+}
+
+.next-todo {
+	margin-bottom: 50px;
+	font-size: 14px;
+}
+
+.found-info-box {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 300px;
+	height: 90px;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	border-radius: 10px;
+	margin-bottom: 50px;
+}
+

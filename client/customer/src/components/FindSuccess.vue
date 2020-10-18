@@ -2,7 +2,7 @@
 	<div class="find-success-container">
 		<slot name="success-explain"></slot>
 		<slot name="next-todo"></slot>
-		<div class="found-id">
+		<div class="found-info-box">
 			<slot name="userid"></slot>
 		</div>
 	</div>
