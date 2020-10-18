@@ -46,5 +46,9 @@ export default new VueRouter({
 			path: '/user/find-info/pw/:email',
 			component: () => import('@/views/login/FindPwSuccessPage.vue'),
 		},
+		{
+			path: '/user/find-info/pw-fail',
+			component: () => import('@/views/login/FindPwFailPage.vue'),
+		},
 	],
 });
