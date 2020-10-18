@@ -1,6 +1,6 @@
 <template>
 	<div class="greenbg">
-		<img src="../assets/logo.png" alt="logo" class="logo" />
+		<img src="../../assets/logo.png" alt="logo" class="logo" />
 		<form @submit.prevent="submitForm" class="form">
 			<ul class="form-items">
 				<li>

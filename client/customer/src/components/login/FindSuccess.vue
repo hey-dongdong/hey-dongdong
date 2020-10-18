@@ -1,5 +1,5 @@
 <template>
-	<div class="find-success-container">
+	<div class="find-container">
 		<slot name="success-explain"></slot>
 		<slot name="next-todo"></slot>
 		<div class="found-info-box">

@@ -246,7 +246,10 @@ input[type=password]::placeholder {
 	line-height: 1.666667;
 }
 
-.find-success-container {
+
+/* find success */
+
+.find-container {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -275,3 +278,16 @@ input[type=password]::placeholder {
 	margin-bottom: 50px;
 }
 
+
+/* find fail */
+
+.fail-explain {
+	margin-top: 150px;
+	margin-bottom: 50px;
+	font-size: 18px;
+}
+
+.no-info {
+	margin-bottom: 80px;
+	font-size: 14px;
+}

@@ -23,7 +23,7 @@
 
 <script>
 import GreenHeader from '@/components/common/GreenHeader.vue';
-import FindSuccess from '@/components/FindSuccess.vue';
+import FindSuccess from '@/components/login/FindSuccess.vue';
 
 export default {
 	components: {
