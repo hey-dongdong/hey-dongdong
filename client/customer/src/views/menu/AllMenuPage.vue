@@ -6,7 +6,14 @@
 		<div class="blackbg">
 			<ul>
 				<li v-for="menuItem in menuItems" :key="menuItem.menuId">
-					{{ menuItem.menuName }}
+					<div>
+						<img :src="menuItem.imgUrl" alt="메뉴이미지" />
+						<span>{{ menuItem.menuName }}</span>
+						<span
+							>HOT {{ menuItem.hotPrice }}원, ICE
+							{{ menuItem.icePrice }}원</span
+						>
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -15,26 +22,17 @@
 
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
-import { fetchAllMenu } from '@/api/index';
+import { mapGetters } from 'vuex';
 
 export default {
 	components: {
 		BlackHeader,
 	},
-	data() {
-		return {
-			menuItems: [],
-		};
-	},
-	methods: {
-		async fetchData() {
-			const { data } = await fetchAllMenu();
-			console.log(data.payload.menus);
-			//this.menuItems = data.menus;
-		},
+	computed: {
+		...mapGetters(['menuItems']),
 	},
 	created() {
-		this.fetchData();
+		this.$store.dispatch('FETCH_MENUS');
 	},
 };
 </script>

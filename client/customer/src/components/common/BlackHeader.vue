@@ -1,12 +1,14 @@
 <template>
 	<header class="blackheader">
 		<router-link to="/sign-in">
-			<ion-icon class="goback" name="arrow-back"></ion-icon>
+			<ion-icon name="arrow-back" class="goback"></ion-icon>
 		</router-link>
 		<h1 class="pagename">
 			<slot name="pagename"></slot>
 		</h1>
-		<ion-icon name="cart" class="cart"></ion-icon>
+		<router-link to="/cart">
+			<ion-icon name="cart" class="cart"></ion-icon>
+		</router-link>
 	</header>
 </template>
 

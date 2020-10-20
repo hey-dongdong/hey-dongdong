@@ -1,21 +1,19 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import mutations from './mutations';
+import actions from './actions';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-	mutations: {
-		setId(state, id) {
-			state.id = id;
-		},
-		clearId(state) {
-			state.id = '';
-		},
-		setToken(state, token) {
-			state.token = token;
-		},
-		clearToken(state) {
-			state.token = '';
+	state: {
+		menus: [],
+	},
+	getters: {
+		menuItems(state) {
+			return state.menus;
 		},
 	},
+	mutations,
+	actions,
 });
