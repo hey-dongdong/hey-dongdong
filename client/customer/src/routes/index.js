@@ -19,7 +19,7 @@ export default new VueRouter({
 			component: () => import('@/views/login/SignUpPage.vue'),
 		},
 		{
-			path: '/user/no-show',
+			path: '/main',
 			component: () => import('@/views/main/MainPage.vue'),
 		},
 		{
@@ -49,6 +49,10 @@ export default new VueRouter({
 		{
 			path: '/user/find-info/pw-fail',
 			component: () => import('@/views/login/FindPwFailPage.vue'),
+		},
+		{
+			path: '/menu/all',
+			component: () => import('@/views/menu/AllMenuPage.vue'),
 		},
 	],
 });

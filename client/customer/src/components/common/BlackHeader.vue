@@ -6,6 +6,7 @@
 		<h1 class="pagename">
 			<slot name="pagename"></slot>
 		</h1>
+		<ion-icon name="cart" class="cart"></ion-icon>
 	</header>
 </template>
 
