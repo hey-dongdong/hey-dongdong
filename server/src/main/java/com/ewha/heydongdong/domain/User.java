@@ -3,6 +3,7 @@ package com.ewha.heydongdong.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -21,6 +22,10 @@ public class User {
 
     @Column(name = "name")
     private String userName;
+
+    // TODO [지우] 패스워드 처리
+//    @Column(name = "password")
+//    private String password;
 
     @Column(name = "email")
     private String email;
@@ -42,6 +47,8 @@ public class User {
 
     @Builder
     public User(String userId, String userName, String email, String phone, Integer noShowCount, Timestamp banAt) {
+        Assert.hasText(userId, "UserId must not be empty");
+
         this.userId = userId;
         this.userName = userName;
         this.email = email;

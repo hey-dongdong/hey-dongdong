@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -15,7 +16,7 @@ class UserTest {
 
     @Test
     @DisplayName("User Constructor Success")
-    void testConstructor() {
+    void User_Constructor_Success() {
 
         User newUser = User.builder()
                 .userId("kim")
@@ -27,4 +28,17 @@ class UserTest {
 
         assertNotNull(newUser.getUserId());
     }
+
+    @Test
+    @DisplayName("User Constructor Fail : UserId empty")
+    void User_Constructor_Fail_UserId_empty() {
+
+        assertThrows(IllegalArgumentException.class, () -> {
+            User.builder()
+                    .userName("김지우")
+                    .build();
+        });
+    }
+
+
 }
