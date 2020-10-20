@@ -4,18 +4,22 @@ import com.ewha.heydongdong.domain.datatype.Position;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "stores")
 @Getter
 @NoArgsConstructor
+@ToString
 public class Store {
 
     @Id
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Integer storeId;
 
     @Column(name = "name", nullable = false)
