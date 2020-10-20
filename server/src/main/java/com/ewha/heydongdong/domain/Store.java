@@ -4,7 +4,6 @@ import com.ewha.heydongdong.domain.datatype.Position;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -15,7 +14,6 @@ import java.util.List;
 @Table(name = "stores")
 @Getter
 @NoArgsConstructor
-@ToString
 public class Store {
 
     @Id
@@ -37,8 +35,8 @@ public class Store {
     @Column(name = "tel", nullable = false)
     private String tel;
 
-//    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-//    private List<Menu> menus = new ArrayList<>();
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<Menu> menus = new ArrayList<>();
 
     @Builder
     public Store(Integer storeId, String storeName, String location, Position position, String openTime, String tel) {
@@ -50,5 +48,16 @@ public class Store {
         this.position = position;
         this.openTime = openTime;
         this.tel = tel;
+    }
+
+    @Override
+    public String toString() {
+        return "Store(storeId=" + storeId
+                + ", storeName=" + storeName
+                + ", location=" + location
+                + ", position=" + position
+                + ", openTime=" + openTime
+                + ", tel=" + tel
+                + ")";
     }
 }
