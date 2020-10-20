@@ -14,13 +14,13 @@ import javax.persistence.Embeddable;
 public class Position {
 
     @Column(name = "latitude", nullable = false)
-    private double latitude;
+    private Double latitude;
 
     @Column(name = "longitude", nullable = false)
-    private double longitude;
+    private Double longitude;
 
     @Builder
-    public Position(double latitude, double longitude) {
+    public Position(Double latitude, Double longitude) {
         Assert.notNull(latitude, "Latitude must not be null");
         Assert.notNull(longitude, "Longitude must not be null");
 

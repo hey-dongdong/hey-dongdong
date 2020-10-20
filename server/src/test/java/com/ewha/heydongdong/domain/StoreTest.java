@@ -26,8 +26,8 @@ class StoreTest {
                 .openTime("sample openTime")
                 .tel("sample tel")
                 .position(Position.builder()
-                        .latitude(30)
-                        .longitude(120)
+                        .latitude(30.0)
+                        .longitude(120.0)
                         .build())
                 .build();
 
@@ -45,8 +45,8 @@ class StoreTest {
                     .openTime("sample openTime")
                     .tel("sample tel")
                     .position(Position.builder()
-                            .latitude(30)
-                            .longitude(120)
+                            .latitude(30.0)
+                            .longitude(120.0)
                             .build())
                     .build();
 
