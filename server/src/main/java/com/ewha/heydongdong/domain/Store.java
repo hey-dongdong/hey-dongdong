@@ -38,8 +38,8 @@ public class Store {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     private List<Menu> menus = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
-//    private List<Order> orders = new ArrayList<>();
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<Order> orders = new ArrayList<>();
 
     @Builder
     public Store(Integer storeId, String storeName, String location, Position position, String openTime, String tel) {
