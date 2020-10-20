@@ -41,8 +41,8 @@ public class Menu {
     public String toString() {
         return "Menu(menuId=" + menuId
                 + ", menuName=" + menuName
-                + ", category=" + category
-                + ", store=" + store
+                + ", category=" + category.getCategoryName()
+                + ", store=" + store.getStoreName()
                 + ", price=" + price
                 + ", imgUrl=" + imgUrl
                 + ")";

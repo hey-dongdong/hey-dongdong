@@ -1,5 +1,6 @@
 package com.ewha.heydongdong.service;
 
+import com.ewha.heydongdong.domain.Menu;
 import com.ewha.heydongdong.domain.Store;
 import com.ewha.heydongdong.repository.StoreRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -32,5 +33,14 @@ class StoreServiceTest {
         assertNotNull(stores);
         noNullElements(stores, "Null store element exists");
         assertEquals(15, stores.size());
+    }
+
+    @Test
+    @DisplayName("Get one store and menus Success")
+    void getOneStoreAndMenus() {
+        Store store = storeRepository.getOne(1);
+        List<Menu> menus = store.getMenus();
+        noNullElements(menus, "Null menu element exists");
+        for (Menu menu : menus) System.out.println(menu);
     }
 }
