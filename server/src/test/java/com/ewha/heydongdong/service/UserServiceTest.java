@@ -41,12 +41,12 @@ class UserServiceTest {
         userRepository.save(newUser);
 
         // When
-        List<User> foundUsers = userRepository.findByEmail(newUser.getEmail());
+        List<User> users = userRepository.findByEmail(newUser.getEmail());
 
         // Then
-        assertNotNull(foundUsers);
-        assertEquals(1, foundUsers.size());
-        assertEquals(newUser.getUserName(), foundUsers.get(0).getUserName());
+        assertNotNull(users);
+        assertEquals(1, users.size());
+        assertEquals(newUser.getUserName(), users.get(0).getUserName());
     }
 
     // TODO [지우] 회원가입 테스트

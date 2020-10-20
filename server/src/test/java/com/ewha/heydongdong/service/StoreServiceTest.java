@@ -26,11 +26,11 @@ class StoreServiceTest {
     private StoreRepository storeRepository;
 
     @Test
-    @DisplayName("Load all stores Success")
+    @DisplayName("Get all stores Success")
     void getAllStores() {
-        List<Store> foundStores = storeRepository.findAll();
-        assertNotNull(foundStores);
-        noNullElements(foundStores, "Null store element exists");
-        assertEquals(15, foundStores.size());
+        List<Store> stores = storeRepository.findAll();
+        assertNotNull(stores);
+        noNullElements(stores, "Null store element exists");
+        assertEquals(15, stores.size());
     }
 }
