@@ -407,3 +407,63 @@ input[type=password]::placeholder {
 .popup-button:first-child {
 	border-right: 1px solid #8D734A;
 }
+
+
+/* menu header */
+
+.menu-header {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	height: 60px;
+}
+
+.menu-header-item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 30px;
+	border-radius: 100px;
+}
+
+.menu-header-item.active {
+	background-color: #003127;
+}
+
+.menu-header-item:nth-child(1),
+.menu-header-item:nth-child(3),
+.menu-header-item:nth-child(4) {
+	width: 50px;
+}
+
+.menu-header-item:nth-child(2),
+.menu-header-item:nth-child(5) {
+	width: 70px;
+}
+
+/* menu list */
+
+.menu-card {
+	display: flex;
+	width: 330px;
+	height: 80px;
+	border-bottom: 1px solid #8D734A;
+	margin: 0 auto;
+}
+
+.menu-img {
+	width: 55px;
+	height: 55px;
+	border-radius: 50%;
+	margin: auto 15px;
+}
+
+.menu-text {
+	font-size: 14px;
+	margin: auto 0;
+}
+
+.menu-name {
+	display: block;
+	margin-bottom: 8px;
+}
