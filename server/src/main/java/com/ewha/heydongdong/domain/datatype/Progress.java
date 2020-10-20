@@ -7,5 +7,6 @@ public enum Progress {
     ACCEPTED,
     MAKING,
     READY,
-    DONE;
+    DONE,
+    NOSHOW;
 }
