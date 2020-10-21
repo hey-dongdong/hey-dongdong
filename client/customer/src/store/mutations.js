@@ -5,4 +5,7 @@ export default {
 	SET_HISTORY(state, data) {
 		state.history = data;
 	},
+	SET_ORDER_DETAIL(state, data) {
+		state.orderDetail = data;
+	},
 };

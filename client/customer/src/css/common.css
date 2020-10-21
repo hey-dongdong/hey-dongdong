@@ -32,12 +32,19 @@ body {
 }
 
 .goback {
-	position: relative;
+	position: fixed;
 	top: 14px;
 	left: 14px;
 	font-size: 16px;
 	color: white;
 	margin-right: -30px;
+}
+
+.cart {
+	position: fixed;
+	top: 13.667px;
+	right: 16px;
+	font-size: 16px;
 }
 
 .pagename {
@@ -183,13 +190,6 @@ input[type=password]::placeholder {
 	margin: auto;
 	font-size: 14px;
 	padding-left: 14px;
-}
-
-.cart {
-	position: relative;
-	top: 13.667px;
-	right: 16px;
-	font-size: 16px;
 }
 
 .progress-container {
@@ -594,8 +594,7 @@ input[type=checkbox] + label {
 	padding: 3px 0 3px 50px;
 	background: url('../assets/unchecked.png') left/20px no-repeat;
 	font-size: 12px;
-	vertical-align: middle;
-	}
+}
 	
 input[type=checkbox]:checked + label {
 	background-image: url('../assets/checked.png');
@@ -673,4 +672,115 @@ input[type=checkbox]:checked + label {
 
 .menu-detail.history {
 	font-size: 11px;
+}
+
+.menu-detail-text {
+	margin-right: 8px;
+}
+
+
+/* order detail */
+
+.order-detail {
+	width: 330px;
+	margin: 20px auto;
+}
+
+.order-detail-title {
+	font-size: 14px;
+	border-bottom: 1px solid #8D734A;
+	padding-bottom: 5px;
+	padding-left: 10px;
+	margin-bottom: 10px;
+}
+
+.order-detail-list,
+.order-detail-list > li {
+	list-style-type: disc;
+	font-size: 12px;
+}
+
+.order-detail-list {
+	padding-left: 25px;
+}
+
+.order-detail-list > li {
+	margin-bottom: 4px;
+}
+
+.ordered-menu-card {
+	display: flex;
+	flex-direction: column;
+	width: 315px;
+	height: 180px;
+	border: 1px solid #8D734A;
+	border-radius: 10px;
+	margin-bottom: 10px;
+}
+
+.ordered-menu-card-header {
+	display: flex;
+}
+
+.ordered-menuname {
+	margin: 12px auto;
+	padding-left: 20px;
+	font-size: 15px;
+}
+
+.star-checkbox {
+	width: fit-content;
+	position: relative;
+	right: 10px;
+	margin: 12px 0;
+}
+
+.ordered-menu-card input[type=checkbox] + label {
+	background: url('../assets/uncheckstar.png') left/15px no-repeat;
+	padding-left: 20px;
+}
+
+.ordered-menu-card input[type=checkbox]:checked + label {
+	background-image: url('../assets/checkstar.png');
+}
+
+.ordered-item-list,
+.ordered-item-list > li {
+	list-style-type: disc;
+	font-size: 12px;
+}
+
+.ordered-item-list {
+	height: 100px;
+	padding-left: 35px;
+	margin-bottom: 12px;
+}
+
+.ordered-item-list > li {
+	margin-bottom: 4px;
+}
+
+.ordered-menu-card-footer {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	position: relative;
+	bottom: 15px;
+}
+
+.ordered-menu-price {
+	margin-left: 35px;
+	margin-right: 160px;
+	font-size: 14px;
+}
+
+.ordered-menu-count {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 48px;
+	height: 22px;
+	background-color: #003127;
+	border-radius: 100px;
+	font-size: 14px;
 }

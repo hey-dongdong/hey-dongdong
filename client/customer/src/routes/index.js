@@ -84,5 +84,9 @@ export default new VueRouter({
 			name: 'history',
 			component: () => import('@/views/menu/HistoryPage.vue'),
 		},
+		{
+			path: '/history/:id',
+			component: () => import('@/views/menu/HistoryDetailPage.vue'),
+		},
 	],
 });

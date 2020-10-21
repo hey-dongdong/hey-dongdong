@@ -9,6 +9,7 @@ export default new Vuex.Store({
 	state: {
 		menus: [],
 		history: [],
+		orderDetail: {},
 	},
 	getters: {
 		menuItems(state) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
 		},
 		historyItems(state) {
 			return state.history;
+		},
+		orderDetail(state) {
+			return state.orderDetail;
 		},
 	},
 	mutations,

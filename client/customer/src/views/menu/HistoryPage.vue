@@ -13,8 +13,13 @@
 					<div class="menu-text">
 						<span class="menu-name">{{ item.menuName }}</span>
 						<span class="menu-detail history">
-							{{ item.orderInfo.orderAt }} {{ item.orderInfo.store.storeName }}
-							{{ item.orderInfo.totalPrice }}원
+							<span class="menu-detail-text">
+								{{ item.orderInfo.orderAt }}
+							</span>
+							<span class="menu-detail-text">
+								{{ item.orderInfo.store.storeName }}
+							</span>
+							<span class="menu-detail-text"> {{ item.orderInfo.totalPrice }}원 </span>
 						</span>
 					</div>
 				</li>

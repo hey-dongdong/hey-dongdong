@@ -1,10 +1,10 @@
 <template>
 	<div>
 		<ul>
-			<li v-for="menuItem in menuItems" :key="menuItem.menuId" class="menu-card">
+			<li v-for="item in menuItems" :key="item.menuId" class="menu-card">
 				<img src="@/assets/cappuccino.png" alt="메뉴이미지" class="menu-img" />
 				<div class="menu-text">
-					<span class="menu-name">{{ menuItem.menuName }}</span>
+					<span class="menu-name">{{ item.menuName }}</span>
 					<span class="menu-detail">
 						HOT {{ item.hotPrice }}원, ICE {{ item.icePrice }}원
 					</span>
