@@ -5,9 +5,9 @@
 				<img src="@/assets/cappuccino.png" alt="메뉴이미지" class="menu-img" />
 				<div class="menu-text">
 					<span class="menu-name">{{ menuItem.menuName }}</span>
-					<span class="menu-detail"
-						>HOT {{ menuItem.hotPrice }}원, ICE {{ menuItem.icePrice }}원</span
-					>
+					<span class="menu-detail">
+						HOT {{ item.hotPrice }}원, ICE {{ item.icePrice }}원
+					</span>
 				</div>
 			</li>
 		</ul>
@@ -25,7 +25,7 @@ export default {
 		// this.$store.dispatch('FETCH_MENUS');
 		// console.log(this.$route);
 		const name = this.$route.name;
-		if (name === 'menu-all') {
+		if (name === 'menu') {
 			this.$store.dispatch('FETCH_MENUS');
 		}
 	},

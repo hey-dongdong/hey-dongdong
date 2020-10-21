@@ -13,7 +13,7 @@ function fetchMenus() {
 }
 
 function fetchHistory() {
-	return instance.get('618e1731-89b1-45af-bb6e-fd611b5531d7');
+	return instance.get('b3bb4712-5e48-4dcd-8daa-9dd55573a898');
 }
 
 export { registerUser, fetchMenus, fetchHistory };

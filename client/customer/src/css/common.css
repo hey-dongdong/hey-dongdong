@@ -654,3 +654,23 @@ input[type=checkbox]:checked + label {
 .checkoption-check:last-child {
 	margin-bottom: 80px;
 }
+
+
+/* history */
+
+.menu-header-history {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 80px;
+	height: 30px;
+	background-color: #003127;
+	margin: 0 auto;
+	border-radius: 100px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.menu-detail.history {
+	font-size: 11px;
+}

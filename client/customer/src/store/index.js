@@ -8,10 +8,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		menus: [],
+		history: [],
 	},
 	getters: {
 		menuItems(state) {
 			return state.menus;
+		},
+		historyItems(state) {
+			return state.history;
 		},
 	},
 	mutations,
