@@ -95,7 +95,7 @@
 						<span class="plus-price">+300원</span>
 					</div>
 				</div>
-				<button type="submit" class="greenbtn menu-detail">
+				<button type="submit" class="greenbtn fixed">
 					<span>1개 담기</span>
 					<span class="price-result">2000원</span>
 				</button>

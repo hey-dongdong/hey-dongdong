@@ -1,10 +1,15 @@
 <template>
-	<div class="mainheader">
-		<router-link to="/user/no-show" class="appname">
+	<header class="mainheader">
+		<router-link to="/logout">
+			<ion-icon name="person" class="header-left"></ion-icon>
+		</router-link>
+		<router-link to="/user/no-show" class="pagename">
 			<h1>헤이동동</h1>
 		</router-link>
-		<ion-icon name="cart" class="cart"></ion-icon>
-	</div>
+		<router-link to="/cart">
+			<ion-icon name="cart" class="cart"></ion-icon>
+		</router-link>
+	</header>
 </template>
 
 <script>

@@ -1,7 +1,7 @@
 <template>
 	<header class="blackheader">
 		<router-link to="/sign-in">
-			<ion-icon name="arrow-back" class="goback"></ion-icon>
+			<ion-icon name="arrow-back" class="header-left"></ion-icon>
 		</router-link>
 		<h1 class="pagename">
 			<slot name="pagename"></slot>

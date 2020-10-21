@@ -1,12 +1,12 @@
 <template>
-	<div>
+	<div class="main">
 		<BlackHeader>
 			<h1 slot="pagename">픽업위치</h1>
 		</BlackHeader>
-		<div class="blackheader">
+		<div class="blackbg">
 			<PickUpStore></PickUpStore>
+			<div id="map"></div>
 		</div>
-		<div id="map" style="width:100%; height:100vh;"></div>
 	</div>
 </template>
 
@@ -83,12 +83,8 @@ export default {
 				'	</div>' +
 				'	<span class="telephone">02-3277-4873</span>' +
 				'	<div class="popup-buttons">' +
-				'		<div>' +
-				'			<button class="popup-button" type="button">취소</button>' +
-				'		</div>' +
-				'		<div>' +
-				'			<button class="popup-button" type="button">선택</button>' +
-				'		</div>' +
+				'	  <button class="popup-button" type="button">취소</button>' +
+				'		<button class="popup-button" type="button">선택</button>' +
 				'	</div>' +
 				'</div>';
 

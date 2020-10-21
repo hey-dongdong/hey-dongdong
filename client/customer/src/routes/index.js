@@ -19,11 +19,15 @@ export default new VueRouter({
 			component: () => import('@/views/login/SignUpPage.vue'),
 		},
 		{
+			path: '/logout',
+			component: () => import('@/views/login/LogoutPage.vue'),
+		},
+		{
 			path: '/main',
 			component: () => import('@/views/main/MainPage.vue'),
 		},
 		{
-			path: '/store-info/:storeName',
+			path: '/store-info',
 			component: () => import('@/views/main/StoreInfoPage.vue'),
 		},
 		{
@@ -87,6 +91,10 @@ export default new VueRouter({
 		{
 			path: '/history/:id',
 			component: () => import('@/views/menu/HistoryDetailPage.vue'),
+		},
+		{
+			path: '/cart',
+			component: () => import('@/views/main/CartPage.vue'),
 		},
 	],
 });

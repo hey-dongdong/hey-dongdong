@@ -31,7 +31,7 @@ body {
 	background-color: #2B2B2B;
 }
 
-.goback {
+.header-left {
 	position: fixed;
 	top: 14px;
 	left: 14px;
@@ -162,11 +162,29 @@ input[type=password]::placeholder {
 }
 
 
+/* logout */
+
+.profile {
+	display: flex;
+	align-items: center;
+	width: fit-content;
+	margin: 50px auto;
+}
+
+.user-icon {
+	width: 24px;
+	height: 24px;
+	color: white;
+	margin-right: 10px;
+}
+
+
 /* PickUpStore */
 
 .pickup-store {
 	display: flex;
 	justify-content: center;
+	align-items: center;
 	margin-bottom: 30px;
 	margin: 12px auto 0;
 }
@@ -182,15 +200,14 @@ input[type=password]::placeholder {
 	margin-right: 6px;
 }
 
-/* MainPage */
-
-.appname {
-	position: relative;
-	width: fit-content;
-	margin: auto;
-	font-size: 14px;
-	padding-left: 14px;
+.location {
+	background: url("../assets/location.png");
+	width: 12px;
+	height: 18px;
 }
+
+
+/* MainPage */
 
 .progress-container {
 	margin-bottom: 50px;
@@ -271,6 +288,14 @@ input[type=password]::placeholder {
 	width: 330px;
 	height: auto;
 	margin: 20px auto;
+}
+
+
+/* map */
+#map {
+	width: 100%;
+	height: 100vh;
+	margin-top: 15px;
 }
 
 
@@ -387,6 +412,8 @@ input[type=password]::placeholder {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+	position: relative;
+	bottom: 0;
 }
 
 .popup-button {
@@ -396,7 +423,8 @@ input[type=password]::placeholder {
 	border-top: 1px solid #8D734A ;
 	color: #FFC52F;
 	width: 150px;
-	height: 45px
+	height: 45px;
+	font-size: 12px;
 }
 
 .popup-button:first-child {
@@ -639,7 +667,7 @@ input[type=checkbox]:checked + label {
 	font-size: 14px;
 }
 
-.greenbtn.menu-detail {
+.greenbtn.fixed {
 	display: flex;
 	position: fixed;
 	bottom: 15px;
@@ -769,7 +797,7 @@ input[type=checkbox]:checked + label {
 
 .ordered-menu-price {
 	margin-left: 35px;
-	margin-right: 160px;
+	margin-right: 165px;
 	font-size: 14px;
 }
 
@@ -801,4 +829,53 @@ input[type=checkbox]:checked + label {
 	border: none;
 	border-radius: 100px;
 	color: white;
+}
+
+.ordered-menu-card.cart-menu {
+	width: 330px;
+}
+
+.option-count.cart-menu {
+	width: 85px;
+}
+
+
+/* modal with two button */
+
+.modal.modal-overlay {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	z-index: 30;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.modal-window {
+	width: 300px;
+		height: 165px;
+    background: #2B2B2B;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.modal-content-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 120px;
+}
+
+.modal-title {
+	font-size: 12px;
+	color: #FFC52F;
+	margin: 28px 0;
+}
+
+.modal-content {
+	font-size: 12px;
 }
