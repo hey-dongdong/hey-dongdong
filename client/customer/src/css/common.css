@@ -711,7 +711,6 @@ input[type=checkbox]:checked + label {
 .ordered-menu-card {
 	display: flex;
 	flex-direction: column;
-	width: 315px;
 	height: 180px;
 	border: 1px solid #8D734A;
 	border-radius: 10px;
@@ -783,4 +782,23 @@ input[type=checkbox]:checked + label {
 	background-color: #003127;
 	border-radius: 100px;
 	font-size: 14px;
+}
+
+.greenbtn-small-set {
+	display: flex;
+	justify-content: space-between;
+	width: 330px;
+	margin: 0 auto;
+}
+
+.greenbtn-small {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 162px;
+	height: 45px;
+	background-color: #00462A;
+	border: none;
+	border-radius: 100px;
+	color: white;
 }
