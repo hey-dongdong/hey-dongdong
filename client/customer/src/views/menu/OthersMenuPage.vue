@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<BlackHeader>
-			<h1 slot="pagename">전체 메뉴</h1>
+			<h1 slot="pagename">기타 메뉴</h1>
 		</BlackHeader>
 		<div class="blackbg">
 			<MenuListHeader></MenuListHeader>
