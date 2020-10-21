@@ -99,7 +99,7 @@
 					</li>
 				</ul>
 				<router-link to="/menu/all" class="goback-menu">+ 더 담으러 가기</router-link>
-				<button type="submit" class="greenbtn fixed cart-menu">
+				<button @click="completeOrder" type="submit" class="greenbtn fixed cart-menu">
 					<span>4000원 주문하기</span>
 				</button>
 			</div>
@@ -108,7 +108,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+	methods: {
+		completeOrder() {
+			this.$router.push('/complete');
+		},
+	},
+};
 </script>
 
 <style></style>

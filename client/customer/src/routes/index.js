@@ -96,5 +96,9 @@ export default new VueRouter({
 			path: '/cart',
 			component: () => import('@/views/main/CartPage.vue'),
 		},
+		{
+			path: '/complete',
+			component: () => import('@/views/menu/CompleteOrderPage.vue'),
+		},
 	],
 });
