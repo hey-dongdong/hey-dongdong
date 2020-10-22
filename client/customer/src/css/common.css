@@ -59,6 +59,7 @@ body {
 	height: 100vh;
 	background-color: #003127;
 	overflow-y: scroll;
+	padding-top: 44px;
 }
 
 .blackbg {

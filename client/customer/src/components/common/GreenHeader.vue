@@ -1,8 +1,6 @@
 <template>
 	<header class="greenheader">
-		<router-link to="/sign-in">
-			<ion-icon class="goback" name="arrow-back"></ion-icon>
-		</router-link>
+		<ion-icon name="arrow-back" class="header-left" @click="$router.go(-1)"></ion-icon>
 		<h1 class="pagename">
 			<slot name="pagename"></slot>
 		</h1>

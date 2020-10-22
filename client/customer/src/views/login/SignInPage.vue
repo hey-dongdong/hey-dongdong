@@ -9,15 +9,11 @@
 				</li>
 				<li>
 					<label for="password" class="form-label">Password</label>
-					<input
-						id="password"
-						type="password"
-						placeholder="비밀번호를 입력하세요"
-					/>
+					<input id="password" type="password" placeholder="비밀번호를 입력하세요" />
 				</li>
 			</ul>
 
-			<button type="submit" class="goldbtn">LOGIN</button>
+			<button @click="goMain" type="submit" class="goldbtn">LOGIN</button>
 		</form>
 		<div class="links">
 			<router-link to="/user/find-info/id">아이디 찾기</router-link>
@@ -50,6 +46,9 @@ export default {
 		// 		console.log(error.response.data);
 		// 	}
 		// },
+		goMain() {
+			this.$router.push('/main');
+		},
 	},
 };
 </script>

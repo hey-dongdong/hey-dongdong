@@ -1,7 +1,12 @@
 <template>
 	<div>
 		<ul>
-			<li v-for="item in menuItems" :key="item.menuId" class="menu-card">
+			<li
+				@click="goMenuDetailTmp"
+				v-for="item in menuItems"
+				:key="item.menuId"
+				class="menu-card"
+			>
 				<img src="@/assets/cappuccino.png" alt="메뉴이미지" class="menu-img" />
 				<div class="menu-text">
 					<span class="menu-name">{{ item.menuName }}</span>
@@ -28,6 +33,11 @@ export default {
 		if (name === 'menu') {
 			this.$store.dispatch('FETCH_MENUS');
 		}
+	},
+	methods: {
+		goMenuDetailTmp() {
+			this.$router.push('/menu/detail');
+		},
 	},
 };
 </script>
