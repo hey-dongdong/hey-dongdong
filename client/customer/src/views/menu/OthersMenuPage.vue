@@ -5,7 +5,14 @@
 		</BlackHeader>
 		<div class="blackbg">
 			<MenuListHeader></MenuListHeader>
-			<ListItem></ListItem>
+			<div class="menu-card-list">
+				<MenuListItem
+					v-for="item in menuItems"
+					:key="item.menuId"
+					:menuItem="item"
+					v-if="item.category.categoryId === 4"
+				></MenuListItem>
+			</div>
 		</div>
 	</div>
 </template>
@@ -13,13 +20,25 @@
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
 import MenuListHeader from '@/components/menu/MenuListHeader.vue';
-import ListItem from '@/components/menu/ListItem.vue';
+import MenuListItem from '@/components/menu/MenuListItem.vue';
+import { mapGetters } from 'vuex';
 
 export default {
 	components: {
 		BlackHeader,
 		MenuListHeader,
-		ListItem,
+		MenuListItem,
+	},
+	computed: {
+		...mapGetters(['menuItems']),
+	},
+	created() {
+		this.$store.dispatch('FETCH_MENUS');
+	},
+	methods: {
+		goMenuDetailTmp() {
+			this.$router.push('/menu/detail');
+		},
 	},
 };
 </script>

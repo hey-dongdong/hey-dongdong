@@ -1,6 +1,6 @@
 <template>
 	<header class="blackheader">
-		<ion-icon name="arrow-back" class="header-left" @click="$router.go(-1)"></ion-icon>
+		<ion-icon name="arrow-back" class="header-left" @click="goTo"></ion-icon>
 		<h1 class="pagename">
 			<slot name="pagename"></slot>
 		</h1>
@@ -11,7 +11,24 @@
 </template>
 
 <script>
-export default {};
+export default {
+	methods: {
+		goTo() {
+			const name = this.$route.name;
+			if (
+				name === 'menu-all' ||
+				name === 'menu-coffee' ||
+				name === 'menu-tea' ||
+				name === 'menu-ade' ||
+				name === 'menu-others'
+			) {
+				this.$router.push('/main');
+			} else {
+				this.$router.go(-1);
+			}
+		},
+	},
+};
 </script>
 
 <style></style>

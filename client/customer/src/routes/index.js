@@ -56,32 +56,36 @@ export default new VueRouter({
 		},
 		{
 			path: '/menu/all',
-			name: 'menu',
+			name: 'menu-all',
 			component: () => import('@/views/menu/AllMenuPage.vue'),
 		},
 		{
 			path: '/menu/coffee',
-			name: 'menu',
+			name: 'menu-coffee',
 			component: () => import('@/views/menu/CoffeeMenuPage.vue'),
 		},
 		{
 			path: '/menu/tea',
-			name: 'menu',
+			name: 'menu-tea',
 			component: () => import('@/views/menu/TeaMenuPage.vue'),
 		},
 		{
 			path: '/menu/ade',
-			name: 'menu',
+			name: 'menu-ade',
 			component: () => import('@/views/menu/AdeMenuPage.vue'),
 		},
 		{
 			path: '/menu/others',
-			name: 'menu',
+			name: 'menu-others',
 			component: () => import('@/views/menu/OthersMenuPage.vue'),
 		},
 		{
 			path: '/menu/:id',
 			component: () => import('@/views/menu/MenuDetailPage.vue'),
+		},
+		{
+			path: '/my-menu',
+			component: () => import('@/views/menu/MyMenuPage.vue'),
 		},
 		{
 			path: '/history',
