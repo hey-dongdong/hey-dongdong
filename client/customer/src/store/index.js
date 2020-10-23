@@ -8,12 +8,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		menus: [],
+		myMenus: [],
 		history: [],
 		orderDetail: {},
 	},
 	getters: {
 		menuItems(state) {
 			return state.menus;
+		},
+		myMenuItems(state) {
+			return state.myMenus;
 		},
 		historyItems(state) {
 			return state.history;

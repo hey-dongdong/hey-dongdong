@@ -9,7 +9,11 @@ function registerUser(userData) {
 }
 
 function fetchMenus() {
-	return instance.get('f27410e0-1892-453b-bfa9-a478269927ea');
+	return instance.get('62f57cc6-f16f-411d-b799-c6b926ac053e');
+}
+
+function fetchMyMenus() {
+	return instance.get('4cb512b3-9a01-4212-a40c-6293f3f374a1');
 }
 
 function fetchHistory() {
@@ -20,4 +24,4 @@ function fetchOrderDetail() {
 	return instance.get('36ca0ef0-200e-4f19-ba7b-262301603d07');
 }
 
-export { registerUser, fetchMenus, fetchHistory, fetchOrderDetail };
+export { registerUser, fetchMenus, fetchMyMenus, fetchHistory, fetchOrderDetail };
