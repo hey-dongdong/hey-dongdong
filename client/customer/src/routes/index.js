@@ -80,12 +80,18 @@ export default new VueRouter({
 			component: () => import('@/views/menu/OthersMenuPage.vue'),
 		},
 		{
-			path: '/menu/:id',
+			path: '/menu/detail',
+			name: 'menu-detail',
 			component: () => import('@/views/menu/MenuDetailPage.vue'),
 		},
 		{
 			path: '/my-menu',
 			component: () => import('@/views/menu/MyMenuPage.vue'),
+		},
+		{
+			path: '/my-menu/detail',
+			name: 'my-menu-detail',
+			component: () => import('@/views/menu/MyMenuDetailPage.vue'),
 		},
 		{
 			path: '/history',

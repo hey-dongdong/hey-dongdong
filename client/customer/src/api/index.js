@@ -9,7 +9,7 @@ function registerUser(userData) {
 }
 
 function fetchMenus() {
-	return instance.get('62f57cc6-f16f-411d-b799-c6b926ac053e');
+	return instance.get('0071f215-d5da-4606-89fd-9957dd901916');
 }
 
 function fetchMyMenus() {

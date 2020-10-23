@@ -94,6 +94,10 @@ body {
 	padding-top: 40px;
 }
 
+.form.menu-detail {
+	padding-top: 0;
+}
+
 input {
 	display: block;
 	border-top-width: 0;
@@ -545,6 +549,14 @@ input[type=password]::placeholder {
 	background: url("../assets/minus.png");
 }
 
+.minus:disabled {
+	background: url("../assets/minus-disabled.png");
+	width: 28px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+}
+
 .plus {
 	background: url("../assets/plus.png");
 }
@@ -658,8 +670,24 @@ input[type=checkbox]:checked + label {
 	background: url("../assets/minus.png");
 }
 
+.option-minus:disabled {
+	background: url("../assets/minus-disabled.png");
+	width: 18px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+}
+
 .option-plus {
 	background: url("../assets/plus.png");
+}
+
+.option-plus:disabled {
+	background: url("../assets/plus-disabled.png");
+	width: 18px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
 }
 
 .option-minus,
@@ -683,9 +711,16 @@ input[type=checkbox]:checked + label {
 	margin: 0 auto;
 }
 
+.count-result {
+	display: block;
+	margin: 0 auto;
+}
+
 .price-result {
-	position: relative;
-	right: 0;
+	display: block;
+	position: absolute;
+	right: 16px;
+	font-size: 13px;
 }
 
 .checkoption-check:last-child {

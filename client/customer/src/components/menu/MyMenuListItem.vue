@@ -1,5 +1,5 @@
 <template>
-	<div class="menu-card">
+	<div class="menu-card" @click="goToMyMenuDetail(myMenuItem)">
 		<img
 			:src="
 				myMenuItem.menuInOrder.menu.imgUrl
@@ -28,8 +28,13 @@ export default {
 		myMenuItem: Object,
 	},
 	methods: {
-		goMenuDetailTmp() {
-			this.$router.push('/my-menu/detail');
+		goToMyMenuDetail(item) {
+			// console.log(item.menuInOrder.menu.menuName);
+			this.$router.push({
+				name: 'my-menu-detail',
+				path: '/my-menu/detail',
+				params: item,
+			});
 		},
 	},
 };

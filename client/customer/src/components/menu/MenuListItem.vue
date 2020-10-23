@@ -1,5 +1,5 @@
 <template>
-	<div class="menu-card">
+	<div class="menu-card" @click="goToMenuDetail(menuItem)">
 		<img
 			:src="
 				menuItem.imgUrl
@@ -12,9 +12,15 @@
 		<div class="menu-text">
 			<span class="menu-name">{{ menuItem.menuName }}</span>
 			<span class="menu-detail">
-				<span v-if="menuItem.hotPrice != null">HOT {{ menuItem.hotPrice }}원</span>
-				<spam v-if="menuItem.hotPrice != null && menuItem.icePrice != null">, </spam>
-				<span v-if="menuItem.icePrice != null">ICE {{ menuItem.icePrice }}원</span>
+				<span v-if="menuItem.smallHotPrice != null"
+					>HOT {{ menuItem.smallHotPrice }}원</span
+				>
+				<spam v-if="menuItem.smallHotPrice != null && menuItem.smallIcePrice != null"
+					>,
+				</spam>
+				<span v-if="menuItem.smallIcePrice != null"
+					>ICE {{ menuItem.smallIcePrice }}원</span
+				>
 			</span>
 		</div>
 	</div>
@@ -25,6 +31,16 @@ export default {
 	name: 'menu',
 	props: {
 		menuItem: Object,
+	},
+	methods: {
+		goToMenuDetail(item) {
+			// console.log(item.menuInOrder.menu.menuName);
+			this.$router.push({
+				name: 'menu-detail',
+				path: '/menu/detail',
+				params: item,
+			});
+		},
 	},
 };
 </script>
