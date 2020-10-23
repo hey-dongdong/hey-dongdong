@@ -8,7 +8,26 @@
 				주문했던 메뉴를 나만의 메뉴로 저장하고<br />더 간편하게 음료를 주문해보세요.
 			</p>
 			<MyMenuListItem v-for="item in myMenuItems" :key="item.myMenuId" :myMenuItem="item">
+				<button
+					slot="delete-button"
+					type="button"
+					class="delete mymenu"
+					@click="openModal(item.myMenuId, item.menuInOrder.menu.menuName)"
+				></button>
 			</MyMenuListItem>
+			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+				<span slot="modal-title" class="modal-title mymenu">나만의 메뉴 삭제</span>
+				<span slot="modal-content" class="modal-content">
+					{{ deleteMyMenuName }}
+					을/를<br />나만의 메뉴에서 삭제하시겠습니까?
+				</span>
+				<div slot="footer" class="popup-buttons">
+					<button @click="doSend" class="popup-button" type="button">취소</button>
+					<button @click="removeMyMenu" class="popup-button" type="button">
+						삭제
+					</button>
+				</div>
+			</ModalWithTwoBtn>
 		</div>
 	</div>
 </template>
@@ -16,12 +35,22 @@
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
 import MyMenuListItem from '@/components/menu/MyMenuListItem.vue';
+import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
 import { mapGetters } from 'vuex';
+import axios from 'axios';
 
 export default {
 	components: {
 		BlackHeader,
 		MyMenuListItem,
+		ModalWithTwoBtn,
+	},
+	data() {
+		return {
+			modal: false,
+			deleteMyMenuId: '',
+			deleteMyMenuName: '',
+		};
 	},
 	computed: {
 		...mapGetters(['myMenuItems']),
@@ -30,8 +59,23 @@ export default {
 		this.$store.dispatch('FETCH_MY_MENUS');
 	},
 	methods: {
-		goMenuDetailTmp() {
-			this.$router.push('/menu/detail');
+		openModal(id, menuName) {
+			this.deleteMyMenuId = id;
+			this.deleteMyMenuName = menuName;
+			this.modal = true;
+		},
+		closeModal() {
+			this.modal = false;
+		},
+		doSend() {
+			this.closeModal();
+		},
+		removeMyMenu(id) {
+			axios.delete('/my-menu/remove').then(response => {
+				console.log(response);
+			});
+			this.myMenuItems.splice(id, 1);
+			this.closeModal();
 		},
 	},
 };

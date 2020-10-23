@@ -17,6 +17,7 @@
 				<span>{{ myMenuItem.menuInOrder.price }}원</span>
 			</span>
 		</div>
+		<slot name="delete-button"></slot>
 	</div>
 </template>
 

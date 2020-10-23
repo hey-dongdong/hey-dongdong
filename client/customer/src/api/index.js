@@ -13,7 +13,7 @@ function fetchMenus() {
 }
 
 function fetchMyMenus() {
-	return instance.get('4cb512b3-9a01-4212-a40c-6293f3f374a1');
+	return instance.get('bc12c78e-aa13-457e-a1d1-7f3ce671556d');
 }
 
 function fetchHistory() {
