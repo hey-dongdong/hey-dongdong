@@ -488,6 +488,11 @@ input[type=password]::placeholder {
 	margin: 0 auto;
 }
 
+.menu-card-without-x {
+	display: flex;
+	width: 305px;
+}
+
 .menu-img {
 	width: 55px;
 	height: 55px;
@@ -779,6 +784,11 @@ input[type=checkbox]:checked + label {
 
 .order-detail-list > li {
 	margin-bottom: 4px;
+}
+
+.order-detail-list.my-menu {
+	width: 330px;
+	margin: 0 auto 30px;
 }
 
 .ordered-menu-card {
