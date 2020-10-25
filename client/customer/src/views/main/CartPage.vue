@@ -18,7 +18,7 @@
 				<ul class="cart-menu-list"></ul>
 				<router-link to="/menu/all" class="goback-menu">+ 더 담으러 가기</router-link>
 				<button @click="completeOrder" type="submit" class="greenbtn fixed cart-menu">
-					<span>4000원 주문하기</span>
+					<span>주문하기</span>
 				</button>
 			</div>
 		</div>
@@ -35,6 +35,7 @@ export default {
 	data() {
 		return {
 			cartItems: [],
+			finalCartItems: [],
 		};
 	},
 	created() {
@@ -48,7 +49,20 @@ export default {
 	},
 	methods: {
 		completeOrder() {
-			this.$router.push('/complete');
+			if (localStorage.length > 0) {
+				for (let i = 0; i < localStorage.length; i++) {
+					if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
+						this.finalCartItems.push(
+							JSON.parse(localStorage.getItem(localStorage.key(i))),
+						);
+					}
+				}
+			}
+			this.$router.push({
+				name: 'complete',
+				path: '/complete',
+				params: this.finalCartItems,
+			});
 		},
 	},
 };

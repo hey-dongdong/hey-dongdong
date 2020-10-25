@@ -12,8 +12,14 @@
 				</div>
 				<img src="../../assets/barcode.png" alt="barcode" class="barcode complete" />
 			</div>
-			<OrderDetail></OrderDetail>
-			<OrderItems></OrderItems>
+			<CompleteOrderDetail
+				:completeOrderDetail="this.$route.params"
+			></CompleteOrderDetail>
+			<CompleteOrderItems
+				v-for="item in this.$route.params"
+				:key="item.id"
+				:completeOrderMenuItem="item"
+			></CompleteOrderItems>
 			<div class="greenbtn-small-set">
 				<button @click="goMain" type="submit" class="greenbtn fixed cart-menu">
 					<span>메인으로 돌아가기</span>
@@ -25,14 +31,14 @@
 
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
-import OrderDetail from '@/components/menu/OrderDetail.vue';
-import OrderItems from '@/components/menu/OrderItems.vue';
+import CompleteOrderDetail from '@/components/main/CompleteOrderDetail.vue';
+import CompleteOrderItems from '@/components/main/CompleteOrderItems.vue';
 
 export default {
 	components: {
 		BlackHeader,
-		OrderDetail,
-		OrderItems,
+		CompleteOrderDetail,
+		CompleteOrderItems,
 	},
 	methods: {
 		goMain() {

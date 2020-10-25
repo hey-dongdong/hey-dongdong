@@ -109,7 +109,8 @@ export default new VueRouter({
 		},
 		{
 			path: '/complete',
-			component: () => import('@/views/menu/CompleteOrderPage.vue'),
+			name: 'complete',
+			component: () => import('@/views/main/CompleteOrderPage.vue'),
 		},
 	],
 });

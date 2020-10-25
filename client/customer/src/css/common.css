@@ -1001,7 +1001,7 @@ input[type=checkbox]:checked + label{
 	border: none;
 	position: relative;
 	right: 20px;
-	margin: 15px 0;
+	margin-top: 15px;
 }
 
 
@@ -1061,7 +1061,7 @@ input[type=checkbox]:checked + label{
 }
 
 .blackbg.complete {
-	padding-bottom: 60px;
+	padding-bottom: 70px;
 }
 
 .mymenu-text {

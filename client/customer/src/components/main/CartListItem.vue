@@ -2,7 +2,7 @@
 	<div class="ordered-menu-card cart-menu">
 		<div class="ordered-menu-card-header">
 			<div class="ordered-menuname">{{ cartItem.menuInfo.menuName }}</div>
-			<button type="button" class="delete"></button>
+			<button type="button" class="delete" @click="deleteItem(cartItem.id)"></button>
 		</div>
 
 		<ul class="ordered-item-list">
@@ -51,7 +51,12 @@
 					@click="minusCount"
 				></button>
 				<span class="option-count-text">{{ count }}</span>
-				<button type="button" class="option-plus" @click="plusCount"></button>
+				<button
+					type="button"
+					class="option-plus"
+					@click="plusCount"
+					:key="$route.fullPath"
+				></button>
 			</div>
 		</div>
 	</div>
@@ -94,6 +99,10 @@ export default {
 				customOption: this.cartItem.customOption,
 			};
 			localStorage.setItem(this.cartItem.id, JSON.stringify(value));
+		},
+		deleteItem(id) {
+			localStorage.removeItem(id);
+			this.$router.go(0);
 		},
 	},
 };
