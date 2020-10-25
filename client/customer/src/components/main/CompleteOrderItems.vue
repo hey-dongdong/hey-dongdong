@@ -1,7 +1,7 @@
 <template>
 	<div class="ordered-menu-card">
 		<div class="ordered-menu-card-header">
-			<div class="ordered-menuname">{{ completeOrderMenuItem.menuInfo.menuName }}</div>
+			<div class="ordered-menuname">{{ completeOrderMenuItem.menu.menuName }}</div>
 			<div class="star-checkbox">
 				<input
 					type="checkbox"
@@ -17,31 +17,73 @@
 		<ul class="ordered-item-list">
 			<li>
 				컵 선택 :
-				<span v-if="completeOrderMenuItem.basicOption.isTumblr">텀블러</span>
+				<span v-if="completeOrderMenuItem.option.basicOption.isTumblr">텀블러</span>
 				<span v-else>매장컵</span>
 			</li>
 			<li>
 				HOT / ICE :
-				<span v-if="completeOrderMenuItem.basicOption.isHot">HOT</span>
+				<span v-if="completeOrderMenuItem.option.basicOption.isHot">HOT</span>
 				<span v-else>ICE</span>
 			</li>
 			<li>
 				SIZE :
-				<span v-if="completeOrderMenuItem.basicOption.isSmall">소</span>
+				<span v-if="completeOrderMenuItem.option.basicOption.isSmall">소</span>
 				<span v-else>대</span>
 			</li>
-			<li>
+			<li v-if="completeOrderMenuItem.option.customOption != null">
 				퍼스널 옵션 :
 				<span
 					class="personal-option"
-					v-if="completeOrderMenuItem.customOption.shotAmericanoCount != 0"
+					v-if="completeOrderMenuItem.option.customOption.shotAmericano"
 				>
-					{{ completeOrderMenuItem.customOption.shotAmericanoCount }}샷 추가
+					원두 {{ completeOrderMenuItem.option.customOption.shotAmericano }}샷 추가
 				</span>
-				<span class="personal-option" v-if="completeOrderMenuItem.customOption.milk">
+				<span
+					class="personal-option"
+					v-if="completeOrderMenuItem.option.customOption.shotLatte"
+				>
+					원액 {{ completeOrderMenuItem.option.customOption.shotLatte }}샷 추가
+				</span>
+				<span
+					class="personal-option"
+					v-if="completeOrderMenuItem.option.customOption.milk"
+				>
 					우유 추가
 				</span>
-				<span class="personal-option" v-if="completeOrderMenuItem.customOption.soyMilk">
+				<span
+					class="personal-option"
+					v-if="completeOrderMenuItem.option.customOption.vanilla"
+				>
+					바닐라시럽 추가
+				</span>
+				<span
+					class="personal-option"
+					v-if="completeOrderMenuItem.option.customOption.mint"
+				>
+					민트시럽 추가
+				</span>
+				<span
+					class="personal-option"
+					v-if="completeOrderMenuItem.option.customOption.condensedMilk"
+				>
+					연유 추가
+				</span>
+				<span
+					class="personal-option"
+					v-if="completeOrderMenuItem.option.customOption.chocolate"
+				>
+					초코시럽 추가
+				</span>
+				<span
+					class="personal-option"
+					v-if="completeOrderMenuItem.option.customOption.caramel"
+				>
+					카라멜시럽 추가
+				</span>
+				<span
+					class="personal-option"
+					v-if="completeOrderMenuItem.option.customOption.soyMilk"
+				>
 					두유 변경
 				</span>
 			</li>

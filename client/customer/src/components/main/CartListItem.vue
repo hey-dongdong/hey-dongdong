@@ -1,41 +1,53 @@
 <template>
 	<div class="ordered-menu-card cart-menu">
 		<div class="ordered-menu-card-header">
-			<div class="ordered-menuname">{{ cartItem.menuInfo.menuName }}</div>
+			<div class="ordered-menuname">{{ cartItem.menu.menuName }}</div>
 			<button type="button" class="delete" @click="deleteItem(cartItem.id)"></button>
 		</div>
 
 		<ul class="ordered-item-list">
 			<li>
 				컵 선택 :
-				<span v-if="cartItem.basicOption.isTumblr">텀블러</span>
+				<span v-if="cartItem.option.basicOption.isTumblr">텀블러</span>
 				<span v-else>매장컵</span>
 			</li>
 			<li>
 				HOT / ICE :
-				<span v-if="cartItem.basicOption.isHot">HOT</span>
+				<span v-if="cartItem.option.basicOption.isHot">HOT</span>
 				<span v-else>ICE</span>
 			</li>
 			<li>
 				SIZE :
-				<span v-if="cartItem.basicOption.isSmall">소</span>
+				<span v-if="cartItem.option.basicOption.isSmall">소</span>
 				<span v-else>대</span>
 			</li>
-			<li>
+			<li v-if="cartItem.option.customOption != null">
 				퍼스널 옵션 :
-				<span
-					class="personal-option"
-					v-if="cartItem.customOption.shotAmericanoCount != 0"
-				>
-					원두 {{ cartItem.customOption.shotAmericanoCount }}샷 추가
+				<span class="personal-option" v-if="cartItem.option.customOption.shotAmericano">
+					원두 {{ cartItem.option.customOption.shotAmericano }}샷 추가
 				</span>
-				<span class="personal-option" v-if="cartItem.customOption.shotLatteCount != 0">
-					원액 {{ cartItem.customOption.shotLatteCount }}샷 추가
+				<span class="personal-option" v-if="cartItem.option.customOption.shotLatte">
+					원액 {{ cartItem.option.customOption.shotLatte }}샷 추가
 				</span>
-				<span class="personal-option" v-if="cartItem.customOption.milk">
+				<span class="personal-option" v-if="cartItem.option.customOption.milk">
 					우유 추가
 				</span>
-				<span class="personal-option" v-if="cartItem.customOption.soyMilk">
+				<span class="personal-option" v-if="cartItem.option.customOption.vanilla">
+					바닐라시럽 추가
+				</span>
+				<span class="personal-option" v-if="cartItem.option.customOption.mint">
+					민트시럽 추가
+				</span>
+				<span class="personal-option" v-if="cartItem.option.customOption.condensedMilk">
+					연유 추가
+				</span>
+				<span class="personal-option" v-if="cartItem.option.customOption.chocolate">
+					초코시럽 추가
+				</span>
+				<span class="personal-option" v-if="cartItem.option.customOption.caramel">
+					카라멜시럽 추가
+				</span>
+				<span class="personal-option" v-if="cartItem.option.customOption.soyMilk">
 					두유 변경
 				</span>
 			</li>

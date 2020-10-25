@@ -1,64 +1,32 @@
 {
   "header": {
-    "name" : "GetHistoryDetailsResponse",
-    "userId": "유저아이디"
-  },
+      "name": "OrderRequest",
+			"userId": "유저아이디"
+   },
   "payload": {
-    "orderInfo": {
-      "orderId": 105,
-      "store": {
-        "storeId": 3,
-        "storeName": "학생문화관점"
-      },
-      "orderAt": "2020-10-09 16:12",
-      "totalPrice": 6200
-    },
-    "menus": [
-      {
-        "menuInfo": {
-          "menuInOrderId": 1,
+			"storeId": "매장아이디",
+			"orderAt": "2020-10-19 12:39",
+			"totalPrice": 5000,
+			"menus": [
+        {
           "menu": {
-            "menuId": 4,
-            "menuName": "카푸치노"
+            "menuId": "15",
+            "menuName": "카페라떼"
           },
           "option": {
             "basicOption": {
               "isHot": true,
-              "isSmall": true,
-              "isTumblr": false
-            },
-            "customOption": {
-              "shotAmericano": 1,
-              "soyMilk": true
-            }
-          },
-          "price": 4000,
-          "count": 2
-        },
-        "menuLiked": false
-      },
-      {
-        "menuInfo": {
-          "menuInOrderId": 2,
-          "menu": {
-            "menuId": 10,
-            "menuName": "밀크티"
-          },
-          "option": {
-            "basicOption": {
-              "isHot": false,
               "isSmall": false,
               "isTumblr": true
             },
             "customOption": {
-              "milk": true
+              "shotAmericano": "1",
+              "soyMilk": true
             }
           },
-          "price": 2200,
-          "count": 1
-        },
-        "menuLiked": true
-      }
-    ]
+          "count": "2"
+        }
+        
+      ]
   }
 }

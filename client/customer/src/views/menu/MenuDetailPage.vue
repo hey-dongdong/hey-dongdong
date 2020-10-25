@@ -194,6 +194,17 @@
 						<label for="caramel">카라멜시럽 추가</label>
 						<span class="plus-price">+300원</span>
 					</div>
+					<div class="checkoption-check">
+						<input
+							type="checkbox"
+							value="soyMilk"
+							id="soyMilk"
+							v-model="soyMilk"
+							@change="changeSoyMilk"
+						/>
+						<label for="soyMilk">두유 변경</label>
+						<span class="plus-price">+0원</span>
+					</div>
 				</div>
 				<button type="button" class="greenbtn fixed" @click="addToCart">
 					<span class="count-result">{{ count }}개 담기</span>
@@ -231,6 +242,7 @@ export default {
 			condensedMilk: false,
 			choco: false,
 			caramel: false,
+			soyMilk: false,
 		};
 	},
 	created() {
@@ -401,6 +413,17 @@ export default {
 				this.price += this.optionPrice;
 			}
 		},
+		changeSoyMilk() {
+			if (this.caramel == true) {
+				this.price -= this.optionPrice;
+				this.optionPrice += 0;
+				this.price += this.optionPrice;
+			} else {
+				this.price -= this.optionPrice;
+				this.optionPrice -= 0;
+				this.price += this.optionPrice;
+			}
+		},
 		addToCart() {
 			let maxIndex = 0;
 			if (localStorage.length > 0) {
@@ -411,26 +434,63 @@ export default {
 				}
 			}
 			maxIndex = Number(maxIndex) + 1;
+			var customOption = null;
+			if (
+				this.shotAmericano == true ||
+				this.shotLatte == true ||
+				this.milk == true ||
+				this.vanilla == true ||
+				this.mint == true ||
+				this.condensedMilk == true ||
+				this.chocolate == true ||
+				this.caramel == true ||
+				this.soyMilk == true
+			) {
+				customOption = {};
+			}
+			if (this.shotAmericano == true) {
+				customOption.shotAmericano = this.shotAmericanoCount;
+			}
+			if (this.shotLatte == true) {
+				customOption.shotLatte = this.shotLatteCount;
+			}
+			if (this.milk == true) {
+				customOption.milk = this.milk;
+			}
+			if (this.vanilla == true) {
+				customOption.vanilla = this.vanilla;
+			}
+			if (this.mint == true) {
+				customOption.mint = this.mint;
+			}
+			if (this.condensedMilk == true) {
+				customOption.condensedMilk = this.condensedMilk;
+			}
+			if (this.chocolate == true) {
+				customOption.chocolate = this.chocolate;
+			}
+			if (this.caramel == true) {
+				customOption.caramel = this.caramel;
+			}
+			if (this.soyMilk == true) {
+				customOption.soyMilk = this.soyMilk;
+			}
 			var value = {
 				id: maxIndex,
-				menuInfo: this.$route.params,
+				menu: {
+					menuId: this.$route.params.menuId,
+					menuName: this.$route.params.menuName,
+				},
+				option: {
+					basicOption: {
+						isTumblr: this.isTumblr == 'tumblr' ? true : false,
+						isHot: this.isHot == 'hot' ? true : false,
+						isSmall: this.isSmall == 'small' ? true : false,
+					},
+					customOption: customOption,
+				},
 				price: this.price,
 				count: this.count,
-				basicOption: {
-					isTumblr: this.isTumblr == 'tumblr' ? true : false,
-					isHot: this.isHot == 'hot' ? true : false,
-					isSmall: this.isSmall == 'small' ? true : false,
-				},
-				customOption: {
-					shotAmericanoCount: this.shotAmericanoCount,
-					shotLatteCount: this.shotLatteCount,
-					milk: this.milk,
-					vanilla: this.vanilla,
-					mint: this.mint,
-					condensedMilk: this.condensedMilk,
-					chocolate: this.chocolate,
-					caramel: this.caramel,
-				},
 			};
 
 			localStorage.setItem(maxIndex, JSON.stringify(value));
