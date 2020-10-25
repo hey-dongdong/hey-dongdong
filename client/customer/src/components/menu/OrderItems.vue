@@ -32,8 +32,24 @@
 			</li>
 			<li v-if="orderMenuItem.menuInfo.option.customOption != null">
 				퍼스널 옵션 :
-				<span v-if="orderMenuItem.menuInfo.option.customOption.shotAmericano"></span>
-				<span v-else>대</span>
+				<span
+					class="personal-option"
+					v-if="orderMenuItem.menuInfo.option.customOption.shotAmericano"
+				>
+					{{ orderMenuItem.menuInfo.option.customOption.shotAmericano }}샷 추가
+				</span>
+				<span
+					class="personal-option"
+					v-if="orderMenuItem.menuInfo.option.customOption.milk"
+				>
+					우유 추가
+				</span>
+				<span
+					class="personal-option"
+					v-if="orderMenuItem.menuInfo.option.customOption.soyMilk"
+				>
+					두유 변경
+				</span>
 			</li>
 		</ul>
 		<div class="ordered-menu-card-footer">

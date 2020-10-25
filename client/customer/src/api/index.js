@@ -21,7 +21,7 @@ function fetchHistory() {
 }
 
 function fetchOrderDetail() {
-	return instance.get('57b656c4-9918-4e98-959a-78eb5bb352a0');
+	return instance.get('ded297bb-bb09-4846-9cfc-66b606379edb');
 }
 
 export { registerUser, fetchMenus, fetchMyMenus, fetchHistory, fetchOrderDetail };
