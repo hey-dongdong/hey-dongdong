@@ -43,22 +43,130 @@ export default {
 
 			var positions = [
 				{
-					latlng: new kakao.maps.LatLng(37.566627, 126.948417),
-				},
-				{
+					store: '학생문화관점',
+					location: '학생문화관 지하1층 로비',
+					time: '학기 중: 월~금 08:30~19:00 | 토 09:00~14:00',
+					vacation: '방학 중: 월~금 08:30~18:00 | 토 09:00~14:00',
+					tel: '02-3277-3707',
 					latlng: new kakao.maps.LatLng(37.562803, 126.945578),
 				},
 				{
+					store: '도서관점',
+					location: '중앙도서관 지하1층 (B103-2호)',
+					time: '학기 중: 월~금 08:30~22:00 | 토 09:00~19:00',
+					vacation: '방학 중: 월~금 08:30~19:00 | 토 09:00~17:00',
+					tel: '02-3277-4875',
+					latlng: new kakao.maps.LatLng(37.562217, 126.949098),
+				},
+				{
+					store: '국제기숙사점',
+					location: '대학원 기숙사 1층 G194호',
+					time: '학기 중: 월~금 08:30~22:00',
+					vacation: '방학 중: 월~금 09:00~17:30',
+					tel: '02-3277-6010',
+					latlng: new kakao.maps.LatLng(37.564608, 126.950254), //수정 필요
+				},
+				{
+					store: '교육관점',
+					location: '교육관 B동 1층(158호)',
+					time: '학기 중: 월~금 08:30~19:00',
+					vacation: '방학 중: 월~금 08:30~17:00',
+					tel: '02-3277-4874',
+					latlng: new kakao.maps.LatLng(37.565255, 126.94674),
+				},
+				{
+					store: '경영관점',
+					location: '신세계경영관 지하1층(B112호)',
+					time: '학기 중: 월~금 08:30~19:00',
+					vacation: '방학 중: 월~금 08:30~17:00',
+					tel: '02-3277-4042',
+					latlng: new kakao.maps.LatLng(37.561831, 126.942439),
+				},
+				{
+					store: '조형관점',
+					location: '조형관 A동 1층(19N호)',
+					time: '학기 중: 월~금 08:30~19:00',
+					vacation: '방학 중: 월~금 08:30~17:00',
+					tel: '02-3277-4044',
+					latlng: new kakao.maps.LatLng(37.561019, 126.947964),
+				},
+				{
+					store: '음악관점',
+					location: '음악관 1층(112호)',
+					time: '학기 중: 월~금 08:30~19:00',
+					vacation: '방학 중: 월~금 08:30~17:00',
+					tel: '02-3277-4043',
+					latlng: new kakao.maps.LatLng(37.561201, 126.949255), //경영관
+				},
+				{
+					store: '공학관점',
+					location: '아산공학관 1층(110호)',
+					time: '학기 중: 월~금 08:30~19:00',
+					vacation: '방학 중: 월~금 08:30~17:00',
+					tel: '02-3277-4873',
+					latlng: new kakao.maps.LatLng(37.566627, 126.948417), //아산공학관
+				},
+				{
+					store: '종합과학관점',
+					location: '현대자동차 D동 1층(112호)',
+					time: '학기 중: 월~금 08:30~18:30',
+					vacation: '방학 중: 월~금 08:30~17:00',
+					tel: '02-3277-4877',
+					latlng: new kakao.maps.LatLng(37.564343, 126.947613),
+				},
+				{
+					store: '산학협력관점',
+					location: '산학협력관 317호',
+					time: '학기 중: 월~금 08:30~18:30',
+					vacation: '방학 중: 월~금 (여름)08:30~17:30 | (겨울)08:30~17:00',
+					tel: '02-3277-4860',
+					latlng: new kakao.maps.LatLng(37.568456, 126.95094),
+				},
+				{
+					store: '동창회관점',
+					location: '동창회관 1층(134호)',
+					time: '학기 중: 월~금 08:30~18:30',
+					vacation: '방학 중: 월~금 08:30~17:00',
+					tel: '02-3277-4876',
+					latlng: new kakao.maps.LatLng(37.5618, 126.944182),
+				},
+				{
+					store: '학관점',
+					location: '학관 1층(12F호)',
+					time: '학기 중: 월~금 08:30~18:30',
+					vacation: '방학 중: 월~금 08:30~17:00',
+					tel: '02-3277-4878',
 					latlng: new kakao.maps.LatLng(37.563837, 126.945475),
 				},
 				{
-					latlng: new kakao.maps.LatLng(37.564343, 126.947613),
+					store: '체육관점',
+					location: '체육관 B동(B111호)',
+					time: '학기 중: 월~금 08:30~18:30',
+					vacation: '방학 중: 월~금 08:30~17:00',
+					tel: '02-3277-4045',
+					latlng: new kakao.maps.LatLng(37.561198, 126.947332),
+				},
+				{
+					store: '법학관점',
+					location: '법학관 지하1층',
+					time: '학기 중: 월~금 08:30~18:30',
+					vacation: '방학 중: 월~금 08:30~17:00',
+					tel: '02-3277-4912',
+					latlng: new kakao.maps.LatLng(37.563064, 126.949274),
+				},
+				{
+					store: '헬렌관점',
+					location: '헬렌관 3층(307호)',
+					time: '학기 중: 월~금 08:30~18:30',
+					vacation: '방학 중: 월~금 08:30~17:00',
+					tel: '02-3277-2879',
+					latlng: new kakao.maps.LatLng(37.562223, 126.948389),
 				},
 			];
 
 			var imageSrc = require('@/assets/marker.png'), // 마커이미지의 주소입니다
 				imageSize = new kakao.maps.Size(24, 35), // 마커이미지의 크기입니다
-				imageOption = { offset: new kakao.maps.Point(12, 12) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+				imageOption = { offset: new kakao.maps.Point(12, 20) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
 			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
@@ -82,6 +190,37 @@ export default {
 				var content = document.createElement('div');
 				content.className = 'overlaybox';
 
+				var title = document.createElement('div');
+				title.className = 'map-popup-title';
+
+				var store = document.createElement('h3');
+				store.className = 'popup-name';
+				store.appendChild(document.createTextNode(pos.store));
+				title.appendChild(store);
+				content.appendChild(title);
+
+				var location = document.createElement('span');
+				location.className = 'store-location';
+				location.appendChild(document.createTextNode(pos.location));
+				content.appendChild(location);
+
+				var timeContainer = document.createElement('div');
+
+				var time = document.createElement('p');
+				time.className = 'time-text';
+				time.appendChild(document.createTextNode(pos.time));
+				timeContainer.appendChild(time);
+				var vacation = document.createElement('p');
+				vacation.className = 'time-text';
+				vacation.appendChild(document.createTextNode(pos.vacation));
+				timeContainer.appendChild(vacation);
+				content.appendChild(timeContainer);
+
+				var tel = document.createElement('span');
+				tel.className = 'telephone';
+				tel.appendChild(document.createTextNode(pos.tel));
+				content.appendChild(tel);
+
 				var buttonContainer = document.createElement('div');
 				buttonContainer.className = 'popup-buttons';
 
@@ -101,6 +240,7 @@ export default {
 
 				buttonContainer.appendChild(closeBtn);
 				buttonContainer.appendChild(selectBtn);
+
 				content.appendChild(buttonContainer);
 
 				kakao.maps.event.addListener(marker, 'click', function() {
@@ -173,97 +313,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.wrap {
-	position: absolute;
-	left: 0;
-	bottom: 40px;
-	width: 288px;
-	height: 132px;
-	margin-left: -144px;
-	text-align: left;
-	overflow: hidden;
-	font-size: 12px;
-	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
-	line-height: 1.5;
-}
-.wrap * {
-	padding: 0;
-	margin: 0;
-}
-.wrap .info {
-	width: 286px;
-	height: 120px;
-	border-radius: 5px;
-	border-bottom: 2px solid #ccc;
-	border-right: 1px solid #ccc;
-	overflow: hidden;
-	background: #fff;
-}
-.wrap .info:nth-child(1) {
-	border: 0;
-	box-shadow: 0px 1px 2px #888;
-}
-.info .title {
-	padding: 5px 0 0 10px;
-	height: 30px;
-	background: #eee;
-	border-bottom: 1px solid #ddd;
-	font-size: 18px;
-	font-weight: bold;
-}
-.info .close {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-	color: #888;
-	width: 17px;
-	height: 17px;
-	background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');
-}
-.info .close:hover {
-	cursor: pointer;
-}
-.info .body {
-	position: relative;
-	overflow: hidden;
-}
-.info .desc {
-	position: relative;
-	margin: 13px 0 0 90px;
-	height: 75px;
-}
-.desc .ellipsis {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-.desc .jibun {
-	font-size: 11px;
-	color: #888;
-	margin-top: -2px;
-}
-.info .img {
-	position: absolute;
-	top: 6px;
-	left: 5px;
-	width: 73px;
-	height: 71px;
-	border: 1px solid #ddd;
-	color: #888;
-	overflow: hidden;
-}
-.info:after {
-	content: '';
-	position: absolute;
-	margin-left: -12px;
-	left: 50%;
-	bottom: 0;
-	width: 22px;
-	height: 12px;
-	background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png');
-}
-.info .link {
-	color: #5085bb;
-}
-</style>
+<style></style>

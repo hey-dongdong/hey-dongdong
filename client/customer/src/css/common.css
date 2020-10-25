@@ -396,15 +396,14 @@ input[type=password]::placeholder {
 
 .store-location {
 	display: block;
-	margin: 0 auto 5px;
+	margin: 0 auto 8px;
 	font-size: 12px;
 }
 
-.when,
-.time-text,
-.bar,
-.telephone {
+.time-text {
 	font-size: 10px;
+	margin-bottom: 3px;
+	text-align: center;
 }
 
 .bar {
@@ -412,6 +411,7 @@ input[type=password]::placeholder {
 }
 
 .telephone {
+	font-size: 10px;
 	margin-top: 5px;
 	margin-bottom: 12px;
 }
