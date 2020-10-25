@@ -195,7 +195,7 @@
 						<span class="plus-price">+300원</span>
 					</div>
 				</div>
-				<button type="submit" class="greenbtn fixed">
+				<button type="button" class="greenbtn fixed">
 					<span class="count-result">{{ count }}개 담기</span>
 					<span class="price-result">{{ price }}원</span>
 				</button>
