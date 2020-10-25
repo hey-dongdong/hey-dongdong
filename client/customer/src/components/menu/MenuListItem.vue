@@ -4,7 +4,7 @@
 			:src="
 				menuItem.imgUrl
 					? require('@/assets' + menuItem.imgUrl)
-					: require('@/assets/cappuccino.png')
+					: require('@/assets/drink.png')
 			"
 			alt="메뉴이미지"
 			class="menu-img"
@@ -15,9 +15,9 @@
 				<span v-if="menuItem.smallHotPrice != null"
 					>HOT {{ menuItem.smallHotPrice }}원</span
 				>
-				<spam v-if="menuItem.smallHotPrice != null && menuItem.smallIcePrice != null"
+				<span v-if="menuItem.smallHotPrice != null && menuItem.smallIcePrice != null"
 					>,
-				</spam>
+				</span>
 				<span v-if="menuItem.smallIcePrice != null"
 					>ICE {{ menuItem.smallIcePrice }}원</span
 				>

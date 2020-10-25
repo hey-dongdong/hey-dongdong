@@ -1,16 +1,30 @@
 <template>
 	<div class="menu-card" @click="goToHistoryDetail(historyItem)">
-		<img src="@/assets/cappuccino.png" alt="메뉴이미지" class="menu-img" />
+		<img
+			:src="
+				historyItem.menu.menuThumbnail
+					? require('@/assets' + historyItem.menu.menuThumbnail)
+					: require('@/assets/drink.png')
+			"
+			alt="메뉴이미지"
+			class="menu-img"
+		/>
 		<div class="menu-text">
-			<span class="menu-name">{{ historyItem.menuName }}</span>
+			<span class="menu-name">
+				{{ historyItem.menu.menuName }}
+				<span v-if="historyItem.totalCount > 1">
+					외 {{ historyItem.totalCount - 1 }} 개
+				</span>
+			</span>
+
 			<span class="menu-detail history">
 				<span class="menu-detail-text">
-					{{ historyItem.orderInfo.orderAt }}
+					{{ historyItem.orderAt }}
 				</span>
 				<span class="menu-detail-text">
-					{{ historyItem.orderInfo.store.storeName }}
+					{{ historyItem.store.storeName }}
 				</span>
-				<span class="menu-detail-text"> {{ historyItem.orderInfo.totalPrice }}원 </span>
+				<span class="menu-detail-text"> {{ historyItem.totalPrice }}원 </span>
 			</span>
 		</div>
 	</div>

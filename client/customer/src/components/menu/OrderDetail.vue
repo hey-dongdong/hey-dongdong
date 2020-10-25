@@ -14,14 +14,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
-	computed: {
-		...mapGetters(['orderDetail']),
-	},
-	created() {
-		this.$store.dispatch('FETCH_ORDER_DETAIL');
+	name: 'order-detail',
+	props: {
+		orderDetail: Object,
 	},
 };
 </script>

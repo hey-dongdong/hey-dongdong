@@ -10,7 +10,7 @@
 					:src="
 						$route.params.imgUrl
 							? require('@/assets' + $route.params.imgUrl)
-							: require('@/assets/cappuccino.png')
+							: require('@/assets/drink.png')
 					"
 					alt="메뉴이미지"
 					class="menu-count-box-img"

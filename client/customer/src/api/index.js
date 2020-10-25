@@ -17,11 +17,11 @@ function fetchMyMenus() {
 }
 
 function fetchHistory() {
-	return instance.get('b3bb4712-5e48-4dcd-8daa-9dd55573a898');
+	return instance.get('1e81f233-e4c2-47cf-8c65-586d4062a86a');
 }
 
 function fetchOrderDetail() {
-	return instance.get('36ca0ef0-200e-4f19-ba7b-262301603d07');
+	return instance.get('57b656c4-9918-4e98-959a-78eb5bb352a0');
 }
 
 export { registerUser, fetchMenus, fetchMyMenus, fetchHistory, fetchOrderDetail };

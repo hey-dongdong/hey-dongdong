@@ -99,7 +99,8 @@ export default new VueRouter({
 			component: () => import('@/views/menu/HistoryPage.vue'),
 		},
 		{
-			path: '/history/:id',
+			path: '/history/detail',
+			name: 'history-detail',
 			component: () => import('@/views/menu/HistoryDetailPage.vue'),
 		},
 		{

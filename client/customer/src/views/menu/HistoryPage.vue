@@ -9,7 +9,7 @@
 			</div>
 			<HistoryListItem
 				v-for="item in historyItems"
-				:key="item.orderInfo.orderId"
+				:key="item.orderId"
 				:historyItem="item"
 			>
 			</HistoryListItem>

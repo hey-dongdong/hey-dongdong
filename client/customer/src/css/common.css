@@ -643,7 +643,7 @@ input[type="checkbox"] {
 	display: none;
 }
 
-input[type=checkbox] + label {
+input[type=checkbox] + label{
 	display: block; 
 	cursor: pointer;
 	width: fit-content;
@@ -653,7 +653,7 @@ input[type=checkbox] + label {
 	font-size: 12px;
 }
 	
-input[type=checkbox]:checked + label {
+input[type=checkbox]:checked + label{
 	background-image: url('../assets/checked.png');
 }
 	
@@ -772,6 +772,8 @@ input[type=checkbox]:checked + label {
 	padding-bottom: 5px;
 	padding-left: 10px;
 	margin-bottom: 10px;
+	width: 330px;
+	margin: 0 auto 12px;
 }
 
 .order-detail-list,
@@ -796,10 +798,11 @@ input[type=checkbox]:checked + label {
 .ordered-menu-card {
 	display: flex;
 	flex-direction: column;
+	width: 330px;
 	height: 180px;
 	border: 1px solid #8D734A;
 	border-radius: 10px;
-	margin-bottom: 10px;
+	margin: 0 auto 10px;
 }
 
 .ordered-menu-card-header {
@@ -807,15 +810,14 @@ input[type=checkbox]:checked + label {
 }
 
 .ordered-menuname {
-	margin: 12px auto;
-	padding-left: 20px;
+	margin: 12px auto 0;
 	font-size: 15px;
 }
 
 .star-checkbox {
 	width: fit-content;
-	position: relative;
-	right: 10px;
+	position: absolute;
+	right: 35px;
 	margin: 12px 0;
 }
 
@@ -835,6 +837,9 @@ input[type=checkbox]:checked + label {
 }
 
 .ordered-item-list {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	height: 100px;
 	padding-left: 35px;
 	margin-bottom: 12px;
@@ -855,7 +860,6 @@ input[type=checkbox]:checked + label {
 
 .ordered-menu-price {
 	margin-left: 35px;
-	margin-right: 165px;
 	font-size: 14px;
 }
 
@@ -868,6 +872,8 @@ input[type=checkbox]:checked + label {
 	background-color: #003127;
 	border-radius: 100px;
 	font-size: 14px;
+	position: absolute;
+	right: 25px;
 }
 
 .greenbtn-small-set {

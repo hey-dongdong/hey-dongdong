@@ -1,173 +1,63 @@
 {
   "header": {
-    "name" : "GetAllMenusResponse"
+    "name" : "GetHistoryDetailsResponse",
+    "userId": "유저아이디"
   },
   "payload": {
+    "orderInfo": {
+      "orderId": 30,
+      "store": {
+        "storeId": 3,
+        "storeName": "공학관점"
+      },
+      "orderAt": "2020-10-09 16:12",
+      "totalPrice": 4700
+    },
     "menus": [
-			{
-        "menuId": 1,
-        "category": {
-          "categoryId": 1,
-          "categoryName": "커피"
+      {
+        "menuInfo": {
+          "menuInOrderId": 1,
+          "menu": {
+            "menuId": 4,
+            "menuName": "카푸치노"
+          },
+          "option": {
+            "basicOption": {
+              "isHot": true,
+              "isSmall": false,
+              "isTumblr": false
+            },
+            "customOption": {
+              "shotAmericano": 1
+            }
+          },
+          "price": 2200,
+          "count": 2
         },
-        "menuName": "에스프레소",
-        "hotPrice": 1300,
-        "icePrice": null,
-        "imgUrl": "/menu/espresso.png"
+        "menuLiked": false
       },
       {
-        "menuId": 2,
-        "category": {
-          "categoryId": 1,
-          "categoryName": "커피"
+        "menuInfo": {
+          "menuInOrderId": 21,
+          "menu": {
+            "menuId": 16,
+            "menuName": "카푸치노"
+          },
+          "option": {
+            "basicOption": {
+              "isHot": true,
+              "isSmall": false,
+              "isTumblr": true
+            },
+            "customOption": {
+              "shotAmericano": 1,
+              "soyMilk": true
+            }
+          },
+          "price": 2500,
+          "count": 1
         },
-        "menuName": "아메리카노",
-        "hotPrice": 1300,
-        "icePrice": 1700,
-        "imgUrl": "/menu/americano.png"
-      },
-      {
-        "menuId": 3,
-        "category": {
-          "categoryId": 1,
-          "categoryName": "커피"
-        },
-        "menuName": "카페라떼",
-        "hotPrice": 2000,
-        "icePrice": 2300,
-        "imgUrl": "/menu/cafelatte.png"
-      },
-      {
-        "menuId": 4,
-        "category": {
-          "categoryId": 1,
-          "categoryName": "커피"
-        },
-        "menuName": "카푸치노",
-        "hotPrice": 2000,
-        "icePrice": 2300,
-        "imgUrl": "/menu/cappuccino.png"
-      },
-      {
-        "menuId": 5,
-        "category": {
-          "categoryId": 2,
-          "categoryName": "차"
-        },
-        "menuName": "녹차",
-        "hotPrice": 800,
-        "icePrice": 1200,
-        "imgUrl": "/menu/greentea.png"
-      },
-      {
-        "menuId": 6,
-        "category": {
-          "categoryId": 2,
-          "categoryName": "차"
-        },
-        "menuName": "홍차",
-        "hotPrice": 800,
-        "icePrice": 1200,
-        "imgUrl": "/menu/blacktea.png"
-      },
-      {
-        "menuId": 7,
-        "category": {
-          "categoryId": 2,
-          "categoryName": "차"
-        },
-        "menuName": "유자차",
-        "hotPrice": 1500,
-        "icePrice": 2000,
-        "imgUrl": "/menu/citrontea.png"
-      },
-      {
-        "menuId": 8,
-        "category": {
-          "categoryId": 2,
-          "categoryName": "차"
-        },
-        "menuName": "매실차",
-        "hotPrice": 2200,
-        "icePrice": 2500,
-        "imgUrl": "/menu/plumtea.png"
-      },
-      {
-        "menuId": 9,
-        "category": {
-          "categoryId": 4,
-          "categoryName": "기타"
-        },
-        "menuName": "스팀우유",
-        "hotPrice": 1300,
-        "icePrice": null,
-        "imgUrl": "/menu/steammilk.png"
-      },
-      {
-        "menuId": 10,
-        "category": {
-          "categoryId": 4,
-          "categoryName": "기타"
-        },
-        "menuName": "밀크티",
-        "hotPrice": 1700,
-        "icePrice": 2200,
-        "imgUrl": "/menu/milktea.png"
-      },
-      {
-        "menuId": 11,
-        "category": {
-          "categoryId": 4,
-          "categoryName": "기타"
-        },
-        "menuName": "미숫가루",
-        "hotPrice": null,
-        "icePrice": 1800,
-        "imgUrl": "/menu/mixedgrain.png"
-      },
-      {
-        "menuId": 12,
-        "category": {
-          "categoryId": 3,
-          "categoryName": "에이드"
-        },
-        "menuName": "레몬에이드",
-        "hotPrice": null,
-        "icePrice": 2000,
-        "imgUrl": "/menu/lemonade.png"
-      },
-      {
-        "menuId": 13,
-        "category": {
-          "categoryId": 3,
-          "categoryName": "에이드"
-        },
-        "menuName": "깔라만시에이드",
-        "hotPrice": null,
-        "icePrice": 2200,
-        "imgUrl": "/menu/calamansiade.png"
-      },
-      {
-        "menuId": 14,
-        "category": {
-          "categoryId": 3,
-          "categoryName": "에이드"
-        },
-        "menuName": "자몽에이드",
-        "hotPrice": null,
-        "icePrice": 2200,
-        "imgUrl": "/menu/grapefruitade.png"
-      },
-      {
-        "menuId": 15,
-        "category": {
-          "categoryId": 3,
-          "categoryName": "에이드"
-        },
-        "menuName": "매실에이드",
-        "hotPrice": null,
-        "icePrice": 2500,
-        "imgUrl": "/menu/plumade.png"
+        "menuLiked": false
       }
     ]
   }

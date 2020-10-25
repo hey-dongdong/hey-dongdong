@@ -5,7 +5,7 @@
 				:src="
 					myMenuItem.menuInOrder.menu.imgUrl
 						? require('@/assets' + myMenuItem.menuInOrder.menu.imgUrl)
-						: require('@/assets/cappuccino.png')
+						: require('@/assets/drink.png')
 				"
 				alt="메뉴이미지"
 				class="menu-img"
