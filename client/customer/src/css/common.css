@@ -812,12 +812,13 @@ input[type=checkbox]:checked + label{
 .ordered-menuname {
 	margin: 15px auto 0;
 	font-size: 15px;
+	padding-left: 15px;
 }
 
 .star-checkbox {
 	width: fit-content;
-	position: absolute;
-	right: 35px;
+	position: relative;
+	right: 15px;
 	margin: 12px 0;
 }
 
@@ -999,8 +1000,8 @@ input[type=checkbox]:checked + label{
 	background-size: contain;
 	border: none;
 	position: relative;
-	right: 15px;
-	margin: 12px 0;
+	right: 20px;
+	margin: 15px 0;
 }
 
 
@@ -1008,12 +1009,13 @@ input[type=checkbox]:checked + label{
 	margin-top: 0;
 	margin-left: 0;
 	width: 85px;
+	position: absolute;
+	right: 20px;
 }
 
 .cart-menu-price {
 	width: fit-content;
 	margin-left: 35px;
-	margin-right: 145px;
 	font-size: 14px;
 }
 

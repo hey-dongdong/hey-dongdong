@@ -195,7 +195,7 @@
 						<span class="plus-price">+300원</span>
 					</div>
 				</div>
-				<button type="button" class="greenbtn fixed">
+				<button type="button" class="greenbtn fixed" @click="addToCart">
 					<span class="count-result">{{ count }}개 담기</span>
 					<span class="price-result">{{ price }}원</span>
 				</button>
@@ -400,6 +400,42 @@ export default {
 				this.optionPrice -= 300;
 				this.price += this.optionPrice;
 			}
+		},
+		addToCart() {
+			let maxIndex = 0;
+			if (localStorage.length > 0) {
+				for (let i = 0; i < localStorage.length; i++) {
+					if (Number(maxIndex) < Number(localStorage.key(i))) {
+						maxIndex = localStorage.key(i);
+					}
+				}
+			}
+			maxIndex = Number(maxIndex) + 1;
+			var value = {
+				id: maxIndex,
+				menuInfo: this.$route.params,
+				price: this.price,
+				count: this.count,
+				basicOption: {
+					isTumblr: this.isTumblr == 'tumblr' ? true : false,
+					isHot: this.isHot == 'hot' ? true : false,
+					isSmall: this.isSmall == 'small' ? true : false,
+				},
+				customOption: {
+					shotAmericanoCount: this.shotAmericanoCount,
+					shotLatteCount: this.shotLatteCount,
+					milk: this.milk,
+					vanilla: this.vanilla,
+					mint: this.mint,
+					condensedMilk: this.condensedMilk,
+					chocolate: this.chocolate,
+					caramel: this.caramel,
+				},
+			};
+
+			localStorage.setItem(maxIndex, JSON.stringify(value));
+
+			this.$router.push('/menu/all');
 		},
 	},
 };

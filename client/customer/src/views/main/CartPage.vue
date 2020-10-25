@@ -1,9 +1,7 @@
 <template>
 	<div>
 		<header class="blackheader">
-			<router-link to="/sign-in">
-				<ion-icon name="arrow-back" class="header-left"></ion-icon>
-			</router-link>
+			<ion-icon name="arrow-back" class="header-left" @click="$router.go(-1)"></ion-icon>
 			<h1 class="pagename">장바구니</h1>
 		</header>
 		<div class="blackbg">
@@ -12,92 +10,12 @@
 					<span class="cart-store">공학관점</span>
 					<span class="cart-exp">주문이 완료되면 픽업하러 오세요.</span>
 				</div>
-				<ul class="cart-menu-list">
-					<li class="ordered-menu-card cart-menu">
-						<div class="ordered-menu-card-header">
-							<div class="ordered-menuname">카페라떼</div>
-							<button type="button" class="delete"></button>
-						</div>
-
-						<ul class="ordered-item-list">
-							<li>컵 선택: 텀블러</li>
-							<li>HOT / ICE : ICE</li>
-							<li>SIZE : 대</li>
-							<li>퍼스널 옵션: 샷 추가, 연유 추가</li>
-						</ul>
-						<div class="ordered-menu-card-footer">
-							<span class="cart-menu-price">2000원</span>
-							<div class="option-count cart-menu">
-								<button type="button" class="option-minus"></button>
-								<span class="option-count-text">1</span>
-								<button type="button" class="option-plus"></button>
-							</div>
-						</div>
-					</li>
-					<li class="ordered-menu-card cart-menu">
-						<div class="ordered-menu-card-header">
-							<div class="ordered-menuname">카페라떼</div>
-							<button type="button" class="delete"></button>
-						</div>
-
-						<ul class="ordered-item-list">
-							<li>컵 선택: 텀블러</li>
-							<li>HOT / ICE : ICE</li>
-							<li>SIZE : 대</li>
-							<li>퍼스널 옵션: 샷 추가, 연유 추가</li>
-						</ul>
-						<div class="ordered-menu-card-footer">
-							<span class="cart-menu-price">2000원</span>
-							<div class="option-count cart-menu">
-								<button type="button" class="option-minus"></button>
-								<span class="option-count-text">1</span>
-								<button type="button" class="option-plus"></button>
-							</div>
-						</div>
-					</li>
-					<li class="ordered-menu-card cart-menu">
-						<div class="ordered-menu-card-header">
-							<div class="ordered-menuname">카페라떼</div>
-							<button type="button" class="delete"></button>
-						</div>
-
-						<ul class="ordered-item-list">
-							<li>컵 선택: 텀블러</li>
-							<li>HOT / ICE : ICE</li>
-							<li>SIZE : 대</li>
-							<li>퍼스널 옵션: 샷 추가, 연유 추가</li>
-						</ul>
-						<div class="ordered-menu-card-footer">
-							<span class="cart-menu-price">2000원</span>
-							<div class="option-count cart-menu">
-								<button type="button" class="option-minus"></button>
-								<span class="option-count-text">1</span>
-								<button type="button" class="option-plus"></button>
-							</div>
-						</div>
-					</li>
-					<li class="ordered-menu-card cart-menu">
-						<div class="ordered-menu-card-header">
-							<div class="ordered-menuname">카페라떼</div>
-							<button type="button" class="delete"></button>
-						</div>
-
-						<ul class="ordered-item-list">
-							<li>컵 선택: 텀블러</li>
-							<li>HOT / ICE : ICE</li>
-							<li>SIZE : 대</li>
-							<li>퍼스널 옵션: 샷 추가, 연유 추가</li>
-						</ul>
-						<div class="ordered-menu-card-footer">
-							<span class="cart-menu-price">2000원</span>
-							<div class="option-count cart-menu">
-								<button type="button" class="option-minus"></button>
-								<span class="option-count-text">1</span>
-								<button type="button" class="option-plus"></button>
-							</div>
-						</div>
-					</li>
-				</ul>
+				<CartListItem
+					v-for="item in cartItems"
+					:key="item.id"
+					:cartItem="item"
+				></CartListItem>
+				<ul class="cart-menu-list"></ul>
 				<router-link to="/menu/all" class="goback-menu">+ 더 담으러 가기</router-link>
 				<button @click="completeOrder" type="submit" class="greenbtn fixed cart-menu">
 					<span>4000원 주문하기</span>
@@ -108,7 +26,26 @@
 </template>
 
 <script>
+import CartListItem from '@/components/main/CartListItem.vue';
+
 export default {
+	components: {
+		CartListItem,
+	},
+	data() {
+		return {
+			cartItems: [],
+		};
+	},
+	created() {
+		if (localStorage.length > 0) {
+			for (let i = 0; i < localStorage.length; i++) {
+				if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
+					this.cartItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+				}
+			}
+		}
+	},
 	methods: {
 		completeOrder() {
 			this.$router.push('/complete');
