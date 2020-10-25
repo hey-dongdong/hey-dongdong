@@ -76,27 +76,27 @@
 						<div class="checkoption-check">
 							<input
 								type="checkbox"
-								value="shotbean"
-								id="shotbean"
-								v-model="shotbean"
-								@change="changeShotbean"
+								value="shotAmericano"
+								id="shotAmericano"
+								v-model="shotAmericano"
+								@change="changeShotAmericano"
 							/>
-							<label for="shotbean">샷추가-원두(아메리카노)</label>
+							<label for="shotAmericano">샷추가-원두(아메리카노)</label>
 							<span class="plus-price">+500원</span>
 						</div>
 						<div class="option-count">
 							<button
 								type="button"
 								class="option-minus"
-								:disabled="shotbeanCount === 0 || shotbeanCount === 1"
-								@click="minusShotbean"
+								:disabled="shotAmericanoCount === 0 || shotAmericanoCount === 1"
+								@click="minusShotAmericano"
 							></button>
-							<span class="option-count-text">{{ shotbeanCount }}</span>
+							<span class="option-count-text">{{ shotAmericanoCount }}</span>
 							<button
 								type="button"
 								class="option-plus"
-								:disabled="shotbean == false"
-								@click="plusShotbean"
+								:disabled="shotAmericano == false"
+								@click="plusShotAmericano"
 							></button>
 						</div>
 					</div>
@@ -104,27 +104,27 @@
 						<div class="checkoption-check">
 							<input
 								type="checkbox"
-								value="shotliquid"
-								id="shotliquid"
-								v-model="shotliquid"
-								@change="changeShotliquid"
+								value="shotLatte"
+								id="shotLatte"
+								v-model="shotLatte"
+								@change="changeShotLatte"
 							/>
-							<label for="shotliquid">샷추가-원액(카페라떼)</label>
+							<label for="shotLatte">샷추가-원액(카페라떼)</label>
 							<span class="plus-price">+800원</span>
 						</div>
 						<div class="option-count">
 							<button
 								type="button"
 								class="option-minus"
-								:disabled="shotliquidCount === 0 || shotliquidCount === 1"
-								@click="minusShotliquid"
+								:disabled="shotLatteCount === 0 || shotLatteCount === 1"
+								@click="minusShotLatte"
 							></button>
-							<span class="option-count-text">{{ shotliquidCount }}</span>
+							<span class="option-count-text">{{ shotLatteCount }}</span>
 							<button
 								type="button"
 								class="option-plus"
-								:disabled="shotliquid == false"
-								@click="plusShotliquid"
+								:disabled="shotLatte == false"
+								@click="plusShotLatte"
 							></button>
 						</div>
 					</div>
@@ -164,23 +164,23 @@
 					<div class="checkoption-check">
 						<input
 							type="checkbox"
-							value="condensedmilk"
-							id="condensedmilk"
-							v-model="condensedmilk"
-							@change="changeCondensedmilk"
+							value="condensedMilk"
+							id="condensedMilk"
+							v-model="condensedMilk"
+							@change="changeCondensedMilk"
 						/>
-						<label for="condensedmilk">연유 추가</label>
+						<label for="condensedMilk">연유 추가</label>
 						<span class="plus-price">+300원</span>
 					</div>
 					<div class="checkoption-check">
 						<input
 							type="checkbox"
-							value="choco"
-							id="choco"
-							v-model="choco"
-							@change="changeChoco"
+							value="chocolate"
+							id="chocolate"
+							v-model="chocolate"
+							@change="changeChocolate"
 						/>
-						<label for="choco">초코시럽 추가</label>
+						<label for="chocolate">초코시럽 추가</label>
 						<span class="plus-price">+300원</span>
 					</div>
 					<div class="checkoption-check">
@@ -221,14 +221,14 @@ export default {
 			isHot: 'hot',
 			isSmall: 'small',
 			optionPrice: 0,
-			shotbean: false,
-			shotbeanCount: 0,
-			shotliquid: false,
-			shotliquidCount: 0,
+			shotAmericano: false,
+			shotAmericanoCount: 0,
+			shotLatte: false,
+			shotLatteCount: 0,
 			milk: false,
 			vanilla: false,
 			mint: false,
-			condensedmilk: false,
+			condensedMilk: false,
 			choco: false,
 			caramel: false,
 		};
@@ -281,59 +281,59 @@ export default {
 				this.price = this.count * this.$route.params.largeIcePrice + this.optionPrice;
 			}
 		},
-		changeShotbean() {
-			if (this.shotbean == true) {
+		changeShotAmericano() {
+			if (this.shotAmericano == true) {
 				if (this.optionPrice != 0) {
 					this.price -= this.optionPrice;
 				}
 				this.optionPrice += 500;
 				this.price += this.optionPrice;
-				this.shotbeanCount = 1;
+				this.shotAmericanoCount = 1;
 			} else {
 				this.price -= this.optionPrice;
-				this.optionPrice -= 500 * this.shotbeanCount;
+				this.optionPrice -= 500 * this.shotAmericanoCount;
 				this.price += this.optionPrice;
-				this.shotbeanCount = 0;
+				this.shotAmericanoCount = 0;
 			}
 		},
-		minusShotbean() {
+		minusShotAmericano() {
 			this.price -= this.optionPrice;
 			this.optionPrice -= 500;
 			this.price += this.optionPrice;
-			this.shotbeanCount--;
+			this.shotAmericanoCount--;
 		},
-		plusShotbean() {
+		plusShotAmericano() {
 			this.price -= this.optionPrice;
 			this.optionPrice += 500;
 			this.price += this.optionPrice;
-			this.shotbeanCount++;
+			this.shotAmericanoCount++;
 		},
-		changeShotliquid() {
-			if (this.shotliquid == true) {
+		changeShotLatte() {
+			if (this.shotLatte == true) {
 				if (this.optionPrice != 0) {
 					this.price -= this.optionPrice;
 				}
 				this.optionPrice += 800;
 				this.price += this.optionPrice;
-				this.shotliquidCount = 1;
+				this.shotLatteCount = 1;
 			} else {
 				this.price -= this.optionPrice;
-				this.optionPrice -= 800 * this.shotliquidCount;
+				this.optionPrice -= 800 * this.shotLatteCount;
 				this.price += this.optionPrice;
-				this.shotliquidCount = 0;
+				this.shotLatteCount = 0;
 			}
 		},
-		minusShotliquid() {
+		minusShotLatte() {
 			this.price -= this.optionPrice;
 			this.optionPrice -= 800;
 			this.price += this.optionPrice;
-			this.shotliquidCount--;
+			this.shotLatteCount--;
 		},
-		plusShotliquid() {
+		plusShotLatte() {
 			this.price -= this.optionPrice;
 			this.optionPrice += 800;
 			this.price += this.optionPrice;
-			this.shotliquidCount++;
+			this.shotLatteCount++;
 		},
 		changeMilk() {
 			if (this.milk == true) {
@@ -368,8 +368,8 @@ export default {
 				this.price += this.optionPrice;
 			}
 		},
-		changeCondensedmilk() {
-			if (this.condensedmilk == true) {
+		changeCondensedMilk() {
+			if (this.condensedMilk == true) {
 				this.price -= this.optionPrice;
 				this.optionPrice += 300;
 				this.price += this.optionPrice;
@@ -379,8 +379,8 @@ export default {
 				this.price += this.optionPrice;
 			}
 		},
-		changeChoco() {
-			if (this.choco == true) {
+		changeChocolate() {
+			if (this.chocolate == true) {
 				this.price -= this.optionPrice;
 				this.optionPrice += 300;
 				this.price += this.optionPrice;
