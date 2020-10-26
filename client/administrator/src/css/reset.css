@@ -1,0 +1,46 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+}
+
+button,
+input,
+textarea {
+	font-family: 'NanumSquare', sans-serif;
+	font-size: 16px;
+}
+
+button:focus,
+button:active,
+input:focus,
+input:active,
+textarea:focus,
+textarea:active {
+	outline: none;
+	box-shadow: none;
+}
+
+ul,
+ol,
+li {
+	list-style-type: none;
+	padding-left: 0;
+	margin-left: 0;
+	font-size: 15px;
+}
+
+h1,
+p,
+label,
+span,
+div {
+	font-size: 18px;
+	line-height: 1.2142857143;
+	color: white;
+	letter-spacing: 0em;
+}
