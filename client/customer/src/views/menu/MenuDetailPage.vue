@@ -240,7 +240,7 @@ export default {
 			vanilla: false,
 			mint: false,
 			condensedMilk: false,
-			choco: false,
+			chocolate: false,
 			caramel: false,
 			soyMilk: false,
 		};

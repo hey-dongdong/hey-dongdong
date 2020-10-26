@@ -18,11 +18,12 @@
 					v-for="item in cartItems"
 					:key="item.id"
 					:cartItem="item"
+					@set-price="setPrice"
 				></CartListItem>
 				<ul class="cart-menu-list"></ul>
 				<router-link to="/menu/all" class="goback-menu">+ 더 담으러 가기</router-link>
 				<button @click="completeOrder" type="submit" class="greenbtn fixed cart-menu">
-					<span>주문하기</span>
+					<span>{{ totalPrice }}원 주문하기</span>
 				</button>
 			</div>
 		</div>
@@ -40,6 +41,7 @@ export default {
 		return {
 			cartItems: [],
 			finalCartItems: [{}],
+			totalPrice: 0,
 		};
 	},
 	created() {
@@ -49,6 +51,9 @@ export default {
 					this.cartItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
 				}
 			}
+		}
+		for (let i = 0; i < this.cartItems.length; i++) {
+			this.totalPrice += this.cartItems[i].price;
 		}
 	},
 	methods: {
@@ -68,6 +73,11 @@ export default {
 				path: '/complete',
 				params: this.finalCartItems,
 			});
+		},
+		setPrice({ before, price }) {
+			// console.log(id, before, price);
+			this.totalPrice -= before;
+			this.totalPrice += price;
 		},
 	},
 };

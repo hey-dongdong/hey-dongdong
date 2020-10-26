@@ -93,24 +93,30 @@ export default {
 	methods: {
 		minusCount() {
 			this.count--;
+			var beforePrice = this.price;
 			this.price -= this.cartItem.price / this.cartItem.count;
-			this.setItemAgain(this.count, this.price);
+			this.setItemAgain(this.count, beforePrice, this.price);
 		},
 		plusCount() {
 			this.count++;
+			var beforePrice = this.price;
 			this.price += this.cartItem.price / this.cartItem.count;
-			this.setItemAgain(this.count, this.price);
+			this.setItemAgain(this.count, beforePrice, this.price);
 		},
-		setItemAgain(count, price) {
+		setItemAgain(count, beforePrice, price) {
 			var value = {
 				id: this.cartItem.id,
-				menuInfo: this.cartItem.menuInfo,
+				menu: this.cartItem.menu,
+				option: this.cartItem.option,
 				price: price,
 				count: count,
-				basicOption: this.cartItem.basicOption,
-				customOption: this.cartItem.customOption,
 			};
 			localStorage.setItem(this.cartItem.id, JSON.stringify(value));
+			this.$emit('set-price', {
+				// id: this.cartItem.id,
+				before: beforePrice,
+				price: price,
+			});
 		},
 		deleteItem(id) {
 			localStorage.removeItem(id);
