@@ -28,7 +28,7 @@
 
 <script>
 export default {
-	name: 'menu',
+	name: 'menu-item',
 	props: {
 		menuItem: Object,
 	},
