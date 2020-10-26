@@ -19,6 +19,14 @@ export default {
 		BlackHeader,
 		PickUpStore,
 	},
+	// data() {
+	// 	return {
+	// 		location: '',
+	// 	};
+	// },
+	// created() {
+	// 	this.location = localStorage.getItem('location');
+	// },
 	mounted() {
 		if (window.kakao && window.kakao.maps) {
 			this.initMap();
@@ -235,7 +243,9 @@ export default {
 				selectBtn.className = 'popup-button';
 				selectBtn.appendChild(document.createTextNode('선택'));
 				selectBtn.onclick = function() {
+					localStorage.setItem('location', pos.store);
 					customOverlay.setMap(null);
+					window.location.reload();
 				};
 
 				buttonContainer.appendChild(closeBtn);
@@ -250,64 +260,6 @@ export default {
 				customOverlay.setContent(content);
 				// customOverlay.setMap(map);
 			});
-
-			/* 예제 */
-
-			// var mapContainer = document.getElementById('map'), // 지도의 중심좌표
-			// 	mapOption = {
-			// 		center: new kakao.maps.LatLng(33.451475, 126.570528), // 지도의 중심좌표
-			// 		level: 3, // 지도의 확대 레벨
-			// 	};
-
-			// var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
-			// // 지도에 마커를 표시합니다
-			// var marker = new kakao.maps.Marker({
-			// 	map: map,
-			// 	position: new kakao.maps.LatLng(33.450701, 126.570667),
-			// });
-
-			// marker.setMap(map);
-
-			// // 커스텀 오버레이에 표시할 컨텐츠 입니다
-			// // 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
-			// // 별도의 이벤트 메소드를 제공하지 않습니다
-			// var customOverlay = new kakao.maps.CustomOverlay({
-			// 	position: new kakao.maps.LatLng(33.451475, 126.570528),
-			// 	xAnchor: 0.46,
-			// 	yAnchor: 0.76,
-			// });
-
-			// var content = document.createElement('div');
-			// content.className = 'overlaybox';
-
-			// var buttonContainer = document.createElement('div');
-			// buttonContainer.className = 'popup-buttons';
-
-			// var closeBtn = document.createElement('button');
-			// closeBtn.className = 'popup-button';
-			// closeBtn.appendChild(document.createTextNode('취소'));
-			// closeBtn.onclick = function() {
-			// 	customOverlay.setMap(null);
-			// };
-
-			// var selectBtn = document.createElement('button');
-			// selectBtn.className = 'popup-button';
-			// selectBtn.appendChild(document.createTextNode('선택'));
-			// selectBtn.onclick = function() {
-			// 	customOverlay.setMap(null);
-			// };
-
-			// buttonContainer.appendChild(closeBtn);
-			// buttonContainer.appendChild(selectBtn);
-			// content.appendChild(buttonContainer);
-
-			// kakao.maps.event.addListener(marker, 'click', function() {
-			// 	customOverlay.setMap(map);
-			// });
-
-			// customOverlay.setContent(content);
-			// customOverlay.setMap(map);
 		},
 	},
 };

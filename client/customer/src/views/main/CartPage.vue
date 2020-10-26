@@ -60,7 +60,10 @@ export default {
 		completeOrder() {
 			if (localStorage.length > 0) {
 				for (let i = 0; i < localStorage.length; i++) {
-					if (localStorage.key(i) !== 'loglevel:webpack-dev-server') {
+					if (
+						localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
+						localStorage.key(i) !== 'location'
+					) {
 						this.finalCartItems.push(
 							JSON.parse(localStorage.getItem(localStorage.key(i))),
 						);

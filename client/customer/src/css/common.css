@@ -420,8 +420,8 @@ input[type=password]::placeholder {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
-	position: absolute;
-	bottom: 25px;
+	position: relative;
+	bottom: 0;
 }
 
 .popup-button {
