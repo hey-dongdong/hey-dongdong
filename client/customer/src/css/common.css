@@ -247,16 +247,16 @@ transition: background-color 5000s ease-in-out 0s;
 
 .small-logo {
 	display: block;
-	position: absolute;
-	top: 145px;
+	position: relative;
+	top: -148px;
 	width: 95px;
 	height: auto;
 	margin: 0 auto;
 }
 
 .progress-percent {
-	position: absolute;
-	top: 250px;
+	position: relative;
+	top: -140px;
 	width: fit-content;
 }
 
@@ -270,7 +270,7 @@ transition: background-color 5000s ease-in-out 0s;
 }
 
 .progress-explain {
-	margin-top: 10px;
+	margin-top: -100px;
 }
 
 .barcode-box {
