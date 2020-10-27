@@ -4,7 +4,13 @@
 			<h1 slot="pagename">픽업위치</h1>
 		</BlackHeader>
 		<div class="blackbg">
-			<PickUpStore></PickUpStore>
+			<div class="map-header">
+				<PickUpStore></PickUpStore>
+				<button class="nearest-store-button" @click="setNearestStore">
+					<span>가까운 곳</span>
+					<ion-icon name="reload" class="reload-icon"></ion-icon>
+				</button>
+			</div>
 			<div id="map"></div>
 		</div>
 	</div>
@@ -51,6 +57,7 @@ export default {
 
 			var positions = [
 				{
+					id: 0,
 					store: '학생문화관점',
 					location: '학생문화관 지하1층 로비',
 					time: '학기 중: 월~금 08:30~19:00 | 토 09:00~14:00',
@@ -59,6 +66,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.562803, 126.945578),
 				},
 				{
+					id: 1,
 					store: '도서관점',
 					location: '중앙도서관 지하1층 (B103-2호)',
 					time: '학기 중: 월~금 08:30~22:00 | 토 09:00~19:00',
@@ -67,6 +75,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.562217, 126.949098),
 				},
 				{
+					id: 2,
 					store: '국제기숙사점',
 					location: '대학원 기숙사 1층 G194호',
 					time: '학기 중: 월~금 08:30~22:00',
@@ -75,6 +84,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.564608, 126.950254), //수정 필요
 				},
 				{
+					id: 3,
 					store: '교육관점',
 					location: '교육관 B동 1층(158호)',
 					time: '학기 중: 월~금 08:30~19:00',
@@ -83,6 +93,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.565255, 126.94674),
 				},
 				{
+					id: 4,
 					store: '경영관점',
 					location: '신세계경영관 지하1층(B112호)',
 					time: '학기 중: 월~금 08:30~19:00',
@@ -91,6 +102,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.561831, 126.942439),
 				},
 				{
+					id: 5,
 					store: '조형관점',
 					location: '조형관 A동 1층(19N호)',
 					time: '학기 중: 월~금 08:30~19:00',
@@ -99,6 +111,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.561019, 126.947964),
 				},
 				{
+					id: 6,
 					store: '음악관점',
 					location: '음악관 1층(112호)',
 					time: '학기 중: 월~금 08:30~19:00',
@@ -107,6 +120,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.561201, 126.949255), //경영관
 				},
 				{
+					id: 7,
 					store: '공학관점',
 					location: '아산공학관 1층(110호)',
 					time: '학기 중: 월~금 08:30~19:00',
@@ -115,6 +129,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.566627, 126.948417), //아산공학관
 				},
 				{
+					id: 8,
 					store: '종합과학관점',
 					location: '현대자동차 D동 1층(112호)',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -123,6 +138,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.564343, 126.947613),
 				},
 				{
+					id: 9,
 					store: '산학협력관점',
 					location: '산학협력관 317호',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -131,6 +147,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.568456, 126.95094),
 				},
 				{
+					id: 10,
 					store: '동창회관점',
 					location: '동창회관 1층(134호)',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -139,6 +156,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.5618, 126.944182),
 				},
 				{
+					id: 11,
 					store: '학관점',
 					location: '학관 1층(12F호)',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -147,6 +165,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.563837, 126.945475),
 				},
 				{
+					id: 12,
 					store: '체육관점',
 					location: '체육관 B동(B111호)',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -155,6 +174,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.561198, 126.947332),
 				},
 				{
+					id: 13,
 					store: '법학관점',
 					location: '법학관 지하1층',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -163,6 +183,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.563064, 126.949274),
 				},
 				{
+					id: 14,
 					store: '헬렌관점',
 					location: '헬렌관 3층(307호)',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -171,6 +192,38 @@ export default {
 					latlng: new kakao.maps.LatLng(37.562223, 126.948389),
 				},
 			];
+
+			if (navigator.geolocation) {
+				// GeoLocation을 이용해서 접속 위치를 얻어옵니다
+				navigator.geolocation.getCurrentPosition(function(position) {
+					var lat = position.coords.latitude, // 위도
+						lon = position.coords.longitude; // 경도
+
+					var polyline = new kakao.maps.Polyline({
+						path: [new kakao.maps.LatLng(lat, lon), positions[0].latlng],
+					});
+					var minDistance = polyline.getLength();
+					var minIndex = 0;
+					console.log(minDistance);
+					for (let i = 1; i < positions.length; i++) {
+						polyline = new kakao.maps.Polyline({
+							path: [new kakao.maps.LatLng(lat, lon), positions[i].latlng],
+						});
+						var distance = polyline.getLength();
+						if (minDistance > distance) {
+							minDistance = distance;
+							minIndex = i;
+						}
+					}
+					var locPosition = positions[minIndex].latlng;
+					console.log(locPosition, positions[minIndex].store);
+					localStorage.setItem('nearest-store', positions[minIndex].store);
+				});
+			} else {
+				// HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
+				// eslint-disable-next-line no-unused-vars
+				var locPosition = new kakao.maps.LatLng(37.564343, 126.947613);
+			}
 
 			var imageSrc = require('@/assets/marker.png'), // 마커이미지의 주소입니다
 				imageSize = new kakao.maps.Size(24, 35), // 마커이미지의 크기입니다
@@ -243,7 +296,7 @@ export default {
 				selectBtn.className = 'popup-button';
 				selectBtn.appendChild(document.createTextNode('선택'));
 				selectBtn.onclick = function() {
-					localStorage.setItem('location', pos.store);
+					localStorage.setItem('store', pos.store);
 					customOverlay.setMap(null);
 					window.location.reload();
 				};
@@ -260,6 +313,10 @@ export default {
 				customOverlay.setContent(content);
 				// customOverlay.setMap(map);
 			});
+		},
+		setNearestStore() {
+			localStorage.setItem('store', localStorage.getItem('nearest-store'));
+			window.location.reload();
 		},
 	},
 };

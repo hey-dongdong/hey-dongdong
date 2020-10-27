@@ -1,9 +1,9 @@
 <template>
 	<div class="pickup-store">
-		<h2 class="pickup-location">픽업위치:</h2>
-		<h2 class="storename">{{ location }}</h2>
-		<router-link to="/store-info">
+		<router-link to="/store-info" class="go-map">
 			<img src="../../assets/location.png" alt="store map button" class="location" />
+			<h2 class="pickup-location">픽업위치:</h2>
+			<h2 class="storename">{{ store }}</h2>
 		</router-link>
 	</div>
 </template>
@@ -13,11 +13,11 @@ export default {
 	// props: ['location'],
 	data() {
 		return {
-			location: '',
+			store: '',
 		};
 	},
 	created() {
-		this.location = localStorage.getItem('location');
+		this.store = localStorage.getItem('store');
 	},
 };
 </script>

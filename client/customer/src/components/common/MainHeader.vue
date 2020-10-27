@@ -3,7 +3,7 @@
 		<router-link to="/logout">
 			<ion-icon name="person" class="header-left"></ion-icon>
 		</router-link>
-		<router-link to="/user/no-show" class="pagename">
+		<router-link to="/main" class="pagename">
 			<h1>헤이동동</h1>
 		</router-link>
 		<router-link to="/cart">

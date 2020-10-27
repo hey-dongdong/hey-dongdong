@@ -1,7 +1,7 @@
 <template>
 	<header class="blackheader">
 		<ion-icon name="arrow-back" class="header-left" @click="goTo"></ion-icon>
-		<h1 class="pagename">
+		<h1 class="pagename" @click="goToMain">
 			<slot name="pagename"></slot>
 		</h1>
 		<router-link to="/cart">
@@ -25,6 +25,11 @@ export default {
 				this.$router.push('/main');
 			} else {
 				this.$router.go(-1);
+			}
+		},
+		goToMain() {
+			if (this.$route.name === 'logout') {
+				this.$router.push('/main');
 			}
 		},
 	},

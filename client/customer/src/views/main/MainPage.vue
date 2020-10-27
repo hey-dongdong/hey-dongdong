@@ -4,10 +4,19 @@
 		<div class="blackbg">
 			<PickUpStore></PickUpStore>
 			<div class="progress-container">
-				<img src="../../assets/progress50.png" alt="progress" class="progress" />
+				<!-- <img src="../../assets/progress50.png" alt="progress" class="progress" /> -->
+				<RadialProgressBar
+					class="progress"
+					:diameter="200"
+					:completed-steps="30"
+					:total-steps="100"
+					:startColor="color"
+					:stopColor="color"
+				>
+				</RadialProgressBar>
 				<img src="../../assets/logo.png" alt="logo" class="small-logo" />
 				<div class="progress-percent">
-					<p class="percent">50</p>
+					<p class="percent">30</p>
 					<p class="total-percent">/100%</p>
 				</div>
 				<p class="progress-explain">주문 확인 중입니다</p>
@@ -42,6 +51,7 @@
 <script>
 import MainHeader from '@/components/common/MainHeader.vue';
 import PickUpStore from '@/components/main/PickUpStore.vue';
+import RadialProgressBar from 'vue-radial-progress';
 import VueBarcode from 'vue-barcode';
 
 export default {
@@ -49,10 +59,12 @@ export default {
 		MainHeader,
 		PickUpStore,
 		VueBarcode,
+		RadialProgressBar,
 	},
 	data: function() {
 		return {
 			barcodeValue: '317',
+			color: '#00462A',
 		};
 	},
 	computed: {

@@ -62,7 +62,7 @@ export default {
 				for (let i = 0; i < localStorage.length; i++) {
 					if (
 						localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
-						localStorage.key(i) !== 'location'
+						localStorage.key(i) !== 'store'
 					) {
 						this.finalCartItems.push(
 							JSON.parse(localStorage.getItem(localStorage.key(i))),

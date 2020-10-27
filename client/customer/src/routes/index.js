@@ -20,6 +20,7 @@ export default new VueRouter({
 		},
 		{
 			path: '/logout',
+			name: 'logout',
 			component: () => import('@/views/login/LogoutPage.vue'),
 		},
 		{
