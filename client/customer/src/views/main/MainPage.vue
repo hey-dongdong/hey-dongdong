@@ -14,7 +14,12 @@
 			</div>
 			<!-- <img src="../../assets/barcode.png" alt="barcode" class="barcode" /> -->
 			<!-- <input v-model="barcodeValue" /><br /> -->
-			<VueBarcode v-bind:value="barcodeValue" class="barcode-box"></VueBarcode>
+			<VueBarcode
+				v-bind:value="barcodeValue"
+				class="barcode-box"
+				height="50"
+				format="CODE39"
+			></VueBarcode>
 			<ul class="linkboxes">
 				<li class="page-link">
 					<router-link class="link-name" to="/menu/all">전체<br />메뉴</router-link>
@@ -47,7 +52,7 @@ export default {
 	},
 	data: function() {
 		return {
-			barcodeValue: 'test',
+			barcodeValue: '317',
 		};
 	},
 	computed: {
