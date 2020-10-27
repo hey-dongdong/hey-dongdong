@@ -12,7 +12,9 @@
 				</div>
 				<p class="progress-explain">주문 확인 중입니다</p>
 			</div>
-			<img src="../../assets/barcode.png" alt="barcode" class="barcode" />
+			<!-- <img src="../../assets/barcode.png" alt="barcode" class="barcode" /> -->
+			<!-- <input v-model="barcodeValue" /><br /> -->
+			<VueBarcode v-bind:value="barcodeValue" class="barcode-box"></VueBarcode>
 			<ul class="linkboxes">
 				<li class="page-link">
 					<router-link class="link-name" to="/menu/all">전체<br />메뉴</router-link>
@@ -35,11 +37,18 @@
 <script>
 import MainHeader from '@/components/common/MainHeader.vue';
 import PickUpStore from '@/components/main/PickUpStore.vue';
+import VueBarcode from 'vue-barcode';
 
 export default {
 	components: {
 		MainHeader,
 		PickUpStore,
+		VueBarcode,
+	},
+	data: function() {
+		return {
+			barcodeValue: 'test',
+		};
 	},
 	computed: {
 		storeName() {

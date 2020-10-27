@@ -19,7 +19,6 @@
 				</span>
 			</div>
 		</div>
-
 		<slot name="delete-button"></slot>
 	</div>
 </template>

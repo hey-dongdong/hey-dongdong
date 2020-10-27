@@ -263,6 +263,11 @@ transition: background-color 5000s ease-in-out 0s;
 	margin: 0 auto;
 }
 
+.barcode-box {
+	width: fit-content;
+	margin: 0 auto 40px;
+}
+
 .barcode {
 	display: block;
 	margin: 0 auto 40px;
@@ -1084,6 +1089,6 @@ input[type=checkbox]:checked + label{
 }
 
 .delete.mymenu {
-	position: fixed;
-	right: 30px;
+	position: relative;
+	right: 0;
 }
