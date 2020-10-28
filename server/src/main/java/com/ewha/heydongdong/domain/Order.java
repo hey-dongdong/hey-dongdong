@@ -8,6 +8,8 @@ import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -35,24 +37,26 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private Progress progress;
 
+    @Column(name = "total_count")
+    private Integer totalCount;
+
     @Column(name = "total_price")
     private Integer totalPrice;
 
     @Column(name = "is_no_show")
     private Boolean isNoShow;
 
-    // TODO [지우] 썸네일 추가?
-
-//    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-//    private List<MenuInOrder> menus = new ArrayList<>();
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<MenuInOrder> menus = new ArrayList<>();
 
     @Builder
-    public Order(Long orderId, User user, Store store, Timestamp orderAt, Progress progress, Integer totalPrice, Boolean isNoShow) {
+    public Order(Long orderId, User user, Store store, Timestamp orderAt, Progress progress, Integer totalCount, Integer totalPrice, Boolean isNoShow) {
         Assert.notNull(user, "User must not be null");
         Assert.notNull(store, "Store must not be null");
         Assert.notNull(orderAt, "OrderAt must not be null");
         Assert.notNull(progress, "Progress must not be null");
         Assert.notNull(totalPrice, "TotalPrice must not be null");
+        Assert.notNull(totalCount, "TotalCount must not be null");
         Assert.notNull(isNoShow, "IsNoShow must not be null");
 
         this.orderId = orderId;
@@ -60,6 +64,7 @@ public class Order {
         this.store = store;
         this.orderAt = orderAt;
         this.progress = progress;
+        this.totalCount = totalCount;
         this.totalPrice = totalPrice;
         this.isNoShow = isNoShow;
     }
@@ -71,9 +76,11 @@ public class Order {
                 + "), store=(" + store.getStoreId() + "," + store.getStoreName()
                 + "), orderAt=" + orderAt
                 + ", progress=" + progress
+                + ", totalCount=" + totalCount
                 + ", totalPrice=" + totalPrice
                 + ", isNoShow=" + isNoShow
-                + ")";
+                + ", menus=(" + menus
+                + "))";
     }
 }
 
