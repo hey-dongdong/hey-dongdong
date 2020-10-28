@@ -39,8 +39,8 @@ class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("Get all history of test user | Success : User found")
-    void getAllHistory_Success() {
+    @DisplayName("Get all orders of test user | Success : User found")
+    void getAllOrdersOfOneUser_Success() {
         // Given
         User user = User.builder()
                 .userId("test_user")
@@ -56,8 +56,8 @@ class OrderServiceTest {
     }
 
     @Test
-    @DisplayName("Get all history of test user | Success : No such user")
-    void getAllHistory_Fail_NoUserFound() {
+    @DisplayName("Get all orders of test user | Fail : No such user")
+    void getAllOrdersOfOneUser_Fail_NoUserFound() {
         // Given
         User user = User.builder()
                 .userId("not_existing_user")
