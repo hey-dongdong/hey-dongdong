@@ -36,7 +36,10 @@ public class Request {
     }
 
     public void validatePayload() throws InvalidRequestException {
-        if (getPayload().isEmpty()) {
+        if (getPayload() == null) {
+            String msg = "invalid-request : null-payload";
+            throw new InvalidRequestException(msg);
+        } else if (getPayload().isEmpty()) {
             String msg = "invalid-request : empty-payload";
             throw new InvalidRequestException(msg);
         }
