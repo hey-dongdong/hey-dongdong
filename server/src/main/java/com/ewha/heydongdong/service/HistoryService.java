@@ -6,6 +6,8 @@ import com.ewha.heydongdong.domain.Order;
 import com.ewha.heydongdong.domain.User;
 import com.ewha.heydongdong.domain.datatype.Progress;
 import com.ewha.heydongdong.dto.*;
+import com.ewha.heydongdong.exception.InvalidRequestParameterException;
+import com.ewha.heydongdong.exception.NoResultFromDBException;
 import com.ewha.heydongdong.protocol.Header;
 import com.ewha.heydongdong.protocol.Response;
 import com.ewha.heydongdong.repository.OrderRepository;
@@ -28,13 +30,18 @@ public class HistoryService {
     public String getUserHistory(String userId) {
 
         List<Order> orders = orderRepository.findByUserAndProgress(User.builder().userId(userId).build(), Progress.DONE);
+        checkIfHistoryExists(orders, userId);
         List<UserHistoryDto> userHistoryDto = buildUserHistoryFromOrders(orders);
         return buildUserHistoryJson(userId, userHistoryDto);
     }
 
+    private void checkIfHistoryExists(List<Order> orders, String userId) {
+        if (orders.isEmpty())
+            throw new NoResultFromDBException("No history for userId=" + userId);
+    }
+
     private List<UserHistoryDto> buildUserHistoryFromOrders(List<Order> orders) {
 
-        // TODO [지우] 히스토리 0개일 경우 예외 처리 (프론트에서? 아니면 코드로?)
         List<UserHistoryDto> history = new ArrayList<>();
         for (Order order : orders) {
             Menu firstMenu = order.getMenus().get(0).getMenu();
@@ -74,13 +81,14 @@ public class HistoryService {
     public String getUserHistoryDetail(String userId, Long orderId) {
 
         Optional<Order> orders = orderRepository.findById(orderId);
-        if (orders.isEmpty()) {
-            // TODO [지우] 예외처리
-            return null;
-        } else {
-            UserHistoryDetailDto userHistoryDetailDto = buildUserHistoryDetailFromOrder(orders.get());
-            return buildUserHistoryDetailJson(userId, userHistoryDetailDto);
-        }
+        checkIfOrderExists(orders, orderId);
+        UserHistoryDetailDto userHistoryDetailDto = buildUserHistoryDetailFromOrder(orders.get());
+        return buildUserHistoryDetailJson(userId, userHistoryDetailDto);
+    }
+
+    private void checkIfOrderExists(Optional<Order> orders, Long orderId) {
+        if (orders.isEmpty())
+            throw new InvalidRequestParameterException("orderId=" + orderId);
     }
 
     private UserHistoryDetailDto buildUserHistoryDetailFromOrder(Order order) {

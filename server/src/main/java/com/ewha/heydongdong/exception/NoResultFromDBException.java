@@ -2,13 +2,13 @@ package com.ewha.heydongdong.exception;
 
 import lombok.Getter;
 
-public class InvalidRequestException extends RuntimeException {
+public class NoResultFromDBException extends RuntimeException {
 
     @Getter
     private final int ERR_CODE;
 
-    public InvalidRequestException(String message) {
+    public NoResultFromDBException(String message) {
         super(message);
-        ERR_CODE = 600;
+        ERR_CODE = 800;
     }
 }

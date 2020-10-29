@@ -1,6 +1,6 @@
 package com.ewha.heydongdong.protocol;
 
-import com.ewha.heydongdong.exception.InvalidRequestException;
+import com.ewha.heydongdong.exception.InvalidRequestFormatException;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,32 +16,40 @@ public class Request {
     private Header header;
     private JsonNode payload;
 
-    public void validateHeader(String expectedName) throws InvalidRequestException {
+    public void validateHeader(String expectedName) throws InvalidRequestFormatException {
         validateNotNull();
         validateName(expectedName);
+        validateUserId();
     }
 
     private void validateNotNull() {
-        if (getHeader() == null) {
-            String msg = "invalid-request : null-header";
-            throw new InvalidRequestException(msg);
+        if (this.header == null) {
+            String msg = "null-header";
+            throw new InvalidRequestFormatException(msg);
         }
     }
 
-    private void validateName(String expectedName) throws InvalidRequestException {
+    private void validateName(String expectedName) throws InvalidRequestFormatException {
         if (!expectedName.equals(this.header.getName())) {
-            String msg = "invalid-request : current-name=" + this.header.getName();
-            throw new InvalidRequestException(msg);
+            String msg = "invalid-header-name=" + this.header.getName();
+            throw new InvalidRequestFormatException(msg);
         }
     }
 
-    public void validatePayload() throws InvalidRequestException {
+    private void validateUserId() {
+        if (this.header.getUserId() == null) {
+            String msg = "null-header-userid";
+            throw new InvalidRequestFormatException(msg);
+        }
+    }
+
+    public void validatePayload() throws InvalidRequestFormatException {
         if (getPayload() == null) {
-            String msg = "invalid-request : null-payload";
-            throw new InvalidRequestException(msg);
+            String msg = "null-payload";
+            throw new InvalidRequestFormatException(msg);
         } else if (getPayload().isEmpty()) {
-            String msg = "invalid-request : empty-payload";
-            throw new InvalidRequestException(msg);
+            String msg = "empty-payload";
+            throw new InvalidRequestFormatException(msg);
         }
     }
 }
