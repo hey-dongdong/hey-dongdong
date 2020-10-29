@@ -30,7 +30,14 @@ public class Request {
 
     private void validateName(String expectedName) throws InvalidRequestException {
         if (!expectedName.equals(this.header.getName())) {
-            String msg = "invalid-request : current-name=" + expectedName;
+            String msg = "invalid-request : current-name=" + this.header.getName();
+            throw new InvalidRequestException(msg);
+        }
+    }
+
+    public void validatePayload() throws InvalidRequestException {
+        if (getPayload().isEmpty()) {
+            String msg = "invalid-request : empty-payload";
             throw new InvalidRequestException(msg);
         }
     }

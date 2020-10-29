@@ -9,6 +9,6 @@ public class InvalidRequestException extends RuntimeException {
 
     public InvalidRequestException(String message) {
         super(message);
-        ERR_CODE = 100;
+        ERR_CODE = 600;
     }
 }
