@@ -1,6 +1,5 @@
 package com.ewha.heydongdong.controller;
 
-import com.ewha.heydongdong.exception.InvalidRequestException;
 import com.ewha.heydongdong.protocol.Request;
 import com.ewha.heydongdong.service.HistoryService;
 import lombok.extern.slf4j.Slf4j;
@@ -8,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -26,12 +22,7 @@ public class HistoryController {
 
         log.debug("[Request] get-user-history");
 
-        try {
-            request.validateHeader("GetHistoryRequest");
-        } catch (InvalidRequestException e) {
-            log.error(e.getERR_CODE() + " " + e.getMessage());
-            return ResponseEntity.badRequest().body("Valid request required");
-        }
+        request.validateHeader("GetUserHistoryRequest");
 
         String userId = request.getHeader().getUserId();
         String history = historyService.getUserHistory(userId);

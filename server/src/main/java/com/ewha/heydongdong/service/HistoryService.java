@@ -61,7 +61,7 @@ public class HistoryService {
 
         ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-        Header header = new Header("GetHistoryResponse", userId);
+        Header header = new Header("GetUserHistoryResponse", userId);
 
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("orders", objectMapper.valueToTree(history));
