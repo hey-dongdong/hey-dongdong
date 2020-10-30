@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import CartListItem from '@/components/main/CartListItem.vue';
+import CartListItem from '@/components/order/CartListItem.vue';
 
 export default {
 	components: {

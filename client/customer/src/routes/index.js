@@ -97,21 +97,21 @@ export default new VueRouter({
 		{
 			path: '/history',
 			name: 'history',
-			component: () => import('@/views/menu/HistoryPage.vue'),
+			component: () => import('@/views/order/HistoryPage.vue'),
 		},
 		{
 			path: '/history/detail',
 			name: 'history-detail',
-			component: () => import('@/views/menu/HistoryDetailPage.vue'),
+			component: () => import('@/views/order/HistoryDetailPage.vue'),
 		},
 		{
 			path: '/cart',
-			component: () => import('@/views/main/CartPage.vue'),
+			component: () => import('@/views/order/CartPage.vue'),
 		},
 		{
 			path: '/complete',
 			name: 'complete',
-			component: () => import('@/views/main/CompleteOrderPage.vue'),
+			component: () => import('@/views/order/CompleteOrderPage.vue'),
 		},
 	],
 });

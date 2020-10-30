@@ -31,8 +31,8 @@
 
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
-import CompleteOrderDetail from '@/components/main/CompleteOrderDetail.vue';
-import CompleteOrderItems from '@/components/main/CompleteOrderItems.vue';
+import CompleteOrderDetail from '@/components/order/CompleteOrderDetail.vue';
+import CompleteOrderItems from '@/components/order/CompleteOrderItems.vue';
 
 export default {
 	components: {

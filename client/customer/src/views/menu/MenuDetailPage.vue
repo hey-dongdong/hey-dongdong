@@ -206,10 +206,12 @@
 						<span class="plus-price">+0원</span>
 					</div>
 				</div>
-				<button type="button" class="greenbtn fixed" @click="addToCart">
-					<span class="count-result">{{ count }}개 담기</span>
-					<span class="price-result">{{ price }}원</span>
-				</button>
+				<div class="button-box">
+					<button type="button" class="greenbtn fixed" @click="addToCart">
+						<span class="count-result">{{ count }}개 담기</span>
+						<span class="price-result">{{ price }}원</span>
+					</button>
+				</div>
 			</form>
 		</div>
 	</div>

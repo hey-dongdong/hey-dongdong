@@ -22,8 +22,8 @@
 
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
-import OrderDetail from '@/components/menu/OrderDetail.vue';
-import OrderItems from '@/components/menu/OrderItems.vue';
+import OrderDetail from '@/components/order/OrderDetail.vue';
+import OrderItems from '@/components/order/OrderItems.vue';
 import { mapGetters } from 'vuex';
 
 export default {
