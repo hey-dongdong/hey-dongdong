@@ -1,11 +1,7 @@
 <template>
 	<div>
 		<header class="blackheader">
-			<ion-icon
-				name="arrow-back"
-				class="header-left"
-				@click="$router.push('/menu/all')"
-			></ion-icon>
+			<ion-icon name="arrow-back" class="header-left" @click="$router.go(-1)"></ion-icon>
 			<h1 class="pagename">장바구니</h1>
 		</header>
 		<div class="blackbg">

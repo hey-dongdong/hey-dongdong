@@ -57,34 +57,34 @@ export default {
 
 			var positions = [
 				{
-					id: 0,
+					id: 1,
 					store: '학생문화관점',
 					location: '학생문화관 지하1층 로비',
 					time: '학기 중: 월~금 08:30~19:00 | 토 09:00~14:00',
 					vacation: '방학 중: 월~금 08:30~18:00 | 토 09:00~14:00',
 					tel: '02-3277-3707',
-					latlng: new kakao.maps.LatLng(37.562803, 126.945578),
+					latlng: new kakao.maps.LatLng(37.562632898194835, 126.9454282268269),
 				},
 				{
-					id: 1,
+					id: 2,
 					store: '도서관점',
 					location: '중앙도서관 지하1층 (B103-2호)',
 					time: '학기 중: 월~금 08:30~22:00 | 토 09:00~19:00',
 					vacation: '방학 중: 월~금 08:30~19:00 | 토 09:00~17:00',
 					tel: '02-3277-4875',
-					latlng: new kakao.maps.LatLng(37.562217, 126.949098),
+					latlng: new kakao.maps.LatLng(37.56195884514403, 126.94922601468826),
 				},
 				{
-					id: 2,
+					id: 3,
 					store: '국제기숙사점',
 					location: '대학원 기숙사 1층 G194호',
 					time: '학기 중: 월~금 08:30~22:00',
 					vacation: '방학 중: 월~금 09:00~17:30',
 					tel: '02-3277-6010',
-					latlng: new kakao.maps.LatLng(37.564608, 126.950254), //수정 필요
+					latlng: new kakao.maps.LatLng(37.561078, 126.943943),
 				},
 				{
-					id: 3,
+					id: 4,
 					store: '교육관점',
 					location: '교육관 B동 1층(158호)',
 					time: '학기 중: 월~금 08:30~19:00',
@@ -93,7 +93,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.565255, 126.94674),
 				},
 				{
-					id: 4,
+					id: 5,
 					store: '경영관점',
 					location: '신세계경영관 지하1층(B112호)',
 					time: '학기 중: 월~금 08:30~19:00',
@@ -102,7 +102,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.561831, 126.942439),
 				},
 				{
-					id: 5,
+					id: 6,
 					store: '조형관점',
 					location: '조형관 A동 1층(19N호)',
 					time: '학기 중: 월~금 08:30~19:00',
@@ -111,7 +111,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.561019, 126.947964),
 				},
 				{
-					id: 6,
+					id: 7,
 					store: '음악관점',
 					location: '음악관 1층(112호)',
 					time: '학기 중: 월~금 08:30~19:00',
@@ -120,7 +120,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.561201, 126.949255), //경영관
 				},
 				{
-					id: 7,
+					id: 8,
 					store: '공학관점',
 					location: '아산공학관 1층(110호)',
 					time: '학기 중: 월~금 08:30~19:00',
@@ -129,7 +129,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.566627, 126.948417), //아산공학관
 				},
 				{
-					id: 8,
+					id: 9,
 					store: '종합과학관점',
 					location: '현대자동차 D동 1층(112호)',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -138,7 +138,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.564343, 126.947613),
 				},
 				{
-					id: 9,
+					id: 10,
 					store: '산학협력관점',
 					location: '산학협력관 317호',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -147,7 +147,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.568456, 126.95094),
 				},
 				{
-					id: 10,
+					id: 11,
 					store: '동창회관점',
 					location: '동창회관 1층(134호)',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -156,7 +156,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.5618, 126.944182),
 				},
 				{
-					id: 11,
+					id: 12,
 					store: '학관점',
 					location: '학관 1층(12F호)',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -165,7 +165,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.563837, 126.945475),
 				},
 				{
-					id: 12,
+					id: 13,
 					store: '체육관점',
 					location: '체육관 B동(B111호)',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -174,7 +174,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.561198, 126.947332),
 				},
 				{
-					id: 13,
+					id: 14,
 					store: '법학관점',
 					location: '법학관 지하1층',
 					time: '학기 중: 월~금 08:30~18:30',
@@ -183,7 +183,7 @@ export default {
 					latlng: new kakao.maps.LatLng(37.563064, 126.949274),
 				},
 				{
-					id: 14,
+					id: 15,
 					store: '헬렌관점',
 					location: '헬렌관 3층(307호)',
 					time: '학기 중: 월~금 08:30~18:30',
