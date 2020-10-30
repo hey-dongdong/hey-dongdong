@@ -5,7 +5,6 @@ import com.ewha.heydongdong.model.domain.MenuInOrder;
 import com.ewha.heydongdong.model.domain.Order;
 import com.ewha.heydongdong.model.domain.User;
 import com.ewha.heydongdong.model.domain.datatype.Progress;
-import com.ewha.heydongdong.heydongdong.model.dto.*;
 import com.ewha.heydongdong.model.dto.*;
 import com.ewha.heydongdong.model.exception.InvalidRequestParameterException;
 import com.ewha.heydongdong.model.exception.NoResultFromDBException;
@@ -29,7 +28,6 @@ public class HistoryService {
     private OrderRepository orderRepository;
 
     public String getUserHistory(String userId) {
-
         List<Order> orders = orderRepository.findByUserAndProgress(User.builder().userId(userId).build(), Progress.DONE);
         checkIfHistoryExists(orders, userId);
         List<UserHistoryDto> userHistoryDto = buildUserHistoryFromOrders(orders);
@@ -66,21 +64,16 @@ public class HistoryService {
     }
 
     private String buildUserHistoryJson(String userId, List<UserHistoryDto> history) {
-
         ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
         Header header = new Header("GetUserHistoryResponse", userId);
 
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("orders", objectMapper.valueToTree(history));
-
         Response response = new Response(header, payload);
-
         return objectMapper.valueToTree(response).toPrettyString();
     }
 
     public String getUserHistoryDetail(String userId, Long orderId) {
-
         Optional<Order> orders = orderRepository.findById(orderId);
         checkIfOrderExists(orders, orderId);
         UserHistoryDetailDto userHistoryDetailDto = buildUserHistoryDetailFromOrder(orders.get());
