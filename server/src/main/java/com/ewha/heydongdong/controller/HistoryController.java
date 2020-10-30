@@ -26,9 +26,7 @@ public class HistoryController {
         log.debug("[Request] get-user-history");
 
         request.validateHeader("GetUserHistoryRequest");
-
         String history = historyService.getUserHistory(request.getHeader().getUserId());
-
         return new ResponseEntity<>(history, HttpStatus.OK);
     }
 
