@@ -1,6 +1,6 @@
 package com.ewha.heydongdong.controller;
 
-import com.ewha.heydongdong.protocol.Request;
+import com.ewha.heydongdong.model.protocol.Request;
 import com.ewha.heydongdong.service.HistoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

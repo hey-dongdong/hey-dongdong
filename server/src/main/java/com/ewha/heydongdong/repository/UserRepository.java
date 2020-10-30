@@ -1,6 +1,6 @@
 package com.ewha.heydongdong.repository;
 
-import com.ewha.heydongdong.domain.User;
+import com.ewha.heydongdong.model.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

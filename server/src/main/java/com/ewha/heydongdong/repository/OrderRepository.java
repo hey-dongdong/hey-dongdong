@@ -1,8 +1,8 @@
 package com.ewha.heydongdong.repository;
 
-import com.ewha.heydongdong.domain.Order;
-import com.ewha.heydongdong.domain.User;
-import com.ewha.heydongdong.domain.datatype.Progress;
+import com.ewha.heydongdong.model.domain.Order;
+import com.ewha.heydongdong.model.domain.User;
+import com.ewha.heydongdong.model.domain.datatype.Progress;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

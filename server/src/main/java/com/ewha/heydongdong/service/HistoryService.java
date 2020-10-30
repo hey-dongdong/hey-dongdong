@@ -1,15 +1,16 @@
 package com.ewha.heydongdong.service;
 
-import com.ewha.heydongdong.domain.Menu;
-import com.ewha.heydongdong.domain.MenuInOrder;
-import com.ewha.heydongdong.domain.Order;
-import com.ewha.heydongdong.domain.User;
-import com.ewha.heydongdong.domain.datatype.Progress;
-import com.ewha.heydongdong.dto.*;
-import com.ewha.heydongdong.exception.InvalidRequestParameterException;
-import com.ewha.heydongdong.exception.NoResultFromDBException;
-import com.ewha.heydongdong.protocol.Header;
-import com.ewha.heydongdong.protocol.Response;
+import com.ewha.heydongdong.model.domain.Menu;
+import com.ewha.heydongdong.model.domain.MenuInOrder;
+import com.ewha.heydongdong.model.domain.Order;
+import com.ewha.heydongdong.model.domain.User;
+import com.ewha.heydongdong.model.domain.datatype.Progress;
+import com.ewha.heydongdong.heydongdong.model.dto.*;
+import com.ewha.heydongdong.model.dto.*;
+import com.ewha.heydongdong.model.exception.InvalidRequestParameterException;
+import com.ewha.heydongdong.model.exception.NoResultFromDBException;
+import com.ewha.heydongdong.model.protocol.Header;
+import com.ewha.heydongdong.model.protocol.Response;
 import com.ewha.heydongdong.repository.OrderRepository;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
