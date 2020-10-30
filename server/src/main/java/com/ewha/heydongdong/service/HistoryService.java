@@ -40,7 +40,6 @@ public class HistoryService {
     }
 
     private List<UserHistoryDto> buildUserHistoryFromOrders(List<Order> orders) {
-
         List<UserHistoryDto> history = new ArrayList<>();
         for (Order order : orders) {
             Menu firstMenu = order.getMenus().get(0).getMenu();
@@ -86,7 +85,6 @@ public class HistoryService {
     }
 
     private UserHistoryDetailDto buildUserHistoryDetailFromOrder(Order order) {
-
         UserHistoryDto orderInfo = UserHistoryDto.builder()
                 .orderId(order.getOrderId())
                 .store(StoreInHistoryDto.builder()
@@ -118,9 +116,7 @@ public class HistoryService {
     }
 
     private String buildUserHistoryDetailJson(String userId, UserHistoryDetailDto historyDetail) {
-
         ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
-
         Header header = new Header("GetUserHistoryDetailResponse", userId);
 
         ObjectNode payload = objectMapper.createObjectNode();
