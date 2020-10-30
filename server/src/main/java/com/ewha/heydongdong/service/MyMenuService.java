@@ -1,5 +1,6 @@
 package com.ewha.heydongdong.service;
 
+import com.ewha.heydongdong.model.domain.MenuInOrder;
 import com.ewha.heydongdong.model.domain.MyMenu;
 import com.ewha.heydongdong.model.domain.User;
 import com.ewha.heydongdong.model.exception.NoResultFromDBException;
@@ -24,17 +25,44 @@ public class MyMenuService {
     public String getUserMyMenu(String userId) {
         List<MyMenu> myMenus = myMenuRepository.findByUser(User.builder().userId(userId).build());
         checkIfMyMenuExists(myMenus, userId);
-        return buildUserMyMenuJson(userId, myMenus);
+
+        return buildJsonResponse("GetMyMenusResponse", userId, myMenus);
     }
 
-    private void checkIfMyMenuExists(List<MyMenu> myMenus, String userId) {
-        if (myMenus.isEmpty())
-            throw new NoResultFromDBException("No myMenu for userId=" + userId);
+    public String addUserMyMenu(String userId, Long menuInOrderId) {
+        User user = User.builder()
+                .userId(userId)
+                .build();
+        MenuInOrder menuInOrder = MenuInOrder.builder()
+                .id(menuInOrderId)
+                .build();
+
+        MyMenu myMenu = MyMenu.builder()
+                .addAt(new Timestamp(System.currentTimeMillis()))
+                .user(user)
+                .menuInOrder(menuInOrder)
+                .build();
+        myMenuRepository.save(myMenu);
+        return buildJsonResponse("AddMyMenuResponse", userId);
     }
 
-    private String buildUserMyMenuJson(String userId, List<MyMenu> myMenus) {
+    public String removeUserMyMenu(String userId, Long myMenuId) {
+        myMenuRepository.deleteById(myMenuId);
+        return buildJsonResponse("RemoveMyMenuResponse", userId);
+    }
+
+    private String buildJsonResponse(String responseName, String userId) {
         ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        Header header = new Header("GetMyMenusResponse", userId);
+        Header header = new Header(responseName, userId);
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        Response response = new Response(header, payload);
+        return objectMapper.valueToTree(response).toPrettyString();
+    }
+
+    private String buildJsonResponse(String responseName, String userId, List<MyMenu> myMenus) {
+        ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        Header header = new Header(responseName, userId);
 
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("menus", objectMapper.valueToTree(myMenus));
@@ -42,22 +70,8 @@ public class MyMenuService {
         return objectMapper.valueToTree(response).toPrettyString();
     }
 
-    public String addUserMyMenu(String userId, Long menuInOrderId) {
-        MyMenu myMenu = MyMenu.builder()
-                .addAt(new Timestamp(System.currentTimeMillis()))
-                .userId(userId)
-                .menuInOrderId(menuInOrderId)
-                .build();
-        myMenuRepository.save(myMenu);
-        return buildJsonResponse(userId);
-    }
-
-    private String buildJsonResponse(String userId) {
-        ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        Header header = new Header("AddMyMenuResponse", userId);
-
-        ObjectNode payload = objectMapper.createObjectNode();
-        Response response = new Response(header, payload);
-        return objectMapper.valueToTree(response).toPrettyString();
+    private void checkIfMyMenuExists(List<MyMenu> myMenus, String userId) {
+        if (myMenus.isEmpty())
+            throw new NoResultFromDBException("No myMenu for userId=" + userId);
     }
 }

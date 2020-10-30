@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface MyMenuRepository extends JpaRepository<MyMenu, Long> {
     List<MyMenu> findByUser(User user);
+    void deleteById(Long myMenuId);
 }

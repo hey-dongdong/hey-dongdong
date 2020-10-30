@@ -39,4 +39,17 @@ public class MyMenuController {
         );
         return new ResponseEntity<>(myMenu, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/remove", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> removeUserMyMenu(@RequestBody Request request) {
+
+        log.debug("[Request] remove-user-my-menu");
+
+        request.validateHeader("RemoveMyMenuRequest");
+        String myMenu = myMenuService.removeUserMyMenu(
+                request.getHeader().getUserId(),
+                request.getPayload().get("myMenuId").asLong()
+        );
+        return new ResponseEntity<>(myMenu, HttpStatus.OK);
+    }
 }
