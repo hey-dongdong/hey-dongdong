@@ -1,5 +1,6 @@
 package com.ewha.heydongdong.service;
 
+import com.ewha.heydongdong.model.domain.MenuInOrder;
 import com.ewha.heydongdong.model.domain.MyMenu;
 import com.ewha.heydongdong.model.domain.User;
 import com.ewha.heydongdong.model.exception.NoResultFromDBException;
@@ -45,8 +46,8 @@ public class MyMenuService {
     public String addUserMyMenu(String userId, Long menuInOrderId) {
         MyMenu myMenu = MyMenu.builder()
                 .addAt(new Timestamp(System.currentTimeMillis()))
-                .userId(userId)
-                .menuInOrderId(menuInOrderId)
+                .user(User.builder().userId(userId).build())
+                .menuInOrder(MenuInOrder.builder().id(menuInOrderId).build())
                 .build();
         myMenuRepository.save(myMenu);
         return buildJsonResponse(userId);
