@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://heydongdong.c1vgwmwnazbs.ap-northeast-2.rds.amazonaws.com:3306/heydongdong?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: admin
+    password: dongdong
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    properties:
+      hibernate:
+        ddl-auto: none
+#        format_sql: true
+#        show_sql: true
+
+server:
+  address: localhost
+  port: 8080

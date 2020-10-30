@@ -1,2 +1,0 @@
-com/ewha/heydongdong/HeydongdongApplicationTests.java
- com.ewha.heydongdong.HeydongdongApplicationTests
