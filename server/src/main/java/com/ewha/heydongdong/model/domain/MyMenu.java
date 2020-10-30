@@ -22,18 +22,20 @@ public class MyMenu {
     @Column(name = "add_at")
     private Timestamp addAt;
 
-    @Column(name = "user_id", nullable = false)
-    private String userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(name = "menu_in_order_id", nullable = false)
-    private Long menuInOrderId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menu_in_order_id", nullable = false)
+    private MenuInOrder menuInOrder;
 
     @Override
     public String toString() {
         return "MyMenu(myMenuId=" + myMenuId
                 + ", addAt=" + addAt
-                + ", userId=" + userId
-                + ", menuInOrderId=" + menuInOrderId
+                + ", userId=" + user.getUserId()
+                + ", menuInOrderId=" + menuInOrder.getId()
                 + ")";
     }
 }
