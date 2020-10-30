@@ -41,8 +41,8 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    private List<MyMenu> myMenus = new ArrayList<MyMenu>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<MyMenu> myMenus = new ArrayList<>();
 
     @Builder
     public User(String userId, String userName, String email, String phone, Integer noShowCount, Timestamp banAt) {
