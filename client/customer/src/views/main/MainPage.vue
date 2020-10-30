@@ -40,10 +40,7 @@
 					<router-link class="link-name" to="/history">히스토리</router-link>
 				</li>
 			</ul>
-			<img src="../../assets/ad-1.png" alt="ad" class="ad" />
-			<img src="../../assets/ad-2.png" alt="ad" class="ad" />
-			<img src="../../assets/ad-3.png" alt="ad" class="ad" />
-			<img src="../../assets/ad-4.png" alt="ad" class="ad" />
+			<img :src="selectedImage" class="ad" />
 		</div>
 	</div>
 </template>
@@ -65,11 +62,26 @@ export default {
 		return {
 			barcodeValue: '317',
 			color: '#00462A',
+			images: [
+				require('../../assets/ad-1.png'),
+				require('../../assets/ad-2.png'),
+				require('../../assets/ad-3.png'),
+				require('../../assets/ad-4.png'),
+			],
+			selectedImage: null,
 		};
 	},
 	computed: {
 		storeName() {
 			return 'eng';
+		},
+	},
+	created() {
+		this.selectedImage = this.randomItem(this.images);
+	},
+	methods: {
+		randomItem(items) {
+			return items[Math.floor(Math.random() * items.length)];
 		},
 	},
 };
