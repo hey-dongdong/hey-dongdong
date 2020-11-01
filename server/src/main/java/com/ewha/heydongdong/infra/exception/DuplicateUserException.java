@@ -2,13 +2,13 @@ package com.ewha.heydongdong.infra.exception;
 
 import lombok.Getter;
 
-public class DuplicateUserException extends RuntimeException {
+public class DuplicateUserException extends RuntimeException implements CustomRuntimeException {
 
     @Getter
-    private final int ERR_CODE;
+    private final String NAME;
 
     public DuplicateUserException(String message) {
         super(message);
-        ERR_CODE = 900;
+        NAME = "DuplicateUserError";
     }
 }

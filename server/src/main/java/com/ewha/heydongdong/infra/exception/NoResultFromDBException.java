@@ -2,13 +2,13 @@ package com.ewha.heydongdong.infra.exception;
 
 import lombok.Getter;
 
-public class NoResultFromDBException extends RuntimeException {
+public class NoResultFromDBException extends RuntimeException implements CustomRuntimeException {
 
     @Getter
-    private final int ERR_CODE;
+    private final String NAME;
 
     public NoResultFromDBException(String message) {
         super(message);
-        ERR_CODE = 800;
+        NAME = "NoResultFromDBError";
     }
 }

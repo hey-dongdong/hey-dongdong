@@ -1,10 +1,11 @@
 package com.ewha.heydongdong.module.service;
 
+import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.MenuInOrder;
 import com.ewha.heydongdong.module.model.domain.MyMenu;
 import com.ewha.heydongdong.module.model.domain.User;
 import com.ewha.heydongdong.infra.exception.NoResultFromDBException;
-import com.ewha.heydongdong.infra.protocol.Header;
+import com.ewha.heydongdong.infra.protocol.RequestHeader;
 import com.ewha.heydongdong.infra.protocol.Response;
 import com.ewha.heydongdong.module.repository.MyMenuRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,7 +55,7 @@ public class MyMenuService {
     }
 
     private String buildJsonResponse(String responseName, String userId) {
-        Header header = new Header(responseName, userId);
+        ResponseHeader header = new ResponseHeader(responseName, userId);
 
         ObjectNode payload = objectMapper.createObjectNode();
         Response response = new Response(header, payload);
@@ -62,7 +63,7 @@ public class MyMenuService {
     }
 
     private String buildJsonResponse(String responseName, String userId, List<MyMenu> myMenus) {
-        Header header = new Header(responseName, userId);
+        ResponseHeader header = new ResponseHeader(responseName, userId);
 
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("menus", objectMapper.valueToTree(myMenus));

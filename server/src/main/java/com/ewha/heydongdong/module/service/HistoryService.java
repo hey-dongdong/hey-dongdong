@@ -1,15 +1,15 @@
 package com.ewha.heydongdong.module.service;
 
+import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
+import com.ewha.heydongdong.infra.exception.NoResultFromDBException;
+import com.ewha.heydongdong.infra.protocol.Response;
+import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.Menu;
 import com.ewha.heydongdong.module.model.domain.MenuInOrder;
 import com.ewha.heydongdong.module.model.domain.Order;
 import com.ewha.heydongdong.module.model.domain.User;
 import com.ewha.heydongdong.module.model.domain.datatype.Progress;
 import com.ewha.heydongdong.module.model.dto.*;
-import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
-import com.ewha.heydongdong.infra.exception.NoResultFromDBException;
-import com.ewha.heydongdong.infra.protocol.Header;
-import com.ewha.heydongdong.infra.protocol.Response;
 import com.ewha.heydongdong.module.repository.OrderRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -65,7 +65,7 @@ public class HistoryService {
     }
 
     private String buildUserHistoryJson(String userId, List<UserHistoryDto> history) {
-        Header header = new Header("GetUserHistoryResponse", userId);
+        ResponseHeader header = new ResponseHeader("GetUserHistoryResponse", userId);
 
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("orders", objectMapper.valueToTree(history));
@@ -117,7 +117,7 @@ public class HistoryService {
     }
 
     private String buildUserHistoryDetailJson(String userId, UserHistoryDetailDto historyDetail) {
-        Header header = new Header("GetUserHistoryDetailResponse", userId);
+        ResponseHeader header = new ResponseHeader("GetUserHistoryDetailResponse", userId);
 
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("orderInfo", objectMapper.valueToTree(historyDetail.getOrderInfo()));

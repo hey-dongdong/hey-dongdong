@@ -2,7 +2,7 @@ package com.ewha.heydongdong.module.controller;
 
 import com.ewha.heydongdong.module.model.domain.User;
 import com.ewha.heydongdong.module.model.dto.UserSignUpDto;
-import com.ewha.heydongdong.infra.protocol.Header;
+import com.ewha.heydongdong.infra.protocol.RequestHeader;
 import com.ewha.heydongdong.infra.protocol.Request;
 import com.ewha.heydongdong.module.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,7 +42,7 @@ class UserControllerTest {
     @DisplayName("User sign up submit | Success")
     void signUpSubmit_Success() throws Exception {
         String content = objectMapper.writeValueAsString(new Request(
-                new Header("SignUpRequest", "new_user"),
+                new RequestHeader("SignUpRequest", "new_user"),
                 objectMapper.valueToTree(UserSignUpDto.builder()
                         .userId("new_user")
                         .email("new_email@email.com")
@@ -64,7 +64,7 @@ class UserControllerTest {
     @DisplayName("User sign up submit | Fail : Duplicate userId")
     void signUpSubmit_Fail_DuplicateUserId() throws Exception {
         String content = objectMapper.writeValueAsString(new Request(
-                new Header("SignUpRequest", "test_user"),
+                new RequestHeader("SignUpRequest", "test_user"),
                 objectMapper.valueToTree(UserSignUpDto.builder()
                         .userId("test_user")
                         .email("new_email@email.com")
@@ -86,7 +86,7 @@ class UserControllerTest {
     @DisplayName("User sign up submit | Fail : Duplicate email")
     void signUpSubmit_Fail_DuplicateEmail() throws Exception {
         String content = objectMapper.writeValueAsString(new Request(
-                new Header("SignUpRequest", "new_user"),
+                new RequestHeader("SignUpRequest", "new_user"),
                 objectMapper.valueToTree(UserSignUpDto.builder()
                         .userId("new_user")
                         .email("email@email.com")
@@ -110,7 +110,7 @@ class UserControllerTest {
 
         // Given
         String content = objectMapper.writeValueAsString(new Request(
-                new Header("SignUpRequest", "new_user"),
+                new RequestHeader("SignUpRequest", "new_user"),
                 objectMapper.valueToTree(UserSignUpDto.builder()
                         .userId("new_user")
                         .email("new_email@email.com")

@@ -7,7 +7,7 @@ import com.ewha.heydongdong.module.model.domain.datatype.Progress;
 import com.ewha.heydongdong.module.model.dto.MenuInHistoryDto;
 import com.ewha.heydongdong.module.model.dto.StoreInHistoryDto;
 import com.ewha.heydongdong.module.model.dto.UserHistoryDto;
-import com.ewha.heydongdong.infra.protocol.Header;
+import com.ewha.heydongdong.infra.protocol.RequestHeader;
 import com.ewha.heydongdong.infra.protocol.Response;
 import com.ewha.heydongdong.module.repository.OrderRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -113,7 +113,7 @@ class HistoryServiceTest {
                 .build());
 
         // When
-        Header header = new Header("GetHistoryResponse", "test_user");
+        RequestHeader header = new RequestHeader("GetHistoryResponse", "test_user");
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("orders", objectMapper.valueToTree(history));
         Response response = new Response(header, payload);

@@ -1,6 +1,7 @@
 package com.ewha.heydongdong.module.controller;
 
 import com.ewha.heydongdong.infra.protocol.Request;
+import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @ControllerAdvice
 @RestController
-@RequestMapping("user")
+@RequestMapping("customer")
 public class UserController {
 
     @Autowired
@@ -27,7 +28,9 @@ public class UserController {
         request.validateHeader("SignUpRequest");
         request.validatePayload();
 
-        return new ResponseEntity<>(userService.signUp(request.getPayload()), HttpStatus.OK);
+        String message = userService.signUp(request.getPayload());
+
+        return new ResponseEntity<>(ResponseHeader.builder().name("SignUpResponse").message(message).build(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/check-email-token/{email}/{emailCheckToken}", produces = {MediaType.APPLICATION_JSON_VALUE})

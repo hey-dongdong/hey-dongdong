@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class Request {
 
-    private Header header;
+    private RequestHeader header;
 
     private JsonNode payload;
 

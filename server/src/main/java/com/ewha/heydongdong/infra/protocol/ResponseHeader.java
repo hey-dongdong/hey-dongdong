@@ -1,9 +1,6 @@
 package com.ewha.heydongdong.infra.protocol;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -11,7 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Header {
+@Builder
+public class ResponseHeader {
     private String name;
-    private String userId;
+    private String message;
 }
+
+

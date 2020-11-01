@@ -1,16 +1,14 @@
 package com.ewha.heydongdong.infra.protocol;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Response {
-    private Header header;
+    private ResponseHeader header;
     private ObjectNode payload;
 }

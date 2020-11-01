@@ -2,13 +2,13 @@ package com.ewha.heydongdong.infra.exception;
 
 import lombok.Getter;
 
-public class InvalidRequestFormatException extends RuntimeException {
+public class InvalidRequestFormatException extends RuntimeException implements CustomRuntimeException {
 
     @Getter
-    private final int ERR_CODE;
+    private final String NAME;
 
     public InvalidRequestFormatException(String message) {
         super(message);
-        ERR_CODE = 600;
+        NAME = "InvalidRequestFormatError";
     }
 }
