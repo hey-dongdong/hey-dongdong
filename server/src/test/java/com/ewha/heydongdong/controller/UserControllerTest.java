@@ -1,8 +1,10 @@
 package com.ewha.heydongdong.controller;
 
+import com.ewha.heydongdong.model.domain.User;
 import com.ewha.heydongdong.model.dto.UserSignUpDto;
 import com.ewha.heydongdong.model.protocol.Header;
 import com.ewha.heydongdong.model.protocol.Request;
+import com.ewha.heydongdong.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
 
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,6 +33,9 @@ class UserControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     @DisplayName("User sign up submit | Success")
@@ -50,6 +57,34 @@ class UserControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("new_user"));
+    }
+
+    @Test
+    @DisplayName("Password encoding | Success")
+    void passwordEncoding_Success() throws Exception {
+
+        // Given
+        String content = objectMapper.writeValueAsString(new Request(
+                new Header("SignUpRequest", "new_user"),
+                objectMapper.valueToTree(UserSignUpDto.builder()
+                        .userId("new_user")
+                        .email("new_email@email.com")
+                        .password("new_password")
+                        .phone("010-5555-6666")
+                        .userName("김익명")
+                        .build())
+        ));
+
+        // When
+        mockMvc.perform(post("/user/sign-up")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+        User user = userRepository.findById("new_user").get();
+
+        // Then
+        assertNotNull(user);
+        assertNotEquals(user.getPassword(), "new_password");
     }
 
     @Test

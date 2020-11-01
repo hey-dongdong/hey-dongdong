@@ -1,5 +1,6 @@
 package com.ewha.heydongdong.service;
 
+import com.ewha.heydongdong.ConsoleMailSender;
 import com.ewha.heydongdong.model.domain.User;
 import com.ewha.heydongdong.model.dto.UserSignUpDto;
 import com.ewha.heydongdong.model.exception.DuplicateUserException;
@@ -8,6 +9,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +24,23 @@ public class UserService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private ConsoleMailSender consoleMailSender;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public String signUp(JsonNode payload) throws JsonProcessingException {
+        User newUser = saveNewUser(payload);
+        sendVerifyEmail(newUser);
+        return newUser.getUserId();
+    }
+
+    private User saveNewUser(JsonNode payload) throws JsonProcessingException {
         UserSignUpDto userSignUpDto = objectMapper.treeToValue(payload, UserSignUpDto.class);
         userSignUpDto.validate();
         validateDuplicateUser(userSignUpDto);
-        User newUser = userRepository.save(buildUser(userSignUpDto));
-        return newUser.getUserId();
+        return userRepository.save(buildUser(userSignUpDto));
     }
 
     private void validateDuplicateUser(UserSignUpDto userSignUpDto) {
@@ -50,11 +64,21 @@ public class UserService {
         return User.builder()
                 .userId(userSignUpDto.getUserId())
                 .userName(userSignUpDto.getUserName())
-                .password(userSignUpDto.getPassword())
+                .password(passwordEncoder.encode(userSignUpDto.getPassword()))
                 .email(userSignUpDto.getEmail())
                 .phone(userSignUpDto.getPhone())
                 .banAt(null)
                 .noShowCount(0)
+                .isEmailVerified(false)
                 .build();
+    }
+
+    private void sendVerifyEmail(User newUser) {
+        newUser.generateEmailCheckToken();
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(newUser.getEmail());
+        mailMessage.setSubject("헤이동동 회원 가입을 위한 인증 메일입니다.");
+        mailMessage.setText("/check-email-token/" + newUser.getEmail() + "/" + newUser.getEmailCheckToken());
+        consoleMailSender.send(mailMessage);
     }
 }

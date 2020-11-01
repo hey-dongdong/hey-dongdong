@@ -16,6 +16,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
     compile group: 'org.springframework', name: 'spring-webmvc', version: '5.2.9.RELEASE'
 
     compileOnly 'org.projectlombok:lombok'

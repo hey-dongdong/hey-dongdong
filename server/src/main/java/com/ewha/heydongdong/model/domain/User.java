@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -37,6 +38,12 @@ public class User {
     @Column(name = "ban_at")
     private Timestamp banAt;
 
+    @Column(name = "email_check_token")
+    private String emailCheckToken;
+
+    @Column(name = "is_email_verified")
+    private Boolean isEmailVerified;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
@@ -44,7 +51,9 @@ public class User {
     private List<MyMenu> myMenus = new ArrayList<>();
 
     @Builder
-    public User(String userId, String userName, String password, String email, String phone, Integer noShowCount, Timestamp banAt) {
+    public User(String userId, String userName, String password, String email,
+                String phone, Integer noShowCount, Timestamp banAt,
+                String emailCheckToken, Boolean isEmailVerified) {
         Assert.hasText(userId, "UserId must not be empty");
 
         this.userId = userId;
@@ -54,10 +63,16 @@ public class User {
         this.phone = phone;
         this.noShowCount = noShowCount;
         this.banAt = banAt;
+        this.emailCheckToken = emailCheckToken;
+        this.isEmailVerified = isEmailVerified;
     }
 
     // Default values
     public static class UserBuilder {
         private Integer noShowCount = 0;
+    }
+
+    public void generateEmailCheckToken() {
+        this.emailCheckToken = UUID.randomUUID().toString();
     }
 }
