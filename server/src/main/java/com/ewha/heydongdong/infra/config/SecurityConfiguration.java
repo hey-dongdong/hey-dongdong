@@ -14,10 +14,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers(HttpMethod.POST,"/customer/sign-up").permitAll()
-                .antMatchers(HttpMethod.GET,"/customer/check-email-token/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/history/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/my-menu/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/customer/sign-up").permitAll()
+                .antMatchers(HttpMethod.POST, "/customer/sign-in").permitAll()
+                .antMatchers(HttpMethod.GET, "/customer/check-email-token/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/history/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/my-menu/**").permitAll()
                 .anyRequest().authenticated();
     }
 }

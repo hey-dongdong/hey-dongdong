@@ -50,4 +50,20 @@ public class CustomerController {
                         .header(ResponseHeader.builder().name("CheckEmailTokenResponse").message(message).build())
                         .build(), HttpStatus.OK);
     }
+
+    @PostMapping(value = "/sign-in", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> signInSubmit(@RequestBody Request request) {
+
+        log.info("[Request] user-sign-in");
+
+        request.validateHeader("SignInRequest");
+        request.validatePayload();
+
+        String message = customerService.signIn(request.getPayload());
+
+        return new ResponseEntity<>(
+                Response.builder()
+                        .header(ResponseHeader.builder().name("SignInResponse").message(message).build())
+                        .build(), HttpStatus.OK);
+    }
 }

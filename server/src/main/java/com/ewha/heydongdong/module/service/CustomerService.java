@@ -2,6 +2,7 @@ package com.ewha.heydongdong.module.service;
 
 import com.ewha.heydongdong.infra.exception.DuplicateUserException;
 import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
+import com.ewha.heydongdong.infra.exception.NoSuchUserException;
 import com.ewha.heydongdong.infra.mail.EmailMessage;
 import com.ewha.heydongdong.infra.mail.EmailService;
 import com.ewha.heydongdong.module.model.domain.User;
@@ -17,6 +18,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -118,5 +120,28 @@ public class CustomerService {
             throw new InvalidRequestParameterException("No such email=" + email);
         else
             return users.get(0);
+    }
+
+    public String signIn(JsonNode payload) {
+        User given = buildUserFromJson(payload);
+        User expected = findUserFromDB(given.getUserId());
+        if (passwordEncoder.matches(given.getPassword(), expected.getPassword()))
+            return given.getUserId();
+        else
+            throw new NoSuchUserException("userId=" + given.getUserId() + "]");
+    }
+
+    private User buildUserFromJson(JsonNode payload) {
+        return User.builder()
+                .userId(payload.get("userId").asText())
+                .password(payload.get("password").asText())
+                .build();
+    }
+
+    private User findUserFromDB(String userId) {
+        Optional<User> foundUser = userRepository.findById(userId);
+        if (foundUser.isEmpty())
+            throw new NoSuchUserException("userId=" + userId + "]");
+        return foundUser.get();
     }
 }

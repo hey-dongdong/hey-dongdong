@@ -57,4 +57,12 @@ public class GlobalExceptionHandler {
         log.error(msg);
         return ResponseEntity.badRequest().body(buildResponseJson(e, msg));
     }
+
+    @ExceptionHandler({NoSuchUserException.class})
+    public ResponseEntity<?> handleNoSuchUserException(final NoSuchUserException e) {
+
+        String msg = e.getNAME() + ": No such user [" + e.getMessage() + "]";
+        log.error(msg);
+        return ResponseEntity.badRequest().body(buildResponseJson(e, msg));
+    }
 }
