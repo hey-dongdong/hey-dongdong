@@ -4,12 +4,14 @@ import com.ewha.heydongdong.model.exception.InvalidRequestFormatException;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class Request {
 

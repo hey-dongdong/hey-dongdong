@@ -22,6 +22,9 @@ public class MyMenuService {
     @Autowired
     private MyMenuRepository myMenuRepository;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     public String getUserMyMenu(String userId) {
         List<MyMenu> myMenus = myMenuRepository.findByUser(User.builder().userId(userId).build());
         checkIfMyMenuExists(myMenus, userId);
@@ -52,7 +55,6 @@ public class MyMenuService {
     }
 
     private String buildJsonResponse(String responseName, String userId) {
-        ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
         Header header = new Header(responseName, userId);
 
         ObjectNode payload = objectMapper.createObjectNode();
@@ -61,7 +63,6 @@ public class MyMenuService {
     }
 
     private String buildJsonResponse(String responseName, String userId, List<MyMenu> myMenus) {
-        ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
         Header header = new Header(responseName, userId);
 
         ObjectNode payload = objectMapper.createObjectNode();

@@ -11,7 +11,6 @@ import com.ewha.heydongdong.model.exception.NoResultFromDBException;
 import com.ewha.heydongdong.model.protocol.Header;
 import com.ewha.heydongdong.model.protocol.Response;
 import com.ewha.heydongdong.repository.OrderRepository;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +25,9 @@ public class HistoryService {
 
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public String getUserHistory(String userId) {
         List<Order> orders = orderRepository.findByUserAndProgress(User.builder().userId(userId).build(), Progress.DONE);
@@ -63,7 +65,6 @@ public class HistoryService {
     }
 
     private String buildUserHistoryJson(String userId, List<UserHistoryDto> history) {
-        ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
         Header header = new Header("GetUserHistoryResponse", userId);
 
         ObjectNode payload = objectMapper.createObjectNode();
@@ -116,7 +117,6 @@ public class HistoryService {
     }
 
     private String buildUserHistoryDetailJson(String userId, UserHistoryDetailDto historyDetail) {
-        ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
         Header header = new Header("GetUserHistoryDetailResponse", userId);
 
         ObjectNode payload = objectMapper.createObjectNode();

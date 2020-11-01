@@ -18,8 +18,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     public String signUp(JsonNode payload) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         UserSignUpDto userSignUpDto = objectMapper.treeToValue(payload, UserSignUpDto.class);
         userSignUpDto.validate();
         validateDuplicateUser(userSignUpDto);

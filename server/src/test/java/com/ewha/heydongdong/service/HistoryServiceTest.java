@@ -37,6 +37,9 @@ class HistoryServiceTest {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Test
     @DisplayName("Get all history of test user | Success")
     void getAllHistoryOfUser_Success() {
@@ -111,7 +114,6 @@ class HistoryServiceTest {
                 .build());
 
         // When
-        ObjectMapper objectMapper = new ObjectMapper().setSerializationInclusion(JsonInclude.Include.NON_NULL);
         Header header = new Header("GetHistoryResponse", "test_user");
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("orders", objectMapper.valueToTree(history));
