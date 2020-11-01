@@ -23,7 +23,7 @@ public class HistoryController {
     @GetMapping(value = "/get-all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserHistory(@RequestBody Request request) {
 
-        log.debug("[Request] get-user-history");
+        log.info("[Request] get-user-history");
 
         request.validateHeader("GetUserHistoryRequest");
         String history = historyService.getUserHistory(request.getHeader().getUserId());
@@ -33,7 +33,7 @@ public class HistoryController {
     @GetMapping(value = "/detail", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserHistoryDetail(@RequestBody Request request) {
 
-        log.debug("[Request] get-user-history-detail");
+        log.info("[Request] get-user-history-detail");
 
         request.validateHeader("GetUserHistoryDetailRequest");
         request.validatePayload();

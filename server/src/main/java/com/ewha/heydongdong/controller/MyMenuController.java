@@ -20,7 +20,7 @@ public class MyMenuController {
     @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserMyMenu(@RequestBody Request request) {
 
-        log.debug("[Request] get-user-my-menu");
+        log.info("[Request] get-user-my-menu");
 
         request.validateHeader("GetMyMenusRequest");
         String myMenu = myMenuService.getUserMyMenu(request.getHeader().getUserId());
@@ -30,7 +30,7 @@ public class MyMenuController {
     @PostMapping(value = "/add", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> addUserMyMenu(@RequestBody Request request) {
 
-        log.debug("[Request] add-user-my-menu");
+        log.info("[Request] add-user-my-menu");
 
         request.validateHeader("AddMyMenuRequest");
         String myMenu = myMenuService.addUserMyMenu(
@@ -43,7 +43,7 @@ public class MyMenuController {
     @PostMapping(value = "/remove", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> removeUserMyMenu(@RequestBody Request request) {
 
-        log.debug("[Request] remove-user-my-menu");
+        log.info("[Request] remove-user-my-menu");
 
         request.validateHeader("RemoveMyMenuRequest");
         String myMenu = myMenuService.removeUserMyMenu(
