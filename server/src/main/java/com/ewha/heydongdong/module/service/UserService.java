@@ -1,15 +1,15 @@
 package com.ewha.heydongdong.module.service;
 
-import com.ewha.heydongdong.infra.mail.ConsoleMailSender;
-import com.ewha.heydongdong.module.model.domain.User;
-import com.ewha.heydongdong.module.model.dto.UserSignUpDto;
 import com.ewha.heydongdong.infra.exception.DuplicateUserException;
 import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
+import com.ewha.heydongdong.module.model.domain.User;
+import com.ewha.heydongdong.module.model.dto.UserSignUpDto;
 import com.ewha.heydongdong.module.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class UserService {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private ConsoleMailSender consoleMailSender;
+    private JavaMailSender javaMailSender;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -76,7 +76,7 @@ public class UserService {
     }
 
     private void sendVerifyEmail(User newUser) {
-        consoleMailSender.send(newUser.generateVerifyEmail());
+        javaMailSender.send(newUser.generateVerifyEmail());
     }
 
     public String checkEmailToken(String email, String emailCheckToken) {

@@ -72,6 +72,7 @@ public class User {
     public SimpleMailMessage generateVerifyEmail() {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(this.email);
+        // TODO [지우] 이메일 내용 작성
         mailMessage.setSubject("헤이동동 회원 가입을 위한 인증 메일입니다.");
         mailMessage.setText("/check-email-token/" + this.email + "/" + this.emailCheckToken);
         return mailMessage;
