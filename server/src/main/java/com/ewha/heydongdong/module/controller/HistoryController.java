@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +20,7 @@ public class HistoryController {
     @Autowired
     private HistoryService historyService;
 
-    @GetMapping(value = "/get-all", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/get-all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserHistory(@RequestBody Request request) {
 
         log.info("[Request] get-user-history");
@@ -30,7 +30,7 @@ public class HistoryController {
         return new ResponseEntity<>(history, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/detail", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/detail", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserHistoryDetail(@RequestBody Request request) {
 
         log.info("[Request] get-user-history-detail");

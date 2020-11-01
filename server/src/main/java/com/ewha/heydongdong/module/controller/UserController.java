@@ -1,6 +1,7 @@
 package com.ewha.heydongdong.module.controller;
 
 import com.ewha.heydongdong.infra.protocol.Request;
+import com.ewha.heydongdong.infra.protocol.Response;
 import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,7 +31,10 @@ public class UserController {
 
         String message = userService.signUp(request.getPayload());
 
-        return new ResponseEntity<>(ResponseHeader.builder().name("SignUpResponse").message(message).build(), HttpStatus.OK);
+        return new ResponseEntity<>(
+                Response.builder()
+                        .header(ResponseHeader.builder().name("SignUpResponse").message(message).build())
+                        .build(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/check-email-token/{email}/{emailCheckToken}", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -39,6 +43,11 @@ public class UserController {
 
         log.info("[Request] check-email-token");
 
-        return new ResponseEntity<>(userService.checkEmailToken(email, emailCheckToken), HttpStatus.OK);
+        String message = userService.checkEmailToken(email, emailCheckToken);
+
+        return new ResponseEntity<>(
+                Response.builder()
+                        .header(ResponseHeader.builder().name("CheckEmailTokenResponse").message(message).build())
+                        .build(), HttpStatus.OK);
     }
 }
