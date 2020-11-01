@@ -27,10 +27,15 @@ public class UserController {
         request.validateHeader("SignUpRequest");
         request.validatePayload();
 
-        String result = userService.signUp(request.getPayload());
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(userService.signUp(request.getPayload()), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/check-email-token/{email}/{emailCheckToken}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> checkEmailToken(@PathVariable(value = "email") String email,
+                                             @PathVariable(value = "emailCheckToken") String emailCheckToken) {
 
+        log.info("[Request] check-email-token");
+
+        return new ResponseEntity<>(userService.checkEmailToken(email, emailCheckToken), HttpStatus.OK);
+    }
 }

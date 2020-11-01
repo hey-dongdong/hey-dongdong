@@ -4,6 +4,7 @@ import com.ewha.heydongdong.ConsoleMailSender;
 import com.ewha.heydongdong.model.domain.User;
 import com.ewha.heydongdong.model.dto.UserSignUpDto;
 import com.ewha.heydongdong.model.exception.DuplicateUserException;
+import com.ewha.heydongdong.model.exception.InvalidRequestParameterException;
 import com.ewha.heydongdong.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -70,15 +71,32 @@ public class UserService {
                 .banAt(null)
                 .noShowCount(0)
                 .isEmailVerified(false)
+                .emailCheckToken(User.generateEmailCheckToken())
                 .build();
     }
 
     private void sendVerifyEmail(User newUser) {
-        newUser.generateEmailCheckToken();
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(newUser.getEmail());
         mailMessage.setSubject("헤이동동 회원 가입을 위한 인증 메일입니다.");
         mailMessage.setText("/check-email-token/" + newUser.getEmail() + "/" + newUser.getEmailCheckToken());
         consoleMailSender.send(mailMessage);
+    }
+
+    public String checkEmailToken(String email, String emailCheckToken) {
+        User user = checkIfUserExists(email);
+        if (user.getEmailCheckToken().equals(emailCheckToken)) {
+            user.setIsEmailVerified(true);
+            return userRepository.save(user).getUserId();
+        } else
+            throw new InvalidRequestParameterException("Wrong token");
+    }
+
+    private User checkIfUserExists(String email) {
+        List<User> users = userRepository.findByEmail(email);
+        if (users.isEmpty())
+            throw new InvalidRequestParameterException("No such email=" + email);
+        else
+            return users.get(0);
     }
 }

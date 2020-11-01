@@ -3,6 +3,7 @@ package com.ewha.heydongdong.model.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -26,7 +27,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "phone")
@@ -41,6 +42,7 @@ public class User {
     @Column(name = "email_check_token")
     private String emailCheckToken;
 
+    @Setter
     @Column(name = "is_email_verified")
     private Boolean isEmailVerified;
 
@@ -72,7 +74,7 @@ public class User {
         private Integer noShowCount = 0;
     }
 
-    public void generateEmailCheckToken() {
-        this.emailCheckToken = UUID.randomUUID().toString();
+    public static String generateEmailCheckToken() {
+        return UUID.randomUUID().toString();
     }
 }

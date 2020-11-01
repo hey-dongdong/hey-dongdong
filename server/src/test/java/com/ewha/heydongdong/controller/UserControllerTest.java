@@ -18,6 +18,7 @@ import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -57,34 +58,6 @@ class UserControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string("new_user"));
-    }
-
-    @Test
-    @DisplayName("Password encoding | Success")
-    void passwordEncoding_Success() throws Exception {
-
-        // Given
-        String content = objectMapper.writeValueAsString(new Request(
-                new Header("SignUpRequest", "new_user"),
-                objectMapper.valueToTree(UserSignUpDto.builder()
-                        .userId("new_user")
-                        .email("new_email@email.com")
-                        .password("new_password")
-                        .phone("010-5555-6666")
-                        .userName("김익명")
-                        .build())
-        ));
-
-        // When
-        mockMvc.perform(post("/user/sign-up")
-                .content(content)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON));
-        User user = userRepository.findById("new_user").get();
-
-        // Then
-        assertNotNull(user);
-        assertNotEquals(user.getPassword(), "new_password");
     }
 
     @Test
@@ -129,5 +102,66 @@ class UserControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string("900 Duplicate User [email=email@email.com]"));
+    }
+
+    @Test
+    @DisplayName("Password encoding | Success")
+    void passwordEncoding_Success() throws Exception {
+
+        // Given
+        String content = objectMapper.writeValueAsString(new Request(
+                new Header("SignUpRequest", "new_user"),
+                objectMapper.valueToTree(UserSignUpDto.builder()
+                        .userId("new_user")
+                        .email("new_email@email.com")
+                        .password("new_password")
+                        .phone("010-5555-6666")
+                        .userName("김익명")
+                        .build())
+        ));
+
+        // When
+        mockMvc.perform(post("/user/sign-up")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+        User user = userRepository.findById("new_user").get();
+
+        // Then
+        assertNotNull(user);
+        assertNotEquals(user.getPassword(), "new_password");
+    }
+
+    @Test
+    @DisplayName("Check email token | Success")
+    void checkEmailToken_Success() throws Exception {
+
+        mockMvc.perform(get("/user/check-email-token/new_email2@email.com/26b4e398-50b9-4c5f-bc4a-de60b9c9e21b")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("new_user3"));
+    }
+
+    @Test
+    @DisplayName("Check email token | Fail : No such email")
+    void checkEmailToken_Fail_NoSuchEmail() throws Exception {
+
+        mockMvc.perform(get("/user/check-email-token/no_email@email.com/26b4e398-50b9-4c5f-bc4a-de60b9c9e21b")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("700 Invalid request parameter [No such email=no_email@email.com]"));
+    }
+
+    @Test
+    @DisplayName("Check email token | Fail : Wrong token")
+    void checkEmailToken_Fail_WrongToken() throws Exception {
+
+        mockMvc.perform(get("/user/check-email-token/new_email2@email.com/wrong-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("700 Invalid request parameter [Wrong token]"));
     }
 }
