@@ -1,6 +1,6 @@
 package com.ewha.heydongdong.models.domain.datatype;
 
-import com.ewha.heydongdong.model.domain.datatype.Price;
+import com.ewha.heydongdong.module.model.domain.datatype.Price;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

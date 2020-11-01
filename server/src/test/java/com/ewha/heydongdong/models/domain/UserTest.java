@@ -1,6 +1,6 @@
 package com.ewha.heydongdong.models.domain;
 
-import com.ewha.heydongdong.model.domain.User;
+import com.ewha.heydongdong.module.model.domain.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,7 +1,7 @@
 package com.ewha.heydongdong.models.domain;
 
-import com.ewha.heydongdong.model.domain.Store;
-import com.ewha.heydongdong.model.domain.datatype.Position;
+import com.ewha.heydongdong.module.model.domain.Store;
+import com.ewha.heydongdong.module.model.domain.datatype.Position;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

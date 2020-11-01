@@ -1,8 +1,8 @@
 package com.ewha.heydongdong.models.domain.datatype;
 
-import com.ewha.heydongdong.model.domain.datatype.BasicOption;
-import com.ewha.heydongdong.model.domain.datatype.CustomOption;
-import com.ewha.heydongdong.model.domain.datatype.Option;
+import com.ewha.heydongdong.module.model.domain.datatype.BasicOption;
+import com.ewha.heydongdong.module.model.domain.datatype.CustomOption;
+import com.ewha.heydongdong.module.model.domain.datatype.Option;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
