@@ -16,7 +16,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.POST,"/customer/sign-up").permitAll()
                 .antMatchers(HttpMethod.GET,"/customer/check-email-token/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/history/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/history/**").permitAll()
+                .antMatchers(HttpMethod.POST,"/my-menu/**").permitAll()
                 .anyRequest().authenticated();
     }
 }

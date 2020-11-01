@@ -46,7 +46,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({NoResultFromDBException.class})
     public ResponseEntity<?> handleNoResultFromDBException(final NoResultFromDBException e) {
 
-        log.error(e.getNAME() + ": No result found on DB [" + e.getMessage() + "]");
+        log.info(e.getNAME() + ": No result found on DB [" + e.getMessage() + "]");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

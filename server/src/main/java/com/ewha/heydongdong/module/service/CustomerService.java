@@ -2,6 +2,8 @@ package com.ewha.heydongdong.module.service;
 
 import com.ewha.heydongdong.infra.exception.DuplicateUserException;
 import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
+import com.ewha.heydongdong.infra.mail.EmailMessage;
+import com.ewha.heydongdong.infra.mail.EmailService;
 import com.ewha.heydongdong.module.model.domain.User;
 import com.ewha.heydongdong.module.model.dto.UserSignUpDto;
 import com.ewha.heydongdong.module.repository.UserRepository;
@@ -9,9 +11,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,10 +29,13 @@ public class CustomerService {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private JavaMailSender javaMailSender;
+    private EmailService emailService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private TemplateEngine templateEngine;
 
     public String signUp(JsonNode payload) throws JsonProcessingException {
         User newUser = saveNewUser(payload);
@@ -76,7 +82,25 @@ public class CustomerService {
     }
 
     private void sendVerifyEmail(User newUser) {
-        javaMailSender.send(newUser.generateVerifyEmail());
+
+        emailService.sendEmail(generateVerifyEmail(newUser));
+    }
+
+    private EmailMessage generateVerifyEmail(User newUser) {
+        Context context = new Context();
+        context.setVariable("link", "/check-email-token/\"" + newUser.getEmail() + "\"/\"" + newUser.getEmailCheckToken());
+        context.setVariable("userName", newUser.getUserName());
+        context.setVariable("linkName", "이메일 인증하기");
+        context.setVariable("message", "헤이동동 서비스를 사용하려면 링크를 클릭하세요.");
+        context.setVariable("host", "http://localhost:8080");   // TODO [지우] 서버 주소 변경
+
+        String message = templateEngine.process("verify-email-on-sign-up", context);
+
+        return EmailMessage.builder()
+                .to(newUser.getEmail())
+                .subject("헤이동동 회원 가입을 위한 인증메일입니다.")
+                .message(message)
+                .build();
     }
 
     public String checkEmailToken(String email, String emailCheckToken) {

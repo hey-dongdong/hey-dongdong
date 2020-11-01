@@ -23,6 +23,7 @@ spring:
           timeout: 5000
           starttls.enable: true
 
-server:
-  address: localhost
-  port: 8080
+  thymeleaf:
+    prefix: classpath:/templates
+    suffix: .html
+    encoding: UTF-8
