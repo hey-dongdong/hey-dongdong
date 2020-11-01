@@ -3,7 +3,7 @@ package com.ewha.heydongdong.module.controller;
 import com.ewha.heydongdong.infra.protocol.Request;
 import com.ewha.heydongdong.infra.protocol.Response;
 import com.ewha.heydongdong.infra.protocol.ResponseHeader;
-import com.ewha.heydongdong.module.service.UserService;
+import com.ewha.heydongdong.module.service.CustomerService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.*;
 @ControllerAdvice
 @RestController
 @RequestMapping("customer")
-public class UserController {
+public class CustomerController {
 
     @Autowired
-    private UserService userService;
+    private CustomerService customerService;
 
     @PostMapping(value = "/sign-up", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> signUpSubmit(@RequestBody Request request) throws JsonProcessingException {
@@ -29,7 +29,7 @@ public class UserController {
         request.validateHeader("SignUpRequest");
         request.validatePayload();
 
-        String message = userService.signUp(request.getPayload());
+        String message = customerService.signUp(request.getPayload());
 
         return new ResponseEntity<>(
                 Response.builder()
@@ -43,7 +43,7 @@ public class UserController {
 
         log.info("[Request] check-email-token");
 
-        String message = userService.checkEmailToken(email, emailCheckToken);
+        String message = customerService.checkEmailToken(email, emailCheckToken);
 
         return new ResponseEntity<>(
                 Response.builder()
