@@ -1,4 +1,4 @@
-package com.ewha.heydongdong.heydongdong.service;
+package com.ewha.heydongdong.service;
 
 import com.ewha.heydongdong.model.domain.User;
 import com.ewha.heydongdong.repository.UserRepository;
@@ -26,8 +26,8 @@ class UserServiceTest {
     UserRepository userRepository;
 
     @Test
-    @DisplayName("Find User Success")
-    void testFindUser() {
+    @DisplayName("Find User | Success")
+    void findUser_Success() {
 
         // Given
         User newUser = User.builder()
@@ -50,15 +50,21 @@ class UserServiceTest {
     }
 
     // TODO [지우] 회원가입 테스트
-    @Disabled
     @Test
-    @DisplayName("User Sign Up Success")
-    void testSignUpSuccess() {
+    @DisplayName("User Sign Up | Success")
+    void signUp_Success() {
+
     }
 
     @Disabled
     @Test
-    @DisplayName("User Sign Up Fail")
-    void testSignUpFail() {
+    @DisplayName("User Sign Up | Fail : Duplicate userId")
+    void signUp_Fail_Duplicate_userId() {
+    }
+
+    @Disabled
+    @Test
+    @DisplayName("User Sign Up | Fail : Duplicate email")
+    void signUp_Fail_Duplicate_email() {
     }
 }

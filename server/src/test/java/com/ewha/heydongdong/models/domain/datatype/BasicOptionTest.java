@@ -1,4 +1,4 @@
-package com.ewha.heydongdong.heydongdong.models.domain.datatype;
+package com.ewha.heydongdong.models.domain.datatype;
 
 import com.ewha.heydongdong.model.domain.datatype.BasicOption;
 import org.junit.jupiter.api.Assertions;

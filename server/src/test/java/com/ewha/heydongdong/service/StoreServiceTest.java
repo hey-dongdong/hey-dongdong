@@ -1,4 +1,4 @@
-package com.ewha.heydongdong.heydongdong.service;
+package com.ewha.heydongdong.service;
 
 import com.ewha.heydongdong.model.domain.Menu;
 import com.ewha.heydongdong.model.domain.Store;

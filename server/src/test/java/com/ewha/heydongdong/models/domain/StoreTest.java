@@ -1,4 +1,4 @@
-package com.ewha.heydongdong.heydongdong.models.domain;
+package com.ewha.heydongdong.models.domain;
 
 import com.ewha.heydongdong.model.domain.Store;
 import com.ewha.heydongdong.model.domain.datatype.Position;
