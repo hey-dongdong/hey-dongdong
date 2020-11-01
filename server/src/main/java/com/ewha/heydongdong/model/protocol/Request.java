@@ -12,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 @AllArgsConstructor
 public class Request {
+
     private Header header;
+
     private JsonNode payload;
 
     public void validateHeader(String expectedName) throws InvalidRequestFormatException {

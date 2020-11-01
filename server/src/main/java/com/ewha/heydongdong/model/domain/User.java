@@ -22,9 +22,8 @@ public class User {
     @Column(name = "name")
     private String userName;
 
-    // TODO [지우] 패스워드 처리
-//    @Column(name = "password")
-//    private String password;
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "email")
     private String email;
@@ -45,11 +44,12 @@ public class User {
     private List<MyMenu> myMenus = new ArrayList<>();
 
     @Builder
-    public User(String userId, String userName, String email, String phone, Integer noShowCount, Timestamp banAt) {
+    public User(String userId, String userName, String password, String email, String phone, Integer noShowCount, Timestamp banAt) {
         Assert.hasText(userId, "UserId must not be empty");
 
         this.userId = userId;
         this.userName = userName;
+        this.password = password;
         this.email = email;
         this.phone = phone;
         this.noShowCount = noShowCount;
