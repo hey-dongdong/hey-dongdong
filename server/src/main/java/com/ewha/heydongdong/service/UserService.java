@@ -9,12 +9,13 @@ import com.ewha.heydongdong.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -71,16 +72,12 @@ public class UserService {
                 .banAt(null)
                 .noShowCount(0)
                 .isEmailVerified(false)
-                .emailCheckToken(User.generateEmailCheckToken())
+                .emailCheckToken(UUID.randomUUID().toString())
                 .build();
     }
 
     private void sendVerifyEmail(User newUser) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(newUser.getEmail());
-        mailMessage.setSubject("헤이동동 회원 가입을 위한 인증 메일입니다.");
-        mailMessage.setText("/check-email-token/" + newUser.getEmail() + "/" + newUser.getEmailCheckToken());
-        consoleMailSender.send(mailMessage);
+        consoleMailSender.send(newUser.generateVerifyEmail());
     }
 
     public String checkEmailToken(String email, String emailCheckToken) {

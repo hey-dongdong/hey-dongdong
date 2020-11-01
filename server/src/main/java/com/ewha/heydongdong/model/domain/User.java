@@ -4,13 +4,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -69,12 +69,16 @@ public class User {
         this.isEmailVerified = isEmailVerified;
     }
 
+    public SimpleMailMessage generateVerifyEmail() {
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(this.email);
+        mailMessage.setSubject("헤이동동 회원 가입을 위한 인증 메일입니다.");
+        mailMessage.setText("/check-email-token/" + this.email + "/" + this.emailCheckToken);
+        return mailMessage;
+    }
+
     // Default values
     public static class UserBuilder {
         private Integer noShowCount = 0;
-    }
-
-    public static String generateEmailCheckToken() {
-        return UUID.randomUUID().toString();
     }
 }
