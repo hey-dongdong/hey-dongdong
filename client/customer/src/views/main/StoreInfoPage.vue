@@ -81,7 +81,7 @@ export default {
 					time: '학기 중: 월~금 08:30~22:00',
 					vacation: '방학 중: 월~금 09:00~17:30',
 					tel: '02-3277-6010',
-					latlng: new kakao.maps.LatLng(37.561078, 126.943943),
+					latlng: new kakao.maps.LatLng(37.561069001935046, 126.94400327622338),
 				},
 				{
 					id: 4,
@@ -90,7 +90,7 @@ export default {
 					time: '학기 중: 월~금 08:30~19:00',
 					vacation: '방학 중: 월~금 08:30~17:00',
 					tel: '02-3277-4874',
-					latlng: new kakao.maps.LatLng(37.565255, 126.94674),
+					latlng: new kakao.maps.LatLng(37.56462680545165, 126.9464171606451),
 				},
 				{
 					id: 5,
@@ -99,7 +99,7 @@ export default {
 					time: '학기 중: 월~금 08:30~19:00',
 					vacation: '방학 중: 월~금 08:30~17:00',
 					tel: '02-3277-4042',
-					latlng: new kakao.maps.LatLng(37.561831, 126.942439),
+					latlng: new kakao.maps.LatLng(37.56167187967743, 126.94236167500323),
 				},
 				{
 					id: 6,
@@ -108,7 +108,7 @@ export default {
 					time: '학기 중: 월~금 08:30~19:00',
 					vacation: '방학 중: 월~금 08:30~17:00',
 					tel: '02-3277-4044',
-					latlng: new kakao.maps.LatLng(37.561019, 126.947964),
+					latlng: new kakao.maps.LatLng(37.56113625964778, 126.94824471948077),
 				},
 				{
 					id: 7,
@@ -117,7 +117,7 @@ export default {
 					time: '학기 중: 월~금 08:30~19:00',
 					vacation: '방학 중: 월~금 08:30~17:00',
 					tel: '02-3277-4043',
-					latlng: new kakao.maps.LatLng(37.561201, 126.949255), //경영관
+					latlng: new kakao.maps.LatLng(37.5611232329914, 126.94937088871555),
 				},
 				{
 					id: 8,
@@ -126,7 +126,7 @@ export default {
 					time: '학기 중: 월~금 08:30~19:00',
 					vacation: '방학 중: 월~금 08:30~17:00',
 					tel: '02-3277-4873',
-					latlng: new kakao.maps.LatLng(37.566627, 126.948417), //아산공학관
+					latlng: new kakao.maps.LatLng(37.566474768610874, 126.94848721449736),
 				},
 				{
 					id: 9,
@@ -135,7 +135,7 @@ export default {
 					time: '학기 중: 월~금 08:30~18:30',
 					vacation: '방학 중: 월~금 08:30~17:00',
 					tel: '02-3277-4877',
-					latlng: new kakao.maps.LatLng(37.564343, 126.947613),
+					latlng: new kakao.maps.LatLng(37.564088922115936, 126.9474447126382),
 				},
 				{
 					id: 10,
@@ -144,7 +144,7 @@ export default {
 					time: '학기 중: 월~금 08:30~18:30',
 					vacation: '방학 중: 월~금 (여름)08:30~17:30 | (겨울)08:30~17:00',
 					tel: '02-3277-4860',
-					latlng: new kakao.maps.LatLng(37.568456, 126.95094),
+					latlng: new kakao.maps.LatLng(37.568473621164415, 126.95057990946489),
 				},
 				{
 					id: 11,
@@ -153,7 +153,7 @@ export default {
 					time: '학기 중: 월~금 08:30~18:30',
 					vacation: '방학 중: 월~금 08:30~17:00',
 					tel: '02-3277-4876',
-					latlng: new kakao.maps.LatLng(37.5618, 126.944182),
+					latlng: new kakao.maps.LatLng(37.561672708351544, 126.94408488189438),
 				},
 				{
 					id: 12,
@@ -162,7 +162,7 @@ export default {
 					time: '학기 중: 월~금 08:30~18:30',
 					vacation: '방학 중: 월~금 08:30~17:00',
 					tel: '02-3277-4878',
-					latlng: new kakao.maps.LatLng(37.563837, 126.945475),
+					latlng: new kakao.maps.LatLng(37.56377477166299, 126.94512745116057),
 				},
 				{
 					id: 13,
@@ -171,7 +171,7 @@ export default {
 					time: '학기 중: 월~금 08:30~18:30',
 					vacation: '방학 중: 월~금 08:30~17:00',
 					tel: '02-3277-4045',
-					latlng: new kakao.maps.LatLng(37.561198, 126.947332),
+					latlng: new kakao.maps.LatLng(37.56120570792781, 126.94738731736443),
 				},
 				{
 					id: 14,
@@ -180,7 +180,7 @@ export default {
 					time: '학기 중: 월~금 08:30~18:30',
 					vacation: '방학 중: 월~금 08:30~17:00',
 					tel: '02-3277-4912',
-					latlng: new kakao.maps.LatLng(37.563064, 126.949274),
+					latlng: new kakao.maps.LatLng(37.56292744162086, 126.94928477929666),
 				},
 				{
 					id: 15,
@@ -189,7 +189,7 @@ export default {
 					time: '학기 중: 월~금 08:30~18:30',
 					vacation: '방학 중: 월~금 08:30~17:00',
 					tel: '02-3277-2879',
-					latlng: new kakao.maps.LatLng(37.562223, 126.948389),
+					latlng: new kakao.maps.LatLng(37.5621972830708, 126.94847318222205),
 				},
 			];
 
@@ -227,7 +227,7 @@ export default {
 
 			var imageSrc = require('@/assets/marker.png'), // 마커이미지의 주소입니다
 				imageSize = new kakao.maps.Size(24, 35), // 마커이미지의 크기입니다
-				imageOption = { offset: new kakao.maps.Point(12, 20) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+				imageOption = { offset: new kakao.maps.Point(20, 35) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
 
 			// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 			var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);

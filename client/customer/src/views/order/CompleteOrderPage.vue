@@ -7,7 +7,7 @@
 			<div class="barcode-container">
 				<span class="order-complete-msg">주문이 완료되었습니다.</span>
 				<div class="order-complete-store-msg">
-					<span class="order-complete-store">공학관점</span>
+					<span class="order-complete-store">{{ store }}</span>
 					<span>에서 30분 이내에 음료를 수령해주세요.</span>
 				</div>
 				<img src="../../assets/barcode.png" alt="barcode" class="barcode complete" />
@@ -31,14 +31,22 @@
 
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
-import CompleteOrderDetail from '@/components/main/CompleteOrderDetail.vue';
-import CompleteOrderItems from '@/components/main/CompleteOrderItems.vue';
+import CompleteOrderDetail from '@/components/order/CompleteOrderDetail.vue';
+import CompleteOrderItems from '@/components/order/CompleteOrderItems.vue';
 
 export default {
 	components: {
 		BlackHeader,
 		CompleteOrderDetail,
 		CompleteOrderItems,
+	},
+	data() {
+		return {
+			store: '',
+		};
+	},
+	created() {
+		this.store = localStorage.getItem('store');
 	},
 	methods: {
 		goMain() {

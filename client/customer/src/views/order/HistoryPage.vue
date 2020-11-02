@@ -19,7 +19,7 @@
 
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
-import HistoryListItem from '@/components/menu/HistoryListItem.vue';
+import HistoryListItem from '@/components/order/HistoryListItem.vue';
 import { mapGetters } from 'vuex';
 
 export default {

@@ -275,7 +275,7 @@ transition: background-color 5000s ease-in-out 0s;
 
 .barcode-box {
 	width: fit-content;
-	margin: 0 auto 20px;
+	margin: 0 auto 50px;
 }
 
 .barcode {
@@ -290,7 +290,7 @@ transition: background-color 5000s ease-in-out 0s;
 	justify-content: space-around;
 	align-items: center;
 	width: 350px;
-	margin: 0 auto 30px;
+	margin: 0 auto 70px;
 }
 
 .page-link {
@@ -761,6 +761,14 @@ input[type=checkbox]:checked + label{
 
 .option-count-text {
 	font-size: 14px;
+}
+
+.button-box {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 67px;
+	background-color: #2B2B2B;
 }
 
 .greenbtn.fixed {

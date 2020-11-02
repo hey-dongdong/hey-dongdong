@@ -7,7 +7,7 @@
 		<div class="blackbg">
 			<div class="cart-container">
 				<div class="cart-store-location">
-					<span class="cart-store">공학관점</span>
+					<span class="cart-store">{{ store }}</span>
 					<span class="cart-exp">주문이 완료되면 픽업하러 오세요.</span>
 				</div>
 				<CartListItem
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import CartListItem from '@/components/main/CartListItem.vue';
+import CartListItem from '@/components/order/CartListItem.vue';
 
 export default {
 	components: {
@@ -35,12 +35,15 @@ export default {
 	},
 	data() {
 		return {
+			store: '',
 			cartItems: [],
 			finalCartItems: [{}],
 			totalPrice: 0,
 		};
 	},
 	created() {
+		this.store = localStorage.getItem('store');
+
 		if (localStorage.length > 0) {
 			for (let i = 0; i < localStorage.length; i++) {
 				if (
