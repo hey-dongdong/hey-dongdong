@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
-class CustomerControllerTest {
+class UserControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -101,7 +101,9 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("900 Duplicate User [email=email@email.com]"));
+                .andExpect(content().string(
+                        "DuplicateUserError: Duplicate User [email=email@email.com]"
+                ));
     }
 
     @Test
@@ -151,7 +153,7 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("700 Invalid request parameter [No such email=no_email@email.com]"));
+                .andExpect(content().string("InvalidRequestParameterError: Invalid request parameter [No such email=no_email@email.com]"));
     }
 
     @Test
@@ -162,6 +164,6 @@ class CustomerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("700 Invalid request parameter [Wrong token]"));
+                .andExpect(content().string("InvalidRequestParameterError: Invalid request parameter [Wrong token]"));
     }
 }

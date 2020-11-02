@@ -1,5 +1,6 @@
 package com.ewha.heydongdong.module.service;
 
+import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.Menu;
 import com.ewha.heydongdong.module.model.domain.Order;
 import com.ewha.heydongdong.module.model.domain.User;
@@ -113,7 +114,7 @@ class HistoryServiceTest {
                 .build());
 
         // When
-        RequestHeader header = new RequestHeader("GetHistoryResponse", "test_user");
+        ResponseHeader header = new ResponseHeader("GetHistoryResponse", "test_user");
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("orders", objectMapper.valueToTree(history));
         Response response = new Response(header, payload);
