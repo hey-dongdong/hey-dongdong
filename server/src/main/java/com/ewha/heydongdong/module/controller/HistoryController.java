@@ -27,6 +27,7 @@ public class HistoryController {
 
         request.validateHeader("GetUserHistoryRequest");
         String history = historyService.getUserHistory(request.getHeader().getUserId());
+
         return new ResponseEntity<>(history, HttpStatus.OK);
     }
 
@@ -42,6 +43,7 @@ public class HistoryController {
                 request.getHeader().getUserId(),
                 request.getPayload().get("orderId").asLong()
         );
+
         return new ResponseEntity<>(historyDetail, HttpStatus.OK);
     }
 }

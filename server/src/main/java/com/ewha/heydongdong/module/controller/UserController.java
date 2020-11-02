@@ -74,6 +74,7 @@ public class UserController {
 
         request.validateHeader("GetNoShowCountRequest");
         String noShowCount = userService.getUserNoShowCount(request.getHeader().getUserId());
+
         return new ResponseEntity<>(noShowCount, HttpStatus.OK);
     }
 }

@@ -46,11 +46,13 @@ public class MyMenuService {
                 .menuInOrder(menuInOrder)
                 .build();
         myMenuRepository.save(myMenu);
+
         return buildJsonResponse("AddMyMenuResponse", userId);
     }
 
     public String removeUserMyMenu(String userId, Long myMenuId) {
         myMenuRepository.deleteById(myMenuId);
+
         return buildJsonResponse("RemoveMyMenuResponse", userId);
     }
 
@@ -59,6 +61,7 @@ public class MyMenuService {
 
         ObjectNode payload = objectMapper.createObjectNode();
         Response response = new Response(header, payload);
+
         return objectMapper.valueToTree(response).toPrettyString();
     }
 
@@ -68,6 +71,7 @@ public class MyMenuService {
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("menus", objectMapper.valueToTree(myMenus));
         Response response = new Response(header, payload);
+
         return objectMapper.valueToTree(response).toPrettyString();
     }
 

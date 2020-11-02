@@ -24,6 +24,7 @@ public class MyMenuController {
 
         request.validateHeader("GetMyMenusRequest");
         String myMenu = myMenuService.getUserMyMenu(request.getHeader().getUserId());
+
         return new ResponseEntity<>(myMenu, HttpStatus.OK);
     }
 
@@ -37,6 +38,7 @@ public class MyMenuController {
                 request.getHeader().getUserId(),
                 request.getPayload().get("menuInOrderId").asLong()
         );
+
         return new ResponseEntity<>(myMenu, HttpStatus.OK);
     }
 
@@ -50,6 +52,7 @@ public class MyMenuController {
                 request.getHeader().getUserId(),
                 request.getPayload().get("myMenuId").asLong()
         );
+
         return new ResponseEntity<>(myMenu, HttpStatus.OK);
     }
 }
