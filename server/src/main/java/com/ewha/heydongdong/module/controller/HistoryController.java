@@ -42,7 +42,6 @@ public class HistoryController {
                 request.getHeader().getUserId(),
                 request.getPayload().get("orderId").asLong()
         );
-
         return new ResponseEntity<>(historyDetail, HttpStatus.OK);
     }
 }

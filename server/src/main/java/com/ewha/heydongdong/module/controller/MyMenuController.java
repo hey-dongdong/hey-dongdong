@@ -17,7 +17,7 @@ public class MyMenuController {
     @Autowired
     private MyMenuService myMenuService;
 
-    @PostMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserMyMenu(@RequestBody Request request) {
 
         log.info("[Request] get-user-my-menu");
