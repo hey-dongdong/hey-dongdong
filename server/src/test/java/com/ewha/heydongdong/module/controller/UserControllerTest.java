@@ -87,19 +87,11 @@ class UserControllerTest {
                         .build())
         ));
 
-        Response response = Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("DuplicateUserError")
-                        .message("DuplicateUserError: Duplicate User [userId=test_user]")
-                        .build())
-                .build();
-
         mockMvc.perform(post("/user/sign-up")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -116,19 +108,11 @@ class UserControllerTest {
                         .build())
         ));
 
-        Response response = Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("DuplicateUserError")
-                        .message("DuplicateUserError: Duplicate User [email=email@email.com]")
-                        .build())
-                .build();
-
         mockMvc.perform(post("/user/sign-up")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+                .andExpect(status().isNoContent());
     }
 
     @Test

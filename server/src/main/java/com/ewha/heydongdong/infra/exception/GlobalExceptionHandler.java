@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
 
         String msg = e.getNAME() + ": Duplicate User [" + e.getMessage() + "]";
         log.error(msg);
-        return ResponseEntity.badRequest().body(buildResponseJson(e, msg));
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler({NoSuchUserException.class})
