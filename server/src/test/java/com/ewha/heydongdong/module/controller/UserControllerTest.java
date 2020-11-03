@@ -306,4 +306,50 @@ class UserControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+    @DisplayName("Find user pw | Success")
+    void findUserPw_Success() throws Exception {
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("userId", "test_user");
+        payload.put("userName", "김익명");
+        payload.put("email", "email@email.com");
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("FindPwRequest", "test_user"), payload));
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("FindPwResponse")
+                        .message("test_user")
+                        .build())
+                .build();
+
+        mockMvc.perform(post("/user/find-info/pw")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+    @Test
+    @DisplayName("Find user pw | Fail : No such user")
+    void findUserPw_Fail_NoSuchUser() throws Exception {
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("userId", "no_user");
+        payload.put("userName", "김익명");
+        payload.put("email", "email@email.com");
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("FindPwRequest", "no_user"), payload));
+
+        mockMvc.perform(post("/user/find-info/pw")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
 }

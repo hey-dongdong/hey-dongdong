@@ -69,6 +69,19 @@ public class UserController {
         return new ResponseEntity<>(userId, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/find-info/pw", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> findUserPw(@RequestBody Request request) throws JsonProcessingException {
+
+        log.info("[Request] find-user-pw");
+
+        request.validateHeader("FindPwRequest");
+        request.validatePayload();
+
+        String userPw = userService.findUserPw(request.getPayload());
+
+        return new ResponseEntity<>(userPw, HttpStatus.OK);
+    }
+
     @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserNoShowCount(@RequestBody Request request) {
 
