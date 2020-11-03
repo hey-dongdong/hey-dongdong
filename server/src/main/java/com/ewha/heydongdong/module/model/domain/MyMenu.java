@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 public class MyMenu {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long myMenuId;
 
     @Column(name = "add_at")
