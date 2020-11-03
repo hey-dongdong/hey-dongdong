@@ -129,11 +129,11 @@ public class UserService {
 
     public String signIn(JsonNode payload) {
         User given = buildUserFromJson(payload);
-        User expected = findRequiredUserFromDB(given.getUserId());
+        User expected = findOptionalUserFromDB(given.getUserId());
         if (passwordEncoder.matches(given.getPassword(), expected.getPassword()))
             return buildJsonResponseWithOnlyHeader("SignInResponse", given.getUserId());
         else
-            throw new NoSuchUserException("userId=" + given.getUserId());
+            throw new NoResultFromDBException("Failed sign-in userId=" + given.getUserId());
     }
 
     private User buildUserFromJson(JsonNode payload) {

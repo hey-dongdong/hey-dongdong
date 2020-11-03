@@ -240,7 +240,7 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("User sign in submit | Fail : No such user")
+    @DisplayName("User sign in submit | Fail : No user found")
     void signInSubmit_Fail_NoSuchUser() throws Exception {
 
         ObjectNode payload = objectMapper.createObjectNode();
@@ -250,19 +250,11 @@ class UserControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("SignInRequest", "no_user"), payload));
 
-        Response response = Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("NoSuchUserError")
-                        .message("NoSuchUserError: No such user [userId=no_user]")
-                        .build())
-                .build();
-
         mockMvc.perform(post("/user/sign-in")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -294,7 +286,7 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("Find user id | Fail : No such user")
+    @DisplayName("Find user id | Fail : No user found")
     void findUserId_Fail_NoSuchUser() throws Exception {
 
         ObjectNode payload = objectMapper.createObjectNode();
@@ -338,7 +330,7 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("Find user pw | Fail : No such user")
+    @DisplayName("Find user pw | Fail : No user found")
     void findUserPw_Fail_NoSuchUser() throws Exception {
 
         ObjectNode payload = objectMapper.createObjectNode();
