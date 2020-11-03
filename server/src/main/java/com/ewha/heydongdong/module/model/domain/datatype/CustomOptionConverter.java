@@ -25,7 +25,7 @@ public class CustomOptionConverter implements AttributeConverter<CustomOption, S
 
     @Override
     public CustomOption convertToEntityAttribute(String jsonStr) {
-        if (jsonStr == null)
+        if (jsonStr == null | jsonStr.isEmpty())
             return null;
 
         try {

@@ -33,20 +33,10 @@ class MenuInOrderServiceTest {
     private OrderRepository orderRepository;
 
     @Test
-    @DisplayName("Get all menusInOrders | Success")
-    void getAllMenusInOrders_Success() {
-        List<MenuInOrder> menus = menuInOrderRepository.findAll();
-        assertNotNull(menus);
-        noNullElements(menus, "Null menu element exists");
-        System.out.println(menus);
-    }
-
-    @Test
     @DisplayName("Get one menuInOrder | Success")
     void getOneMenuInOrder_Success() {
         MenuInOrder menu = menuInOrderRepository.getOne(1L);
         assertNotNull(menu);
-        System.out.println(menu);
     }
 
     @Test
@@ -56,7 +46,7 @@ class MenuInOrderServiceTest {
         MenuInOrder menu = MenuInOrder.builder()
                 .count(1)
                 .menu(Menu.builder().menuId(5).build())
-                .order(orderRepository.getOne(0L))
+                .order(orderRepository.getOne(1L))
                 .price(3000)
                 .option(Option.builder()
                         .basicOption(BasicOption.builder().isTumblr(true).isHot(false).isSmall(false).build())

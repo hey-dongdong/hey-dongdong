@@ -31,9 +31,5 @@ class MenuServiceTest {
         List<Menu> menus = menuRepository.findAll();
         assertNotNull(menus);
         noNullElements(menus, "Null menu element exists");
-        assertEquals(6, menus.size());
-
-        for (Menu menu : menus)
-            System.out.println(menu);
     }
 }
