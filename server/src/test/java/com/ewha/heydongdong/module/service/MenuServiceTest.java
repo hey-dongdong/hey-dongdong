@@ -1,6 +1,7 @@
 package com.ewha.heydongdong.module.service;
 
 import com.ewha.heydongdong.module.model.domain.Menu;
+import com.ewha.heydongdong.module.repository.MenuRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

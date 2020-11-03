@@ -1,9 +1,11 @@
 package com.ewha.heydongdong.module.controller;
 
+import com.ewha.heydongdong.infra.protocol.Request;
+import com.ewha.heydongdong.infra.protocol.RequestHeader;
+import com.ewha.heydongdong.infra.protocol.Response;
+import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.User;
 import com.ewha.heydongdong.module.model.dto.UserSignUpDto;
-import com.ewha.heydongdong.infra.protocol.RequestHeader;
-import com.ewha.heydongdong.infra.protocol.Request;
 import com.ewha.heydongdong.module.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -57,7 +59,7 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("new_user"));
+                .andExpect(content().string("{\"header\":{\"name\":\"SignUpResponse\",\"message\":\"new_user\"}}"));
     }
 
     @Test
@@ -74,12 +76,19 @@ class UserControllerTest {
                         .build())
         ));
 
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("DuplicateUserError")
+                        .message("DuplicateUserError: Duplicate User [userId=test_user]")
+                        .build())
+                .build();
+
         mockMvc.perform(post("/user/sign-up")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("900 Duplicate User [userId=test_user]"));
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
 
     @Test
@@ -96,14 +105,19 @@ class UserControllerTest {
                         .build())
         ));
 
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("DuplicateUserError")
+                        .message("DuplicateUserError: Duplicate User [email=email@email.com]")
+                        .build())
+                .build();
+
         mockMvc.perform(post("/user/sign-up")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string(
-                        "DuplicateUserError: Duplicate User [email=email@email.com]"
-                ));
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
 
     @Test
@@ -138,32 +152,53 @@ class UserControllerTest {
     @DisplayName("Check email token | Success")
     void checkEmailToken_Success() throws Exception {
 
-        mockMvc.perform(get("/user/check-email-token/new_email2@email.com/26b4e398-50b9-4c5f-bc4a-de60b9c9e21b")
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("CheckEmailTokenResponse")
+                        .message("test_user")
+                        .build())
+                .build();
+
+        mockMvc.perform(get("/user/check-email-token/email@email.com/26b4e398-50b9-4c5f-bc4a-de60b9c9e21b")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().string("new_user3"));
+                .andExpect(content().string(objectMapper.valueToTree(response).toString()));
     }
 
     @Test
     @DisplayName("Check email token | Fail : No such email")
     void checkEmailToken_Fail_NoSuchEmail() throws Exception {
 
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("InvalidRequestParameterError")
+                        .message("InvalidRequestParameterError: Invalid request parameter [No such email=no_email@email.com]")
+                        .build())
+                .build();
+
         mockMvc.perform(get("/user/check-email-token/no_email@email.com/26b4e398-50b9-4c5f-bc4a-de60b9c9e21b")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("InvalidRequestParameterError: Invalid request parameter [No such email=no_email@email.com]"));
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
 
     @Test
     @DisplayName("Check email token | Fail : Wrong token")
     void checkEmailToken_Fail_WrongToken() throws Exception {
 
-        mockMvc.perform(get("/user/check-email-token/new_email2@email.com/wrong-token")
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("InvalidRequestParameterError")
+                        .message("InvalidRequestParameterError: Invalid request parameter [Wrong token]")
+                        .build())
+                .build();
+
+        mockMvc.perform(get("/user/check-email-token/email@email.com/wrong-token")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("InvalidRequestParameterError: Invalid request parameter [Wrong token]"));
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
 }
