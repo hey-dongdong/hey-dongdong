@@ -94,7 +94,7 @@ public class UserService {
 
     private EmailMessage generateVerifyEmail(User newUser) {
         Context context = new Context();
-        context.setVariable("link", "/check-email-token/\"" + newUser.getEmail() + "\"/\"" + newUser.getEmailCheckToken());
+        context.setVariable("link", "/check-email-token/" + newUser.getEmail() + "/" + newUser.getEmailCheckToken());
         context.setVariable("userName", newUser.getUserName());
         context.setVariable("linkName", "이메일 인증하기");
         context.setVariable("message", "헤이동동 서비스를 사용하려면 링크를 클릭하세요.");
