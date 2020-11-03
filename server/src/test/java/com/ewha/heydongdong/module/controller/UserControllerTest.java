@@ -250,7 +250,7 @@ class UserControllerTest {
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
                         .name("NoSuchUserError")
-                        .message("NoSuchUserError: No such user [userId=no_user]]")
+                        .message("NoSuchUserError: No such user [userId=no_user]")
                         .build())
                 .build();
 
