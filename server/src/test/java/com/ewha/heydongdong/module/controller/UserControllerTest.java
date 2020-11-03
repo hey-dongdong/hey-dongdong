@@ -15,12 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -40,6 +40,9 @@ class UserControllerTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Test
     @DisplayName("User sign up submit | Success")
@@ -351,5 +354,57 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Change pw | Success")
+    void changePw_Success() throws Exception {
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("userId", "test_user");
+        payload.put("originalPw", "new_password");
+        payload.put("newPw", "test_password");
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("ChangePwRequest", "test_user"), payload));
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("ChangePwResponse")
+                        .message("test_user")
+                        .build())
+                .build();
+
+        mockMvc.perform(post("/user/change-pw")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+
+        User user = userRepository.getOne("test_user");
+        assertTrue(passwordEncoder.matches("test_password", user.getPassword()));
+    }
+
+    @Test
+    @DisplayName("Change pw | Fail : Wrong original pw")
+    void changePw_Fail_WrongOriginalPw() throws Exception {
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("userId", "test_user");
+        payload.put("originalPw", "wrong_password");
+        payload.put("newPw", "test_password");
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("ChangePwRequest", "test_user"), payload));
+
+        mockMvc.perform(post("/user/change-pw")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        User user = userRepository.getOne("test_user");
+        assertTrue(passwordEncoder.matches("new_password", user.getPassword()));
     }
 }

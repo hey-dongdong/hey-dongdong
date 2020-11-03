@@ -65,4 +65,12 @@ public class GlobalExceptionHandler {
         log.error(msg);
         return ResponseEntity.badRequest().body(buildResponseJson(e, msg));
     }
+
+    @ExceptionHandler({WrongOriginalPwException.class})
+    public ResponseEntity<?> handleWrongOriginalPwException(final WrongOriginalPwException e) {
+
+        String msg = e.getNAME() + ": Wrong original password [userId=" + e.getMessage() + "]";
+        log.error(msg);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

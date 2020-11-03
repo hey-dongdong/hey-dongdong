@@ -24,6 +24,7 @@ public class User {
     @Column(name = "name")
     private String userName;
 
+    @Setter
     @Column(name = "password")
     private String password;
 

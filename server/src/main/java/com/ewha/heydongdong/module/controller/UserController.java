@@ -93,6 +93,16 @@ public class UserController {
         return new ResponseEntity<>(login, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/change-pw", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> changePw(@RequestBody Request request) throws JsonProcessingException {
+
+        log.info("[Request] change-pw");
+
+        String changePw = userService.changePw(request.getPayload());
+
+        return new ResponseEntity<>(changePw, HttpStatus.OK);
+    }
+
     @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserNoShowCount(@RequestBody Request request) {
 

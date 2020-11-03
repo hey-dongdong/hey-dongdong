@@ -1,9 +1,6 @@
 package com.ewha.heydongdong.module.service;
 
-import com.ewha.heydongdong.infra.exception.DuplicateUserException;
-import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
-import com.ewha.heydongdong.infra.exception.NoResultFromDBException;
-import com.ewha.heydongdong.infra.exception.NoSuchUserException;
+import com.ewha.heydongdong.infra.exception.*;
 import com.ewha.heydongdong.infra.mail.EmailMessage;
 import com.ewha.heydongdong.infra.mail.EmailService;
 import com.ewha.heydongdong.infra.protocol.Response;
@@ -247,5 +244,26 @@ public class UserService {
         if (!user.getEmailCheckToken().equals(emailCheckToken))
             throw new InvalidRequestParameterException("Wrong token");
         return buildJsonResponseWithOnlyHeader("LoginByEmailResponse", user.getUserId());
+    }
+
+    public String changePw(JsonNode payload) throws JsonProcessingException {
+
+        Map<String, String> requestPayload = objectMapper.treeToValue(payload, HashMap.class);
+
+        User user = findOptionalUserFromDB(requestPayload.get("userId"));
+        validateOriginalPw(requestPayload.get("originalPw"), user);
+        updateUserPw(requestPayload.get("newPw"), user);
+
+        return buildJsonResponseWithOnlyHeader("ChangePwResponse", user.getUserId());
+    }
+
+    private void validateOriginalPw(String originalPw, User user) {
+        if (!passwordEncoder.matches(originalPw, user.getPassword()))
+            throw new WrongOriginalPwException(user.getUserId());
+    }
+
+    private void updateUserPw(String newPw, User user) {
+        user.setPassword(passwordEncoder.encode(newPw));
+        userRepository.save(user);
     }
 }
