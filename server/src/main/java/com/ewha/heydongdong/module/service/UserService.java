@@ -199,9 +199,15 @@ public class UserService {
 
         User user = findOptionalUserFromDB(requestPayload.get("userId"));
         validateGivenInfo(requestPayload, user);
+        updateEmailCheckToken(user);
         emailService.sendEmail(generateLoginEmail(user));
 
         return buildJsonResponseWithOnlyHeader("FindPwResponse", user.getUserId());
+    }
+
+    private void updateEmailCheckToken(User user) {
+        user.setEmailCheckToken(UUID.randomUUID().toString());
+        userRepository.save(user);
     }
 
     private User findOptionalUserFromDB(String userId) {
@@ -219,10 +225,10 @@ public class UserService {
         }
     }
 
-    private EmailMessage generateLoginEmail(User newUser) {
+    private EmailMessage generateLoginEmail(User user) {
         Context context = new Context();
-        context.setVariable("link", "/user/login-by-email/" + newUser.getEmail() + "/" + newUser.getEmailCheckToken());
-        context.setVariable("userName", newUser.getUserName());
+        context.setVariable("link", "/user/login-by-email/" + user.getEmail() + "/" + user.getEmailCheckToken());
+        context.setVariable("userName", user.getUserName());
         context.setVariable("linkName", "로그인 링크");
         context.setVariable("message", "헤이동동에 로그인하려면 링크를 클릭하세요.");
         context.setVariable("host", "http://localhost:8080");   // TODO [지우] 서버 주소 변경
@@ -230,9 +236,16 @@ public class UserService {
         String message = templateEngine.process("login-by-email", context);
 
         return EmailMessage.builder()
-                .to(newUser.getEmail())
+                .to(user.getEmail())
                 .subject("헤이동동 로그인을 위한 링크메일입니다.")
                 .message(message)
                 .build();
+    }
+
+    public String loginByEmail(String email, String emailCheckToken) {
+        User user = checkIfUserExists(email);
+        if (!user.getEmailCheckToken().equals(emailCheckToken))
+            throw new InvalidRequestParameterException("Wrong token");
+        return buildJsonResponseWithOnlyHeader("LoginByEmailResponse", user.getUserId());
     }
 }

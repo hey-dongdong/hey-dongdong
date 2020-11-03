@@ -39,6 +39,7 @@ public class User {
     @Column(name = "ban_at")
     private Timestamp banAt;
 
+    @Setter
     @Column(name = "email_check_token")
     private String emailCheckToken;
 
