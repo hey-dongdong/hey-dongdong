@@ -52,6 +52,7 @@ class HistoryServiceTest {
         List<Order> orders = orderRepository.findByUserAndProgress(user, Progress.DONE);
 
         // Then
+        assertEquals(orders.size(), 4);
         for (Order order : orders)
             assertEquals(order.getProgress(), Progress.DONE);
     }
@@ -90,37 +91,5 @@ class HistoryServiceTest {
         for (UserHistoryDto userHistoryDto : history) {
             assertNotNull(userHistoryDto.getMenu());
         }
-    }
-
-    @Test
-    @DisplayName("Build json from history | Success")
-    void buildJsonFromHistory_Success() {
-        // Given
-        List<UserHistoryDto> history = new ArrayList<>();
-        history.add(UserHistoryDto.builder()
-                .orderId(1L)
-                .orderAt(Timestamp.valueOf("2020-10-29 2:55:33"))
-                .totalCount(2)
-                .totalPrice(4800)
-                .menu(MenuInHistoryDto.builder()
-                        .menuId(4)
-                        .menuName("카푸치노")
-                        .menuThumbnail("urlurl.com")
-                        .build())
-                .store(StoreInHistoryDto.builder()
-                        .storeId(3)
-                        .storeName("학생문화관점")
-                        .build())
-                .build());
-
-        // When
-        ResponseHeader header = new ResponseHeader("GetHistoryResponse", "test_user");
-        ObjectNode payload = objectMapper.createObjectNode();
-        payload.set("orders", objectMapper.valueToTree(history));
-        Response response = new Response(header, payload);
-
-        // Then
-        assertNotNull(response);
-        System.out.println(objectMapper.valueToTree(response).toPrettyString());
     }
 }

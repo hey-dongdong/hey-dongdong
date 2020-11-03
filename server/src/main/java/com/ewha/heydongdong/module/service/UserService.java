@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,7 +47,7 @@ public class UserService {
     public String signUp(JsonNode payload) throws JsonProcessingException {
         User newUser = saveNewUser(payload);
         sendVerifyEmail(newUser);
-        return newUser.getUserId();
+        return buildJsonResponseWithOnlyHeader("SignUpResponse", newUser.getUserId());
     }
 
     private User saveNewUser(JsonNode payload) throws JsonProcessingException {
@@ -94,7 +95,7 @@ public class UserService {
 
     private EmailMessage generateVerifyEmail(User newUser) {
         Context context = new Context();
-        context.setVariable("link", "/check-email-token/\"" + newUser.getEmail() + "\"/\"" + newUser.getEmailCheckToken());
+        context.setVariable("link", "/user/check-email-token/" + newUser.getEmail() + "/" + newUser.getEmailCheckToken());
         context.setVariable("userName", newUser.getUserName());
         context.setVariable("linkName", "이메일 인증하기");
         context.setVariable("message", "헤이동동 서비스를 사용하려면 링크를 클릭하세요.");
@@ -109,11 +110,22 @@ public class UserService {
                 .build();
     }
 
+    private String buildJsonResponseWithOnlyHeader(String name, String message) {
+        return objectMapper.valueToTree(Response.builder()
+                .header(ResponseHeader.builder()
+                        .name(name)
+                        .message(message)
+                        .build())
+                .build())
+                .toPrettyString();
+    }
+
     public String checkEmailToken(String email, String emailCheckToken) {
         User user = checkIfUserExists(email);
         if (user.getEmailCheckToken().equals(emailCheckToken)) {
             user.setIsEmailVerified(true);
-            return userRepository.save(user).getUserId();
+            String userId = userRepository.save(user).getUserId();
+            return buildJsonResponseWithOnlyHeader("CheckEmailTokenResponse", userId);
         } else
             throw new InvalidRequestParameterException("Wrong token");
     }
@@ -130,9 +142,9 @@ public class UserService {
         User given = buildUserFromJson(payload);
         User expected = findUserFromDB(given.getUserId());
         if (passwordEncoder.matches(given.getPassword(), expected.getPassword()))
-            return given.getUserId();
+            return buildJsonResponseWithOnlyHeader("SignInResponse", given.getUserId());
         else
-            throw new NoSuchUserException("userId=" + given.getUserId() + "]");
+            throw new NoSuchUserException("userId=" + given.getUserId());
     }
 
     private User buildUserFromJson(JsonNode payload) {
@@ -152,18 +164,42 @@ public class UserService {
     public String getUserNoShowCount(String userId) {
         List<User> foundUsers = userRepository.findByUserId(userId);
         if (foundUsers.isEmpty())
-            throw new NoResultFromDBException("No such user for userId=" + userId);
+            throw new NoSuchUserException("userId=" + userId);
         int noShowCount = foundUsers.get(0).getNoShowCount();
 
-        return buildJsonResponse("GetNoShowCountResponse", userId, noShowCount);
+        return buildUserNoShowCountJsonResponse("GetNoShowCountResponse", userId, noShowCount);
     }
 
-    private String buildJsonResponse(String responseName, String userId, Integer noShowCount) {
+    private String buildUserNoShowCountJsonResponse(String responseName, String userId, Integer noShowCount) {
         ResponseHeader header = new ResponseHeader(responseName, userId);
 
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("noShowCount", objectMapper.valueToTree(noShowCount));
+
         Response response = new Response(header, payload);
+
+        return objectMapper.valueToTree(response).toPrettyString();
+    }
+
+    public String findUserId(JsonNode payload) throws JsonProcessingException {
+
+        String email = (String) objectMapper.treeToValue(payload, HashMap.class).get("email");
+
+        List<User> foundUsers = userRepository.findByEmail(email);
+        if (foundUsers.isEmpty())
+            throw new NoResultFromDBException("No user for email=" + email);
+
+        return buildUserIdJsonResponse(email, foundUsers.get(0).getUserId());
+    }
+
+    private String buildUserIdJsonResponse(String email, String userId) {
+        ResponseHeader header = new ResponseHeader("FindIdResponse", email);
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("userId", userId);
+
+        Response response = new Response(header, payload);
+
         return objectMapper.valueToTree(response).toPrettyString();
     }
 }

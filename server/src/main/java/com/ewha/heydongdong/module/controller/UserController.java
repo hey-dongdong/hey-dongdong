@@ -1,8 +1,6 @@
 package com.ewha.heydongdong.module.controller;
 
 import com.ewha.heydongdong.infra.protocol.Request;
-import com.ewha.heydongdong.infra.protocol.Response;
-import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
@@ -29,12 +27,9 @@ public class UserController {
         request.validateHeader("SignUpRequest");
         request.validatePayload();
 
-        String message = userService.signUp(request.getPayload());
+        String signUp = userService.signUp(request.getPayload());
 
-        return new ResponseEntity<>(
-                Response.builder()
-                        .header(ResponseHeader.builder().name("SignUpResponse").message(message).build())
-                        .build(), HttpStatus.OK);
+        return new ResponseEntity<>(signUp, HttpStatus.OK);
     }
 
     @GetMapping(value = "/check-email-token/{email}/{emailCheckToken}", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -43,12 +38,9 @@ public class UserController {
 
         log.info("[Request] check-email-token");
 
-        String message = userService.checkEmailToken(email, emailCheckToken);
+        String emailChecked = userService.checkEmailToken(email, emailCheckToken);
 
-        return new ResponseEntity<>(
-                Response.builder()
-                        .header(ResponseHeader.builder().name("CheckEmailTokenResponse").message(message).build())
-                        .build(), HttpStatus.OK);
+        return new ResponseEntity<>(emailChecked, HttpStatus.OK);
     }
 
     @PostMapping(value = "/sign-in", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -59,12 +51,22 @@ public class UserController {
         request.validateHeader("SignInRequest");
         request.validatePayload();
 
-        String message = userService.signIn(request.getPayload());
+        String signIn = userService.signIn(request.getPayload());
 
-        return new ResponseEntity<>(
-                Response.builder()
-                        .header(ResponseHeader.builder().name("SignInResponse").message(message).build())
-                        .build(), HttpStatus.OK);
+        return new ResponseEntity<>(signIn, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/find-info/id", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> findUserId(@RequestBody Request request) throws JsonProcessingException {
+
+        log.info("[Request] find-user-id");
+
+        request.validateHeader("FindIdRequest");
+        request.validatePayload();
+
+        String userId = userService.findUserId(request.getPayload());
+
+        return new ResponseEntity<>(userId, HttpStatus.OK);
     }
 
     @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -73,6 +75,7 @@ public class UserController {
         log.info("[Request] get-user-no-show-count");
 
         request.validateHeader("GetNoShowCountRequest");
+
         String noShowCount = userService.getUserNoShowCount(request.getHeader().getUserId());
 
         return new ResponseEntity<>(noShowCount, HttpStatus.OK);
