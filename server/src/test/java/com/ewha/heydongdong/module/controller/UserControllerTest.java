@@ -7,7 +7,6 @@ import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.User;
 import com.ewha.heydongdong.module.model.dto.UserSignUpDto;
 import com.ewha.heydongdong.module.repository.UserRepository;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.DisplayName;
@@ -273,14 +272,14 @@ class UserControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("FindIdRequest", "N/A"), payload));
 
-        payload.removeAll();
-        payload.put("userId", "test_user");
+        ObjectNode responsePayload = objectMapper.createObjectNode();
+        responsePayload.put("userId", "test_user");
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
                         .name("FindIdResponse")
                         .message("email@email.com")
                         .build())
-                .payload(payload)
+                .payload(responsePayload)
                 .build();
 
         mockMvc.perform(post("/user/find-info/id")
@@ -301,18 +300,10 @@ class UserControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("FindIdRequest", "N/A"), payload));
 
-        Response response = Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("NoResultFromDBError")
-                        .message("NoResultFromDBError [No user for email=no_email@email.com]")
-                        .build())
-                .build();
-
         mockMvc.perform(post("/user/find-info/id")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent())
-                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+                .andExpect(status().isNoContent());
     }
 }

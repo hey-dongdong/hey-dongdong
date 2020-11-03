@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -182,7 +183,7 @@ public class UserService {
 
     public String findUserId(JsonNode payload) throws JsonProcessingException {
 
-        String email = objectMapper.readTree("payload").get("email").asText();
+        String email = (String) objectMapper.treeToValue(payload, HashMap.class).get("email");
 
         List<User> foundUsers = userRepository.findByEmail(email);
         if (foundUsers.isEmpty())
