@@ -144,7 +144,7 @@ public class UserService {
         if (passwordEncoder.matches(given.getPassword(), expected.getPassword()))
             return buildJsonResponseWithOnlyHeader("SignInResponse", given.getUserId());
         else
-            throw new NoSuchUserException("userId=" + given.getUserId() + "]");
+            throw new NoSuchUserException("userId=" + given.getUserId());
     }
 
     private User buildUserFromJson(JsonNode payload) {
@@ -164,7 +164,7 @@ public class UserService {
     public String getUserNoShowCount(String userId) {
         List<User> foundUsers = userRepository.findByUserId(userId);
         if (foundUsers.isEmpty())
-            throw new NoResultFromDBException("No such user for userId=" + userId);
+            throw new NoSuchUserException("userId=" + userId);
         int noShowCount = foundUsers.get(0).getNoShowCount();
 
         return buildUserNoShowCountJsonResponse("GetNoShowCountResponse", userId, noShowCount);
