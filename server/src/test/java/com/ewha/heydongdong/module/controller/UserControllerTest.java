@@ -354,7 +354,6 @@ class UserControllerTest {
 
         ObjectNode payload = objectMapper.createObjectNode();
         payload.put("userId", "test_user");
-        payload.put("originalPw", "new_password");
         payload.put("newPw", "test_password");
 
         String content = objectMapper.writeValueAsString(new Request(
@@ -376,27 +375,5 @@ class UserControllerTest {
 
         User user = userRepository.getOne("test_user");
         assertTrue(passwordEncoder.matches("test_password", user.getPassword()));
-    }
-
-    @Test
-    @DisplayName("Change pw | Fail : Wrong original pw")
-    void changePw_Fail_WrongOriginalPw() throws Exception {
-
-        ObjectNode payload = objectMapper.createObjectNode();
-        payload.put("userId", "test_user");
-        payload.put("originalPw", "wrong_password");
-        payload.put("newPw", "test_password");
-
-        String content = objectMapper.writeValueAsString(new Request(
-                new RequestHeader("ChangePwRequest", "test_user"), payload));
-
-        mockMvc.perform(post("/user/change-pw")
-                .content(content)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
-
-        User user = userRepository.getOne("test_user");
-        assertTrue(passwordEncoder.matches("new_password", user.getPassword()));
     }
 }
