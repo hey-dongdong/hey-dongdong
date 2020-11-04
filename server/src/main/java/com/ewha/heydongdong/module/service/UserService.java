@@ -4,6 +4,7 @@ import com.ewha.heydongdong.infra.exception.DuplicateUserException;
 import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
 import com.ewha.heydongdong.infra.exception.NoResultFromDBException;
 import com.ewha.heydongdong.infra.exception.NoSuchUserException;
+import com.ewha.heydongdong.infra.jwt.JwtTokenProvider;
 import com.ewha.heydongdong.infra.mail.EmailMessage;
 import com.ewha.heydongdong.infra.mail.EmailService;
 import com.ewha.heydongdong.infra.protocol.Response;
@@ -40,6 +41,9 @@ public class UserService {
 
     @Autowired
     private TemplateEngine templateEngine;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     public String signUp(JsonNode payload) throws JsonProcessingException {
         User newUser = saveNewUser(payload);
@@ -82,6 +86,7 @@ public class UserService {
                 .noShowCount(0)
                 .isEmailVerified(false)
                 .emailCheckToken(UUID.randomUUID().toString())
+                .roles(Collections.singletonList("ROLE_USER"))
                 .build();
     }
 
