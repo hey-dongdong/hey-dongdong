@@ -41,11 +41,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                // TODO [지우] 요청에 따른 권한 분리
                 .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/user/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/history/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/history/**").hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/my-menu/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

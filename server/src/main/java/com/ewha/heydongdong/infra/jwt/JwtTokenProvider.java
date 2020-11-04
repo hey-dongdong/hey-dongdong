@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    private String secretKey = "1886dong1886dong";   // TODO [지우] secretKey 지정
+    private String secretKey = "tlzmfltzl";   // TODO [지우] secretKey 지정
 
     private final long tokenValidTime = 30 * 60 * 1000L;
 

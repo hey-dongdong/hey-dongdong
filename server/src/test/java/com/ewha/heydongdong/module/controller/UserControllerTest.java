@@ -9,6 +9,7 @@ import com.ewha.heydongdong.module.model.dto.UserSignUpDto;
 import com.ewha.heydongdong.module.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
 
@@ -208,19 +211,11 @@ class UserControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("SignInRequest", "test_user"), payload));
 
-        Response response = Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("SignInResponse")
-                        .message("test_user")
-                        .build())
-                .build();
-
         mockMvc.perform(post("/user/sign-in")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+                .andExpect(status().isOk());    // token값 때문에 Postman으로 reponse 확인 필요
     }
 
     @Test
