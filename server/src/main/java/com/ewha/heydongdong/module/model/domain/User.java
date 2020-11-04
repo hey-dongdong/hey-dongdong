@@ -24,6 +24,7 @@ public class User {
     @Column(name = "name")
     private String userName;
 
+    @Setter
     @Column(name = "password")
     private String password;
 
@@ -39,6 +40,7 @@ public class User {
     @Column(name = "ban_at")
     private Timestamp banAt;
 
+    @Setter
     @Column(name = "email_check_token")
     private String emailCheckToken;
 

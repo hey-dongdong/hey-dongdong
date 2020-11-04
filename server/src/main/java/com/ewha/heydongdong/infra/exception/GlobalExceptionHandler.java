@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
 
         String msg = e.getNAME() + ": Duplicate User [" + e.getMessage() + "]";
         log.error(msg);
-        return ResponseEntity.badRequest().body(buildResponseJson(e, msg));
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler({NoSuchUserException.class})
@@ -64,5 +64,13 @@ public class GlobalExceptionHandler {
         String msg = e.getNAME() + ": No such user [" + e.getMessage() + "]";
         log.error(msg);
         return ResponseEntity.badRequest().body(buildResponseJson(e, msg));
+    }
+
+    @ExceptionHandler({WrongOriginalPwException.class})
+    public ResponseEntity<?> handleWrongOriginalPwException(final WrongOriginalPwException e) {
+
+        String msg = e.getNAME() + ": Wrong original password [userId=" + e.getMessage() + "]";
+        log.error(msg);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

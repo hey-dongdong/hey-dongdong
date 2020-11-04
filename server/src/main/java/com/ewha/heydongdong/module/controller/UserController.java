@@ -69,6 +69,40 @@ public class UserController {
         return new ResponseEntity<>(userId, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/find-info/pw", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> findUserPw(@RequestBody Request request) throws JsonProcessingException {
+
+        log.info("[Request] find-user-pw");
+
+        request.validateHeader("FindPwRequest");
+        request.validatePayload();
+
+        String userPw = userService.findUserPw(request.getPayload());
+
+        return new ResponseEntity<>(userPw, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/login-by-email/{email}/{emailCheckToken}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> loginByEmail(@PathVariable(value = "email") String email,
+                                          @PathVariable(value = "emailCheckToken") String emailCheckToken) {
+
+        log.info("[Request] login-by-email");
+
+        String login = userService.loginByEmail(email, emailCheckToken);
+
+        return new ResponseEntity<>(login, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/change-pw", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> changePw(@RequestBody Request request) throws JsonProcessingException {
+
+        log.info("[Request] change-pw");
+
+        String changePw = userService.changePw(request.getPayload());
+
+        return new ResponseEntity<>(changePw, HttpStatus.OK);
+    }
+
     @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserNoShowCount(@RequestBody Request request) {
 
