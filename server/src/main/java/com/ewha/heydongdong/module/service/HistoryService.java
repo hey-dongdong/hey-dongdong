@@ -69,8 +69,8 @@ public class HistoryService {
 
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("orders", objectMapper.valueToTree(history));
-        Response response = new Response(header, payload);
-        return objectMapper.valueToTree(response).toPrettyString();
+
+        return objectMapper.valueToTree(Response.builder().header(header).payload(payload).build()).toPrettyString();
     }
 
     public String getUserHistoryDetail(String userId, Long orderId) {
@@ -123,8 +123,6 @@ public class HistoryService {
         payload.set("orderInfo", objectMapper.valueToTree(historyDetail.getOrderInfo()));
         payload.set("menus", objectMapper.valueToTree(historyDetail.getMenus()));
 
-        Response response = new Response(header, payload);
-
-        return objectMapper.valueToTree(response).toPrettyString();
+        return objectMapper.valueToTree(Response.builder().header(header).payload(payload).build()).toPrettyString();
     }
 }

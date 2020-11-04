@@ -27,7 +27,7 @@ class StoreServiceTest {
     private StoreRepository storeRepository;
 
     @Test
-    @DisplayName("Get all stores Success")
+    @DisplayName("Get all stores | Success")
     void getAllStores() {
         List<Store> stores = storeRepository.findAll();
         assertNotNull(stores);
@@ -36,7 +36,7 @@ class StoreServiceTest {
     }
 
     @Test
-    @DisplayName("Get one store and menus Success")
+    @DisplayName("Get one store and menus | Success")
     void getOneStoreAndMenus() {
         Store store = storeRepository.getOne(1);
         List<Menu> menus = store.getMenus();

@@ -1,6 +1,7 @@
 package com.ewha.heydongdong.module.service;
 
 import com.ewha.heydongdong.module.model.domain.Menu;
+import com.ewha.heydongdong.module.repository.MenuRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,9 +31,5 @@ class MenuServiceTest {
         List<Menu> menus = menuRepository.findAll();
         assertNotNull(menus);
         noNullElements(menus, "Null menu element exists");
-        assertEquals(6, menus.size());
-
-        for (Menu menu : menus)
-            System.out.println(menu);
     }
 }

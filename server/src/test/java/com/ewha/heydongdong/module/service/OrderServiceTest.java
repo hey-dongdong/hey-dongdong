@@ -35,7 +35,6 @@ class OrderServiceTest {
         // Then
         assertNotEquals(0, orders.size());
         noNullElements(orders, "Null order element exists");
-        System.out.println(orders);
     }
 
     @Test
@@ -52,7 +51,6 @@ class OrderServiceTest {
         // Then
         assertNotEquals(0, orders.size());
         noNullElements(orders, "Null order element exists");
-        System.out.println(orders);
     }
 
     @Test
