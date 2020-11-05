@@ -175,6 +175,10 @@ transition: background-color 5000s ease-in-out 0s;
 	margin: 0 auto 20px;
 }
 
+.goldbtn:disabled {
+	color: #555555;
+}
+
 .greenbtn {
 	display: flex;
 	width: 300px;

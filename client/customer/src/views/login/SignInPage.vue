@@ -56,7 +56,8 @@ export default {
 					},
 				};
 				const { data } = await signInUser(userData);
-				console.log(data.header.message);
+				console.log(data.payload.token);
+				this.$store.commit('SET_TOKEN', data.payload.token);
 				this.$store.commit('SET_USERNAME', data.header.message);
 				this.initForm();
 				this.$router.push('/main');

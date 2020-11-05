@@ -3,7 +3,11 @@ module.exports = {
 		// overlay: false,
 		proxy: {
 			'/user': {
-				target: 'http://localhost:8080',
+				target: process.env.VUE_APP_API_URL,
+				changeOrigin: true,
+			},
+			'/menu': {
+				target: process.env.VUE_APP_API_URL,
 				changeOrigin: true,
 			},
 		},

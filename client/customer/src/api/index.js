@@ -1,12 +1,15 @@
 import axios from 'axios';
+import { setInterceptors } from './common/interceptors';
 
-const instance = axios.create({
-	baseURL: process.env.VUE_APP_API_URL,
-});
+function createInstance() {
+	const instance = axios.create();
+	return setInterceptors(instance);
+}
+const instance = createInstance();
 
 async function registerUser(userData) {
 	try {
-		return await axios.post('/user/sign-up', userData);
+		return await instance.post('/user/sign-up', userData);
 	} catch (error) {
 		console.log(error);
 	}
@@ -14,7 +17,7 @@ async function registerUser(userData) {
 
 async function signInUser(userData) {
 	try {
-		return await axios.post('/user/sign-in', userData);
+		return await instance.post('/user/sign-in', userData);
 	} catch (error) {
 		console.log(error);
 	}

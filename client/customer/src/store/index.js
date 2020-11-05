@@ -8,12 +8,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		username: '',
+		token: '',
 		menus: [],
 		myMenus: [],
 		history: [],
 		orderDetail: {},
 	},
 	getters: {
+		isLogin(state) {
+			return state.username !== '';
+		},
 		menuItems(state) {
 			return state.menus;
 		},

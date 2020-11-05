@@ -38,12 +38,10 @@
 							v-model="confirmpw"
 							required
 						/>
-						<span v-if="password !== confirmpw" class="password-message"
+						<span v-if="!isPasswordSame" class="password-message"
 							>패스워드가 다릅니다.</span
 						>
-						<span v-if="password === confirmpw" class="password-message-same"
-							>패스워드가 같습니다.</span
-						>
+						<span v-else class="password-message-same">패스워드가 같습니다.</span>
 					</li>
 					<li>
 						<label for="username" class="form-label">이름</label>
@@ -71,12 +69,26 @@
 							id="phone"
 							type="tel"
 							placeholder="휴대폰 번호를 입력하세요"
+							@keyup="getMask(this)"
 							v-model="phone"
 							required
 						/>
 					</li>
 				</ul>
-				<button type="submit" class="goldbtn">가입하기</button>
+				<button
+					v-bind:disabled="
+						!isEmailValid ||
+							!isPasswordValid ||
+							!isPasswordSame ||
+							!userid ||
+							!username ||
+							!phone
+					"
+					type="submit"
+					class="goldbtn"
+				>
+					가입하기
+				</button>
 				<span class="login-message">{{ signupMessage }}</span>
 			</form>
 		</div>
@@ -86,6 +98,7 @@
 <script>
 import GreenHeader from '@/components/common/GreenHeader.vue';
 import { registerUser } from '@/api/index';
+import { validateEmail, validatePassword } from '@/utils/validation';
 
 export default {
 	components: {
@@ -101,6 +114,24 @@ export default {
 			confirmpw: '',
 			signupMessage: '',
 		};
+	},
+	computed: {
+		isEmailValid() {
+			return validateEmail(this.email);
+		},
+		isPasswordValid() {
+			return validatePassword(this.password);
+		},
+		isPasswordSame() {
+			if (this.password === this.confirmpw) {
+				return true;
+			} else {
+				return false;
+			}
+		},
+		// isPhoneValid() {
+		// 	return validatePhone(this.phone);
+		// },
 	},
 	methods: {
 		async submitForm() {
@@ -133,6 +164,68 @@ export default {
 			this.email = '';
 			this.phone = '';
 			this.confirmpw = '';
+		},
+		getMask(phoneNumber) {
+			if (!phoneNumber) return phoneNumber;
+			phoneNumber = phoneNumber.replace(/[^0-9]/g, '');
+
+			let res = '';
+			if (phoneNumber.length < 3) {
+				res = phoneNumber;
+			} else {
+				if (phoneNumber.substr(0, 2) == '02') {
+					if (phoneNumber.length <= 5) {
+						//02-123-5678
+						res = phoneNumber.substr(0, 2) + '-' + phoneNumber.substr(2, 3);
+					} else if (phoneNumber.length > 5 && phoneNumber.length <= 9) {
+						//02-123-5678
+						res =
+							phoneNumber.substr(0, 2) +
+							'-' +
+							phoneNumber.substr(2, 3) +
+							'-' +
+							phoneNumber.substr(5);
+					} else if (phoneNumber.length > 9) {
+						//02-1234-5678
+						res =
+							phoneNumber.substr(0, 2) +
+							'-' +
+							phoneNumber.substr(2, 4) +
+							'-' +
+							phoneNumber.substr(6);
+					}
+				} else {
+					if (phoneNumber.length < 8) {
+						res = phoneNumber;
+					} else if (phoneNumber.length == 8) {
+						res = phoneNumber.substr(0, 4) + '-' + phoneNumber.substr(4);
+					} else if (phoneNumber.length == 9) {
+						res =
+							phoneNumber.substr(0, 3) +
+							'-' +
+							phoneNumber.substr(3, 3) +
+							'-' +
+							phoneNumber.substr(6);
+					} else if (phoneNumber.length == 10) {
+						res =
+							phoneNumber.substr(0, 3) +
+							'-' +
+							phoneNumber.substr(3, 3) +
+							'-' +
+							phoneNumber.substr(6);
+					} else if (phoneNumber.length > 10) {
+						//010-1234-5678
+						res =
+							phoneNumber.substr(0, 3) +
+							'-' +
+							phoneNumber.substr(3, 4) +
+							'-' +
+							phoneNumber.substr(7);
+					}
+				}
+			}
+
+			return res;
 		},
 	},
 };

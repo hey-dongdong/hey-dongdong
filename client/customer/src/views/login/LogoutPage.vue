@@ -46,6 +46,7 @@ export default {
 			this.closeModal();
 		},
 		logout() {
+			this.$store.commit('CLEAR_USERNAME');
 			this.$router.push('/sign-in');
 		},
 	},
