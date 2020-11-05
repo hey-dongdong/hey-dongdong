@@ -6,7 +6,7 @@
 		<div class="blackbg">
 			<div class="profile">
 				<ion-icon name="person" class="user-icon"></ion-icon>
-				<span>ewha123님</span>
+				<span>{{ $store.state.username }} 님</span>
 			</div>
 			<button @click="openModal" type="submit" class="goldbtn">LOGOUT</button>
 			<ModalWithTwoBtn @close="closeModal" v-if="modal">

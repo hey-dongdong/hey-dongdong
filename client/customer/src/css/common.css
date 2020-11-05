@@ -141,6 +141,24 @@ transition: background-color 5000s ease-in-out 0s;
 	margin-bottom: 70px;
 }
 
+.confirmpw {
+	margin-bottom: 5px;
+}
+
+.password-message {
+	display: block;
+	margin-bottom: 25px;
+	color: red;
+	font-size: 13px;
+}
+
+.password-message-same {
+	display: block;
+	margin-bottom: 25px;
+	color:#8D734A;
+	font-size: 13px;
+}
+
 
 /* buttons */
 

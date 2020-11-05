@@ -4,8 +4,12 @@ const instance = axios.create({
 	baseURL: process.env.VUE_APP_API_URL,
 });
 
-function registerUser(userData) {
-	return instance.post('sign-up', userData);
+async function registerUser(userData) {
+	try {
+		return await axios.post('/user/sign-up', userData);
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 async function signInUser(userData) {

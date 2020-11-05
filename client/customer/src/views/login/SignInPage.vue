@@ -57,7 +57,9 @@ export default {
 				};
 				const { data } = await signInUser(userData);
 				console.log(data.header.message);
+				this.$store.commit('SET_USERNAME', data.header.message);
 				this.initForm();
+				this.$router.push('/main');
 			} catch (error) {
 				this.logMessage = '아이디 혹은 비밀번호가 잘못되었습니다.';
 			}
@@ -66,7 +68,6 @@ export default {
 			this.id = '';
 			this.password = '';
 			this.logMessage = '';
-			// this.$router.push('/main');
 		},
 	},
 };

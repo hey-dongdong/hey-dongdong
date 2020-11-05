@@ -1,4 +1,7 @@
 export default {
+	SET_USERNAME(state, data) {
+		state.username = data;
+	},
 	SET_MENUS(state, data) {
 		state.menus = data;
 	},
