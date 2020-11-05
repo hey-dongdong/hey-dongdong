@@ -20,7 +20,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     compile group: 'org.springframework', name: 'spring-webmvc', version: '5.2.9.RELEASE'
-    compile "org.springframework.integration:spring-integration-mqtt:5.4.0"
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
