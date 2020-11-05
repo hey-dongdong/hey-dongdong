@@ -8,6 +8,14 @@ function registerUser(userData) {
 	return instance.post('sign-up', userData);
 }
 
+async function signInUser(userData) {
+	try {
+		return await axios.post('/user/sign-in', userData);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 function fetchMenus() {
 	return instance.get('0071f215-d5da-4606-89fd-9957dd901916');
 }
@@ -24,4 +32,11 @@ function fetchOrderDetail() {
 	return instance.get('ded297bb-bb09-4846-9cfc-66b606379edb');
 }
 
-export { registerUser, fetchMenus, fetchMyMenus, fetchHistory, fetchOrderDetail };
+export {
+	registerUser,
+	signInUser,
+	fetchMenus,
+	fetchMyMenus,
+	fetchHistory,
+	fetchOrderDetail,
+};
