@@ -106,7 +106,7 @@ public class UserController {
         return new ResponseEntity<>(changePw, HttpStatus.OK);
     }
 
-    @GetMapping(value = "", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/no-show-count", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserNoShowCount(@RequestBody Request request) {
 
         log.info("[Request] get-user-no-show-count");
