@@ -4,25 +4,34 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
 @Getter
 @NoArgsConstructor
-public class User {
+public class User implements UserDetails {
+
     @Id
     @Column(name = "id")
     private String userId;
 
     @Column(name = "name")
     private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
 
     @Setter
     @Column(name = "password")
@@ -48,6 +57,9 @@ public class User {
     @Column(name = "is_email_verified")
     private Boolean isEmailVerified;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
@@ -57,7 +69,7 @@ public class User {
     @Builder
     public User(String userId, String userName, String password, String email,
                 String phone, Integer noShowCount, Timestamp banAt,
-                String emailCheckToken, Boolean isEmailVerified) {
+                String emailCheckToken, Boolean isEmailVerified, List<String> roles) {
         Assert.hasText(userId, "UserId must not be empty");
 
         this.userId = userId;
@@ -69,10 +81,43 @@ public class User {
         this.banAt = banAt;
         this.emailCheckToken = emailCheckToken;
         this.isEmailVerified = isEmailVerified;
+        this.roles = roles;
     }
 
     // Default values
     public static class UserBuilder {
         private Integer noShowCount = 0;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.roles.stream()
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getUsername() {
+        return userId;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

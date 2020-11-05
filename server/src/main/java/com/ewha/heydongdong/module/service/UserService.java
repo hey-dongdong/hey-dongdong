@@ -4,6 +4,7 @@ import com.ewha.heydongdong.infra.exception.DuplicateUserException;
 import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
 import com.ewha.heydongdong.infra.exception.NoResultFromDBException;
 import com.ewha.heydongdong.infra.exception.NoSuchUserException;
+import com.ewha.heydongdong.infra.jwt.JwtTokenProvider;
 import com.ewha.heydongdong.infra.mail.EmailMessage;
 import com.ewha.heydongdong.infra.mail.EmailService;
 import com.ewha.heydongdong.infra.protocol.Response;
@@ -40,6 +41,9 @@ public class UserService {
 
     @Autowired
     private TemplateEngine templateEngine;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     public String signUp(JsonNode payload) throws JsonProcessingException {
         User newUser = saveNewUser(payload);
@@ -82,6 +86,7 @@ public class UserService {
                 .noShowCount(0)
                 .isEmailVerified(false)
                 .emailCheckToken(UUID.randomUUID().toString())
+                .roles(Collections.singletonList("ROLE_USER"))
                 .build();
     }
 
@@ -133,10 +138,9 @@ public class UserService {
     public String signIn(JsonNode payload) {
         User given = buildUserFromJson(payload);
         User expected = findOptionalUserFromDB(given.getUserId());
-        if (passwordEncoder.matches(given.getPassword(), expected.getPassword()))
-            return buildJsonResponseWithOnlyHeader("SignInResponse", given.getUserId());
-        else
-            throw new NoResultFromDBException("Failed sign-in userId=" + given.getUserId());
+        checkPassword(given, expected);
+        String token = jwtTokenProvider.createJwtToken(expected.getUsername(), expected.getRoles());
+        return buildUserSignUpJsonResponse(given.getUserId(), token);
     }
 
     private User buildUserFromJson(JsonNode payload) {
@@ -146,11 +150,34 @@ public class UserService {
                 .build();
     }
 
+    private User findOptionalUserFromDB(String userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NoResultFromDBException("userId=" + userId));
+    }
+
+    private void checkPassword(User given, User expected) {
+        if (!passwordEncoder.matches(given.getPassword(), expected.getPassword()))
+            throw new NoResultFromDBException("Failed sign-in userId=" + given.getUserId());
+    }
+
+    private String buildUserSignUpJsonResponse(String userId, String token) {
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("token", token);
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("SignInResponse")
+                        .message(userId)
+                        .build())
+                .payload(payload)
+                .build();
+
+        return objectMapper.valueToTree(response).toPrettyString();
+    }
+
     private User findRequiredUserFromDB(String userId) {
-        Optional<User> foundUser = userRepository.findById(userId);
-        if (foundUser.isEmpty())
-            throw new NoSuchUserException("userId=" + userId);
-        return foundUser.get();
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchUserException("userId=" + userId));
     }
 
     public String getUserNoShowCount(String userId) {
@@ -208,13 +235,6 @@ public class UserService {
     private void updateEmailCheckToken(User user) {
         user.setEmailCheckToken(UUID.randomUUID().toString());
         userRepository.save(user);
-    }
-
-    private User findOptionalUserFromDB(String userId) {
-        Optional<User> foundUsers = userRepository.findById(userId);
-        if (foundUsers.isEmpty())
-            throw new NoResultFromDBException("No user for userId=" + userId);
-        return foundUsers.get();
     }
 
     private void validateGivenInfo(Map<String, String> requestPayload, User user) {

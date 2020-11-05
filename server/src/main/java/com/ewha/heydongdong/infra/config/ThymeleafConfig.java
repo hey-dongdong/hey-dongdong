@@ -6,7 +6,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Configuration
-public class ThymeleafConfiguration {
+public class ThymeleafConfig {
 
     @Bean
     public TemplateEngine emailTemplateEngine() {
