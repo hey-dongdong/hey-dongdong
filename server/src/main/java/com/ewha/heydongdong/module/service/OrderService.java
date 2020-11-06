@@ -1,8 +1,10 @@
 package com.ewha.heydongdong.module.service;
 
+import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
 import com.ewha.heydongdong.infra.protocol.Response;
 import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.*;
+import com.ewha.heydongdong.module.model.domain.datatype.Progress;
 import com.ewha.heydongdong.module.model.dto.MenuInNewOrderDto;
 import com.ewha.heydongdong.module.model.dto.NewOrderDto;
 import com.ewha.heydongdong.module.model.dto.NewOrderInfoDto;
@@ -75,6 +77,27 @@ public class OrderService {
                         .name("GetStoreHistoryResponse")
                         .message(userId).build())
                 .payload(payload)
+                .build()).toPrettyString();
+    }
+
+    public String updateOrderProgress(JsonNode payload) {
+        Order order = findOrderById(payload.get("orderId").asLong());
+        order.setProgress(Progress.valueOf(payload.get("progress").asText()));
+        Order updatedOrder = orderRepository.save(order);
+        return buildUpdateOrderProgressJsonResponse(updatedOrder.getOrderId());
+    }
+
+    private Order findOrderById(long orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new InvalidRequestParameterException("orderId=" + orderId));
+    }
+
+    private String buildUpdateOrderProgressJsonResponse(Long orderId) {
+        return objectMapper.valueToTree(Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("UpdateOrderProgressResponse")
+                        .message(String.valueOf(orderId))
+                        .build())
                 .build()).toPrettyString();
     }
 }

@@ -2,6 +2,8 @@ package com.ewha.heydongdong.module.controller;
 
 import com.ewha.heydongdong.infra.protocol.Request;
 import com.ewha.heydongdong.infra.protocol.RequestHeader;
+import com.ewha.heydongdong.infra.protocol.Response;
+import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.datatype.BasicOption;
 import com.ewha.heydongdong.module.model.domain.datatype.CustomOption;
 import com.ewha.heydongdong.module.model.domain.datatype.Option;
@@ -10,7 +12,7 @@ import com.ewha.heydongdong.module.model.dto.MenuInNewOrderDto;
 import com.ewha.heydongdong.module.model.dto.NewOrderDto;
 import com.ewha.heydongdong.module.model.dto.NewOrderInfoDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
@@ -88,5 +91,57 @@ class OrderControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Update order progress | Success")
+    void updateOrderProgress_Success() throws Exception {
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("orderId", 32);
+        payload.put("progress", "MAKING");
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("UpdateOrderProgressRequest", "admin_eng"), objectMapper.valueToTree(payload)));
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("UpdateOrderProgressResponse")
+                        .message("32")
+                        .build())
+                .build();
+
+        mockMvc.perform(post("/order/update-progress")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+    @Test
+    @DisplayName("Update order progress | Fail : Invalid orderId")
+    void updateOrderProgress_Fail_InvalidOrderId() throws Exception {
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("orderId", 50000);
+        payload.put("progress", "MAKING");
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("UpdateOrderProgressRequest", "admin_eng"), objectMapper.valueToTree(payload)));
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("InvalidRequestParameterError")
+                        .message("InvalidRequestParameterError: Invalid request parameter [orderId=50000]")
+                        .build())
+                .build();
+
+        mockMvc.perform(post("/order/update-progress")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
 }

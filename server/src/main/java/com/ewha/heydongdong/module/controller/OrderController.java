@@ -31,4 +31,17 @@ public class OrderController {
 
         return new ResponseEntity<>(newOrder, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/update-progress", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> updateOrderProgress(@RequestBody Request request) {
+
+        log.info("[Request] update-order-progress");
+
+        request.validateHeader("UpdateOrderProgressRequest");
+        request.validatePayload();
+
+        String order = orderService.updateOrderProgress(request.getPayload());
+
+        return new ResponseEntity<>(order, HttpStatus.OK);
+    }
 }

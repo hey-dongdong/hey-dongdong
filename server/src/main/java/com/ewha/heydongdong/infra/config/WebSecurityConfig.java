@@ -53,6 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/history/**").hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/my-menu/**").hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/order/add").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/order/update-progress").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
