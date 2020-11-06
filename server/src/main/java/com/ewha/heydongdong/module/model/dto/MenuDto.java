@@ -1,5 +1,6 @@
 package com.ewha.heydongdong.module.model.dto;
 
+<<<<<<< HEAD
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
