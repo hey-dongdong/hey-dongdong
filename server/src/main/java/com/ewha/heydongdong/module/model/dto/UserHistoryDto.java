@@ -13,6 +13,7 @@ import java.sql.Timestamp;
 @Builder
 @ToString
 public class UserHistoryDto {
+
     private Long orderId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Timestamp orderAt;
@@ -20,4 +21,5 @@ public class UserHistoryDto {
     private Integer totalCount;
     private MenuInHistoryDto menu;
     private StoreInHistoryDto store;
+
 }

@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 @Builder
 public class StoreInHistoryDto {
+
     private Integer storeId;
     private String storeName;
+
 }
