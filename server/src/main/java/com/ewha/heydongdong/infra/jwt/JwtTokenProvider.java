@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 
-    private String secretKey = "tlzmfltzl";   // TODO [지우] secretKey 지정
+    private String secretKey = "tlzmfltzl";
 
     private final long tokenValidTime = 30 * 60 * 1000L;
 
@@ -56,7 +56,7 @@ public class JwtTokenProvider {
     }
 
     public String resolveJwtToken(HttpServletRequest request) {
-        return request.getHeader("X-AUTH-TOKEN");
+        return request.getHeader("Authorization");
     }
 
     public boolean validateJwtToken(String jwtToken) {

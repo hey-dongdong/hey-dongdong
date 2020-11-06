@@ -17,7 +17,7 @@ public class StoreController {
     @Autowired
     private StoreService storeService;
 
-    @GetMapping(value = "/{storeName}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/{storeName}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getStoreInfo(@PathVariable(value = "storeName") String storeName,
                                           @RequestBody Request request) {
 
