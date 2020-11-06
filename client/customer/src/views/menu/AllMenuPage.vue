@@ -32,7 +32,15 @@ export default {
 		...mapGetters(['menuItems']),
 	},
 	created() {
-		this.$store.dispatch('FETCH_MENUS');
+		const data = {
+			header: {
+				name: 'GetAllMenusRequest',
+			},
+			payload: {
+				storeId: this.id,
+			},
+		};
+		this.$store.dispatch('FETCH_MENUS', data);
 	},
 	methods: {
 		goMenuDetailTmp() {

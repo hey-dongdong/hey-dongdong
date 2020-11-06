@@ -10,6 +10,14 @@ module.exports = {
 				target: process.env.VUE_APP_API_URL,
 				changeOrigin: true,
 			},
+			'/my-menu': {
+				target: process.env.VUE_APP_API_URL,
+				changeOrigin: true,
+			},
+			'/history': {
+				target: process.env.VUE_APP_API_URL,
+				changeOrigin: true,
+			},
 		},
 	},
 };

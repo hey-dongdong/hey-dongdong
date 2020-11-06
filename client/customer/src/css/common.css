@@ -983,7 +983,7 @@ input[type=checkbox]:checked + label{
 	display: flex;
 	justify-content: space-between;
 	width: 330px;
-	margin: 0 auto;
+	margin: 0 auto 30px;
 }
 
 .greenbtn-small {

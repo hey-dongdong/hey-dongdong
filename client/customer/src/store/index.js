@@ -7,17 +7,14 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		username: '',
+		userId: '',
 		token: '',
 		menus: [],
 		myMenus: [],
 		history: [],
-		orderDetail: {},
+		historyDetail: {},
 	},
 	getters: {
-		isLogin(state) {
-			return state.username !== '';
-		},
 		menuItems(state) {
 			return state.menus;
 		},
@@ -27,8 +24,8 @@ export default new Vuex.Store({
 		historyItems(state) {
 			return state.history;
 		},
-		orderDetail(state) {
-			return state.orderDetail;
+		historyDetail(state) {
+			return state.historyDetail;
 		},
 	},
 	mutations,
