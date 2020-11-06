@@ -7,6 +7,8 @@ import com.ewha.heydongdong.module.model.domain.User;
 import com.ewha.heydongdong.infra.exception.NoResultFromDBException;
 import com.ewha.heydongdong.infra.protocol.RequestHeader;
 import com.ewha.heydongdong.infra.protocol.Response;
+import com.ewha.heydongdong.module.model.dto.MenuInOrderDto;
+import com.ewha.heydongdong.module.model.dto.MyMenuDto;
 import com.ewha.heydongdong.module.repository.MyMenuRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,7 +31,7 @@ public class MyMenuService {
     public String getUserMyMenu(String userId) {
         List<MyMenu> myMenus = myMenuRepository.findByUser(User.builder().userId(userId).build());
         checkIfMyMenuExists(myMenus, userId);
-
+        List<MyMenuDto> myMenuDto =
         return buildJsonResponse("GetMyMenusResponse", userId, myMenus);
     }
 
@@ -36,11 +39,16 @@ public class MyMenuService {
         User user = User.builder()
                 .userId(userId)
                 .build();
-        MenuInOrder menuInOrder = MenuInOrder.builder()
-                .id(menuInOrderId)
+
+        MenuInOrderDto menuInOrder = MenuInOrderDto.builder()
+                .menuInOrderId(menuInOrderId)
+                .menu()
+                .option()
+                .price()
                 .build();
 
-        MyMenu myMenu = MyMenu.builder()
+        MyMenuDto myMenu = MyMenuDto.builder()
+                .myMenuId()
                 .addAt(new Timestamp(System.currentTimeMillis()))
                 .user(user)
                 .menuInOrder(menuInOrder)
@@ -48,6 +56,15 @@ public class MyMenuService {
         myMenuRepository.save(myMenu);
 
         return buildJsonResponse("AddMyMenuResponse", userId);
+    }
+
+    private List<MyMenuDto> buildUserMyMenu(List<MyMenu> myMenus) {
+        List<MyMenuDto> myMenu = new ArrayList<>();
+        for(MyMenu userMyMenu : myMenus) {
+            myMenu.add(MyMenuDto.builder()
+            .myMenuId()
+            .addAt());
+        }
     }
 
     public String removeUserMyMenu(String userId, Long myMenuId) {
