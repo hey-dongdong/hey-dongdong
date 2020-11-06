@@ -204,7 +204,6 @@ export default {
 					});
 					var minDistance = polyline.getLength();
 					var minIndex = 0;
-					console.log(minDistance);
 					for (let i = 1; i < positions.length; i++) {
 						polyline = new kakao.maps.Polyline({
 							path: [new kakao.maps.LatLng(lat, lon), positions[i].latlng],
@@ -215,8 +214,7 @@ export default {
 							minIndex = i;
 						}
 					}
-					var locPosition = positions[minIndex].latlng;
-					console.log(locPosition, positions[minIndex].store);
+					localStorage.setItem('nearest-store-id', positions[minIndex].id);
 					localStorage.setItem('nearest-store', positions[minIndex].store);
 				});
 			} else {
@@ -296,6 +294,7 @@ export default {
 				selectBtn.className = 'popup-button';
 				selectBtn.appendChild(document.createTextNode('선택'));
 				selectBtn.onclick = function() {
+					localStorage.setItem('store-id', pos.id);
 					localStorage.setItem('store', pos.store);
 					customOverlay.setMap(null);
 					window.location.reload();
@@ -315,6 +314,7 @@ export default {
 			});
 		},
 		setNearestStore() {
+			localStorage.setItem('store-id', localStorage.getItem('nearest-store-id'));
 			localStorage.setItem('store', localStorage.getItem('nearest-store'));
 			window.location.reload();
 		},

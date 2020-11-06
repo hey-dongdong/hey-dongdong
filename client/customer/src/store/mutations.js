@@ -1,12 +1,15 @@
 export default {
-	SET_USERNAME(state, data) {
-		state.username = data;
+	SET_USERID(state, data) {
+		state.userId = data;
 	},
-	CLEAR_USERNAME(state) {
-		state.username = '';
+	CLEAR_USERID(state) {
+		state.userId = '';
 	},
 	SET_TOKEN(state, token) {
 		state.token = token;
+	},
+	CLEAR_TOKEN(state) {
+		state.token = '';
 	},
 	SET_MENUS(state, data) {
 		state.menus = data;
@@ -17,7 +20,7 @@ export default {
 	SET_HISTORY(state, data) {
 		state.history = data;
 	},
-	SET_ORDER_DETAIL(state, data) {
-		state.orderDetail = data;
+	SET_HISTORY_DETAIL(state, data) {
+		state.historyDetail = data;
 	},
 };

@@ -3,7 +3,7 @@
 		<img
 			:src="
 				historyItem.menu.menuThumbnail
-					? require('@/assets' + historyItem.menu.menuThumbnail)
+					? require('@/assets/menu' + historyItem.menu.menuThumbnail)
 					: require('@/assets/drink.png')
 			"
 			alt="메뉴이미지"

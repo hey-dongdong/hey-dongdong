@@ -2,21 +2,22 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import mutations from './mutations';
 import actions from './actions';
+import { getAuthFromCookie, getUserFromCookie } from '@/utils/cookies';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		username: '',
-		token: '',
+		userId: getUserFromCookie() || '',
+		token: getAuthFromCookie() || '',
 		menus: [],
 		myMenus: [],
 		history: [],
-		orderDetail: {},
+		historyDetail: {},
 	},
 	getters: {
 		isLogin(state) {
-			return state.username !== '';
+			return state.userId !== '';
 		},
 		menuItems(state) {
 			return state.menus;
@@ -27,8 +28,8 @@ export default new Vuex.Store({
 		historyItems(state) {
 			return state.history;
 		},
-		orderDetail(state) {
-			return state.orderDetail;
+		historyDetail(state) {
+			return state.historyDetail;
 		},
 	},
 	mutations,

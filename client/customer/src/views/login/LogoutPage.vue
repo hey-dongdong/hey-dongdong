@@ -6,7 +6,7 @@
 		<div class="blackbg">
 			<div class="profile">
 				<ion-icon name="person" class="user-icon"></ion-icon>
-				<span>{{ $store.state.username }} 님</span>
+				<span>{{ $store.state.userId }} 님</span>
 			</div>
 			<button @click="openModal" type="submit" class="goldbtn">LOGOUT</button>
 			<ModalWithTwoBtn @close="closeModal" v-if="modal">
@@ -24,6 +24,7 @@
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
 import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+import { deleteCookie } from '@/utils/cookies';
 
 export default {
 	components: {
@@ -46,7 +47,10 @@ export default {
 			this.closeModal();
 		},
 		logout() {
-			this.$store.commit('CLEAR_USERNAME');
+			this.$store.commit('CLEAR_USERID');
+			this.$store.commit('CLEAR_TOKEN');
+			deleteCookie('auth');
+			deleteCookie('user');
 			this.$router.push('/sign-in');
 		},
 	},
