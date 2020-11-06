@@ -2,6 +2,7 @@ package com.ewha.heydongdong.infra.exception;
 
 import com.ewha.heydongdong.infra.protocol.Response;
 import com.ewha.heydongdong.infra.protocol.ResponseHeader;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,19 @@ public class GlobalExceptionHandler {
         String msg = e.getNAME() + ": Wrong original password [userId=" + e.getMessage() + "]";
         log.error(msg);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @ExceptionHandler({JsonProcessingException.class})
+    public ResponseEntity<?> handleJsonProcessingException(final JsonProcessingException e) {
+
+        String msg = "Json processing exception [" + e.getMessage() + "]";
+        log.error(msg);
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("JsonProcessingException")
+                        .message(msg)
+                        .build())
+                .build();
+        return ResponseEntity.badRequest().body(objectMapper.valueToTree(response).toPrettyString());
     }
 }
