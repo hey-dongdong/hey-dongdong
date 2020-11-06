@@ -2,11 +2,14 @@ export default {
 	SET_USERID(state, data) {
 		state.userId = data;
 	},
-	CLEAR_USERNAME(state) {
-		state.username = '';
+	CLEAR_USERID(state) {
+		state.userId = '';
 	},
 	SET_TOKEN(state, token) {
 		state.token = token;
+	},
+	CLEAR_TOKEN(state) {
+		state.token = '';
 	},
 	SET_MENUS(state, data) {
 		state.menus = data;

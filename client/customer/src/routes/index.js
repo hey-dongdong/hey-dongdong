@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store/index';
 
 Vue.use(VueRouter);
 
-export default new VueRouter({
+const router = new VueRouter({
 	mode: 'history',
 	routes: [
 		{
@@ -98,6 +99,7 @@ export default new VueRouter({
 			path: '/history',
 			name: 'history',
 			component: () => import('@/views/order/HistoryPage.vue'),
+			meta: { auth: true },
 		},
 		{
 			path: '/history/detail',
@@ -115,3 +117,14 @@ export default new VueRouter({
 		},
 	],
 });
+
+router.beforeEach((to, from, next) => {
+	if (to.meta.auth && !store.getters.isLogin) {
+		console.log('인증이 필요합니다');
+		next('/sign-in');
+		return;
+	}
+	next();
+});
+
+export default router;

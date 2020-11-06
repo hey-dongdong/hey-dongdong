@@ -33,6 +33,7 @@
 
 <script>
 import { signInUser } from '@/api/index';
+import { saveAuthToCookie, saveUserToCookie } from '@/utils/cookies';
 
 export default {
 	data() {
@@ -59,6 +60,8 @@ export default {
 				console.log(data.payload.token);
 				this.$store.commit('SET_TOKEN', data.payload.token);
 				this.$store.commit('SET_USERID', data.header.message);
+				saveAuthToCookie(data.payload.token);
+				saveUserToCookie(data.header.message);
 				this.initForm();
 				this.$router.push('/main');
 			} catch (error) {
