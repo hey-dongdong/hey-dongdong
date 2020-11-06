@@ -14,9 +14,7 @@
 					>로그인하러 가기</router-link
 				>
 			</FindSuccess>
-			<router-link to="/user/find-info/pw" class="greenbtn"
-				>비밀번호 찾기</router-link
-			>
+			<router-link to="/user/find-info/pw" class="greenbtn">비밀번호 찾기</router-link>
 		</div>
 	</div>
 </template>

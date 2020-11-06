@@ -141,6 +141,24 @@ transition: background-color 5000s ease-in-out 0s;
 	margin-bottom: 70px;
 }
 
+.confirmpw {
+	margin-bottom: 5px;
+}
+
+.password-message {
+	display: block;
+	margin-bottom: 25px;
+	color: red;
+	font-size: 13px;
+}
+
+.password-message-same {
+	display: block;
+	margin-bottom: 25px;
+	color:#8D734A;
+	font-size: 13px;
+}
+
 
 /* buttons */
 
@@ -157,6 +175,10 @@ transition: background-color 5000s ease-in-out 0s;
 	margin: 0 auto 20px;
 }
 
+.goldbtn:disabled {
+	color: #555555;
+}
+
 .greenbtn {
 	display: flex;
 	width: 300px;
@@ -171,8 +193,17 @@ transition: background-color 5000s ease-in-out 0s;
 }
 
 .links {
+	display: block;
 	width: fit-content;
 	margin: 0 auto;
+}
+
+.login-message {
+	display: block;
+	width: fit-content;
+	color: red;
+	font-size: 13px;
+	margin: 50px auto;
 }
 
 

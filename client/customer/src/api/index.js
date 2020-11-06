@@ -1,11 +1,26 @@
 import axios from 'axios';
+import { setInterceptors } from './common/interceptors';
 
-const instance = axios.create({
-	baseURL: process.env.VUE_APP_API_URL,
-});
+function createInstance() {
+	const instance = axios.create();
+	return setInterceptors(instance);
+}
+const instance = createInstance();
 
-function registerUser(userData) {
-	return instance.post('sign-up', userData);
+async function registerUser(userData) {
+	try {
+		return await instance.post('/user/sign-up', userData);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+async function signInUser(userData) {
+	try {
+		return await instance.post('/user/sign-in', userData);
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 function fetchMenus() {
@@ -24,4 +39,11 @@ function fetchOrderDetail() {
 	return instance.get('ded297bb-bb09-4846-9cfc-66b606379edb');
 }
 
-export { registerUser, fetchMenus, fetchMyMenus, fetchHistory, fetchOrderDetail };
+export {
+	registerUser,
+	signInUser,
+	fetchMenus,
+	fetchMyMenus,
+	fetchHistory,
+	fetchOrderDetail,
+};

@@ -5,15 +5,20 @@
 			<ul class="form-items">
 				<li>
 					<label for="id" class="form-label">ID</label>
-					<input id="id" type="text" placeholder="아이디를 입력하세요" />
+					<input id="id" type="text" v-model="id" placeholder="아이디를 입력하세요" />
 				</li>
 				<li>
 					<label for="password" class="form-label">Password</label>
-					<input id="password" type="password" placeholder="비밀번호를 입력하세요" />
+					<input
+						id="password"
+						type="password"
+						v-model="password"
+						placeholder="비밀번호를 입력하세요"
+					/>
 				</li>
 			</ul>
 
-			<button @click="goMain" type="submit" class="goldbtn">LOGIN</button>
+			<button type="submit" class="goldbtn">LOGIN</button>
 		</form>
 		<div class="links">
 			<router-link to="/user/find-info/id">아이디 찾기</router-link>
@@ -22,32 +27,48 @@
 			|
 			<router-link to="/sign-up">회원가입</router-link>
 		</div>
+		<span class="login-message">{{ logMessage }}</span>
 	</div>
 </template>
 
 <script>
+import { signInUser } from '@/api/index';
+
 export default {
 	data() {
 		return {
 			id: '',
 			password: '',
+			logMessage: '',
 		};
 	},
 	methods: {
-		// async submitForm() {
-		// 	try {
-		// 		const userData = {
-		// 			id: this.id,
-		// 			password: this.password,
-		// 		};
-		// 		//await this.$store.dispatch('LOGIN', userData);
-		// 		this.$router.push('/user/no-show');
-		// 	} catch (error) {
-		// 		console.log(error.response.data);
-		// 	}
-		// },
-		goMain() {
-			this.$router.push('/main');
+		async submitForm() {
+			try {
+				const userData = {
+					header: {
+						name: 'SignInRequest',
+						userId: this.id,
+					},
+					payload: {
+						userId: this.id,
+						password: this.password,
+					},
+				};
+				const { data } = await signInUser(userData);
+				console.log(data.payload.token);
+				this.$store.commit('SET_TOKEN', data.payload.token);
+				this.$store.commit('SET_USERNAME', data.header.message);
+				this.initForm();
+				this.$router.push('/main');
+			} catch (error) {
+				this.logMessage = '아이디 혹은 비밀번호가 잘못되었습니다.';
+			}
+		},
+		initForm() {
+			this.id = '';
+			this.password = '';
+			this.logMessage = '';
 		},
 	},
 };
