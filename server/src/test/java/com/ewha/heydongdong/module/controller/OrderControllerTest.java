@@ -2,8 +2,6 @@ package com.ewha.heydongdong.module.controller;
 
 import com.ewha.heydongdong.infra.protocol.Request;
 import com.ewha.heydongdong.infra.protocol.RequestHeader;
-import com.ewha.heydongdong.infra.protocol.Response;
-import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.datatype.BasicOption;
 import com.ewha.heydongdong.module.model.domain.datatype.CustomOption;
 import com.ewha.heydongdong.module.model.domain.datatype.Option;
@@ -11,11 +9,8 @@ import com.ewha.heydongdong.module.model.domain.datatype.Progress;
 import com.ewha.heydongdong.module.model.dto.MenuInNewOrderDto;
 import com.ewha.heydongdong.module.model.dto.NewOrderDto;
 import com.ewha.heydongdong.module.model.dto.NewOrderInfoDto;
-import com.ewha.heydongdong.module.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +18,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
@@ -43,9 +37,6 @@ class OrderControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Autowired
-    private OrderService orderService;
 
     @Test
     @DisplayName("Add new order | Success")
@@ -98,5 +89,4 @@ class OrderControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-
 }
