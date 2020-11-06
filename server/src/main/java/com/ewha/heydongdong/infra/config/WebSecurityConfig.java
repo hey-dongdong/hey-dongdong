@@ -53,8 +53,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/history/**").hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/my-menu/**").hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/order/add").hasRole("USER")
-                .antMatchers(HttpMethod.POST, "/order/update-progress").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.POST, "/order/update-progress").hasRole("ADMIN")
+//                .antMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/order/update-progress").permitAll()
+                .antMatchers(HttpMethod.POST, "/admin/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
