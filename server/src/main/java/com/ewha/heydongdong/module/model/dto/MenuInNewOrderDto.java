@@ -9,8 +9,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MenuInNewOrderDto {
+
     private Integer menuId;
     private Option option;
     private Integer price;
     private Integer count;
+
 }

@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 public class MyMenuDto {
 
     private Integer myMenuId;
-    private MenuInOrderDto menuInOrder;
+    private MenuInMyMenuDto menuInOrder;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Timestamp addAt;
     private String storeName;

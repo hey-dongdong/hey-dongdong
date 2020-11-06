@@ -1,13 +1,11 @@
 package com.ewha.heydongdong.module.service;
 
 import com.ewha.heydongdong.infra.protocol.ResponseHeader;
-import com.ewha.heydongdong.module.model.domain.MenuInOrder;
 import com.ewha.heydongdong.module.model.domain.MyMenu;
 import com.ewha.heydongdong.module.model.domain.User;
 import com.ewha.heydongdong.infra.exception.NoResultFromDBException;
-import com.ewha.heydongdong.infra.protocol.RequestHeader;
 import com.ewha.heydongdong.infra.protocol.Response;
-import com.ewha.heydongdong.module.model.dto.MenuInOrderDto;
+import com.ewha.heydongdong.module.model.dto.MenuInMyMenuDto;
 import com.ewha.heydongdong.module.model.dto.MyMenuDto;
 import com.ewha.heydongdong.module.repository.MyMenuRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,7 +38,7 @@ public class MyMenuService {
                 .userId(userId)
                 .build();
 
-        MenuInOrderDto menuInOrder = MenuInOrderDto.builder()
+        MenuInMyMenuDto menuInOrder = MenuInMyMenuDto.builder()
                 .menuInOrderId(menuInOrderId)
                 .menu()
                 .option()

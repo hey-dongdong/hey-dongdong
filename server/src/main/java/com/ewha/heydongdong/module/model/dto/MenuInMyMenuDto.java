@@ -11,11 +11,11 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class MenuInOrderDto {
+public class MenuInMyMenuDto {
 
     private Long menuInOrderId;
     private MenuDto menu;
     private Option option;
-    private Price price;
+    private Integer price;
 
 }
