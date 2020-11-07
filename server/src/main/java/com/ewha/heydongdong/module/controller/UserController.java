@@ -10,11 +10,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 @Slf4j
-@ControllerAdvice
 @RestController
 @RequestMapping("user")
+@ControllerAdvice
 public class UserController {
 
     @Autowired
@@ -103,3 +102,6 @@ public class UserController {
         return new ResponseEntity<>(noShowCount, HttpStatus.OK);
     }
 }
+
+
+
