@@ -35,7 +35,7 @@ import BlackHeader from '@/components/common/BlackHeader.vue';
 import CompleteOrderDetail from '@/components/order/CompleteOrderDetail.vue';
 import CompleteOrderItems from '@/components/order/CompleteOrderItems.vue';
 import { getUserFromCookie } from '@/utils/cookies';
-import { addMyMenu } from '@/api/index';
+import { addMyMenu } from '@/api/menus';
 
 export default {
 	components: {

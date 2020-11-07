@@ -1,4 +1,4 @@
-import { fetchMenus, fetchMyMenus, fetchHistory, fetchHistoryDetail } from '../api/index';
+import { fetchMenus, fetchMyMenus, fetchHistory, fetchHistoryDetail } from '../api/menus';
 
 export default {
 	async FETCH_MENUS({ commit }, data) {

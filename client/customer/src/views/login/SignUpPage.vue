@@ -97,7 +97,7 @@
 
 <script>
 import GreenHeader from '@/components/common/GreenHeader.vue';
-import { registerUser } from '@/api/index';
+import { registerUser } from '@/api/auth';
 import { validateEmail, validatePassword } from '@/utils/validation';
 
 export default {

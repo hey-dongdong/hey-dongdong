@@ -38,7 +38,7 @@ import MyMenuListItem from '@/components/menu/MyMenuListItem.vue';
 import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
 import { mapGetters } from 'vuex';
 import { getUserFromCookie } from '@/utils/cookies';
-import { removeMyMenu } from '@/api/index';
+import { removeMyMenu } from '@/api/menus';
 
 export default {
 	components: {

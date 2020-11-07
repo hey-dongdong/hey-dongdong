@@ -29,7 +29,7 @@ import OrderItems from '@/components/order/OrderItems.vue';
 import { mapGetters } from 'vuex';
 import store from '@/store/index';
 import { getUserFromCookie } from '@/utils/cookies';
-import { addMyMenu } from '@/api/index';
+import { addMyMenu } from '@/api/menus';
 
 export default {
 	components: {

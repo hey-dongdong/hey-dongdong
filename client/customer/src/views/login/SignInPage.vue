@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { signInUser } from '@/api/index';
+import { signInUser } from '@/api/auth';
 import { saveAuthToCookie, saveUserToCookie } from '@/utils/cookies';
 
 export default {

@@ -29,7 +29,7 @@
 <script>
 import CartListItem from '@/components/order/CartListItem.vue';
 import { getUserFromCookie } from '@/utils/cookies';
-import { addOrder } from '@/api/index';
+import { addOrder } from '@/api/order';
 
 export default {
 	components: {
