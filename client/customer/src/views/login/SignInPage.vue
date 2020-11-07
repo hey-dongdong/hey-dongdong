@@ -21,9 +21,9 @@
 			<button type="submit" class="goldbtn">LOGIN</button>
 		</form>
 		<div class="links">
-			<router-link to="/user/find-info/id">아이디 찾기</router-link>
+			<router-link to="/find-id">아이디 찾기</router-link>
 			|
-			<router-link to="/user/find-info/pw">비밀번호 찾기</router-link>
+			<router-link to="/find-pw">비밀번호 찾기</router-link>
 			|
 			<router-link to="/sign-up">회원가입</router-link>
 		</div>

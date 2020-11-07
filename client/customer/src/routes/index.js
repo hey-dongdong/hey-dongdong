@@ -33,27 +33,28 @@ const router = new VueRouter({
 			component: () => import('@/views/main/StoreInfoPage.vue'),
 		},
 		{
-			path: '/user/find-info/id',
+			path: '/find-id',
 			component: () => import('@/views/login/FindIdPage.vue'),
 		},
 		{
-			path: '/user/find-info/id/:id',
+			path: '/find-id/success',
+			name: 'find-id/success',
 			component: () => import('@/views/login/FindIdSuccessPage.vue'),
 		},
 		{
-			path: '/user/find-info/id-fail',
+			path: '/find-id/fail',
 			component: () => import('@/views/login/FindIdFailPage.vue'),
 		},
 		{
-			path: '/user/find-info/pw',
+			path: '/find-pw',
 			component: () => import('@/views/login/FindPwPage.vue'),
 		},
 		{
-			path: '/user/find-info/pw/:email',
+			path: '/find-pw/success',
 			component: () => import('@/views/login/FindPwSuccessPage.vue'),
 		},
 		{
-			path: '/user/find-info/pw-fail',
+			path: '/find-pw/fail',
 			component: () => import('@/views/login/FindPwFailPage.vue'),
 		},
 		{
@@ -135,8 +136,11 @@ router.beforeEach((to, from, next) => {
 		) &&
 		to.name == 'menu-detail'
 	) {
-		console.log('hihi');
 		next('/menu/all');
+		return;
+	}
+	if (from.path == '/find-pw' && to.path == '/find-id/success') {
+		next('/sign-in');
 		return;
 	}
 	next();

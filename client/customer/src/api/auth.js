@@ -17,4 +17,12 @@ async function signInUser(userData) {
 	}
 }
 
-export { registerUser, signInUser };
+async function findUserId(userData) {
+	try {
+		return await instance.post('/user/find-info/id', userData);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export { registerUser, signInUser, findUserId };

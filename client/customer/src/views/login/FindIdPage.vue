@@ -12,7 +12,12 @@
 					</li>
 					<li>
 						<label for="email" class="form-label">이메일</label>
-						<input id="email" type="email" placeholder="이메일을 입력하세요" />
+						<input
+							id="email"
+							type="email"
+							placeholder="이메일을 입력하세요"
+							v-model="email"
+						/>
 					</li>
 				</ul>
 				<button type="submit" class="goldbtn">확인</button>
@@ -23,10 +28,42 @@
 
 <script>
 import GreenHeader from '@/components/common/GreenHeader.vue';
+import { findUserId } from '@/api/auth';
 
 export default {
 	components: {
 		GreenHeader,
+	},
+	data() {
+		return {
+			email: '',
+		};
+	},
+	methods: {
+		async submitForm() {
+			try {
+				const userData = {
+					header: {
+						name: 'FindIdRequest',
+						userId: 'N/A',
+					},
+					payload: {
+						email: this.email,
+					},
+				};
+				const { data } = await findUserId(userData);
+				const param = {
+					userId: data.payload.userId,
+				};
+				this.$router.push({
+					name: 'find-id/success',
+					path: '/find-id/success',
+					params: param,
+				});
+			} catch (error) {
+				this.$router.push('/find-id/fail');
+			}
+		},
 	},
 };
 </script>
