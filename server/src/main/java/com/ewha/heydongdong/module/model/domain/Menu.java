@@ -15,6 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 public class Menu {
+
     @Id
     @Column(name = "id")
     private Integer menuId;

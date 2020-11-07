@@ -12,6 +12,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @ToString
 public class Position {
+
     @Column(name = "latitude", nullable = false)
     private Double latitude;
 

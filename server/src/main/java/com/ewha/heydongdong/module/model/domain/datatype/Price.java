@@ -12,6 +12,7 @@ import javax.persistence.Embeddable;
 @ToString
 @Getter
 public class Price {
+
     @Column(name = "small_hot_price")
     private Integer smallHotPrice;
 

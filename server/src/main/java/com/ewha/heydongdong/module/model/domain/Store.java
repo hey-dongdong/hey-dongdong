@@ -15,6 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class Store {
+
     @Id
     @Column(name = "id", nullable = false)
     private Integer storeId;

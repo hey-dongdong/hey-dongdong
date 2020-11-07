@@ -15,8 +15,9 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @Builder
 public class MyMenu {
+
     @Id
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long myMenuId;
 
