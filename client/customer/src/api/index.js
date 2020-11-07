@@ -55,6 +55,14 @@ async function fetchHistoryDetail(data) {
 	}
 }
 
+async function addMyMenu(data) {
+	try {
+		return await instance.post('/my-menu/add', data);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 async function removeMyMenu(data) {
 	try {
 		return await instance.post('/my-menu/remove', data);
@@ -70,5 +78,6 @@ export {
 	fetchMyMenus,
 	fetchHistory,
 	fetchHistoryDetail,
+	addMyMenu,
 	removeMyMenu,
 };

@@ -28,6 +28,8 @@ import OrderDetail from '@/components/order/OrderDetail.vue';
 import OrderItems from '@/components/order/OrderItems.vue';
 import { mapGetters } from 'vuex';
 import store from '@/store/index';
+import { getUserFromCookie } from '@/utils/cookies';
+import { addMyMenu } from '@/api/index';
 
 export default {
 	components: {
@@ -51,8 +53,20 @@ export default {
 		this.$store.dispatch('FETCH_HISTORY_DETAIL', data);
 	},
 	methods: {
-		toggleLike({ id, checked }) {
+		async toggleLike({ id, checked }) {
 			console.log(id, checked);
+			if (checked == true) {
+				const data = {
+					header: {
+						name: 'AddMyMenuRequest',
+						userId: getUserFromCookie(),
+					},
+					payload: {
+						menuInOrderId: id,
+					},
+				};
+				await addMyMenu(data);
+			}
 		},
 		addToCart() {
 			let maxIndex = 0;
