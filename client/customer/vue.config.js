@@ -1,6 +1,6 @@
 module.exports = {
 	devServer: {
-		// overlay: false,
+		overlay: false,
 		proxy: {
 			'/user': {
 				target: process.env.VUE_APP_API_URL,

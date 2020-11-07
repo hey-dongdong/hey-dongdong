@@ -11,10 +11,17 @@ body {
 	height: 50px;
 }
 
+.header-middle {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .logo-title {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-right: 10px;
 }
 
 .logo {
@@ -24,6 +31,20 @@ body {
 
 .title {
 	font-size: 25px;
+}
+
+.select-box {
+	position: relative;
+	font-family: 'NanumSquare', sans-serif;
+	width: 120px;
+	height: 30px;
+	/* background: url(select_arrow.png) 180px center no-repeat; 화살표 이미지 */
+	border: 1px solid white;
+	border-radius: 3px;
+	color: white;
+}
+.select-box select {
+	display: none;
 }
 
 .link-to-history {
