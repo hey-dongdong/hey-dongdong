@@ -7,6 +7,7 @@ import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.*;
 import com.ewha.heydongdong.module.model.domain.datatype.Progress;
 import com.ewha.heydongdong.module.model.dto.*;
+import com.ewha.heydongdong.module.repository.MyMenuRepository;
 import com.ewha.heydongdong.module.repository.OrderRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -23,6 +24,9 @@ public class HistoryService {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private MyMenuRepository myMenuRepository;
 
     public String getUserHistory(String userId) {
         List<Order> orders = orderRepository.findByUserAndProgress(User.builder().userId(userId).build(), Progress.DONE);
@@ -110,9 +114,14 @@ public class HistoryService {
                     .option(menuInOrder.getOption())
                     .price(menuInOrder.getPrice())
                     .count(menuInOrder.getCount())
+                    .menuLiked(isMenuInOrderLiked(menuInOrder.getId(), order.getUser().getUserId()))
                     .build());
         }
         return menus;
+    }
+
+    private Boolean isMenuInOrderLiked(Long menuInOrderId, String userId) {
+        return myMenuRepository.findByUserAndMenuInOrder(User.builder().userId(userId).build(), MenuInOrder.builder().id(menuInOrderId).build()).isPresent();
     }
 
     private String buildUserHistoryDetailJsonResponse(String userId, UserHistoryDetailDto historyDetail) {
