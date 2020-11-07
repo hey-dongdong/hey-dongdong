@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -83,6 +84,20 @@ public class GlobalExceptionHandler {
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
                         .name("JsonProcessingException")
+                        .message(msg)
+                        .build())
+                .build();
+        return ResponseEntity.badRequest().body(objectMapper.valueToTree(response).toPrettyString());
+    }
+
+    @ExceptionHandler({EmptyResultDataAccessException.class})
+    public ResponseEntity<?> handleEmptyResultDataAccessException(final EmptyResultDataAccessException e) {
+
+        String msg = "Empty result data access exception [" + e.getMessage() + "]";
+        log.error(msg);
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("EmptyResultDataAccessException")
                         .message(msg)
                         .build())
                 .build();
