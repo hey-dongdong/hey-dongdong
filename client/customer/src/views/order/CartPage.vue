@@ -87,6 +87,15 @@ export default {
 						menus.push(menu);
 					}
 				}
+				let now = new Date();
+				let year = now.getFullYear();
+				let month = now.getMonth();
+				let date = now.getDate();
+				let hours = now.getHours();
+				let minutes = now.getMinutes();
+				let seconds = now.getSeconds();
+				var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+				console.log(time);
 				const data = {
 					header: {
 						name: 'AddNewOrderRequest',
@@ -94,7 +103,7 @@ export default {
 					},
 					payload: {
 						newOrderInfo: {
-							orderAt: '2020-11-06 12:02:00',
+							orderAt: time,
 							progress: 'WAITING',
 							totalCount: totalCount,
 							totalPrice: this.totalPrice,
