@@ -16,7 +16,7 @@ public class UserSignUpDto {
     private String email;
     private String phone;
 
-    public void validate() {
+    public void validateFieldsNotNull() {
         if (userId == null)
             throw new InvalidRequestParameterException("Invalid userId");
         if (userName == null)

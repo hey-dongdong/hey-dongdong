@@ -1,5 +1,6 @@
 package com.ewha.heydongdong.module.service;
 
+import com.ewha.heydongdong.infra.JsonBuilder;
 import com.ewha.heydongdong.infra.exception.DuplicateUserException;
 import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
 import com.ewha.heydongdong.infra.exception.NoResultFromDBException;
@@ -7,22 +8,22 @@ import com.ewha.heydongdong.infra.exception.NoSuchUserException;
 import com.ewha.heydongdong.infra.jwt.JwtTokenProvider;
 import com.ewha.heydongdong.infra.mail.EmailMessage;
 import com.ewha.heydongdong.infra.mail.EmailService;
-import com.ewha.heydongdong.infra.protocol.Response;
-import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.User;
 import com.ewha.heydongdong.module.model.dto.UserSignUpDto;
 import com.ewha.heydongdong.module.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+
 
 @Service
 public class UserService {
@@ -45,17 +46,20 @@ public class UserService {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    @Autowired
+    private JsonBuilder jsonBuilder;
+
     public String signUp(JsonNode payload) throws JsonProcessingException {
         User newUser = saveNewUser(payload);
-        emailService.sendEmail(generateVerifyEmail(newUser));
-        return buildJsonResponseWithOnlyHeader("SignUpResponse", newUser.getUserId());
+        emailService.sendEmail(generateSignUpVerificationEmail(newUser));
+        return jsonBuilder.buildJsonWithHeader("SignUpResponse", newUser.getUserId());
     }
 
     private User saveNewUser(JsonNode payload) throws JsonProcessingException {
         UserSignUpDto userSignUpDto = objectMapper.treeToValue(payload, UserSignUpDto.class);
-        userSignUpDto.validate();
+        userSignUpDto.validateFieldsNotNull();
         validateDuplicateUser(userSignUpDto);
-        return userRepository.save(buildUser(userSignUpDto));
+        return userRepository.save(buildUserFromDto(userSignUpDto));
     }
 
     private void validateDuplicateUser(UserSignUpDto userSignUpDto) {
@@ -75,7 +79,7 @@ public class UserService {
             throw new DuplicateUserException("email=" + email);
     }
 
-    private User buildUser(UserSignUpDto userSignUpDto) {
+    private User buildUserFromDto(UserSignUpDto userSignUpDto) {
         return User.builder()
                 .userId(userSignUpDto.getUserId())
                 .userName(userSignUpDto.getUserName())
@@ -90,7 +94,7 @@ public class UserService {
                 .build();
     }
 
-    private EmailMessage generateVerifyEmail(User newUser) {
+    private EmailMessage generateSignUpVerificationEmail(User newUser) {
         Context context = new Context();
         context.setVariable("link", "/user/check-email-token/" + newUser.getEmail() + "/" + newUser.getEmailCheckToken());
         context.setVariable("userName", newUser.getUserName());
@@ -107,24 +111,13 @@ public class UserService {
                 .build();
     }
 
-    private String buildJsonResponseWithOnlyHeader(String name, String message) {
-        return objectMapper.valueToTree(Response.builder()
-                .header(ResponseHeader.builder()
-                        .name(name)
-                        .message(message)
-                        .build())
-                .build())
-                .toPrettyString();
-    }
-
     public String checkEmailToken(String email, String emailCheckToken) {
         User user = checkIfUserExists(email);
-        if (user.getEmailCheckToken().equals(emailCheckToken)) {
-            user.setIsEmailVerified(true);
-            String userId = userRepository.save(user).getUserId();
-            return buildJsonResponseWithOnlyHeader("CheckEmailTokenResponse", userId);
-        } else
-            throw new InvalidRequestParameterException("Wrong token");
+        if (user.getEmailCheckToken().equals(emailCheckToken))
+            updateUserEmailVerifiedOnDB(user);
+        else
+            throw new InvalidRequestParameterException("Wrong email token");
+        return jsonBuilder.buildJsonWithHeader("CheckEmailTokenResponse", user.getUserId());
     }
 
     private User checkIfUserExists(String email) {
@@ -135,12 +128,17 @@ public class UserService {
             return users.get(0);
     }
 
+    private void updateUserEmailVerifiedOnDB(User user) {
+        user.setIsEmailVerified(true);
+        userRepository.save(user);
+    }
+
     public String signIn(JsonNode payload) {
         User given = buildUserFromJson(payload);
         User expected = findOptionalUserFromDB(given.getUserId());
         checkPassword(given, expected);
-        String token = jwtTokenProvider.createJwtToken(expected.getUsername(), expected.getRoles());
-        return buildUserSignUpJsonResponse(given.getUserId(), token);
+        String newToken = jwtTokenProvider.createJwtToken(expected.getUsername(), expected.getRoles());
+        return buildUserSignInJsonResponse(given.getUserId(), newToken);
     }
 
     private User buildUserFromJson(JsonNode payload) {
@@ -160,89 +158,51 @@ public class UserService {
             throw new NoResultFromDBException("Failed sign-in userId=" + given.getUserId());
     }
 
-    private String buildUserSignUpJsonResponse(String userId, String token) {
-        ObjectNode payload = objectMapper.createObjectNode();
-        payload.put("token", token);
-
-        Response response = Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("SignInResponse")
-                        .message(userId)
-                        .build())
-                .payload(payload)
-                .build();
-
-        return objectMapper.valueToTree(response).toPrettyString();
+    private String buildUserSignInJsonResponse(String userId, String token) {
+        return jsonBuilder.buildJsonWithHeaderAndPayload(
+                jsonBuilder.buildResponseHeader("SignInResponse", userId),
+                jsonBuilder.buildResponsePayload("token", token)
+        );
     }
 
-    private User findRequiredUserFromDB(String userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchUserException("userId=" + userId));
+    public String findUserId(JsonNode payload) {
+        User user = findUserByEmail(payload.get("email").asText());
+        return buildUserIdJsonResponse(user);
     }
 
-    public String getUserNoShowCount(String userId) {
-        User user = findRequiredUserFromDB(userId);
-        int noShowCount = user.getNoShowCount();
-
-        return buildUserNoShowCountJsonResponse("GetNoShowCountResponse", userId, noShowCount);
-    }
-
-    private String buildUserNoShowCountJsonResponse(String responseName, String userId, Integer noShowCount) {
-        ResponseHeader header = new ResponseHeader(responseName, userId);
-
-        ObjectNode payload = objectMapper.createObjectNode();
-        payload.set("noShowCount", objectMapper.valueToTree(noShowCount));
-
-        Response response = new Response(header, payload);
-
-        return objectMapper.valueToTree(response).toPrettyString();
-    }
-
-    public String findUserId(JsonNode payload) throws JsonProcessingException {
-
-        String email = (String) objectMapper.treeToValue(payload, HashMap.class).get("email");
-
+    private User findUserByEmail(String email) {
         List<User> foundUsers = userRepository.findByEmail(email);
         if (foundUsers.isEmpty())
             throw new NoResultFromDBException("No user for email=" + email);
-
-        return buildUserIdJsonResponse(email, foundUsers.get(0).getUserId());
+        return foundUsers.get(0);
     }
 
-    private String buildUserIdJsonResponse(String email, String userId) {
-        ResponseHeader header = new ResponseHeader("FindIdResponse", email);
-
-        ObjectNode payload = objectMapper.createObjectNode();
-        payload.put("userId", userId);
-
-        Response response = new Response(header, payload);
-
-        return objectMapper.valueToTree(response).toPrettyString();
+    private String buildUserIdJsonResponse(User user) {
+        return jsonBuilder.buildJsonWithHeaderAndPayload(
+                jsonBuilder.buildResponseHeader("FindIdResponse", user.getEmail()),
+                jsonBuilder.buildResponsePayload("userId", user.getUserId())
+        );
     }
 
-    public String findUserPw(JsonNode payload) throws JsonProcessingException {
-
-        Map<String, String> requestPayload = objectMapper.treeToValue(payload, HashMap.class);
-
-        User user = findOptionalUserFromDB(requestPayload.get("userId"));
-        validateGivenInfo(requestPayload, user);
-        updateEmailCheckToken(user);
+    public String findUserPw(JsonNode payload) {
+        User user = findOptionalUserFromDB(payload.get("userId").asText());
+        validateGivenInfo(payload, user);
+        refreshEmailCheckToken(user);
         emailService.sendEmail(generateLoginEmail(user));
-
-        return buildJsonResponseWithOnlyHeader("FindPwResponse", user.getUserId());
+        return jsonBuilder.buildJsonWithHeader("FindPwResponse", user.getUserId());
     }
 
-    private void updateEmailCheckToken(User user) {
+    private void validateGivenInfo(JsonNode given, User expected) {
+        if (!given.get("userId").asText().equals(expected.getUserId())
+                | !given.get("userName").asText().equals(expected.getUserName())
+                | !given.get("email").asText().equals(expected.getEmail())) {
+            throw new NoResultFromDBException("No user for userId=" + expected.getUserId());
+        }
+    }
+
+    private void refreshEmailCheckToken(User user) {
         user.setEmailCheckToken(UUID.randomUUID().toString());
         userRepository.save(user);
-    }
-
-    private void validateGivenInfo(Map<String, String> requestPayload, User user) {
-        if (!requestPayload.get("userId").equals(user.getUserId())
-                | !requestPayload.get("userName").equals(user.getUserName())
-                | !requestPayload.get("email").equals(user.getEmail())) {
-            throw new NoResultFromDBException("No user for userId=" + user.getUserId());
-        }
     }
 
     private EmailMessage generateLoginEmail(User user) {
@@ -254,7 +214,6 @@ public class UserService {
         context.setVariable("host", "http://localhost:8080");   // TODO [지우] 서버 주소 변경
 
         String message = templateEngine.process("login-by-email", context);
-
         return EmailMessage.builder()
                 .to(user.getEmail())
                 .subject("헤이동동 로그인을 위한 링크메일입니다.")
@@ -265,22 +224,35 @@ public class UserService {
     public String loginByEmail(String email, String emailCheckToken) {
         User user = checkIfUserExists(email);
         if (!user.getEmailCheckToken().equals(emailCheckToken))
-            throw new InvalidRequestParameterException("Wrong token");
-        return buildJsonResponseWithOnlyHeader("LoginByEmailResponse", user.getUserId());
+            throw new InvalidRequestParameterException("Wrong email token");
+        return jsonBuilder.buildJsonWithHeader("LoginByEmailResponse", user.getUserId());
     }
 
-    public String changePw(JsonNode payload) throws JsonProcessingException {
-
-        Map<String, String> requestPayload = objectMapper.treeToValue(payload, HashMap.class);
-
-        User user = findRequiredUserFromDB(requestPayload.get("userId"));
-        updateUserPwOnDB(requestPayload.get("newPw"), user);
-
-        return buildJsonResponseWithOnlyHeader("ChangePwResponse", user.getUserId());
+    public String changePw(JsonNode payload) {
+        User user = findRequiredUserFromDB(payload.get("userId").asText());
+        updateUserPwOnDB(payload.get("newPw").asText(), user);
+        return jsonBuilder.buildJsonWithHeader("ChangePwResponse", user.getUserId());
     }
 
     private void updateUserPwOnDB(String newPw, User user) {
         user.setPassword(passwordEncoder.encode(newPw));
         userRepository.save(user);
+    }
+
+    public String getUserNoShowCount(String userId) {
+        User user = findRequiredUserFromDB(userId);
+        return buildUserNoShowCountJsonResponse(user);
+    }
+
+    private User findRequiredUserFromDB(String userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchUserException("userId=" + userId));
+    }
+
+    private String buildUserNoShowCountJsonResponse(User user) {
+        return jsonBuilder.buildJsonWithHeaderAndPayload(
+                jsonBuilder.buildResponseHeader("GetNoShowCountResponse", user.getUserId()),
+                jsonBuilder.buildResponsePayload("noShowCount", user.getNoShowCount())
+        );
     }
 }

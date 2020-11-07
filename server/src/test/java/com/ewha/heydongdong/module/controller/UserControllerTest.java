@@ -186,7 +186,7 @@ class UserControllerTest {
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
                         .name("InvalidRequestParameterError")
-                        .message("InvalidRequestParameterError: Invalid request parameter [Wrong token]")
+                        .message("InvalidRequestParameterError: Invalid request parameter [Wrong email token]")
                         .build())
                 .build();
 
@@ -361,7 +361,7 @@ class UserControllerTest {
                 new RequestHeader("GetNoShowCountRequest", "test_user"), null));
 
         ObjectNode payload = objectMapper.createObjectNode();
-        payload.put("noShowCount", 0);
+        payload.put("noShowCount", "0");
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
                         .name("GetNoShowCountResponse")

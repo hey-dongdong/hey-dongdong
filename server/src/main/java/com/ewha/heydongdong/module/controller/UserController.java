@@ -52,7 +52,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/find-info/id", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> findUserId(@RequestBody Request request) throws JsonProcessingException {
+    public ResponseEntity<?> findUserId(@RequestBody Request request) {
 
         log.info("[Request] find-user-id");
         request.validateHeader("FindIdRequest");
