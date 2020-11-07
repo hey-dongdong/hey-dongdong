@@ -11,9 +11,9 @@ import java.util.Optional;
 
 @Repository
 public interface MyMenuRepository extends JpaRepository<MyMenu, Long> {
-    List<MyMenu> findByUser(User user);
 
+    List<MyMenu> findByUser(User user);
+    Optional<MyMenu> findByUserAndMenuInOrder(User build, MenuInOrder build1);
     void deleteById(Long myMenuId);
 
-    Optional<MyMenu> findByUserAndMenuInOrder(User build, MenuInOrder build1);
 }
