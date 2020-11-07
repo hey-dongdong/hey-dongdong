@@ -108,6 +108,7 @@ const router = new VueRouter({
 		},
 		{
 			path: '/cart',
+			name: 'cart',
 			component: () => import('@/views/order/CartPage.vue'),
 		},
 		{
@@ -122,6 +123,20 @@ router.beforeEach((to, from, next) => {
 	if (to.meta.auth && !store.getters.isLogin) {
 		console.log('인증이 필요합니다');
 		next('/sign-in');
+		return;
+	}
+	if (
+		!(
+			from.name == 'menu-all' ||
+			from.name == 'menu-coffee' ||
+			from.name == 'menu-tea' ||
+			from.name == 'menu-ade' ||
+			from.name == 'menu-others'
+		) &&
+		to.name == 'menu-detail'
+	) {
+		console.log('hihi');
+		next('/menu/all');
 		return;
 	}
 	next();
