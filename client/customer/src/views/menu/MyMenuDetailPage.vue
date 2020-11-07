@@ -32,6 +32,10 @@
 			</MenuCountBox>
 			<ul class="order-detail-list my-menu">
 				<li>
+					매장 :
+					<span>{{ $route.params.storeName }}</span>
+				</li>
+				<li>
 					컵 선택 :
 					<span v-if="$route.params.menuInOrder.option.basicOption.isTumblr">텀블러</span>
 					<span v-else>매장컵</span>
@@ -106,7 +110,9 @@
 			</ul>
 			<div class="greenbtn-small-set">
 				<button type="button" class="greenbtn-small">이대로 주문하기</button>
-				<button type="button" class="greenbtn-small">장바구니에 담기</button>
+				<button type="button" class="greenbtn-small" @click="addToCart">
+					장바구니에 담기
+				</button>
 			</div>
 		</div>
 	</div>
@@ -139,6 +145,29 @@ export default {
 		plus() {
 			this.count++;
 			this.price += this.$route.params.menuInOrder.price;
+		},
+		addToCart() {
+			let maxIndex = 0;
+			if (localStorage.length > 0) {
+				for (let i = 0; i < localStorage.length; i++) {
+					if (Number(maxIndex) < Number(localStorage.key(i))) {
+						maxIndex = localStorage.key(i);
+					}
+				}
+			}
+			maxIndex = Number(maxIndex) + 1;
+			var value = {
+				id: maxIndex,
+				menu: {
+					menuId: this.$route.params.menuInOrder.menu.menuId,
+					menuName: this.$route.params.menuInOrder.menu.menuName,
+				},
+				option: this.$route.params.menuInOrder.option,
+				price: this.price,
+				count: this.count,
+			};
+			localStorage.setItem(maxIndex, JSON.stringify(value));
+			this.$router.push('/cart');
 		},
 	},
 };

@@ -144,6 +144,10 @@ router.beforeEach((to, from, next) => {
 		next('/sign-in');
 		return;
 	}
+	if (from.path == '/cart' && to.path == '/my-menu/detail') {
+		next('/my-menu');
+		return;
+	}
 	next();
 });
 
