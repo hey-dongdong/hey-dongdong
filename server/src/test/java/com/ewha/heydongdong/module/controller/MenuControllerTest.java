@@ -43,4 +43,20 @@ class MenuControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    @DisplayName("Get all menus of a store | Fail : Invalid storeId")
+    void getAllMenus_Fail_InvalidStoreId() throws Exception {
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("storeId", 5000);
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("GetAllMenusRequest", "admin"), payload));
+
+        mockMvc.perform(post("/menu/get-all")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 }

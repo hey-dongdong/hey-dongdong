@@ -1,5 +1,6 @@
 package com.ewha.heydongdong.module.service;
 
+import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
 import com.ewha.heydongdong.infra.protocol.Response;
 import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.Menu;
@@ -25,7 +26,13 @@ public class MenuService {
 
     public String getAllMenus(Integer storeId) {
         List<Menu> menus = menuRepository.findByStore(Store.builder().storeId(storeId).build());
+        checkIfMenusExist(storeId, menus);
         return buildJsonResponse(buildMenuDtoFromMenu(menus));
+    }
+
+    private void checkIfMenusExist(Integer storeId, List<Menu> menus) {
+        if (menus.isEmpty())
+            throw new InvalidRequestParameterException("storeId=" + storeId);
     }
 
     private List<MenuDetailDto> buildMenuDtoFromMenu(List<Menu> menus) {
