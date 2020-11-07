@@ -21,14 +21,14 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(value = "/sign-up", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> signUpSubmit(@RequestBody Request request) throws JsonProcessingException {
+    public ResponseEntity<?> signUp(@RequestBody Request request) throws JsonProcessingException {
 
         log.info("[Request] user-sign-up");
         request.validateHeader("SignUpRequest");
         request.validatePayload();
 
-        String signUp = userService.signUp(request.getPayload());
-        return new ResponseEntity<>(signUp, HttpStatus.OK);
+        String signUpResult = userService.signUp(request.getPayload());
+        return new ResponseEntity<>(signUpResult, HttpStatus.OK);
     }
 
     @GetMapping(value = "/check-email-token/{email}/{emailCheckToken}", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -37,8 +37,8 @@ public class UserController {
 
         log.info("[Request] check-email-token");
 
-        String emailChecked = userService.checkEmailToken(email, emailCheckToken);
-        return new ResponseEntity<>(emailChecked, HttpStatus.OK);
+        String checkEmailResult = userService.checkEmailToken(email, emailCheckToken);
+        return new ResponseEntity<>(checkEmailResult, HttpStatus.OK);
     }
 
     @PostMapping(value = "/sign-in", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -48,8 +48,8 @@ public class UserController {
         request.validateHeader("SignInRequest");
         request.validatePayload();
 
-        String signIn = userService.signIn(request.getPayload());
-        return new ResponseEntity<>(signIn, HttpStatus.OK);
+        String signInResult = userService.signIn(request.getPayload());
+        return new ResponseEntity<>(signInResult, HttpStatus.OK);
     }
 
     @PostMapping(value = "/find-info/id", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -80,8 +80,8 @@ public class UserController {
 
         log.info("[Request] login-by-email");
 
-        String login = userService.loginByEmail(email, emailCheckToken);
-        return new ResponseEntity<>(login, HttpStatus.OK);
+        String loginByEmailResult = userService.loginByEmail(email, emailCheckToken);
+        return new ResponseEntity<>(loginByEmailResult, HttpStatus.OK);
     }
 
     @PostMapping(value = "/change-pw", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -89,8 +89,8 @@ public class UserController {
 
         log.info("[Request] change-pw");
 
-        String changePw = userService.changePw(request.getPayload());
-        return new ResponseEntity<>(changePw, HttpStatus.OK);
+        String changePwResult = userService.changePw(request.getPayload());
+        return new ResponseEntity<>(changePwResult, HttpStatus.OK);
     }
 
     @PostMapping(value = "/no-show-count", produces = {MediaType.APPLICATION_JSON_VALUE})

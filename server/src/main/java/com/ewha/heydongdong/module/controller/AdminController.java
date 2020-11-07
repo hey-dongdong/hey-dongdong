@@ -22,10 +22,9 @@ public class AdminController {
                                             @RequestBody Request request) {
 
         log.info("[Request] get-store-history");
-
         request.validateHeader("GetStoreHistoryRequest");
-        String history = historyService.getStoreHistory(storeId);
 
+        String history = historyService.getStoreHistory(storeId);
         return new ResponseEntity<>(history, HttpStatus.OK);
     }
 }
