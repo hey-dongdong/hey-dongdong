@@ -9,7 +9,7 @@
 					slot="menu-img"
 					:src="
 						$route.params.imgUrl
-							? require('@/assets' + $route.params.imgUrl)
+							? require('@/assets/menu' + $route.params.imgUrl)
 							: require('@/assets/drink.png')
 					"
 					alt="메뉴이미지"
@@ -43,9 +43,23 @@
 				<div class="option-box">
 					<span class="option-name">HOT / ICE</span>
 					<div class="radio-box">
-						<input type="radio" value="hot" id="hot" v-model="isHot" @click="changeHot" />
+						<input
+							type="radio"
+							value="hot"
+							id="hot"
+							v-model="isHot"
+							@click="changeHot"
+							:disabled="isOnlyIce == true"
+						/>
 						<label for="hot">HOT</label>
-						<input type="radio" value="ice" id="ice" v-model="isHot" @click="changeIce" />
+						<input
+							type="radio"
+							value="ice"
+							id="ice"
+							v-model="isHot"
+							@click="changeIce"
+							:disabled="isOnlyHot == true"
+						/>
 						<label for="ice">ICE</label>
 					</div>
 				</div>
@@ -245,10 +259,20 @@ export default {
 			chocolate: false,
 			caramel: false,
 			soyMilk: false,
+			isOnlyHot: false,
+			isOnlyIce: false,
 		};
 	},
 	created() {
-		this.price = this.$route.params.smallHotPrice;
+		this.price = this.$route.params.smallHotPrice || this.$route.params.smallIcePrice;
+		this.isOnlyHot =
+			this.$route.params.smallIcePrice == null &&
+			this.$route.params.largeIcePrice == null;
+		this.isOnlyIce =
+			this.$route.params.smallHotPrice == null &&
+			this.$route.params.largeHotPrice == null;
+		if (this.isOnlyHot) this.isHot = 'hot';
+		if (this.isOnlyIce) this.isHot = 'ice';
 	},
 	methods: {
 		minus() {
