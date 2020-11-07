@@ -25,40 +25,4 @@ class PriceTest {
 
         assertNotNull(price);
     }
-
-    @Test
-    @DisplayName("Price isHotAvailable Success")
-    void Price_isHotAvailable_Success() {
-
-        Price hotPrice = Price.builder()
-                .smallHotPrice(1500)
-                .largeHotPrice(2500)
-                .build();
-
-        Price icePrice = Price.builder()
-                .smallIcePrice(2000)
-                .largeIcePrice(3000)
-                .build();
-
-        assertTrue(hotPrice.isHotAvailable());
-        assertFalse(icePrice.isHotAvailable());
-    }
-
-    @Test
-    @DisplayName("Price isIceAvailable Success")
-    void Price_isIceAvailable_Success() {
-
-        Price hotPrice = Price.builder()
-                .smallHotPrice(1500)
-                .largeHotPrice(2500)
-                .build();
-
-        Price icePrice = Price.builder()
-                .smallIcePrice(2000)
-                .largeIcePrice(3000)
-                .build();
-
-        assertTrue(icePrice.isIceAvailable());
-        assertFalse(hotPrice.isIceAvailable());
-    }
 }
