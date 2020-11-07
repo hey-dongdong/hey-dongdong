@@ -9,7 +9,7 @@
 					slot="menu-img"
 					:src="
 						$route.params.menuInOrder.menu.imgUrl
-							? require('@/assets' + $route.params.menuInOrder.menu.imgUrl)
+							? require('@/assets/menu' + $route.params.menuInOrder.menu.imgUrl)
 							: require('@/assets/drink.png')
 					"
 					alt="메뉴이미지"
@@ -46,14 +46,62 @@
 					<span v-if="$route.params.menuInOrder.option.basicOption.isSmall">소</span>
 					<span v-else>대</span>
 				</li>
-				<li>
+				<li v-if="$route.params.menuInOrder.option.customOption != null">
 					퍼스널 옵션 :
-					<span v-if="$route.params.menuInOrder.option.customOption.shotAmericano != 0">
-						{{ $route.params.menuInOrder.option.customOption.shotAmericano }}샷 추가,
-					</span>
-					<span v-if="$route.params.menuInOrder.option.customOption.soyMilk"
-						>두유 변경</span
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.shotAmericano"
 					>
+						원두 {{ $route.params.menuInOrder.option.customOption.shotAmericano }}샷 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.shotLatte"
+					>
+						원액 {{ $route.params.menuInOrder.option.customOption.shotLatte }}샷 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.milk"
+					>
+						우유 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.vanilla"
+					>
+						바닐라시럽 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.mint"
+					>
+						민트시럽 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.condensedMilk"
+					>
+						연유 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.chocolate"
+					>
+						초코시럽 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.caramel"
+					>
+						카라멜시럽 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.soyMilk"
+					>
+						두유 변경
+					</span>
 				</li>
 			</ul>
 			<div class="greenbtn-small-set">
