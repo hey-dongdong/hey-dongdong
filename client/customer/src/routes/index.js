@@ -148,6 +148,10 @@ router.beforeEach((to, from, next) => {
 		next('/my-menu');
 		return;
 	}
+	if (from.path == '/cart' && to.path == '/history/detail') {
+		next('/history');
+		return;
+	}
 	next();
 });
 
