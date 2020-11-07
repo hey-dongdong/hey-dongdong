@@ -19,6 +19,7 @@
 				v-for="item in this.$route.params"
 				:key="item.id"
 				:completeOrderMenuItem="item"
+				@toggle-like="toggleLike"
 			></CompleteOrderItems>
 			<div class="greenbtn-small-set">
 				<button @click="goMain" type="submit" class="greenbtn fixed cart-menu">
@@ -33,6 +34,8 @@
 import BlackHeader from '@/components/common/BlackHeader.vue';
 import CompleteOrderDetail from '@/components/order/CompleteOrderDetail.vue';
 import CompleteOrderItems from '@/components/order/CompleteOrderItems.vue';
+import { getUserFromCookie } from '@/utils/cookies';
+import { addMyMenu } from '@/api/index';
 
 export default {
 	components: {
@@ -49,6 +52,21 @@ export default {
 		this.store = localStorage.getItem('store');
 	},
 	methods: {
+		async toggleLike({ id, checked }) {
+			console.log(id, checked);
+			if (checked == true) {
+				const data = {
+					header: {
+						name: 'AddMyMenuRequest',
+						userId: getUserFromCookie(),
+					},
+					payload: {
+						menuInOrderId: id,
+					},
+				};
+				await addMyMenu(data);
+			}
+		},
 		goMain() {
 			this.$router.push('/main');
 		},

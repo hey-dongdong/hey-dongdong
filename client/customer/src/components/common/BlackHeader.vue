@@ -16,7 +16,6 @@ export default {
 		goTo() {
 			const name = this.$route.name;
 			if (
-				name === 'menu-all' ||
 				name === 'menu-coffee' ||
 				name === 'menu-tea' ||
 				name === 'menu-ade' ||
