@@ -151,26 +151,53 @@ export default {
 			this.price += this.$route.params.menuInOrder.price;
 		},
 		addToCart() {
-			let maxIndex = 0;
+			let index = 0;
+			var isSame = false;
+			var menu = {
+				menuId: this.$route.params.menuInOrder.menu.menuId,
+				menuName: this.$route.params.menuInOrder.menu.menuName,
+			};
+			var option = this.$route.params.menuInOrder.option;
+			var price = 0;
+			var count = 0;
 			if (localStorage.length > 0) {
 				for (let i = 0; i < localStorage.length; i++) {
-					if (Number(maxIndex) < Number(localStorage.key(i))) {
-						maxIndex = localStorage.key(i);
+					if (Number(index) < Number(localStorage.key(i))) {
+						index = localStorage.key(i);
+						var cartItem = JSON.parse(localStorage.getItem(localStorage.key(i)));
+						if (
+							JSON.stringify(cartItem.menu) == JSON.stringify(menu) &&
+							JSON.stringify(cartItem.option) == JSON.stringify(option)
+						) {
+							isSame = true;
+							price = cartItem.price;
+							count = cartItem.count;
+							break;
+						}
 					}
 				}
 			}
-			maxIndex = Number(maxIndex) + 1;
-			var value = {
-				id: maxIndex,
-				menu: {
-					menuId: this.$route.params.menuInOrder.menu.menuId,
-					menuName: this.$route.params.menuInOrder.menu.menuName,
-				},
-				option: this.$route.params.menuInOrder.option,
-				price: this.price,
-				count: this.count,
-			};
-			localStorage.setItem(maxIndex, JSON.stringify(value));
+			console.log(isSame);
+			if (isSame == true) {
+				var value = {
+					id: index,
+					menu: menu,
+					option: option,
+					price: this.price + price,
+					count: this.count + count,
+				};
+				// console.log('same');
+			} else {
+				index = Number(index) + 1;
+				value = {
+					id: index,
+					menu: menu,
+					option: option,
+					price: this.price,
+					count: this.count,
+				};
+			}
+			localStorage.setItem(index, JSON.stringify(value));
 			this.$router.push('/cart');
 		},
 	},
