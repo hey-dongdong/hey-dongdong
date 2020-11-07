@@ -71,6 +71,14 @@ async function removeMyMenu(data) {
 	}
 }
 
+async function addOrder(data) {
+	try {
+		return await instance.post('/order/add', data);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 export {
 	registerUser,
 	signInUser,
@@ -80,4 +88,5 @@ export {
 	fetchHistoryDetail,
 	addMyMenu,
 	removeMyMenu,
+	addOrder,
 };

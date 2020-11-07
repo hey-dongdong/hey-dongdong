@@ -28,6 +28,8 @@
 
 <script>
 import CartListItem from '@/components/order/CartListItem.vue';
+import { getUserFromCookie } from '@/utils/cookies';
+import { addOrder } from '@/api/index';
 
 export default {
 	components: {
@@ -62,8 +64,10 @@ export default {
 		}
 	},
 	methods: {
-		completeOrder() {
+		async completeOrder() {
 			if (localStorage.length > 0) {
+				var menus = [];
+				let totalCount = 0;
 				for (let i = 0; i < localStorage.length; i++) {
 					if (
 						localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
@@ -72,18 +76,58 @@ export default {
 						localStorage.key(i) !== 'nearest-store-id' &&
 						localStorage.key(i) !== 'nearest-store'
 					) {
-						this.finalCartItems.push(
-							JSON.parse(localStorage.getItem(localStorage.key(i))),
-						);
-						console.log({ ...this.finalCartItems });
+						var item = JSON.parse(localStorage.getItem(localStorage.key(i)));
+						var menu = {
+							menuId: item.menu.menuId,
+							option: item.option,
+							price: item.price,
+							count: item.count,
+						};
+						totalCount += item.count;
+						menus.push(menu);
 					}
 				}
+				const data = {
+					header: {
+						name: 'AddNewOrderRequest',
+						userId: getUserFromCookie(),
+					},
+					payload: {
+						newOrderInfo: {
+							orderAt: '2020-11-06 12:02:00',
+							progress: 'WAITING',
+							totalCount: totalCount,
+							totalPrice: this.totalPrice,
+							isNoShow: false,
+							storeId: localStorage.getItem('store-id'),
+							userId: getUserFromCookie(),
+						},
+						menus: menus,
+					},
+				};
+				await addOrder(data);
 			}
-			this.$router.push({
-				name: 'complete',
-				path: '/complete',
-				params: this.finalCartItems,
-			});
+			// if (localStorage.length > 0) {
+			// 	for (let i = 0; i < localStorage.length; i++) {
+			// if (
+			// 	localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
+			// 	localStorage.key(i) !== 'store-id' &&
+			// 	localStorage.key(i) !== 'store' &&
+			// 	localStorage.key(i) !== 'nearest-store-id' &&
+			// 	localStorage.key(i) !== 'nearest-store'
+			// ) {
+			// 			this.finalCartItems.push(
+			// 				JSON.parse(localStorage.getItem(localStorage.key(i))),
+			// 			);
+			// 			console.log({ ...this.finalCartItems });
+			// 		}
+			// 	}
+			// }
+			// this.$router.push({
+			// 	name: 'complete',
+			// 	path: '/complete',
+			// 	params: this.finalCartItems,
+			// });
 		},
 		setPrice({ before, price }) {
 			// console.log(id, before, price);
