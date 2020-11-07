@@ -135,7 +135,11 @@ export default {
 		};
 	},
 	created() {
-		this.price = this.$route.params.menuInOrder.price;
+		try {
+			this.price = this.$route.params.menuInOrder.price;
+		} catch (error) {
+			this.$router.push('/main');
+		}
 	},
 	methods: {
 		minus() {
