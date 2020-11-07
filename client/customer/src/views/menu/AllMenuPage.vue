@@ -21,6 +21,7 @@ import BlackHeader from '@/components/common/BlackHeader.vue';
 import MenuListHeader from '@/components/menu/MenuListHeader.vue';
 import MenuListItem from '@/components/menu/MenuListItem.vue';
 import { mapGetters } from 'vuex';
+import { getUserFromCookie } from '@/utils/cookies';
 
 export default {
 	components: {
@@ -35,9 +36,10 @@ export default {
 		const data = {
 			header: {
 				name: 'GetAllMenusRequest',
+				userId: getUserFromCookie(),
 			},
 			payload: {
-				storeId: this.id,
+				storeId: localStorage.getItem('store-id'),
 			},
 		};
 		this.$store.dispatch('FETCH_MENUS', data);

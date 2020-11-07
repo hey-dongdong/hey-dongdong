@@ -31,8 +31,12 @@ async function fetchMenus(data) {
 	}
 }
 
-function fetchMyMenus() {
-	return instance.get('bc12c78e-aa13-457e-a1d1-7f3ce671556d');
+async function fetchMyMenus(data) {
+	try {
+		return await instance.post('/my-menu/get-all', data);
+	} catch (error) {
+		console.log(error);
+	}
 }
 
 async function fetchHistory(data) {
@@ -51,6 +55,14 @@ async function fetchHistoryDetail(data) {
 	}
 }
 
+async function removeMyMenu(data) {
+	try {
+		return await instance.post('/my-menu/remove', data);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 export {
 	registerUser,
 	signInUser,
@@ -58,4 +70,5 @@ export {
 	fetchMyMenus,
 	fetchHistory,
 	fetchHistoryDetail,
+	removeMyMenu,
 };
