@@ -8,7 +8,7 @@
 				<ul class="form-item">
 					<li>
 						<label for="username" class="form-label">이름</label>
-						<input id="username" type="text" placeholder="이름을 입력하세요" />
+						<input id="username" type="text" placeholder="이름을 입력하세요" required />
 					</li>
 					<li>
 						<label for="email" class="form-label">이메일</label>
@@ -17,6 +17,7 @@
 							type="email"
 							placeholder="이메일을 입력하세요"
 							v-model="email"
+							required
 						/>
 					</li>
 				</ul>
