@@ -4,6 +4,7 @@ import com.ewha.heydongdong.module.model.domain.datatype.Progress;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.util.Assert;
 
 import javax.persistence.*;
@@ -32,6 +33,7 @@ public class Order {
     @Column(name = "order_at")
     private Timestamp orderAt;
 
+    @Setter
     @Column(name = "progress")
     @Enumerated(EnumType.STRING)
     private Progress progress;

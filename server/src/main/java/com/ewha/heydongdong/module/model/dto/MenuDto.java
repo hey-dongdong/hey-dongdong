@@ -3,13 +3,16 @@ package com.ewha.heydongdong.module.model.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Builder
-public class StoreInHistoryDto {
+@ToString
+public class MenuDto {
 
-    private Integer storeId;
-    private String storeName;
+    private Integer menuId;
+    private String menuName;
+    private String imgUrl;
 
 }

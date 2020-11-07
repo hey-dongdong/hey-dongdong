@@ -8,7 +8,9 @@ import lombok.Setter;
 @Setter
 @Builder
 public class MenuInHistoryDto {
+
     private Integer menuId;
     private String menuName;
     private String menuThumbnail;
+
 }

@@ -12,6 +12,8 @@ import java.util.List;
 @Builder
 @ToString
 public class UserHistoryDetailDto {
+
     private UserHistoryDto orderInfo;
     private List<MenuInHistoryDetailDto> menus;
+
 }

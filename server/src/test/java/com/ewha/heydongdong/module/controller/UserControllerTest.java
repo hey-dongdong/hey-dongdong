@@ -9,7 +9,6 @@ import com.ewha.heydongdong.module.model.dto.UserSignUpDto;
 import com.ewha.heydongdong.module.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
 
@@ -32,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Transactional
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 class UserControllerTest {
 
     @Autowired
@@ -355,4 +352,31 @@ class UserControllerTest {
         User user = userRepository.getOne("test_user");
         assertTrue(passwordEncoder.matches("test_password", user.getPassword()));
     }
+
+    @Test
+    @DisplayName("Get no show count | Success")
+    void getNoShowCount_Success() throws Exception {
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("GetNoShowCountRequest", "test_user"), null));
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("noShowCount", 0);
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("GetNoShowCountResponse")
+                        .message("test_user")
+                        .build())
+                .payload(objectMapper.valueToTree(payload))
+                .build();
+
+        mockMvc.perform(post("/user/no-show-count")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+    // TODO [지우] role 인증 관련 테스트 작성
 }

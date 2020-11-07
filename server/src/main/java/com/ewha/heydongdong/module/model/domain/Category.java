@@ -21,9 +21,6 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String categoryName;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<Menu> menus = new ArrayList<>();
-
     @Builder
     public Category(Integer categoryId, String categoryName) {
         Assert.notNull(categoryId, "CategoryId must not be null");

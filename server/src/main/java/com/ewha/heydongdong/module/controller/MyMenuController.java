@@ -21,10 +21,9 @@ public class MyMenuController {
     public ResponseEntity<?> getUserMyMenu(@RequestBody Request request) {
 
         log.info("[Request] get-user-my-menu");
-
         request.validateHeader("GetMyMenusRequest");
-        String myMenu = myMenuService.getUserMyMenu(request.getHeader().getUserId());
 
+        String myMenu = myMenuService.getUserMyMenu(request.getHeader().getUserId());
         return new ResponseEntity<>(myMenu, HttpStatus.OK);
     }
 
@@ -32,13 +31,12 @@ public class MyMenuController {
     public ResponseEntity<?> addUserMyMenu(@RequestBody Request request) {
 
         log.info("[Request] add-user-my-menu");
-
         request.validateHeader("AddMyMenuRequest");
+
         String myMenu = myMenuService.addUserMyMenu(
                 request.getHeader().getUserId(),
                 request.getPayload().get("menuInOrderId").asLong()
         );
-
         return new ResponseEntity<>(myMenu, HttpStatus.OK);
     }
 
@@ -46,13 +44,12 @@ public class MyMenuController {
     public ResponseEntity<?> removeUserMyMenu(@RequestBody Request request) {
 
         log.info("[Request] remove-user-my-menu");
-
         request.validateHeader("RemoveMyMenuRequest");
+
         String myMenu = myMenuService.removeUserMyMenu(
                 request.getHeader().getUserId(),
                 request.getPayload().get("myMenuId").asLong()
         );
-
         return new ResponseEntity<>(myMenu, HttpStatus.OK);
     }
 }

@@ -1,9 +1,6 @@
 package com.ewha.heydongdong.module.model.domain.datatype;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -13,6 +10,7 @@ import javax.persistence.Embeddable;
 @AllArgsConstructor
 @Builder
 @ToString
+@Getter
 public class Price {
     @Column(name = "small_hot_price")
     private Integer smallHotPrice;
@@ -25,12 +23,4 @@ public class Price {
 
     @Column(name = "large_ice_price")
     private Integer largeIcePrice;
-
-    public boolean isHotAvailable() {
-        return smallHotPrice != null || largeHotPrice != null;
-    }
-
-    public boolean isIceAvailable() {
-        return smallIcePrice != null || largeIcePrice != null;
-    }
 }
