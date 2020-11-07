@@ -24,8 +24,8 @@ public class MenuController {
     public ResponseEntity<?> getUserHistory(@RequestBody Request request) {
 
         log.info("[Request] get-all-menus");
-
         request.validateHeader("GetAllMenusRequest");
+        
         String history = menuService.getAllMenus(request.getPayload().get("storeId").asInt());
         return new ResponseEntity<>(history, HttpStatus.OK);
     }

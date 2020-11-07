@@ -1,6 +1,7 @@
 package com.ewha.heydongdong.module.model.dto;
 
 import com.ewha.heydongdong.module.model.domain.datatype.Option;
+import com.ewha.heydongdong.module.model.domain.datatype.Price;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,13 +11,11 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class MenuInHistoryDetailDto {
+public class MenuInMyMenuDto {
 
     private Long menuInOrderId;
-    private MenuInHistoryDto menu;
+    private MenuDto menu;
     private Option option;
     private Integer price;
-    private Integer count;
-    private Boolean menuLiked;
 
 }

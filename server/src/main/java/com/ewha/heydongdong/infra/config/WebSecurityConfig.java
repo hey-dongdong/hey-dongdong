@@ -46,17 +46,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/user/sign-up").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/sign-in").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/find-info/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/menu/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/change-pw").hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/user/no-show-count").hasRole("USER")
-                .antMatchers(HttpMethod.POST, "/menu/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/store/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/history/**").hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/my-menu/**").hasRole("USER")
-                .antMatchers(HttpMethod.POST, "/admin/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/order/add").hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/order/update-progress").permitAll()
+                .antMatchers(HttpMethod.POST, "/admin/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
-        ;
+
     }
 }

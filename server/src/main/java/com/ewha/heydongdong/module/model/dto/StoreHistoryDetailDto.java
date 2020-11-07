@@ -12,7 +12,9 @@ import java.util.List;
 @Builder
 @ToString
 public class StoreHistoryDetailDto {
+
     private StoreHistoryDto orderInfo;
     private List<MenuInHistoryDetailDto> menus;
+
 }
 

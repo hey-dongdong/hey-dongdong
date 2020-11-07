@@ -1,7 +1,6 @@
 package com.ewha.heydongdong.module.controller;
 
 import com.ewha.heydongdong.infra.protocol.Request;
-import com.ewha.heydongdong.module.model.domain.User;
 import com.ewha.heydongdong.module.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
 @Slf4j
 @ControllerAdvice
@@ -26,12 +24,10 @@ public class UserController {
     public ResponseEntity<?> signUpSubmit(@RequestBody Request request) throws JsonProcessingException {
 
         log.info("[Request] user-sign-up");
-
         request.validateHeader("SignUpRequest");
         request.validatePayload();
 
         String signUp = userService.signUp(request.getPayload());
-
         return new ResponseEntity<>(signUp, HttpStatus.OK);
     }
 
@@ -42,7 +38,6 @@ public class UserController {
         log.info("[Request] check-email-token");
 
         String emailChecked = userService.checkEmailToken(email, emailCheckToken);
-
         return new ResponseEntity<>(emailChecked, HttpStatus.OK);
     }
 
@@ -50,12 +45,10 @@ public class UserController {
     public ResponseEntity<?> signInSubmit(@RequestBody Request request) {
 
         log.info("[Request] user-sign-in");
-
         request.validateHeader("SignInRequest");
         request.validatePayload();
 
         String signIn = userService.signIn(request.getPayload());
-
         return new ResponseEntity<>(signIn, HttpStatus.OK);
     }
 
@@ -63,12 +56,10 @@ public class UserController {
     public ResponseEntity<?> findUserId(@RequestBody Request request) throws JsonProcessingException {
 
         log.info("[Request] find-user-id");
-
         request.validateHeader("FindIdRequest");
         request.validatePayload();
 
         String userId = userService.findUserId(request.getPayload());
-
         return new ResponseEntity<>(userId, HttpStatus.OK);
     }
 
@@ -76,12 +67,10 @@ public class UserController {
     public ResponseEntity<?> findUserPw(@RequestBody Request request) throws JsonProcessingException {
 
         log.info("[Request] find-user-pw");
-
         request.validateHeader("FindPwRequest");
         request.validatePayload();
 
         String userPw = userService.findUserPw(request.getPayload());
-
         return new ResponseEntity<>(userPw, HttpStatus.OK);
     }
 
@@ -92,7 +81,6 @@ public class UserController {
         log.info("[Request] login-by-email");
 
         String login = userService.loginByEmail(email, emailCheckToken);
-
         return new ResponseEntity<>(login, HttpStatus.OK);
     }
 
@@ -102,7 +90,6 @@ public class UserController {
         log.info("[Request] change-pw");
 
         String changePw = userService.changePw(request.getPayload());
-
         return new ResponseEntity<>(changePw, HttpStatus.OK);
     }
 
@@ -110,11 +97,9 @@ public class UserController {
     public ResponseEntity<?> getUserNoShowCount(@RequestBody Request request) {
 
         log.info("[Request] get-user-no-show-count");
-
         request.validateHeader("GetNoShowCountRequest");
 
         String noShowCount = userService.getUserNoShowCount(request.getHeader().getUserId());
-
         return new ResponseEntity<>(noShowCount, HttpStatus.OK);
     }
 }
