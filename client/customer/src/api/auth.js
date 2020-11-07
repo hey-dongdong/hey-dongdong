@@ -25,4 +25,12 @@ async function findUserId(userData) {
 	}
 }
 
-export { registerUser, signInUser, findUserId };
+async function findUserPw(userData) {
+	try {
+		return await instance.post('/user/find-info/pw', userData);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export { registerUser, signInUser, findUserId, findUserPw };

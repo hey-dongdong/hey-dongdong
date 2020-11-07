@@ -51,6 +51,7 @@ const router = new VueRouter({
 		},
 		{
 			path: '/find-pw/success',
+			name: 'find-pw/success',
 			component: () => import('@/views/login/FindPwSuccessPage.vue'),
 		},
 		{

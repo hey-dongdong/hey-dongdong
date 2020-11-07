@@ -9,7 +9,7 @@
 					>이메일로 로그인 링크를 발송했습니다.</span
 				>
 				<span slot="next-todo" class="next-todo">이메일로 로그인하세요.</span>
-				<span slot="userid">ewha123@ewhain.net</span>
+				<span slot="userid">{{ email }}</span>
 				<router-link slot="next-btn" to="/sign-in" class="goldbtn">확인</router-link>
 			</FindSuccess>
 		</div>
@@ -24,6 +24,14 @@ export default {
 	components: {
 		GreenHeader,
 		FindSuccess,
+	},
+	data() {
+		return {
+			email: '',
+		};
+	},
+	created() {
+		this.email = this.$route.params.email;
 	},
 };
 </script>
