@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<BlackHeader>
-			<h1 slot="pagename">카페라떼</h1>
+			<h1 slot="pagename">{{ $route.params.menuName }}</h1>
 		</BlackHeader>
 		<div class="blackbg">
 			<MenuCountBox>
