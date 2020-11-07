@@ -353,5 +353,30 @@ class UserControllerTest {
         assertTrue(passwordEncoder.matches("test_password", user.getPassword()));
     }
 
+    @Test
+    @DisplayName("Get no show count | Success")
+    void getNoShowCount_Success() throws Exception {
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("GetNoShowCountRequest", "test_user"), null));
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("noShowCount", 0);
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("GetNoShowCountResponse")
+                        .message("test_user")
+                        .build())
+                .payload(objectMapper.valueToTree(payload))
+                .build();
+
+        mockMvc.perform(post("/user/no-show-count")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
     // TODO [지우] role 인증 관련 테스트 작성
 }
