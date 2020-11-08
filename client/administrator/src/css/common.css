@@ -154,3 +154,10 @@ button {
 	color: red;
 	margin-right: 5px;
 }
+
+.arrow-back {
+	position: fixed;
+	top: 14px;
+	left: 14px;
+	font-size: 22px;
+}
