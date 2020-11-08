@@ -29,7 +29,7 @@ import OrderItems from '@/components/order/OrderItems.vue';
 import { mapGetters } from 'vuex';
 import store from '@/store/index';
 import { getUserFromCookie } from '@/utils/cookies';
-import { addMyMenu } from '@/api/menus';
+import { addMyMenu, removeMyMenu } from '@/api/menus';
 
 export default {
 	components: {
@@ -53,8 +53,8 @@ export default {
 		this.$store.dispatch('FETCH_HISTORY_DETAIL', data);
 	},
 	methods: {
-		async toggleLike({ id, checked }) {
-			console.log(id, checked);
+		async toggleLike({ id, checked, myMenuId }) {
+			console.log(id, checked, myMenuId);
 			if (checked == true) {
 				const data = {
 					header: {
@@ -66,6 +66,17 @@ export default {
 					},
 				};
 				await addMyMenu(data);
+			} else {
+				const data = {
+					header: {
+						name: 'RemoveMyMenuRequest',
+						userId: getUserFromCookie(),
+					},
+					payload: {
+						myMenuId: myMenuId,
+					},
+				};
+				await removeMyMenu(data);
 			}
 		},
 		addToCart() {

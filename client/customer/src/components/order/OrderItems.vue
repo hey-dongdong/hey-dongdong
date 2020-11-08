@@ -85,6 +85,7 @@ export default {
 			this.$emit('toggle-like', {
 				id: this.orderMenuItem.menuInOrderId,
 				checked: e.target.checked,
+				myMenuId: this.orderMenuItem.myMenuId || '',
 			});
 		},
 	},
