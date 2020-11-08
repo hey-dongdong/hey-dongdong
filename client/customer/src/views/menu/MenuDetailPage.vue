@@ -265,6 +265,7 @@ export default {
 	},
 	created() {
 		this.price = this.$route.params.smallHotPrice || this.$route.params.smallIcePrice;
+		if (this.price == null) this.$router.push('/main');
 		this.isOnlyHot =
 			this.$route.params.smallIcePrice == null &&
 			this.$route.params.largeIcePrice == null;
