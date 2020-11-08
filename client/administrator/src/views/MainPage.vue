@@ -7,7 +7,7 @@
 					<h1 class="title">헤이동동</h1>
 				</div>
 				<div class="select-box">
-					<select name="store">
+					<select name="store" v-model="selected" v-on:change="selectStore">
 						<option value="1">학생문화관점</option>
 						<option value="2">도서관점</option>
 						<option value="3">국제기숙사점</option>
@@ -43,13 +43,33 @@
 
 <script>
 import Card from '@/components/Card.vue';
+import { fetchOrders } from '@/api/index';
 
 export default {
 	components: {
 		Card,
 	},
 	data() {
-		return {};
+		return {
+			selected: 1,
+		};
+	},
+	created() {
+		console.log(this.selected);
+	},
+	methods: {
+		async selectStore(e) {
+			console.log(e.target.value);
+			const data = {
+				header: {
+					name: 'GetStoreOrdersRequest',
+					userId: 'admin',
+				},
+				payload: {},
+			};
+			const response = await fetchOrders(e.target.value, data);
+			console.log(response.data);
+		},
 	},
 };
 </script>

@@ -8,7 +8,7 @@
 					<h1 class="title">헤이동동</h1>
 				</div>
 				<div class="select-box">
-					<select name="store">
+					<select name="store" v-model="selected" v-on:change="selectStore">
 						<option value="1">학생문화관점</option>
 						<option value="2">도서관점</option>
 						<option value="3">국제기숙사점</option>
@@ -29,9 +29,7 @@
 			</div>
 		</header>
 		<div class="bg">
-			<div class="sub-title">
-				제조 완료된 주문
-			</div>
+			<div class="sub-title">제조 완료된 주문</div>
 			<div class="card-list">
 				<Card></Card>
 				<Card></Card>
@@ -43,10 +41,33 @@
 
 <script>
 import Card from '@/components/Card.vue';
+import { fetchHistoryOrders } from '@/api/index';
 
 export default {
 	components: {
 		Card,
+	},
+	data() {
+		return {
+			selected: 1,
+		};
+	},
+	created() {
+		console.log(this.selected);
+	},
+	methods: {
+		async selectStore(e) {
+			console.log(e.target.value);
+			const data = {
+				header: {
+					name: 'GetStoreHistoryRequest',
+					userId: 'admin',
+				},
+				payload: {},
+			};
+			const response = await fetchHistoryOrders(e.target.value, data);
+			console.log(response.data);
+		},
 	},
 };
 </script>

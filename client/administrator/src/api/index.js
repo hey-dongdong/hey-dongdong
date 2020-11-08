@@ -6,7 +6,15 @@ function createInstance() {
 }
 const instance = createInstance();
 
-async function fetchHistoryMenus(id, data) {
+async function fetchOrders(id, data) {
+	try {
+		return await instance.post(`/admin/orders/${id}`, data);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+async function fetchHistoryOrders(id, data) {
 	try {
 		return await instance.post(`/admin/history/${id}`, data);
 	} catch (error) {
@@ -14,4 +22,4 @@ async function fetchHistoryMenus(id, data) {
 	}
 }
 
-export { fetchHistoryMenus };
+export { fetchOrders, fetchHistoryOrders };
