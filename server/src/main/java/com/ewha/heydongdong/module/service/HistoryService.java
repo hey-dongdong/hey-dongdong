@@ -154,11 +154,11 @@ public class HistoryService {
     public String getStoreHistory(Integer storeId) {
         List<Order> doneOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.DONE);
         List<Order> noShowOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.NOSHOW);
-        checkIfStoreOrdersExist(doneOrders, noShowOrders, storeId);
-        return buildStoreOrdersJsonResponse(storeId, buildStoreHistoryFromOrders(doneOrders), buildStoreHistoryFromOrders(noShowOrders));
+        checkIfStoreHistoryExists(doneOrders, noShowOrders, storeId);
+        return buildStoreHistoryJsonResponse(storeId, buildStoreHistoryFromOrders(doneOrders), buildStoreHistoryFromOrders(noShowOrders));
     }
 
-    private void checkIfStoreOrdersExist(List<Order> doneOrders, List<Order> noShowOrders, Integer storeId) {
+    private void checkIfStoreHistoryExists(List<Order> doneOrders, List<Order> noShowOrders, Integer storeId) {
         if (doneOrders.isEmpty() && noShowOrders.isEmpty())
             throw new NoResultFromDBException("No history for storeId=" + storeId);
     }
@@ -182,7 +182,7 @@ public class HistoryService {
         return ordersDto;
     }
 
-    private String buildStoreOrdersJsonResponse(Integer storeId, List<StoreHistoryDetailDto> doneOrdersDto, List<StoreHistoryDetailDto> noShowOrdersDto) {
+    private String buildStoreHistoryJsonResponse(Integer storeId, List<StoreHistoryDetailDto> doneOrdersDto, List<StoreHistoryDetailDto> noShowOrdersDto) {
         Map<String, List<StoreHistoryDetailDto>> storeHistory = new HashMap<>();
         storeHistory.put("doneOrders", doneOrdersDto);
         storeHistory.put("noShowOrders", noShowOrdersDto);
@@ -200,7 +200,7 @@ public class HistoryService {
         List<Order> makingOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.MAKING);
         List<Order> readyOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.READY);
         checkIfStoreOrdersExist(waitingOrders, makingOrders, readyOrders, storeId);
-        return buildStoreOrdersJsonResponse(storeId, buildStoreHistoryFromOrders(waitingOrders), buildStoreHistoryFromOrders(makingOrders), buildStoreHistoryFromOrders(readyOrders));
+        return buildStoreHistoryJsonResponse(storeId, buildStoreHistoryFromOrders(waitingOrders), buildStoreHistoryFromOrders(makingOrders), buildStoreHistoryFromOrders(readyOrders));
     }
 
     private void checkIfStoreOrdersExist(List<Order> waitingOrders, List<Order> makingOrders, List<Order> readyOrders, Integer storeId) {
@@ -208,7 +208,7 @@ public class HistoryService {
             throw new NoResultFromDBException("No orders for storeId=" + storeId);
     }
 
-    private String buildStoreOrdersJsonResponse(Integer storeId, List<StoreHistoryDetailDto> waitingOrdersDto, List<StoreHistoryDetailDto> makingOrdersDto, List<StoreHistoryDetailDto> readyOrdersDto) {
+    private String buildStoreHistoryJsonResponse(Integer storeId, List<StoreHistoryDetailDto> waitingOrdersDto, List<StoreHistoryDetailDto> makingOrdersDto, List<StoreHistoryDetailDto> readyOrdersDto) {
         Map<String, List<StoreHistoryDetailDto>> storeHistory = new HashMap<>();
         storeHistory.put("waitingOrders", waitingOrdersDto);
         storeHistory.put("makingOrders", makingOrdersDto);
