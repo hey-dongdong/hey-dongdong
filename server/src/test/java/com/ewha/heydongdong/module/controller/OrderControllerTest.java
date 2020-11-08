@@ -98,7 +98,7 @@ class OrderControllerTest {
     void updateOrderProgress_Success() throws Exception {
 
         ObjectNode payload = objectMapper.createObjectNode();
-        payload.put("orderId", 32);
+        payload.put("orderId", 1);
         payload.put("progress", "MAKING");
 
         String content = objectMapper.writeValueAsString(new Request(
@@ -107,7 +107,7 @@ class OrderControllerTest {
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
                         .name("UpdateOrderProgressResponse")
-                        .message("32")
+                        .message("1")
                         .build())
                 .build();
 

@@ -202,11 +202,11 @@ class UserControllerTest {
     void signInSubmit_Success() throws Exception {
 
         ObjectNode payload = objectMapper.createObjectNode();
-        payload.put("userId", "test_user");
-        payload.put("password", "new_password");
+        payload.put("userId", "ewha555");
+        payload.put("password", "ewha555");
 
         String content = objectMapper.writeValueAsString(new Request(
-                new RequestHeader("SignInRequest", "test_user"), payload));
+                new RequestHeader("SignInRequest", "ewha555"), payload));
 
         mockMvc.perform(post("/user/sign-in")
                 .content(content)

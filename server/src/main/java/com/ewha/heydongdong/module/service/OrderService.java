@@ -18,7 +18,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -64,6 +63,7 @@ public class OrderService {
             menuInOrderRepository.save(MenuInOrder.builder()
                     .menu(Menu.builder()
                             .menuId(menuInNewOrder.getMenuId())
+                            .menuName(menuInNewOrder.getMenuName())
                             .build())
                     .order(order)
                     .option(menuInNewOrder.getOption())
@@ -75,7 +75,7 @@ public class OrderService {
 
     private String buildNewOrderJsonResponse(Long orderId, User user, NewOrderDto newOrderDto) {
 
-        ResponseHeader header = jsonBuilder.buildResponseHeader("GetStoreHistoryResponse", user.getUserId());
+        ResponseHeader header = jsonBuilder.buildResponseHeader("AddNewOrderResponse", user.getUserId());
         ObjectNode payload = jsonBuilder.buildResponsePayload(
                 new String[]{"orderId", "userName", "orderAt", "totalPrice"},
                 new String[]{String.valueOf(orderId), user.getUserName(),

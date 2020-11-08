@@ -87,7 +87,7 @@ class MyMenuControllerTest {
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
                         .name("InvalidRequestFormatError")
-                        .message("InvalidRequestFormatError: Invalid request format [invalid-header-name=AddMyMenuResponse]")
+                        .message("InvalidRequestFormatError: Invalid request format [Invalid header name=AddMyMenuResponse]")
                         .build()).build();
         mockMvc.perform(post("/my-menu/add")
                 .content(content)
