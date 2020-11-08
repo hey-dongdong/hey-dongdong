@@ -69,31 +69,55 @@ export default {
 			}
 		},
 		addToCart() {
-			let maxIndex = 0;
-			if (localStorage.length > 0) {
-				for (let i = 0; i < localStorage.length; i++) {
-					if (Number(maxIndex) < Number(localStorage.key(i))) {
-						maxIndex = localStorage.key(i);
-					}
-				}
-			}
-			maxIndex = Number(maxIndex) + 1;
 			for (let i = 0; i < this.historyDetail.menus.length; i++) {
 				var item = this.historyDetail.menus[i];
-				console.log(item);
-				var value = {
-					id: maxIndex,
-					menu: {
-						menuId: item.menu.menuId,
-						menuName: item.menu.menuName,
-					},
-					option: item.option,
-					price: item.price,
-					count: item.count,
+				let index = 0;
+				var isSame = false;
+				var menu = {
+					menuId: item.menu.menuId,
+					menuName: item.menu.menuName,
 				};
-				localStorage.setItem(maxIndex, JSON.stringify(value));
-				maxIndex++;
+				var option = item.option;
+				var price = 0;
+				var count = 0;
+				if (localStorage.length > 0) {
+					for (let i = 0; i < localStorage.length; i++) {
+						if (Number(index) < Number(localStorage.key(i))) {
+							index = localStorage.key(i);
+							var cartItem = JSON.parse(localStorage.getItem(localStorage.key(i)));
+							if (
+								JSON.stringify(cartItem.menu) == JSON.stringify(menu) &&
+								JSON.stringify(cartItem.option) == JSON.stringify(option)
+							) {
+								isSame = true;
+								price = cartItem.price;
+								count = cartItem.count;
+								break;
+							}
+						}
+					}
+				}
+				if (isSame == true) {
+					var value = {
+						id: Number(index),
+						menu: menu,
+						option: option,
+						price: item.price + price,
+						count: item.count + count,
+					};
+				} else {
+					index = Number(index) + 1;
+					value = {
+						id: index,
+						menu: menu,
+						option: option,
+						price: item.price,
+						count: item.count,
+					};
+				}
+				localStorage.setItem(index, JSON.stringify(value));
 			}
+			this.$router.push('/cart');
 		},
 	},
 };

@@ -177,7 +177,6 @@ export default {
 					}
 				}
 			}
-			console.log(isSame);
 			if (isSame == true) {
 				var value = {
 					id: index,
@@ -186,7 +185,6 @@ export default {
 					price: this.price + price,
 					count: this.count + count,
 				};
-				// console.log('same');
 			} else {
 				index = Number(index) + 1;
 				value = {
