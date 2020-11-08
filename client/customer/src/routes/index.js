@@ -59,6 +59,10 @@ const router = new VueRouter({
 			component: () => import('@/views/login/FindPwFailPage.vue'),
 		},
 		{
+			path: '/change-pw',
+			component: () => import('@/views/login/ChangePwPage.vue'),
+		},
+		{
 			path: '/menu/all',
 			name: 'menu-all',
 			component: () => import('@/views/menu/AllMenuPage.vue'),

@@ -1,5 +1,5 @@
 //로그인, 회원 가입, 아이디 찾기, 비밀번호 찾기
-import { instance } from './index';
+import { instance, instanceWithAuth } from './index';
 
 async function registerUser(userData) {
 	try {
@@ -33,4 +33,12 @@ async function findUserPw(userData) {
 	}
 }
 
-export { registerUser, signInUser, findUserId, findUserPw };
+async function changeUserPw(userData) {
+	try {
+		return await instanceWithAuth.post('/user/change-pw', userData);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export { registerUser, signInUser, findUserId, findUserPw, changeUserPw };

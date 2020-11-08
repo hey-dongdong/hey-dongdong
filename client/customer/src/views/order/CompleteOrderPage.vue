@@ -10,10 +10,9 @@
 					<span class="order-complete-store">{{ store }}</span>
 					<span>에서 30분 이내에 음료를 수령해주세요.</span>
 				</div>
-				<!-- <img src="../../assets/barcode.png" alt="barcode" class="barcode complete" /> -->
 				<VueBarcode
 					v-bind:value="barcodeValue"
-					class="barcode-box"
+					class="barcode-box complete"
 					height="50"
 					format="CODE39"
 				></VueBarcode>
