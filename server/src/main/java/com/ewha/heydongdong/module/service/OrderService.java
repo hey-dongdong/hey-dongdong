@@ -1,5 +1,6 @@
 package com.ewha.heydongdong.module.service;
 
+import com.ewha.heydongdong.infra.JsonBuilder;
 import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
 import com.ewha.heydongdong.infra.protocol.Response;
 import com.ewha.heydongdong.infra.protocol.ResponseHeader;
@@ -31,11 +32,14 @@ public class OrderService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private JsonBuilder jsonBuilder;
+
     public String addNewOrder(JsonNode payload) throws JsonProcessingException {
         NewOrderDto newOrderDto = objectMapper.treeToValue(payload, NewOrderDto.class);
         Order order = orderRepository.save(buildOrderFromNewOrderDto(newOrderDto.getNewOrderInfo()));
         saveMenusInNewOrder(order, newOrderDto.getMenus());
-        return buildNewOrderJsonResponse(order.getOrderId(), order.getUser().getUserId());
+        return buildNewOrderJsonResponse(order.getOrderId(), order.getUser(), newOrderDto);
     }
 
     private Order buildOrderFromNewOrderDto(NewOrderInfoDto newOrderInfo) {
@@ -68,16 +72,16 @@ public class OrderService {
         }
     }
 
-    private String buildNewOrderJsonResponse(Long orderId, String userId) {
-        ObjectNode payload = objectMapper.createObjectNode();
-        payload.put("orderId", orderId);
+    private String buildNewOrderJsonResponse(Long orderId, User user, NewOrderDto newOrderDto) {
 
-        return objectMapper.valueToTree(Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("GetStoreHistoryResponse")
-                        .message(userId).build())
-                .payload(payload)
-                .build()).toPrettyString();
+        ResponseHeader header = jsonBuilder.buildResponseHeader("GetStoreHistoryResponse", user.getUserId());
+        ObjectNode payload = jsonBuilder.buildResponsePayload(
+                new String[]{"orderId", "userName", "orderAt", "totalPrice"},
+                new String[]{String.valueOf(orderId), user.getUserName(),
+                        String.valueOf(newOrderDto.getNewOrderInfo().getOrderAt()), String.valueOf(newOrderDto.getNewOrderInfo().getTotalPrice())});
+        payload.set("menus", objectMapper.valueToTree(newOrderDto.getMenus()));
+
+        return jsonBuilder.buildJsonWithHeaderAndPayload(header, payload);
     }
 
     public String updateOrderProgress(JsonNode payload) {
