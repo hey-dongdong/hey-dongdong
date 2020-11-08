@@ -6,13 +6,25 @@
 					<img src="../assets/logo.png" alt="로고" class="logo" />
 					<h1 class="title">헤이동동</h1>
 				</div>
-				<v-container fluid>
-					<v-row>
-						<v-col cols="12">
-							<v-combobox v-model="select" :items="items" color="#FFFFFF"></v-combobox>
-						</v-col>
-					</v-row>
-				</v-container>
+				<div class="select-box">
+					<select name="store">
+						<option value="1">학생문화관점</option>
+						<option value="2">도서관점</option>
+						<option value="3">국제기숙사점</option>
+						<option value="4">교육관점</option>
+						<option value="5">경영관점</option>
+						<option value="6">조형관점</option>
+						<option value="7">음악관점</option>
+						<option value="8">공학관점</option>
+						<option value="9">종합과학관점</option>
+						<option value="10">산학협력관점</option>
+						<option value="11">동창회관점</option>
+						<option value="12">학관점</option>
+						<option value="13">체육관점</option>
+						<option value="14">법학관점</option>
+						<option value="15">헬렌관점</option>
+					</select>
+				</div>
 			</div>
 			<router-link to="/history" class="link-to-history">완료된 주문 ></router-link>
 		</header>
@@ -37,10 +49,7 @@ export default {
 		Card,
 	},
 	data() {
-		return {
-			select: ['Vuetify', 'Programming'],
-			items: ['Programming', 'Design', 'Vue', 'Vuetify'],
-		};
+		return {};
 	},
 };
 </script>
