@@ -19,7 +19,8 @@ export default {
 				name === 'menu-coffee' ||
 				name === 'menu-tea' ||
 				name === 'menu-ade' ||
-				name === 'menu-others'
+				name === 'menu-others' ||
+				name === 'history'
 			) {
 				this.$router.push('/main');
 			} else {
