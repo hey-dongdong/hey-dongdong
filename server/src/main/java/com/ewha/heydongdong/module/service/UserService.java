@@ -1,10 +1,7 @@
 package com.ewha.heydongdong.module.service;
 
 import com.ewha.heydongdong.infra.JsonBuilder;
-import com.ewha.heydongdong.infra.exception.DuplicateUserException;
-import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
-import com.ewha.heydongdong.infra.exception.NoResultFromDBException;
-import com.ewha.heydongdong.infra.exception.NoSuchUserException;
+import com.ewha.heydongdong.infra.exception.*;
 import com.ewha.heydongdong.infra.jwt.JwtTokenProvider;
 import com.ewha.heydongdong.infra.mail.EmailMessage;
 import com.ewha.heydongdong.infra.mail.EmailService;
@@ -136,6 +133,7 @@ public class UserService {
     public String signIn(JsonNode payload) {
         User given = buildUserFromJson(payload);
         User expected = findOptionalUserFromDB(given.getUserId());
+        checkIfVerified(expected);
         checkPassword(given, expected);
         String newToken = jwtTokenProvider.createJwtToken(expected.getUsername(), expected.getRoles());
         return buildUserSignInJsonResponse(given.getUserId(), newToken);
@@ -151,6 +149,11 @@ public class UserService {
     private User findOptionalUserFromDB(String userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NoResultFromDBException("userId=" + userId));
+    }
+
+    private void checkIfVerified(User given) {
+        if (!given.getIsEmailVerified())
+            throw new NotVerifiedUserException(given.getUserId());
     }
 
     private void checkPassword(User given, User expected) {

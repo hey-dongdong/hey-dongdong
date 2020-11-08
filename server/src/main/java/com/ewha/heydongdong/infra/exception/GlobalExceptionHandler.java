@@ -103,4 +103,18 @@ public class GlobalExceptionHandler {
                 .build();
         return ResponseEntity.badRequest().body(objectMapper.valueToTree(response).toPrettyString());
     }
+
+    @ExceptionHandler({NotVerifiedUserException.class})
+    public ResponseEntity<?> handleNotVerifiedUserException(final NotVerifiedUserException e) {
+
+        String msg = "Email not verified [userId=" + e.getMessage() + "]";
+        log.error(msg);
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("NotVerifiedUserException")
+                        .message(msg)
+                        .build())
+                .build();
+        return new ResponseEntity<>(objectMapper.valueToTree(response).toPrettyString(), HttpStatus.FORBIDDEN);
+    }
 }
