@@ -28,7 +28,7 @@
 				</span>
 				<div slot="footer" class="popup-buttons">
 					<button @click="doSend" class="popup-button" type="button">취소</button>
-					<button @click="orderMyMenu" class="popup-button" type="button">
+					<button @click="orderHistoryMenu" class="popup-button" type="button">
 						주문하기
 					</button>
 				</div>
@@ -46,7 +46,7 @@ import store from '@/store/index';
 import { getUserFromCookie } from '@/utils/cookies';
 import { addMyMenu, removeMyMenu } from '@/api/menus';
 import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
-// import { addOrder } from '@/api/order';
+import { addOrder } from '@/api/order';
 
 export default {
 	components: {
@@ -58,14 +58,11 @@ export default {
 	data() {
 		return {
 			modal: false,
-			totalCount: 0,
+			totalCount: this.$route.params.totalCount,
 		};
 	},
 	computed: {
 		...mapGetters(['historyDetail']),
-		// for(let i=0; i< historyDetail.menus.length; i++) {
-		// 	var item = historyDetail.menus[i];
-		// }
 	},
 	created() {
 		const data = {
@@ -123,6 +120,53 @@ export default {
 				};
 				await removeMyMenu(data);
 			}
+		},
+		async orderHistoryMenu() {
+			let now = new Date();
+			let year = now.getFullYear();
+			let month = now.getMonth();
+			let date = now.getDate();
+			let hours = now.getHours();
+			let minutes = now.getMinutes();
+			let seconds = now.getSeconds();
+			var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+			var menus = [];
+
+			for (let i = 0; i < this.historyDetail.menus.length; i++) {
+				var item = this.historyDetail.menus[i];
+				var menu = {
+					menuId: item.menu.menuId,
+					option: item.option,
+					price: item.price,
+					count: item.count,
+				};
+				menus.push(menu);
+			}
+
+			const data = {
+				header: {
+					name: 'AddNewOrderRequest',
+					userId: getUserFromCookie(),
+				},
+				payload: {
+					newOrderInfo: {
+						orderAt: time,
+						progress: 'WAITING',
+						totalCount: this.totalCount,
+						totalPrice: this.$route.params.totalPrice,
+						isNoShow: false,
+						storeId: this.$route.params.store.storeId,
+						userId: getUserFromCookie(),
+					},
+					menus: menus,
+				},
+			};
+			const response = await addOrder(data);
+			this.$router.push({
+				name: 'complete',
+				path: '/complete',
+				params: response.data.payload,
+			});
 		},
 		addToCart() {
 			for (let i = 0; i < this.historyDetail.menus.length; i++) {

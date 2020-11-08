@@ -89,7 +89,9 @@
 			</li>
 		</ul>
 		<div class="ordered-menu-card-footer">
-			<span class="ordered-menu-price"> {{ completeOrderMenuItem.price }}원 </span>
+			<span class="ordered-menu-price">
+				{{ completeOrderMenuItem.price * completeOrderMenuItem.count }}원
+			</span>
 			<div class="ordered-menu-count">{{ completeOrderMenuItem.count }}잔</div>
 		</div>
 	</div>
