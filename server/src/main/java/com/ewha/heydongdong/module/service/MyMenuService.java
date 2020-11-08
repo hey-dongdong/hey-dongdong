@@ -54,6 +54,7 @@ public class MyMenuService {
                             .build())
                     .addAt(myMenu.getAddAt())
                     .storeName(myMenu.getMenuInOrder().getMenu().getStore().getStoreName())
+                    .storeId((myMenu.getMenuInOrder().getMenu().getStore().getStoreId()))
                     .build());
         }
         return myMenuDtos;
