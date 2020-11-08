@@ -13,11 +13,26 @@
 				@toggle-like="toggleLike"
 			></OrderItems>
 			<div class="greenbtn-small-set">
-				<button type="button" class="greenbtn-small">이대로 주문하기</button>
+				<button type="button" class="greenbtn-small" @click="openModal()">
+					이대로 주문하기
+				</button>
 				<button type="button" class="greenbtn-small" @click="addToCart">
 					장바구니에 담기
 				</button>
 			</div>
+			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+				<span slot="modal-title" class="modal-title mymenu">이대로 주문하기</span>
+				<span slot="modal-content" class="modal-content">
+					{{ $route.params.store.storeName }}에 <br />
+					음료 {{ totalCount }}잔을 주문하시겠습니까?
+				</span>
+				<div slot="footer" class="popup-buttons">
+					<button @click="doSend" class="popup-button" type="button">취소</button>
+					<button @click="orderMyMenu" class="popup-button" type="button">
+						주문하기
+					</button>
+				</div>
+			</ModalWithTwoBtn>
 		</div>
 	</div>
 </template>
@@ -30,15 +45,27 @@ import { mapGetters } from 'vuex';
 import store from '@/store/index';
 import { getUserFromCookie } from '@/utils/cookies';
 import { addMyMenu, removeMyMenu } from '@/api/menus';
+import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+// import { addOrder } from '@/api/order';
 
 export default {
 	components: {
 		BlackHeader,
 		OrderDetail,
 		OrderItems,
+		ModalWithTwoBtn,
+	},
+	data() {
+		return {
+			modal: false,
+			totalCount: 0,
+		};
 	},
 	computed: {
 		...mapGetters(['historyDetail']),
+		// for(let i=0; i< historyDetail.menus.length; i++) {
+		// 	var item = historyDetail.menus[i];
+		// }
 	},
 	created() {
 		const data = {
@@ -53,6 +80,15 @@ export default {
 		this.$store.dispatch('FETCH_HISTORY_DETAIL', data);
 	},
 	methods: {
+		openModal() {
+			this.modal = true;
+		},
+		closeModal() {
+			this.modal = false;
+		},
+		doSend() {
+			this.closeModal();
+		},
 		async toggleLike({ id, checked, myMenuId }) {
 			console.log(id, checked, myMenuId);
 			if (checked == true) {
