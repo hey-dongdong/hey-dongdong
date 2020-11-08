@@ -41,7 +41,7 @@
 
 <script>
 import Card from '@/components/Card.vue';
-import { fetchHistoryOrders } from '@/api/index';
+import { mapGetters } from 'vuex';
 
 export default {
 	components: {
@@ -52,12 +52,24 @@ export default {
 			selected: 1,
 		};
 	},
+	computed: {
+		...mapGetters(['historyItems']),
+	},
 	created() {
-		console.log(this.selected);
+		const data = {
+			header: {
+				name: 'GetStoreHistoryRequest',
+				userId: 'admin',
+			},
+			payload: {},
+		};
+		this.$store.dispatch('FETCH_HISTORY_ORDERS', {
+			id: 1,
+			data: data,
+		});
 	},
 	methods: {
 		async selectStore(e) {
-			console.log(e.target.value);
 			const data = {
 				header: {
 					name: 'GetStoreHistoryRequest',
@@ -65,8 +77,10 @@ export default {
 				},
 				payload: {},
 			};
-			const response = await fetchHistoryOrders(e.target.value, data);
-			console.log(response.data);
+			this.$store.dispatch('FETCH_HISTORY_ORDERS', {
+				id: e.target.value,
+				data: data,
+			});
 		},
 	},
 };
