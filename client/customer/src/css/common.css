@@ -1060,6 +1060,7 @@ input[type=checkbox]:checked + label{
 }
 
 .modal-content {
+	text-align: center;
 	font-size: 12px;
 	line-height: 1.4;
 }

@@ -109,11 +109,26 @@
 				</li>
 			</ul>
 			<div class="greenbtn-small-set">
-				<button type="button" class="greenbtn-small">이대로 주문하기</button>
+				<button type="button" class="greenbtn-small" @click="openModal()">
+					이대로 주문하기
+				</button>
 				<button type="button" class="greenbtn-small" @click="addToCart">
 					장바구니에 담기
 				</button>
 			</div>
+			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+				<span slot="modal-title" class="modal-title mymenu">이대로 주문하기</span>
+				<span slot="modal-content" class="modal-content">
+					{{ $route.params.storeName }}에 <br />
+					음료 {{ count }}잔을 주문하시겠습니까?
+				</span>
+				<div slot="footer" class="popup-buttons">
+					<button @click="doSend" class="popup-button" type="button">취소</button>
+					<button @click="orderMyMenu" class="popup-button" type="button">
+						주문하기
+					</button>
+				</div>
+			</ModalWithTwoBtn>
 		</div>
 	</div>
 </template>
@@ -121,15 +136,20 @@
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
 import MenuCountBox from '@/components/menu/MenuCountBox.vue';
+import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+import { getUserFromCookie } from '@/utils/cookies';
+import { addOrder } from '@/api/order';
 
 export default {
 	name: 'MyMenuItemDetail',
 	components: {
 		BlackHeader,
 		MenuCountBox,
+		ModalWithTwoBtn,
 	},
 	data() {
 		return {
+			modal: false,
 			count: 1,
 			price: 0,
 		};
@@ -149,6 +169,57 @@ export default {
 		plus() {
 			this.count++;
 			this.price += this.$route.params.menuInOrder.price;
+		},
+		openModal() {
+			this.modal = true;
+		},
+		closeModal() {
+			this.modal = false;
+		},
+		doSend() {
+			this.closeModal();
+		},
+		async orderMyMenu() {
+			let now = new Date();
+			let year = now.getFullYear();
+			let month = now.getMonth();
+			let date = now.getDate();
+			let hours = now.getHours();
+			let minutes = now.getMinutes();
+			let seconds = now.getSeconds();
+			var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+			var menus = [];
+			var menu = {
+				menuId: this.$route.params.menuInOrder.menu.menuId,
+				option: this.$route.params.menuInOrder.option,
+				price: this.price,
+				count: this.count,
+			};
+			menus.push(menu);
+			const data = {
+				header: {
+					name: 'AddNewOrderRequest',
+					userId: getUserFromCookie(),
+				},
+				payload: {
+					newOrderInfo: {
+						orderAt: time,
+						progress: 'WAITING',
+						totalCount: this.count,
+						totalPrice: this.price,
+						isNoShow: false,
+						storeId: this.$route.params.storeId,
+						userId: getUserFromCookie(),
+					},
+					menus: menus,
+				},
+			};
+			const response = await addOrder(data);
+			this.$router.push({
+				name: 'complete',
+				path: '/complete',
+				params: response.data.payload,
+			});
 		},
 		addToCart() {
 			let index = 0;
