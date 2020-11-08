@@ -11,6 +11,7 @@ spring:
     properties:
       hibernate:
         ddl-auto: none
+
   mail:
     host: smtp.gmail.com
     port: 587

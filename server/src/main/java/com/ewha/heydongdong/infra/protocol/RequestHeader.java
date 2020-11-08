@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestHeader {
+
     private String name;
     private String userId;
+
 }

@@ -1,8 +1,7 @@
 package com.ewha.heydongdong.module.service;
 
+import com.ewha.heydongdong.infra.JsonBuilder;
 import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
-import com.ewha.heydongdong.infra.protocol.Response;
-import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.Menu;
 import com.ewha.heydongdong.module.model.domain.Store;
 import com.ewha.heydongdong.module.model.dto.MenuDetailDto;
@@ -24,10 +23,13 @@ public class MenuService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private JsonBuilder jsonBuilder;
+
     public String getAllMenus(Integer storeId) {
         List<Menu> menus = menuRepository.findByStore(Store.builder().storeId(storeId).build());
         checkIfMenusExist(storeId, menus);
-        return buildJsonResponse(buildMenuDtoFromMenu(menus));
+        return buildJsonResponse(storeId, buildMenuDtoFromMenu(menus));
     }
 
     private void checkIfMenusExist(Integer storeId, List<Menu> menus) {
@@ -52,13 +54,12 @@ public class MenuService {
         return menuDetails;
     }
 
-    private String buildJsonResponse(List<MenuDetailDto> menus) {
-        ResponseHeader header = new ResponseHeader();
-        header.setName("GetAllMenusResponse");
-
+    private String buildJsonResponse(int storeId, List<MenuDetailDto> menus) {
         ObjectNode payload = objectMapper.createObjectNode();
         payload.set("menus", objectMapper.valueToTree(menus));
-        Response response = new Response(header, payload);
-        return objectMapper.valueToTree(response).toPrettyString();
+        return jsonBuilder.buildJsonWithHeaderAndPayload(
+                jsonBuilder.buildResponseHeader("GetAllMenusResponse", String.valueOf(storeId)),
+                payload
+        );
     }
 }

@@ -186,7 +186,7 @@ class UserControllerTest {
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
                         .name("InvalidRequestParameterError")
-                        .message("InvalidRequestParameterError: Invalid request parameter [Wrong token]")
+                        .message("InvalidRequestParameterError: Invalid request parameter [Wrong email token]")
                         .build())
                 .build();
 
@@ -231,6 +231,31 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("User sign in submit | Fail : Not verified")
+    void signInSubmit_Fail_NotVerified() throws Exception {
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("userId", "ewha111");
+        payload.put("password", "111");
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("SignInRequest", "ewha111"), payload));
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("NotVerifiedUserException")
+                        .message("Email not verified [userId=ewha111]")
+                        .build())
+                .build();
+        mockMvc.perform(post("/user/sign-in")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
 
     @Test
@@ -361,7 +386,7 @@ class UserControllerTest {
                 new RequestHeader("GetNoShowCountRequest", "test_user"), null));
 
         ObjectNode payload = objectMapper.createObjectNode();
-        payload.put("noShowCount", 0);
+        payload.put("noShowCount", "0");
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
                         .name("GetNoShowCountResponse")

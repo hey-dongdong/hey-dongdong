@@ -104,24 +104,38 @@ public class HistoryService {
     private List<MenuInHistoryDetailDto> buildMenusInHistoryFromOrder(Order order) {
         List<MenuInHistoryDetailDto> menus = new ArrayList<>();
         for (MenuInOrder menuInOrder : order.getMenus()) {
-            menus.add(MenuInHistoryDetailDto.builder()
-                    .menuInOrderId(menuInOrder.getId())
-                    .menu(MenuInHistoryDto.builder()
-                            .menuId(menuInOrder.getMenu().getMenuId())
-                            .menuName(menuInOrder.getMenu().getMenuName())
-                            .menuThumbnail(menuInOrder.getMenu().getImgUrl())
-                            .build())
-                    .option(menuInOrder.getOption())
-                    .price(menuInOrder.getPrice())
-                    .count(menuInOrder.getCount())
-                    .menuLiked(isMenuInOrderLiked(menuInOrder.getId(), order.getUser().getUserId()))
-                    .build());
+            Optional<MyMenu> myMenu = myMenuRepository.findByUserAndMenuInOrder(
+                    User.builder().userId(order.getUser().getUserId()).build(),
+                    MenuInOrder.builder().id(menuInOrder.getId()).build());
+            if (myMenu.isPresent())
+                menus.add(MenuInHistoryDetailDto.builder()
+                        .menuInOrderId(menuInOrder.getId())
+                        .menu(MenuInHistoryDto.builder()
+                                .menuId(menuInOrder.getMenu().getMenuId())
+                                .menuName(menuInOrder.getMenu().getMenuName())
+                                .menuThumbnail(menuInOrder.getMenu().getImgUrl())
+                                .build())
+                        .option(menuInOrder.getOption())
+                        .price(menuInOrder.getPrice())
+                        .count(menuInOrder.getCount())
+                        .menuLiked(true)
+                        .myMenuId(myMenu.get().getMyMenuId())
+                        .build());
+            else
+                menus.add(MenuInHistoryDetailDto.builder()
+                        .menuInOrderId(menuInOrder.getId())
+                        .menu(MenuInHistoryDto.builder()
+                                .menuId(menuInOrder.getMenu().getMenuId())
+                                .menuName(menuInOrder.getMenu().getMenuName())
+                                .menuThumbnail(menuInOrder.getMenu().getImgUrl())
+                                .build())
+                        .option(menuInOrder.getOption())
+                        .price(menuInOrder.getPrice())
+                        .count(menuInOrder.getCount())
+                        .menuLiked(false)
+                        .build());
         }
         return menus;
-    }
-
-    private Boolean isMenuInOrderLiked(Long menuInOrderId, String userId) {
-        return myMenuRepository.findByUserAndMenuInOrder(User.builder().userId(userId).build(), MenuInOrder.builder().id(menuInOrderId).build()).isPresent();
     }
 
     private String buildUserHistoryDetailJsonResponse(String userId, UserHistoryDetailDto historyDetail) {
@@ -140,11 +154,11 @@ public class HistoryService {
     public String getStoreHistory(Integer storeId) {
         List<Order> doneOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.DONE);
         List<Order> noShowOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.NOSHOW);
-        checkIfStoreHistoryExists(doneOrders, noShowOrders, storeId);
-        return buildStoreHistoryJsonResponse(storeId, buildStoreHistoryFromOrders(doneOrders), buildStoreHistoryFromOrders(noShowOrders));
+        checkIfStoreOrdersExist(doneOrders, noShowOrders, storeId);
+        return buildStoreOrdersJsonResponse(storeId, buildStoreHistoryFromOrders(doneOrders), buildStoreHistoryFromOrders(noShowOrders));
     }
 
-    private void checkIfStoreHistoryExists(List<Order> doneOrders, List<Order> noShowOrders, Integer storeId) {
+    private void checkIfStoreOrdersExist(List<Order> doneOrders, List<Order> noShowOrders, Integer storeId) {
         if (doneOrders.isEmpty() && noShowOrders.isEmpty())
             throw new NoResultFromDBException("No history for storeId=" + storeId);
     }
@@ -168,7 +182,7 @@ public class HistoryService {
         return ordersDto;
     }
 
-    private String buildStoreHistoryJsonResponse(Integer storeId, List<StoreHistoryDetailDto> doneOrdersDto, List<StoreHistoryDetailDto> noShowOrdersDto) {
+    private String buildStoreOrdersJsonResponse(Integer storeId, List<StoreHistoryDetailDto> doneOrdersDto, List<StoreHistoryDetailDto> noShowOrdersDto) {
         Map<String, List<StoreHistoryDetailDto>> storeHistory = new HashMap<>();
         storeHistory.put("doneOrders", doneOrdersDto);
         storeHistory.put("noShowOrders", noShowOrdersDto);
@@ -176,6 +190,33 @@ public class HistoryService {
         return objectMapper.valueToTree(Response.builder()
                 .header(ResponseHeader.builder()
                         .name("GetStoreHistoryResponse")
+                        .message(String.valueOf(storeId)).build())
+                .payload(objectMapper.valueToTree(storeHistory))
+                .build()).toPrettyString();
+    }
+
+    public String getStoreOrders(Integer storeId) {
+        List<Order> waitingOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.WAITING);
+        List<Order> makingOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.MAKING);
+        List<Order> readyOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.READY);
+        checkIfStoreOrdersExist(waitingOrders, makingOrders, readyOrders, storeId);
+        return buildStoreOrdersJsonResponse(storeId, buildStoreHistoryFromOrders(waitingOrders), buildStoreHistoryFromOrders(makingOrders), buildStoreHistoryFromOrders(readyOrders));
+    }
+
+    private void checkIfStoreOrdersExist(List<Order> waitingOrders, List<Order> makingOrders, List<Order> readyOrders, Integer storeId) {
+        if (waitingOrders.isEmpty() && makingOrders.isEmpty() && readyOrders.isEmpty())
+            throw new NoResultFromDBException("No orders for storeId=" + storeId);
+    }
+
+    private String buildStoreOrdersJsonResponse(Integer storeId, List<StoreHistoryDetailDto> waitingOrdersDto, List<StoreHistoryDetailDto> makingOrdersDto, List<StoreHistoryDetailDto> readyOrdersDto) {
+        Map<String, List<StoreHistoryDetailDto>> storeHistory = new HashMap<>();
+        storeHistory.put("waitingOrders", waitingOrdersDto);
+        storeHistory.put("makingOrders", makingOrdersDto);
+        storeHistory.put("readyOrders", readyOrdersDto);
+
+        return objectMapper.valueToTree(Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("GetStoreOrdersResponse")
                         .message(String.valueOf(storeId)).build())
                 .payload(objectMapper.valueToTree(storeHistory))
                 .build()).toPrettyString();

@@ -14,6 +14,7 @@ import javax.persistence.Embeddable;
 @Embeddable
 @ToString
 public class BasicOption {
+
     @Column(name = "is_hot", nullable = false)
     private Boolean isHot;
 

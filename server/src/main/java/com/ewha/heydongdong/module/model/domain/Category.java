@@ -14,6 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class Category {
+
     @Id
     @Column(name = "id")
     private Integer categoryId;

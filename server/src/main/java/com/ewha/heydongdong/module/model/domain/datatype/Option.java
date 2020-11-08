@@ -1,5 +1,6 @@
 package com.ewha.heydongdong.module.model.domain.datatype;
 
+import com.ewha.heydongdong.infra.converter.CustomOptionConverter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import javax.persistence.Embedded;
 @Embeddable
 @ToString
 public class Option {
+
     @Embedded
     private BasicOption basicOption;
 

@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CustomOption {
+
     private Integer shotAmericano;
     private Integer shotLatte;
     private Boolean milk;
@@ -17,6 +18,7 @@ public class CustomOption {
     private Boolean condensedMilk;
     private Boolean chocolate;
     private Boolean caramel;
+    private Boolean vanilla;
     private Boolean soyMilk;
 
     @Override

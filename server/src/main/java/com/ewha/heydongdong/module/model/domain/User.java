@@ -84,11 +84,6 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    // Default values
-    public static class UserBuilder {
-        private Integer noShowCount = 0;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream()
