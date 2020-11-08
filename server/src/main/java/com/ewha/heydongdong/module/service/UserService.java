@@ -190,9 +190,17 @@ public class UserService {
     public String findUserPw(JsonNode payload) {
         User user = findOptionalUserFromDB(payload.get("userId").asText());
         validateGivenInfo(payload, user);
-        refreshEmailCheckToken(user);
-        emailService.sendEmail(generateLoginEmail(user));
-        return jsonBuilder.buildJsonWithHeader("FindPwResponse", user.getUserId());
+        return jsonBuilder.buildJsonWithHeaderAndPayload(
+                jsonBuilder.buildResponseHeader("FindPwResponse", user.getUserId()),
+                jsonBuilder.buildResponsePayload("tempPassword", generateTempPw(user))
+        );
+    }
+
+    private String generateTempPw(User user) {
+        String tempPw = UUID.randomUUID().toString().replaceAll("-", "");
+        tempPw = tempPw.substring(0, 10);
+        updateUserPwOnDB(tempPw, user);
+        return tempPw;
     }
 
     private void validateGivenInfo(JsonNode given, User expected) {
@@ -201,34 +209,6 @@ public class UserService {
                 | !given.get("email").asText().equals(expected.getEmail())) {
             throw new NoResultFromDBException("No user for userId=" + expected.getUserId());
         }
-    }
-
-    private void refreshEmailCheckToken(User user) {
-        user.setEmailCheckToken(UUID.randomUUID().toString());
-        userRepository.save(user);
-    }
-
-    private EmailMessage generateLoginEmail(User user) {
-        Context context = new Context();
-        context.setVariable("link", "/user/login-by-email/" + user.getEmail() + "/" + user.getEmailCheckToken());
-        context.setVariable("userName", user.getUserName());
-        context.setVariable("linkName", "로그인 링크");
-        context.setVariable("message", "헤이동동에 로그인하려면 링크를 클릭하세요.");
-        context.setVariable("host", "http://localhost:8080");   // TODO [지우] 서버 주소 변경
-
-        String message = templateEngine.process("login-by-email", context);
-        return EmailMessage.builder()
-                .to(user.getEmail())
-                .subject("헤이동동 로그인을 위한 링크메일입니다.")
-                .message(message)
-                .build();
-    }
-
-    public String loginByEmail(String email, String emailCheckToken) {
-        User user = checkIfUserExists(email);
-        if (!user.getEmailCheckToken().equals(emailCheckToken))
-            throw new InvalidRequestParameterException("Wrong email token");
-        return jsonBuilder.buildJsonWithHeader("LoginByEmailResponse", user.getUserId());
     }
 
     public String changePw(JsonNode payload) {

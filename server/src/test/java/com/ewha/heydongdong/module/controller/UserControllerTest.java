@@ -315,19 +315,11 @@ class UserControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("FindPwRequest", "test_user"), payload));
 
-        Response response = Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("FindPwResponse")
-                        .message("test_user")
-                        .build())
-                .build();
-
         mockMvc.perform(post("/user/find-info/pw")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+                .andExpect(status().isOk());
     }
 
     @Test

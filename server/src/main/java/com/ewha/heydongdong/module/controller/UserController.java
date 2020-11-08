@@ -73,16 +73,6 @@ public class UserController {
         return new ResponseEntity<>(userPw, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/login-by-email/{email}/{emailCheckToken}", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> loginByEmail(@PathVariable(value = "email") String email,
-                                          @PathVariable(value = "emailCheckToken") String emailCheckToken) {
-
-        log.info("[Request] login-by-email");
-
-        String loginByEmailResult = userService.loginByEmail(email, emailCheckToken);
-        return new ResponseEntity<>(loginByEmailResult, HttpStatus.OK);
-    }
-
     @PostMapping(value = "/change-pw", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> changePw(@RequestBody Request request) throws JsonProcessingException {
 
