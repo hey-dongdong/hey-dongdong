@@ -11,6 +11,7 @@ import lombok.*;
 public class MenuInNewOrderDto {
 
     private Integer menuId;
+    private String menuName;
     private Option option;
     private Integer price;
     private Integer count;
