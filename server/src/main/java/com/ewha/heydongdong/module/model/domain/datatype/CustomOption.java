@@ -18,6 +18,7 @@ public class CustomOption {
     private Boolean condensedMilk;
     private Boolean chocolate;
     private Boolean caramel;
+    private Boolean vanilla;
     private Boolean soyMilk;
 
     @Override
