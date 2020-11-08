@@ -104,24 +104,38 @@ public class HistoryService {
     private List<MenuInHistoryDetailDto> buildMenusInHistoryFromOrder(Order order) {
         List<MenuInHistoryDetailDto> menus = new ArrayList<>();
         for (MenuInOrder menuInOrder : order.getMenus()) {
-            menus.add(MenuInHistoryDetailDto.builder()
-                    .menuInOrderId(menuInOrder.getId())
-                    .menu(MenuInHistoryDto.builder()
-                            .menuId(menuInOrder.getMenu().getMenuId())
-                            .menuName(menuInOrder.getMenu().getMenuName())
-                            .menuThumbnail(menuInOrder.getMenu().getImgUrl())
-                            .build())
-                    .option(menuInOrder.getOption())
-                    .price(menuInOrder.getPrice())
-                    .count(menuInOrder.getCount())
-                    .menuLiked(isMenuInOrderLiked(menuInOrder.getId(), order.getUser().getUserId()))
-                    .build());
+            Optional<MyMenu> myMenu = myMenuRepository.findByUserAndMenuInOrder(
+                    User.builder().userId(order.getUser().getUserId()).build(),
+                    MenuInOrder.builder().id(menuInOrder.getId()).build());
+            if (myMenu.isPresent())
+                menus.add(MenuInHistoryDetailDto.builder()
+                        .menuInOrderId(menuInOrder.getId())
+                        .menu(MenuInHistoryDto.builder()
+                                .menuId(menuInOrder.getMenu().getMenuId())
+                                .menuName(menuInOrder.getMenu().getMenuName())
+                                .menuThumbnail(menuInOrder.getMenu().getImgUrl())
+                                .build())
+                        .option(menuInOrder.getOption())
+                        .price(menuInOrder.getPrice())
+                        .count(menuInOrder.getCount())
+                        .menuLiked(true)
+                        .myMenuId(myMenu.get().getMyMenuId())
+                        .build());
+            else
+                menus.add(MenuInHistoryDetailDto.builder()
+                        .menuInOrderId(menuInOrder.getId())
+                        .menu(MenuInHistoryDto.builder()
+                                .menuId(menuInOrder.getMenu().getMenuId())
+                                .menuName(menuInOrder.getMenu().getMenuName())
+                                .menuThumbnail(menuInOrder.getMenu().getImgUrl())
+                                .build())
+                        .option(menuInOrder.getOption())
+                        .price(menuInOrder.getPrice())
+                        .count(menuInOrder.getCount())
+                        .menuLiked(false)
+                        .build());
         }
         return menus;
-    }
-
-    private Boolean isMenuInOrderLiked(Long menuInOrderId, String userId) {
-        return myMenuRepository.findByUserAndMenuInOrder(User.builder().userId(userId).build(), MenuInOrder.builder().id(menuInOrderId).build()).isPresent();
     }
 
     private String buildUserHistoryDetailJsonResponse(String userId, UserHistoryDetailDto historyDetail) {
