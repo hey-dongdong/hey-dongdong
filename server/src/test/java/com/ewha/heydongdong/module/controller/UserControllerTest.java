@@ -154,7 +154,7 @@ class UserControllerTest {
                         .build())
                 .build();
 
-        mockMvc.perform(get("/user/check-email-token/email@email.com/26b4e398-50b9-4c5f-bc4a-de60b9c9e21b")
+        mockMvc.perform(get("/user/check-email-token/email@email.com/cc17c1f4-5192-4ede-b1a6-4c1d4dd22d42")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

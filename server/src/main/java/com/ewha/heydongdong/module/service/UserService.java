@@ -136,7 +136,7 @@ public class UserService {
         checkIfVerified(expected);
         checkPassword(given, expected);
         String newToken = jwtTokenProvider.createJwtToken(expected.getUsername(), expected.getRoles());
-        return buildUserSignInJsonResponse(given.getUserId(), newToken);
+        return buildUserSignInJsonResponse(expected, newToken);
     }
 
     private User buildUserFromJson(JsonNode payload) {
@@ -161,10 +161,10 @@ public class UserService {
             throw new NoResultFromDBException("Failed sign-in userId=" + given.getUserId());
     }
 
-    private String buildUserSignInJsonResponse(String userId, String token) {
+    private String buildUserSignInJsonResponse(User user, String token) {
         return jsonBuilder.buildJsonWithHeaderAndPayload(
-                jsonBuilder.buildResponseHeader("SignInResponse", userId),
-                jsonBuilder.buildResponsePayload("token", token)
+                jsonBuilder.buildResponseHeader("SignInResponse", user.getUserId()),
+                jsonBuilder.buildResponsePayload(new String[]{"token", "userName"}, new String[]{token, user.getUserName()})
         );
     }
 
