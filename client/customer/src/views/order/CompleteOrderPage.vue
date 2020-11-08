@@ -16,7 +16,7 @@
 				:completeOrderDetail="this.$route.params"
 			></CompleteOrderDetail>
 			<CompleteOrderItems
-				v-for="item in this.$route.params"
+				v-for="item in this.$route.params.menus"
 				:key="item.id"
 				:completeOrderMenuItem="item"
 				@toggle-like="toggleLike"

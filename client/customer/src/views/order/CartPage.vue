@@ -39,7 +39,6 @@ export default {
 		return {
 			store: '',
 			cartItems: [],
-			finalCartItems: [{}],
 			totalPrice: 0,
 		};
 	},
@@ -95,7 +94,6 @@ export default {
 				let minutes = now.getMinutes();
 				let seconds = now.getSeconds();
 				var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
-				console.log(time);
 				const data = {
 					header: {
 						name: 'AddNewOrderRequest',
@@ -114,7 +112,13 @@ export default {
 						menus: menus,
 					},
 				};
-				await addOrder(data);
+				const response = await addOrder(data);
+				console.log(response);
+				this.$router.push({
+					name: 'complete',
+					path: '/complete',
+					params: response.data.payload,
+				});
 			}
 			// if (localStorage.length > 0) {
 			// 	for (let i = 0; i < localStorage.length; i++) {
@@ -132,11 +136,6 @@ export default {
 			// 		}
 			// 	}
 			// }
-			// this.$router.push({
-			// 	name: 'complete',
-			// 	path: '/complete',
-			// 	params: this.finalCartItems,
-			// });
 		},
 		setPrice({ before, price }) {
 			// console.log(id, before, price);

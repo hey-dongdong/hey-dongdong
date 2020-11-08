@@ -66,6 +66,15 @@ export default {
 					},
 				};
 				await addMyMenu(data);
+				this.$store.dispatch('FETCH_HISTORY_DETAIL', {
+					header: {
+						name: 'GetUserHistoryDetailRequest',
+						userId: store.state.userId,
+					},
+					payload: {
+						orderId: this.$route.params.orderId,
+					},
+				});
 			} else {
 				const data = {
 					header: {

@@ -1,12 +1,12 @@
 <template>
 	<div class="ordered-menu-card">
 		<div class="ordered-menu-card-header">
-			<div class="ordered-menuname">{{ completeOrderMenuItem.menu.menuName }}</div>
+			<div class="ordered-menuname">{{ completeOrderMenuItem.menuId }}</div>
 			<div class="star-checkbox">
 				<input
 					type="checkbox"
 					value="star"
-					:id="'star' + completeOrderMenuItem.id"
+					:id="'star' + completeOrderMenuItem.menuId"
 					:checked="completeOrderMenuItem.menuLiked"
 					@change="toggleLike"
 				/>
@@ -106,6 +106,7 @@ export default {
 			this.$emit('toggle-like', {
 				id: this.completeOrderMenuItem.id,
 				checked: e.target.checked,
+				myMenuId: this.completeOrderMenuItem.myMenuId || '',
 			});
 		},
 	},
