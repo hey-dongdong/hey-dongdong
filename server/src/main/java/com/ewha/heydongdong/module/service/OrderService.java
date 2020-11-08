@@ -18,7 +18,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Service
@@ -64,6 +63,7 @@ public class OrderService {
             menuInOrderRepository.save(MenuInOrder.builder()
                     .menu(Menu.builder()
                             .menuId(menuInNewOrder.getMenuId())
+                            .menuName(menuInNewOrder.getMenuName())
                             .build())
                     .order(order)
                     .option(menuInNewOrder.getOption())
