@@ -6,10 +6,10 @@
 		<div class="greenbg">
 			<FindSuccess>
 				<span slot="success-explain" class="success-explain"
-					>이메일로 로그인 링크를 발송했습니다.</span
+					>임시 비밀번호가 발급되었습니다.</span
 				>
-				<span slot="next-todo" class="next-todo">이메일로 로그인하세요.</span>
-				<span slot="userid">{{ email }}</span>
+				<span slot="next-todo" class="next-todo">로그인 후 비밀번호를 수정하세요.</span>
+				<span slot="userid">{{ tempPassword }}</span>
 				<router-link slot="next-btn" to="/sign-in" class="goldbtn">확인</router-link>
 			</FindSuccess>
 		</div>
@@ -27,11 +27,11 @@ export default {
 	},
 	data() {
 		return {
-			email: '',
+			tempPassword: '',
 		};
 	},
 	created() {
-		this.email = this.$route.params.email;
+		this.tempPassword = this.$route.params.tempPassword;
 	},
 };
 </script>

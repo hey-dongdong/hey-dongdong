@@ -75,7 +75,7 @@ export default {
 				const { data } = await findUserPw(userData);
 				const param = {
 					userId: data.header.message,
-					email: this.email,
+					tempPassword: data.payload.tempPassword,
 				};
 				this.$router.push({
 					name: 'find-pw/success',
