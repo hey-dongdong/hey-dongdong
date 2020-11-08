@@ -51,6 +51,7 @@ export default {
 			this.$store.commit('CLEAR_TOKEN');
 			deleteCookie('auth');
 			deleteCookie('user');
+			deleteCookie('username');
 			this.$router.push('/sign-in');
 		},
 	},
