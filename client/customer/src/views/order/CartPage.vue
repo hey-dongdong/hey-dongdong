@@ -64,7 +64,7 @@ export default {
 	},
 	methods: {
 		async completeOrder() {
-			if (localStorage.length > 0) {
+			if (localStorage.length > 5) {
 				var menus = [];
 				let totalCount = 0;
 				for (let i = 0; i < localStorage.length; i++) {
@@ -113,7 +113,17 @@ export default {
 					},
 				};
 				const response = await addOrder(data);
-				console.log(response);
+				for (let i = 0; i < localStorage.length; i++) {
+					if (
+						localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
+						localStorage.key(i) !== 'store-id' &&
+						localStorage.key(i) !== 'store' &&
+						localStorage.key(i) !== 'nearest-store-id' &&
+						localStorage.key(i) !== 'nearest-store'
+					) {
+						localStorage.removeItem(localStorage.key(i));
+					}
+				}
 				this.$router.push({
 					name: 'complete',
 					path: '/complete',
