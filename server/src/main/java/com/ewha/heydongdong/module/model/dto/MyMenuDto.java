@@ -19,5 +19,6 @@ public class MyMenuDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Timestamp addAt;
     private String storeName;
+    private Integer storeId;
 
 }
