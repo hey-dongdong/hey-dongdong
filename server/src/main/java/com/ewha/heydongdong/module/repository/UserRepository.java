@@ -8,6 +8,8 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
+
     List<User> findByUserId(String userId);
     List<User> findByEmail(String email);
+
 }

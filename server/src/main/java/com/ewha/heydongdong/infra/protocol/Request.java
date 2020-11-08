@@ -14,10 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 public class Request {
 
     private RequestHeader header;
-
     private JsonNode payload;
 
-    public void validateHeader(String expectedName) throws InvalidRequestFormatException {
+    public void validateHeader(String expectedName) {
         validateNotNull();
         validateName(expectedName);
         validateUserId();
@@ -25,31 +24,31 @@ public class Request {
 
     private void validateNotNull() {
         if (this.header == null) {
-            String msg = "null-header";
+            String msg = "Null header";
             throw new InvalidRequestFormatException(msg);
         }
     }
 
-    private void validateName(String expectedName) throws InvalidRequestFormatException {
+    private void validateName(String expectedName) {
         if (!expectedName.equals(this.header.getName())) {
-            String msg = "invalid-header-name=" + this.header.getName();
+            String msg = "Invalid header name=" + this.header.getName();
             throw new InvalidRequestFormatException(msg);
         }
     }
 
     private void validateUserId() {
         if (this.header.getUserId() == null) {
-            String msg = "null-header-userid";
+            String msg = "Null userid in header";
             throw new InvalidRequestFormatException(msg);
         }
     }
 
-    public void validatePayload() throws InvalidRequestFormatException {
+    public void validatePayload() {
         if (getPayload() == null) {
-            String msg = "null-payload";
+            String msg = "Null payload";
             throw new InvalidRequestFormatException(msg);
         } else if (getPayload().isEmpty()) {
-            String msg = "empty-payload";
+            String msg = "Empty payload";
             throw new InvalidRequestFormatException(msg);
         }
     }

@@ -15,6 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 public class MenuInOrder {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

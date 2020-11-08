@@ -18,5 +18,6 @@ public class MenuInHistoryDetailDto {
     private Integer price;
     private Integer count;
     private Boolean menuLiked;
+    private Long myMenuId;
 
 }

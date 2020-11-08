@@ -9,6 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class Response {
+
     private ResponseHeader header;
     private ObjectNode payload;
+
 }

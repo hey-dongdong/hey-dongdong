@@ -1,5 +1,6 @@
-package com.ewha.heydongdong.module.model.domain.datatype;
+package com.ewha.heydongdong.infra.converter;
 
+import com.ewha.heydongdong.module.model.domain.datatype.CustomOption;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -7,14 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
 @RequestMapping("menu")
+@ControllerAdvice
 public class MenuController {
 
     @Autowired
@@ -25,8 +23,8 @@ public class MenuController {
 
         log.info("[Request] get-all-menus");
         request.validateHeader("GetAllMenusRequest");
-        
-        String history = menuService.getAllMenus(request.getPayload().get("storeId").asInt());
-        return new ResponseEntity<>(history, HttpStatus.OK);
+
+        String allMenus = menuService.getAllMenus(request.getPayload().get("storeId").asInt());
+        return new ResponseEntity<>(allMenus, HttpStatus.OK);
     }
 }
