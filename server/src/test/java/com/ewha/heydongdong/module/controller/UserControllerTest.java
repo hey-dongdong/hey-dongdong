@@ -234,6 +234,31 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("User sign in submit | Fail : Not verified")
+    void signInSubmit_Fail_NotVerified() throws Exception {
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("userId", "ewha111");
+        payload.put("password", "111");
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("SignInRequest", "ewha111"), payload));
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("NotVerifiedUserException")
+                        .message("Email not verified [userId=ewha111]")
+                        .build())
+                .build();
+        mockMvc.perform(post("/user/sign-in")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+    @Test
     @DisplayName("Find user id | Success")
     void findUserId_Success() throws Exception {
 
