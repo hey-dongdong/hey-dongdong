@@ -1,17 +1,8 @@
 <template>
 	<div class="ordered-menu-card">
 		<div class="ordered-menu-card-header">
-			<div class="ordered-menuname">{{ completeOrderMenuItem.menuName }}</div>
-			<div class="star-checkbox">
-				<input
-					type="checkbox"
-					value="star"
-					:id="'star' + completeOrderMenuItem.menuId"
-					:checked="completeOrderMenuItem.menuLiked"
-					@change="toggleLike"
-				/>
-				<label :for="'star' + completeOrderMenuItem.id"></label>
-			</div>
+			<div class="ordered-menuname">{{ completeOrderMenuItem.menuId }}</div>
+			<div class="star-checkbox"></div>
 		</div>
 
 		<ul class="ordered-item-list">
