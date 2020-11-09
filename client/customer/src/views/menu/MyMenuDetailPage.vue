@@ -9,7 +9,7 @@
 					slot="menu-img"
 					:src="
 						$route.params.menuInOrder.menu.imgUrl
-							? require('@/assets' + $route.params.menuInOrder.menu.imgUrl)
+							? require('@/assets/menu' + $route.params.menuInOrder.menu.imgUrl)
 							: require('@/assets/drink.png')
 					"
 					alt="메뉴이미지"
@@ -32,6 +32,10 @@
 			</MenuCountBox>
 			<ul class="order-detail-list my-menu">
 				<li>
+					매장 :
+					<span>{{ $route.params.storeName }}</span>
+				</li>
+				<li>
 					컵 선택 :
 					<span v-if="$route.params.menuInOrder.option.basicOption.isTumblr">텀블러</span>
 					<span v-else>매장컵</span>
@@ -46,20 +50,85 @@
 					<span v-if="$route.params.menuInOrder.option.basicOption.isSmall">소</span>
 					<span v-else>대</span>
 				</li>
-				<li>
+				<li v-if="$route.params.menuInOrder.option.customOption != null">
 					퍼스널 옵션 :
-					<span v-if="$route.params.menuInOrder.option.customOption.shotAmericano != 0">
-						{{ $route.params.menuInOrder.option.customOption.shotAmericano }}샷 추가,
-					</span>
-					<span v-if="$route.params.menuInOrder.option.customOption.soyMilk"
-						>두유 변경</span
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.shotAmericano"
 					>
+						원두 {{ $route.params.menuInOrder.option.customOption.shotAmericano }}샷 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.shotLatte"
+					>
+						원액 {{ $route.params.menuInOrder.option.customOption.shotLatte }}샷 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.milk"
+					>
+						우유 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.vanilla"
+					>
+						바닐라시럽 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.mint"
+					>
+						민트시럽 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.condensedMilk"
+					>
+						연유 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.chocolate"
+					>
+						초코시럽 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.caramel"
+					>
+						카라멜시럽 추가
+					</span>
+					<span
+						class="personal-option"
+						v-if="$route.params.menuInOrder.option.customOption.soyMilk"
+					>
+						두유 변경
+					</span>
 				</li>
 			</ul>
 			<div class="greenbtn-small-set">
-				<button type="button" class="greenbtn-small">이대로 주문하기</button>
-				<button type="button" class="greenbtn-small">장바구니에 담기</button>
+				<button type="button" class="greenbtn-small" @click="openModal()">
+					이대로 주문하기
+				</button>
+				<button type="button" class="greenbtn-small" @click="addToCart">
+					장바구니에 담기
+				</button>
 			</div>
+			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+				<span slot="modal-title" class="modal-title mymenu">이대로 주문하기</span>
+				<span slot="modal-content" class="modal-content">
+					{{ $route.params.storeName }}에 <br />
+					음료 {{ count }}잔을 주문하시겠습니까?
+				</span>
+				<div slot="footer" class="popup-buttons">
+					<button @click="doSend" class="popup-button" type="button">취소</button>
+					<button @click="orderMyMenu" class="popup-button" type="button">
+						주문하기
+					</button>
+				</div>
+			</ModalWithTwoBtn>
 		</div>
 	</div>
 </template>
@@ -67,21 +136,30 @@
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
 import MenuCountBox from '@/components/menu/MenuCountBox.vue';
+import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+import { getUserFromCookie } from '@/utils/cookies';
+import { addOrder } from '@/api/order';
 
 export default {
 	name: 'MyMenuItemDetail',
 	components: {
 		BlackHeader,
 		MenuCountBox,
+		ModalWithTwoBtn,
 	},
 	data() {
 		return {
+			modal: false,
 			count: 1,
 			price: 0,
 		};
 	},
 	created() {
-		this.price = this.$route.params.menuInOrder.price;
+		try {
+			this.price = this.$route.params.menuInOrder.price;
+		} catch (error) {
+			this.$router.push('/main');
+		}
 	},
 	methods: {
 		minus() {
@@ -91,6 +169,105 @@ export default {
 		plus() {
 			this.count++;
 			this.price += this.$route.params.menuInOrder.price;
+		},
+		openModal() {
+			this.modal = true;
+		},
+		closeModal() {
+			this.modal = false;
+		},
+		doSend() {
+			this.closeModal();
+		},
+		async orderMyMenu() {
+			let now = new Date();
+			let year = now.getFullYear();
+			let month = now.getMonth();
+			let date = now.getDate();
+			let hours = now.getHours();
+			let minutes = now.getMinutes();
+			let seconds = now.getSeconds();
+			var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+			var menus = [];
+			var menu = {
+				menuId: this.$route.params.menuInOrder.menu.menuId,
+				option: this.$route.params.menuInOrder.option,
+				price: this.price,
+				count: this.count,
+			};
+			menus.push(menu);
+			const data = {
+				header: {
+					name: 'AddNewOrderRequest',
+					userId: getUserFromCookie(),
+				},
+				payload: {
+					newOrderInfo: {
+						orderAt: time,
+						progress: 'WAITING',
+						totalCount: this.count,
+						totalPrice: this.price,
+						isNoShow: false,
+						storeId: this.$route.params.storeId,
+						userId: getUserFromCookie(),
+					},
+					menus: menus,
+				},
+			};
+			const response = await addOrder(data);
+			this.$router.push({
+				name: 'complete',
+				path: '/complete',
+				params: response.data.payload,
+			});
+		},
+		addToCart() {
+			let index = 0;
+			var isSame = false;
+			var menu = {
+				menuId: this.$route.params.menuInOrder.menu.menuId,
+				menuName: this.$route.params.menuInOrder.menu.menuName,
+			};
+			var option = this.$route.params.menuInOrder.option;
+			var price = 0;
+			var count = 0;
+			if (localStorage.length > 0) {
+				for (let i = 0; i < localStorage.length; i++) {
+					if (Number(index) < Number(localStorage.key(i))) {
+						index = localStorage.key(i);
+						var cartItem = JSON.parse(localStorage.getItem(localStorage.key(i)));
+						if (
+							JSON.stringify(cartItem.menu) == JSON.stringify(menu) &&
+							JSON.stringify(cartItem.option) == JSON.stringify(option)
+						) {
+							isSame = true;
+							price = cartItem.price;
+							count = cartItem.count;
+							break;
+						}
+					}
+				}
+			}
+			if (isSame == true) {
+				var value = {
+					id: index,
+					menu: menu,
+					option: option,
+					price: this.price + price,
+					count: this.count + count,
+				};
+			} else {
+				index = Number(index) + 1;
+				value = {
+					id: index,
+					menu: menu,
+					option: option,
+					price: this.price,
+					count: this.count,
+				};
+			}
+			localStorage.setItem(index, JSON.stringify(value));
+			this.$router.push('/cart');
 		},
 	},
 };

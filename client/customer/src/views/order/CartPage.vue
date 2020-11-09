@@ -28,6 +28,8 @@
 
 <script>
 import CartListItem from '@/components/order/CartListItem.vue';
+import { getUserFromCookie } from '@/utils/cookies';
+import { addOrder } from '@/api/order';
 
 export default {
 	components: {
@@ -37,7 +39,6 @@ export default {
 		return {
 			store: '',
 			cartItems: [],
-			finalCartItems: [{}],
 			totalPrice: 0,
 		};
 	},
@@ -62,8 +63,10 @@ export default {
 		}
 	},
 	methods: {
-		completeOrder() {
-			if (localStorage.length > 0) {
+		async completeOrder() {
+			if (localStorage.length > 5) {
+				var menus = [];
+				let totalCount = 0;
 				for (let i = 0; i < localStorage.length; i++) {
 					if (
 						localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
@@ -72,18 +75,77 @@ export default {
 						localStorage.key(i) !== 'nearest-store-id' &&
 						localStorage.key(i) !== 'nearest-store'
 					) {
-						this.finalCartItems.push(
-							JSON.parse(localStorage.getItem(localStorage.key(i))),
-						);
-						console.log({ ...this.finalCartItems });
+						var item = JSON.parse(localStorage.getItem(localStorage.key(i)));
+						var menu = {
+							menuId: item.menu.menuId,
+							option: item.option,
+							price: item.price,
+							count: item.count,
+						};
+						totalCount += item.count;
+						menus.push(menu);
 					}
 				}
+				let now = new Date();
+				let year = now.getFullYear();
+				let month = now.getMonth();
+				let date = now.getDate();
+				let hours = now.getHours();
+				let minutes = now.getMinutes();
+				let seconds = now.getSeconds();
+				var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+				const data = {
+					header: {
+						name: 'AddNewOrderRequest',
+						userId: getUserFromCookie(),
+					},
+					payload: {
+						newOrderInfo: {
+							orderAt: time,
+							progress: 'WAITING',
+							totalCount: totalCount,
+							totalPrice: this.totalPrice,
+							isNoShow: false,
+							storeId: localStorage.getItem('store-id'),
+							userId: getUserFromCookie(),
+						},
+						menus: menus,
+					},
+				};
+				const response = await addOrder(data);
+				for (let i = 0; i < localStorage.length; i++) {
+					if (
+						localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
+						localStorage.key(i) !== 'store-id' &&
+						localStorage.key(i) !== 'store' &&
+						localStorage.key(i) !== 'nearest-store-id' &&
+						localStorage.key(i) !== 'nearest-store'
+					) {
+						localStorage.removeItem(localStorage.key(i));
+					}
+				}
+				this.$router.push({
+					name: 'complete',
+					path: '/complete',
+					params: response.data.payload,
+				});
 			}
-			this.$router.push({
-				name: 'complete',
-				path: '/complete',
-				params: this.finalCartItems,
-			});
+			// if (localStorage.length > 0) {
+			// 	for (let i = 0; i < localStorage.length; i++) {
+			// if (
+			// 	localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
+			// 	localStorage.key(i) !== 'store-id' &&
+			// 	localStorage.key(i) !== 'store' &&
+			// 	localStorage.key(i) !== 'nearest-store-id' &&
+			// 	localStorage.key(i) !== 'nearest-store'
+			// ) {
+			// 			this.finalCartItems.push(
+			// 				JSON.parse(localStorage.getItem(localStorage.key(i))),
+			// 			);
+			// 			console.log({ ...this.finalCartItems });
+			// 		}
+			// 	}
+			// }
 		},
 		setPrice({ before, price }) {
 			// console.log(id, before, price);

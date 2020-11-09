@@ -1,6 +1,6 @@
 module.exports = {
 	devServer: {
-		// overlay: false,
+		overlay: false,
 		proxy: {
 			'/user': {
 				target: process.env.VUE_APP_API_URL,
@@ -15,6 +15,10 @@ module.exports = {
 				changeOrigin: true,
 			},
 			'/history': {
+				target: process.env.VUE_APP_API_URL,
+				changeOrigin: true,
+			},
+			'/order': {
 				target: process.env.VUE_APP_API_URL,
 				changeOrigin: true,
 			},

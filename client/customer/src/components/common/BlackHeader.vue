@@ -16,11 +16,11 @@ export default {
 		goTo() {
 			const name = this.$route.name;
 			if (
-				name === 'menu-all' ||
 				name === 'menu-coffee' ||
 				name === 'menu-tea' ||
 				name === 'menu-ade' ||
-				name === 'menu-others'
+				name === 'menu-others' ||
+				name === 'history'
 			) {
 				this.$router.push('/main');
 			} else {
