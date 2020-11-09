@@ -191,6 +191,7 @@ export default {
 			var menus = [];
 			var menu = {
 				menuId: this.$route.params.menuInOrder.menu.menuId,
+				menuName: this.$route.params.menuInOrder.menu.menuName,
 				option: this.$route.params.menuInOrder.option,
 				price: this.price,
 				count: this.count,
@@ -215,6 +216,7 @@ export default {
 				},
 			};
 			const response = await addOrder(data);
+			console.log(response);
 			this.$router.push({
 				name: 'complete',
 				path: '/complete',

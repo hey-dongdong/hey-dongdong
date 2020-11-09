@@ -78,6 +78,7 @@ export default {
 						var item = JSON.parse(localStorage.getItem(localStorage.key(i)));
 						var menu = {
 							menuId: item.menu.menuId,
+							menuName: item.menu.menuName,
 							option: item.option,
 							price: item.price,
 							count: item.count,
