@@ -1,7 +1,7 @@
 <template>
 	<div class="ordered-menu-card">
 		<div class="ordered-menu-card-header">
-			<div class="ordered-menuname">{{ completeOrderMenuItem.menuId }}</div>
+			<div class="ordered-menuname">{{ completeOrderMenuItem.menuName }}</div>
 			<div class="star-checkbox"></div>
 		</div>
 
