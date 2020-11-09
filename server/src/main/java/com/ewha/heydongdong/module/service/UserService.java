@@ -81,7 +81,7 @@ public class UserService {
     private String buildUserSignInJsonResponse(User user, String token) {
         return jsonBuilder.buildJsonWithHeaderAndPayload(
                 jsonBuilder.buildResponseHeader("SignInResponse", user.getUserId()),
-                jsonBuilder.buildResponsePayload(new String[]{"token", "userName"}, new String[]{token, user.getUserName()})
+                jsonBuilder.buildResponsePayloadFromText(new String[]{"token", "userName"}, new String[]{token, user.getUserName()})
         );
     }
 
@@ -101,7 +101,7 @@ public class UserService {
     private String buildUserIdJsonResponse(User user) {
         return jsonBuilder.buildJsonWithHeaderAndPayload(
                 jsonBuilder.buildResponseHeader("FindIdResponse", user.getEmail()),
-                jsonBuilder.buildResponsePayload("userId", user.getUserId())
+                jsonBuilder.buildResponsePayloadFromText("userId", user.getUserId())
         );
     }
 
@@ -113,7 +113,7 @@ public class UserService {
         saveUserPw(user, tempPw);
         return jsonBuilder.buildJsonWithHeaderAndPayload(
                 jsonBuilder.buildResponseHeader("FindPwResponse", user.getUserId()),
-                jsonBuilder.buildResponsePayload("tempPw", tempPw)
+                jsonBuilder.buildResponsePayloadFromText("tempPw", tempPw)
         );
     }
 
@@ -157,7 +157,7 @@ public class UserService {
     private String buildUserNoShowCountJsonResponse(User user) {
         return jsonBuilder.buildJsonWithHeaderAndPayload(
                 jsonBuilder.buildResponseHeader("GetNoShowCountResponse", user.getUserId()),
-                jsonBuilder.buildResponsePayload("noShowCount", user.getNoShowCount())
+                jsonBuilder.buildResponsePayloadFromText("noShowCount", user.getNoShowCount())
         );
     }
 

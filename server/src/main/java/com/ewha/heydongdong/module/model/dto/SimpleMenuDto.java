@@ -9,14 +9,10 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class MenuDetailDto {
+public class SimpleMenuDto {
 
     private Integer menuId;
-    private Integer categoryId;
     private String menuName;
-    private Integer smallHotPrice;
-    private Integer smallIcePrice;
-    private Integer largeHotPrice;
-    private Integer largeIcePrice;
     private String imgUrl;
+
 }

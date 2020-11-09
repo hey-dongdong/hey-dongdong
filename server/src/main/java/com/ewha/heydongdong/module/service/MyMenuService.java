@@ -7,7 +7,7 @@ import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.MenuInOrder;
 import com.ewha.heydongdong.module.model.domain.MyMenu;
 import com.ewha.heydongdong.module.model.domain.User;
-import com.ewha.heydongdong.module.model.dto.MenuDto;
+import com.ewha.heydongdong.module.model.dto.SimpleMenuDto;
 import com.ewha.heydongdong.module.model.dto.MenuInMyMenuDto;
 import com.ewha.heydongdong.module.model.dto.MyMenuDto;
 import com.ewha.heydongdong.module.repository.MyMenuRepository;
@@ -43,7 +43,7 @@ public class MyMenuService {
             myMenuDtos.add(MyMenuDto.builder()
                     .myMenuId(myMenu.getMyMenuId())
                     .menuInOrder(MenuInMyMenuDto.builder()
-                            .menu(MenuDto.builder()
+                            .menu(SimpleMenuDto.builder()
                                     .menuId(myMenu.getMenuInOrder().getMenu().getMenuId())
                                     .menuName(myMenu.getMenuInOrder().getMenu().getMenuName())
                                     .imgUrl(myMenu.getMenuInOrder().getMenu().getImgUrl())
