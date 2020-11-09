@@ -19,4 +19,5 @@ public class MenuDto {
     private Integer largeHotPrice;
     private Integer largeIcePrice;
     private String imgUrl;
+
 }
