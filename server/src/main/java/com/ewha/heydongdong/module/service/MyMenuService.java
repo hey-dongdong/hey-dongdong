@@ -9,8 +9,8 @@ import com.ewha.heydongdong.module.model.domain.User;
 import com.ewha.heydongdong.module.model.dto.MenuInOrderDto;
 import com.ewha.heydongdong.module.model.dto.MyMenuDto;
 import com.ewha.heydongdong.module.model.dto.SimpleMenuDto;
+import com.ewha.heydongdong.module.model.dto.SimpleStoreDto;
 import com.ewha.heydongdong.module.repository.MyMenuRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,8 +58,10 @@ public class MyMenuService {
                             .price(myMenu.getMenuInOrder().getPrice())
                             .build())
                     .addAt(myMenu.getAddAt())
-                    .storeName(myMenu.getMenuInOrder().getMenu().getStore().getStoreName())
-                    .storeId((myMenu.getMenuInOrder().getMenu().getStore().getStoreId()))
+                    .store(SimpleStoreDto.builder()
+                            .storeName(myMenu.getMenuInOrder().getMenu().getStore().getStoreName())
+                            .storeId((myMenu.getMenuInOrder().getMenu().getStore().getStoreId()))
+                            .build())
                     .build());
         }
         return myMenuDtos;

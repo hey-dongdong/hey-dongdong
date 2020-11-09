@@ -17,7 +17,6 @@ public class MyMenuDto {
     private MenuInOrderDto menuInOrder;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Timestamp addAt;
-    private String storeName;
-    private Integer storeId;    // TODO
+    private SimpleStoreDto store;
 
 }
