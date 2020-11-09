@@ -15,5 +15,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUser(User user);
     List<Order> findByUserAndProgress(User user, Progress progress);
     List<Order> findByStoreAndProgress(Store store, Progress progress);
-
+    Order findFirstByOrderByOrderIdDesc();
 }

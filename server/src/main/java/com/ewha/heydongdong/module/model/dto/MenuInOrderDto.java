@@ -2,15 +2,14 @@ package com.ewha.heydongdong.module.model.dto;
 
 
 import com.ewha.heydongdong.module.model.domain.datatype.Option;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class MenuInOrderDto {
 
     private Long menuInOrderId;
@@ -19,6 +18,6 @@ public class MenuInOrderDto {
     private Integer price;
     private Integer count;
     private Boolean menuLiked;
-    private Long myMenuId;
+    private Long myMenuId;  // TODO
 
 }

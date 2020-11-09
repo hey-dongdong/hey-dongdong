@@ -1,10 +1,8 @@
 package com.ewha.heydongdong.module.model.dto;
 
+import com.ewha.heydongdong.module.model.domain.datatype.Progress;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.sql.Timestamp;
 
@@ -12,6 +10,8 @@ import java.sql.Timestamp;
 @Setter
 @Builder
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class OrderDto {
 
     private Long orderId;
@@ -19,6 +19,9 @@ public class OrderDto {
     private Timestamp orderAt;
     private Integer totalPrice;
     private Integer totalCount;
+    private Progress progress;
+    private boolean isNoShow;
+
     private SimpleMenuDto menu;
     private SimpleStoreDto store;
     private SimpleUserDto user;

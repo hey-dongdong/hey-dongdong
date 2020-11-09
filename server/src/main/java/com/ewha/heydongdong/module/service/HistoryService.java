@@ -74,8 +74,8 @@ public class HistoryService {
 
     public String getUserHistoryDetail(String userId, Long orderId) {
         Order order = findRequiredOrderById(orderId);
-        HistoryDetailDto historyDetailDto = buildUserHistoryDetailFromOrder(order);
-        return buildUserHistoryDetailJsonResponse(userId, historyDetailDto);
+        OrderDetailDto orderDetailDto = buildUserHistoryDetailFromOrder(order);
+        return buildUserHistoryDetailJsonResponse(userId, orderDetailDto);
     }
 
     private Order findRequiredOrderById(Long orderId) {
@@ -83,10 +83,10 @@ public class HistoryService {
                 .orElseThrow(() -> new InvalidRequestParameterException("orderId=" + orderId));
     }
 
-    private HistoryDetailDto buildUserHistoryDetailFromOrder(Order order) {
+    private OrderDetailDto buildUserHistoryDetailFromOrder(Order order) {
         OrderDto orderInfo = buildOrderDtoFromOrder(order);
         List<MenuInOrderDto> menus = buildMenuInOrderDtoFromOrder(order);
-        return HistoryDetailDto.builder()
+        return OrderDetailDto.builder()
                 .orderInfo(orderInfo)
                 .menus(menus)
                 .build();
@@ -149,11 +149,11 @@ public class HistoryService {
                 .build());
     }
 
-    private String buildUserHistoryDetailJsonResponse(String userId, HistoryDetailDto historyDetailDto) {
+    private String buildUserHistoryDetailJsonResponse(String userId, OrderDetailDto orderDetailDto) {
         return jsonBuilder.buildJsonWithHeaderAndPayload(
                 jsonBuilder.buildResponseHeader("GetUserHistoryDetailResponse", userId),
                 jsonBuilder.buildResponsePayloadFromObject(new String[]{"orderInfo", "menus"},
-                        new Object[]{historyDetailDto.getOrderInfo(), historyDetailDto.getMenus()})
+                        new Object[]{orderDetailDto.getOrderInfo(), orderDetailDto.getMenus()})
         );
     }
 
@@ -162,8 +162,8 @@ public class HistoryService {
         List<Order> doneOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.DONE);
         List<Order> noShowOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.NOSHOW);
         checkIfStoreHistoryExists(doneOrders, noShowOrders, storeId);
-        List<HistoryDetailDto> doneOrdersDto = buildStoreHistoryFromOrders(doneOrders);
-        List<HistoryDetailDto> noShowOrdersDto = buildStoreHistoryFromOrders(noShowOrders);
+        List<OrderDetailDto> doneOrdersDto = buildStoreHistoryFromOrders(doneOrders);
+        List<OrderDetailDto> noShowOrdersDto = buildStoreHistoryFromOrders(noShowOrders);
         return buildStoreHistoryJsonResponse(storeId, doneOrdersDto, noShowOrdersDto);
     }
 
@@ -172,10 +172,10 @@ public class HistoryService {
             throw new NoResultFromDBException("No history for storeId=" + storeId);
     }
 
-    private List<HistoryDetailDto> buildStoreHistoryFromOrders(List<Order> orders) {
-        List<HistoryDetailDto> historyDto = new ArrayList<>();
+    private List<OrderDetailDto> buildStoreHistoryFromOrders(List<Order> orders) {
+        List<OrderDetailDto> historyDto = new ArrayList<>();
         for (Order order : orders) {
-            historyDto.add(HistoryDetailDto.builder()
+            historyDto.add(OrderDetailDto.builder()
                     .orderInfo(OrderDto.builder()
                             .orderId(order.getOrderId())
                             .orderAt(order.getOrderAt())
@@ -191,7 +191,7 @@ public class HistoryService {
         return historyDto;
     }
 
-    private String buildStoreHistoryJsonResponse(Integer storeId, List<HistoryDetailDto> doneOrdersDto, List<HistoryDetailDto> noShowOrdersDto) {
+    private String buildStoreHistoryJsonResponse(Integer storeId, List<OrderDetailDto> doneOrdersDto, List<OrderDetailDto> noShowOrdersDto) {
         return jsonBuilder.buildJsonWithHeaderAndPayload(
                 jsonBuilder.buildResponseHeader("GetStoreHistoryResponse", String.valueOf(storeId)),
                 jsonBuilder.buildResponsePayloadFromObject(new String[]{"doneOrders", "noShowOrders"},
@@ -213,7 +213,7 @@ public class HistoryService {
             throw new NoResultFromDBException("No orders for storeId=" + storeId);
     }
 
-    private String buildStoreOrdersJsonResponse(Integer storeId, List<HistoryDetailDto> waitingOrdersDto, List<HistoryDetailDto> makingOrdersDto, List<HistoryDetailDto> readyOrdersDto) {
+    private String buildStoreOrdersJsonResponse(Integer storeId, List<OrderDetailDto> waitingOrdersDto, List<OrderDetailDto> makingOrdersDto, List<OrderDetailDto> readyOrdersDto) {
         return jsonBuilder.buildJsonWithHeaderAndPayload(
                 jsonBuilder.buildResponseHeader("GetStoreOrdersResponse", String.valueOf(storeId)),
                 jsonBuilder.buildResponsePayloadFromObject(new String[]{"waitingOrders", "makingOrders", "readyOrders"},

@@ -1,9 +1,6 @@
 package com.ewha.heydongdong.module.model.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,7 +8,9 @@ import java.util.List;
 @Setter
 @Builder
 @ToString
-public class HistoryDetailDto {
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderDetailDto {
 
     private OrderDto orderInfo;
     private List<MenuInOrderDto> menus;
