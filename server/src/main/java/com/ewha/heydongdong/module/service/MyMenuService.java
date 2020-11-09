@@ -29,9 +29,6 @@ public class MyMenuService {
     @Autowired
     private JsonBuilder jsonBuilder;
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
 
     public String getUserMyMenu(String userId) {
         List<MyMenu> myMenus = myMenuRepository.findByUser(User.builder().userId(userId).build());
