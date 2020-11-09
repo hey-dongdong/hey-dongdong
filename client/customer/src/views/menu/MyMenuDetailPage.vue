@@ -33,7 +33,7 @@
 			<ul class="order-detail-list my-menu">
 				<li>
 					매장 :
-					<span>{{ $route.params.storeName }}</span>
+					<span>{{ $route.params.store.storeName }}</span>
 				</li>
 				<li>
 					컵 선택 :
@@ -119,7 +119,7 @@
 			<ModalWithTwoBtn @close="closeModal" v-if="modal">
 				<span slot="modal-title" class="modal-title mymenu">이대로 주문하기</span>
 				<span slot="modal-content" class="modal-content">
-					{{ $route.params.storeName }}에 <br />
+					{{ $route.params.store.storeName }}에 <br />
 					음료 {{ count }}잔을 주문하시겠습니까?
 				</span>
 				<div slot="footer" class="popup-buttons">
@@ -190,8 +190,10 @@ export default {
 			var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
 			var menus = [];
 			var menu = {
-				menuId: this.$route.params.menuInOrder.menu.menuId,
-				menuName: this.$route.params.menuInOrder.menu.menuName,
+				menu: {
+					menuId: this.$route.params.menuInOrder.menu.menuId,
+					menuName: this.$route.params.menuInOrder.menu.menuName,
+				},
 				option: this.$route.params.menuInOrder.option,
 				price: this.price,
 				count: this.count,
@@ -203,14 +205,18 @@ export default {
 					userId: getUserFromCookie(),
 				},
 				payload: {
-					newOrderInfo: {
+					orderInfo: {
 						orderAt: time,
 						progress: 'WAITING',
 						totalCount: this.count,
 						totalPrice: this.price,
 						isNoShow: false,
-						storeId: this.$route.params.storeId,
-						userId: getUserFromCookie(),
+						store: {
+							storeId: this.$route.params.store.storeId,
+						},
+						user: {
+							userId: getUserFromCookie(),
+						},
 					},
 					menus: menus,
 				},

@@ -2,8 +2,8 @@
 	<div class="menu-card" @click="goToHistoryDetail(historyItem)">
 		<img
 			:src="
-				historyItem.menu.menuThumbnail
-					? require('@/assets/menu' + historyItem.menu.menuThumbnail)
+				historyItem.menu.imgUrl
+					? require('@/assets/menu' + historyItem.menu.imgUrl)
 					: require('@/assets/drink.png')
 			"
 			alt="메뉴이미지"

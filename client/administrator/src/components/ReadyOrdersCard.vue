@@ -15,7 +15,7 @@
 				<span>수령완료</span>
 				<ion-icon name="checkmark-circle" class="check"></ion-icon>
 			</button>
-			<button slot="button2" type="button" @clock="noShowOrder">
+			<button slot="button2" type="button" @click="noShowOrder">
 				<ion-icon name="close-circle" class="x"></ion-icon>
 				<span>노쇼</span>
 			</button>

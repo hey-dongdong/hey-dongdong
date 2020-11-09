@@ -38,9 +38,10 @@
 			</div>
 			<div class="card-list">
 				<HistoryCard
-					v-for="cardItem in historyItems ? historyItems.NoShowOrders : []"
+					v-for="cardItem in historyItems ? historyItems.noShowOrders : []"
 					:key="cardItem.id"
 					:orderItem="cardItem"
+					@fetch-again="fetchAgain"
 				></HistoryCard>
 			</div>
 		</div>
@@ -115,6 +116,19 @@ export default {
 				params: {
 					selectedStoreId: this.selected,
 				},
+			});
+		},
+		async fetchAgain() {
+			const data = {
+				header: {
+					name: 'GetStoreOrdersRequest',
+					userId: 'admin',
+				},
+				payload: {},
+			};
+			this.$store.dispatch('FETCH_HISTORY_ORDERS', {
+				id: this.selected,
+				data: data,
 			});
 		},
 	},
