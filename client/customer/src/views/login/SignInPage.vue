@@ -21,9 +21,9 @@
 			<button type="submit" class="goldbtn">LOGIN</button>
 		</form>
 		<div class="links">
-			<router-link to="/user/find-info/id">아이디 찾기</router-link>
+			<router-link to="/find-id">아이디 찾기</router-link>
 			|
-			<router-link to="/user/find-info/pw">비밀번호 찾기</router-link>
+			<router-link to="/find-pw">비밀번호 찾기</router-link>
 			|
 			<router-link to="/sign-up">회원가입</router-link>
 		</div>
@@ -32,8 +32,12 @@
 </template>
 
 <script>
-import { signInUser } from '@/api/index';
-import { saveAuthToCookie, saveUserToCookie } from '@/utils/cookies';
+import { signInUser } from '@/api/auth';
+import {
+	saveAuthToCookie,
+	saveUserToCookie,
+	saveUserNameToCookie,
+} from '@/utils/cookies';
 
 export default {
 	data() {
@@ -62,6 +66,7 @@ export default {
 				this.$store.commit('SET_USERID', data.header.message);
 				saveAuthToCookie(data.payload.token);
 				saveUserToCookie(data.header.message);
+				saveUserNameToCookie(data.payload.userName);
 				this.initForm();
 				this.$router.push('/main');
 			} catch (error) {

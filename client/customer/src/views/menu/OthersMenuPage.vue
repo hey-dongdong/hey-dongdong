@@ -10,7 +10,7 @@
 					v-for="item in menuItems"
 					:key="item.menuId"
 					:menuItem="item"
-					v-if="item.category.categoryId === 4"
+					v-if="item.categoryId === 4"
 				></MenuListItem>
 			</div>
 		</div>
@@ -22,6 +22,7 @@ import BlackHeader from '@/components/common/BlackHeader.vue';
 import MenuListHeader from '@/components/menu/MenuListHeader.vue';
 import MenuListItem from '@/components/menu/MenuListItem.vue';
 import { mapGetters } from 'vuex';
+import { getUserFromCookie } from '@/utils/cookies';
 
 export default {
 	components: {
@@ -33,7 +34,16 @@ export default {
 		...mapGetters(['menuItems']),
 	},
 	created() {
-		this.$store.dispatch('FETCH_MENUS');
+		const data = {
+			header: {
+				name: 'GetAllMenusRequest',
+				userId: getUserFromCookie(),
+			},
+			payload: {
+				storeId: localStorage.getItem('store-id'),
+			},
+		};
+		this.$store.dispatch('FETCH_MENUS', data);
 	},
 	methods: {
 		goMenuDetailTmp() {

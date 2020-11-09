@@ -4,7 +4,7 @@
 			<img
 				:src="
 					myMenuItem.menuInOrder.menu.imgUrl
-						? require('@/assets' + myMenuItem.menuInOrder.menu.imgUrl)
+						? require('@/assets/menu' + myMenuItem.menuInOrder.menu.imgUrl)
 						: require('@/assets/drink.png')
 				"
 				alt="메뉴이미지"

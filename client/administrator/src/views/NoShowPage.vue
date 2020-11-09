@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<header class="header">
+			<ion-icon name="arrow-back" class="arrow-back" @click="goBackToMain"></ion-icon>
 			<div class="header-middle">
 				<div class="logo-title">
 					<img src="../assets/logo.png" alt="로고" class="logo" />
@@ -26,59 +27,33 @@
 					</select>
 				</div>
 			</div>
-			<button type="button" class="link-to-history" @click="goToHistory">
-				완료된 주문 >
-			</button>
 		</header>
 		<div class="bg">
 			<div class="sub-title">
-				들어온 주문
+				No Show 주문
+				<div class="page-buttons">
+					<button class="goto" @click="goToHistory">수령 완료</button> |
+					<button class="goto" @click="goToNoShow">No Show</button>
+				</div>
 			</div>
 			<div class="card-list">
-				<WaitingOrdersCard
-					v-for="cardItem in orderItems ? orderItems.waitingOrders : []"
+				<HistoryCard
+					v-for="cardItem in historyItems ? historyItems.NoShowOrders : []"
 					:key="cardItem.id"
 					:orderItem="cardItem"
-					@fetch-again="fetchAgain"
-				></WaitingOrdersCard>
-			</div>
-			<div class="sub-title">
-				제조 중인 주문
-			</div>
-			<div class="card-list">
-				<MakingOrdersCard
-					v-for="cardItem in orderItems ? orderItems.makingOrders : []"
-					:key="cardItem.id"
-					:orderItem="cardItem"
-					@fetch-again="fetchAgain"
-				></MakingOrdersCard>
-			</div>
-			<div class="sub-title">
-				수령 대기 중인 주문
-			</div>
-			<div class="card-list">
-				<ReadyOrdersCard
-					v-for="cardItem in orderItems ? orderItems.readyOrders : []"
-					:key="cardItem.id"
-					:orderItem="cardItem"
-					@fetch-again="fetchAgain"
-				></ReadyOrdersCard>
+				></HistoryCard>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import WaitingOrdersCard from '@/components/WaitingOrdersCard.vue';
-import MakingOrdersCard from '@/components/MakingOrdersCard.vue';
-import ReadyOrdersCard from '@/components/ReadyOrdersCard.vue';
+import HistoryCard from '@/components/HistoryCard.vue';
 import { mapGetters } from 'vuex';
 
 export default {
 	components: {
-		WaitingOrdersCard,
-		MakingOrdersCard,
-		ReadyOrdersCard,
+		HistoryCard,
 	},
 	data() {
 		return {
@@ -86,18 +61,18 @@ export default {
 		};
 	},
 	computed: {
-		...mapGetters(['orderItems']),
+		...mapGetters(['historyItems']),
 	},
 	created() {
 		const data = {
 			header: {
-				name: 'GetStoreOrdersRequest',
+				name: 'GetStoreHistoryRequest',
 				userId: 'admin',
 			},
 			payload: {},
 		};
-		this.$store.dispatch('FETCH_ORDERS', {
-			id: this.selected,
+		this.$store.dispatch('FETCH_HISTORY_ORDERS', {
+			id: 1,
 			data: data,
 		});
 	},
@@ -105,33 +80,38 @@ export default {
 		async selectStore(e) {
 			const data = {
 				header: {
-					name: 'GetStoreOrdersRequest',
+					name: 'GetStoreHistoryRequest',
 					userId: 'admin',
 				},
 				payload: {},
 			};
-			this.$store.dispatch('FETCH_ORDERS', {
+			this.$store.dispatch('FETCH_HISTORY_ORDERS', {
 				id: e.target.value,
 				data: data,
 			});
 		},
-		async fetchAgain() {
-			const data = {
-				header: {
-					name: 'GetStoreOrdersRequest',
-					userId: 'admin',
+		goBackToMain() {
+			this.$router.push({
+				name: 'main',
+				path: '/main',
+				params: {
+					selectedStoreId: this.selected,
 				},
-				payload: {},
-			};
-			this.$store.dispatch('FETCH_ORDERS', {
-				id: this.selected,
-				data: data,
 			});
 		},
 		goToHistory() {
 			this.$router.push({
 				name: 'history',
 				path: '/history',
+				params: {
+					selectedStoreId: this.selected,
+				},
+			});
+		},
+		goToNoShow() {
+			this.$router.push({
+				name: 'no-show',
+				path: '/no-show',
 				params: {
 					selectedStoreId: this.selected,
 				},

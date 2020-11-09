@@ -11,10 +11,17 @@ body {
 	height: 50px;
 }
 
+.header-middle {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .logo-title {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-right: 10px;
 }
 
 .logo {
@@ -26,10 +33,36 @@ body {
 	font-size: 25px;
 }
 
+select {
+	position: relative;
+	font-family: 'NanumSquare', sans-serif;
+	width: 110px;
+	height: 30px;
+	padding-left: 5px;
+	-webkit-appearance: none;  /* 네이티브 외형 감추기 */
+	-moz-appearance: none;
+	appearance: none;
+	background: url('../assets/select_arrow.png') no-repeat 95% 50%;  /* 화살표 모양의 이미지 */
+	background-color: white;
+	background-size: contain;
+	border: 1px solid white;
+	border-radius: 3px;
+}
+
+/* IE 10, 11의 네이티브 화살표 숨기기 */
+select::-ms-expand {
+	display: none;
+}
+
+option:checked {
+	color: white;
+}
+
 .link-to-history {
 	position: absolute;
 	right: 15px;
 	font-size: 18px;
+	color: white;
 }
 
 .bg {
@@ -40,6 +73,8 @@ body {
 }
 
 .sub-title {
+	display: flex;
+	justify-content: space-between;
 	width: 96%;
 	margin: 10px auto 20px;
 	padding: 10px;
@@ -50,8 +85,10 @@ body {
 .card-list {
 	display: flex;
 	overflow-x: scroll;
+	overflow-y: hidden;
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
+	height: 300px;
 }
 
 .card-list::-webkit-scrollbar {
@@ -63,6 +100,9 @@ body {
 }
 
 .card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	width: fit-content;
 	height: 250px;
 	background-color: #2B2B2B;
@@ -71,6 +111,12 @@ body {
 
 .menu-list {
 	display: flex;
+	margin-bottom: 18px;
+}
+
+.time {
+	color: #A5A5A5;
+	font-size: 15px;
 }
 
 .menu {
@@ -113,6 +159,10 @@ button {
 	border-right: 2px solid #5B5B5B;
 }
 
+.accept.ready {
+	margin-left: -24px;
+}
+
 .check {
 	color: green;
 	margin-left: 5px;
@@ -121,4 +171,51 @@ button {
 .x {
 	color: red;
 	margin-right: 5px;
+}
+
+.arrow-back {
+	position: fixed;
+	top: 14px;
+	left: 14px;
+	font-size: 22px;
+}
+
+.option-list {
+	margin-left: 10px;
+}
+
+.option-list,
+.option-list > li {
+	list-style-type: disc;
+}
+
+.personal-option {
+	font-size: 15px;
+}
+
+.personal-option::after {
+	padding-left: 0px;
+	padding-right: 2px;
+	margin-left: -2px;
+	content: ",";
+}
+
+.personal-option:last-child::after {
+	content: "";
+}
+
+.history-card-list {
+	display: flex;
+}
+
+.card-container.history {
+	margin-bottom: 20px;
+}
+
+.page-buttons {
+	display: flex;
+}
+
+.goto {
+	color: white;
 }

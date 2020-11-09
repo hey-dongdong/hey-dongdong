@@ -3,7 +3,7 @@
 		<img
 			:src="
 				menuItem.imgUrl
-					? require('@/assets' + menuItem.imgUrl)
+					? require('@/assets/menu' + menuItem.imgUrl)
 					: require('@/assets/drink.png')
 			"
 			alt="메뉴이미지"

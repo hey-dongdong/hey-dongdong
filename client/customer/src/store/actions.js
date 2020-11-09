@@ -1,13 +1,13 @@
-import { fetchMenus, fetchMyMenus, fetchHistory, fetchHistoryDetail } from '../api/index';
+import { fetchMenus, fetchMyMenus, fetchHistory, fetchHistoryDetail } from '../api/menus';
 
 export default {
-	async FETCH_MENUS({ commit }) {
-		const response = await fetchMenus();
+	async FETCH_MENUS({ commit }, data) {
+		const response = await fetchMenus(data);
 		commit('SET_MENUS', response.data.payload.menus);
 		return response;
 	},
-	async FETCH_MY_MENUS({ commit }) {
-		const response = await fetchMyMenus();
+	async FETCH_MY_MENUS({ commit }, data) {
+		const response = await fetchMyMenus(data);
 		commit('SET_MY_MENUS', response.data.payload.menus);
 		return response;
 	},

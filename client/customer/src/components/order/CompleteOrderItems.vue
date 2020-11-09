@@ -1,17 +1,8 @@
 <template>
 	<div class="ordered-menu-card">
 		<div class="ordered-menu-card-header">
-			<div class="ordered-menuname">{{ completeOrderMenuItem.menu.menuName }}</div>
-			<div class="star-checkbox">
-				<input
-					type="checkbox"
-					value="star"
-					:id="'star' + completeOrderMenuItem.id"
-					:checked="completeOrderMenuItem.menuLiked"
-					@change="toggleLike"
-				/>
-				<label :for="'star' + completeOrderMenuItem.id"></label>
-			</div>
+			<div class="ordered-menuname">{{ completeOrderMenuItem.menuName }}</div>
+			<div class="star-checkbox"></div>
 		</div>
 
 		<ul class="ordered-item-list">
@@ -89,7 +80,9 @@
 			</li>
 		</ul>
 		<div class="ordered-menu-card-footer">
-			<span class="ordered-menu-price"> {{ completeOrderMenuItem.price }}원 </span>
+			<span class="ordered-menu-price">
+				{{ completeOrderMenuItem.price * completeOrderMenuItem.count }}원
+			</span>
 			<div class="ordered-menu-count">{{ completeOrderMenuItem.count }}잔</div>
 		</div>
 	</div>
@@ -106,6 +99,7 @@ export default {
 			this.$emit('toggle-like', {
 				id: this.completeOrderMenuItem.id,
 				checked: e.target.checked,
+				myMenuId: this.completeOrderMenuItem.myMenuId || '',
 			});
 		},
 	},

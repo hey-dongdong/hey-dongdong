@@ -23,7 +23,7 @@
 				</span>
 				<div slot="footer" class="popup-buttons">
 					<button @click="doSend" class="popup-button" type="button">취소</button>
-					<button @click="removeMyMenu" class="popup-button" type="button">
+					<button @click="deleteMyMenu" class="popup-button" type="button">
 						삭제
 					</button>
 				</div>
@@ -37,7 +37,8 @@ import BlackHeader from '@/components/common/BlackHeader.vue';
 import MyMenuListItem from '@/components/menu/MyMenuListItem.vue';
 import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
 import { mapGetters } from 'vuex';
-import axios from 'axios';
+import { getUserFromCookie } from '@/utils/cookies';
+import { removeMyMenu } from '@/api/menus';
 
 export default {
 	components: {
@@ -56,7 +57,14 @@ export default {
 		...mapGetters(['myMenuItems']),
 	},
 	created() {
-		this.$store.dispatch('FETCH_MY_MENUS');
+		const data = {
+			header: {
+				name: 'GetMyMenusRequest',
+				userId: getUserFromCookie(),
+			},
+			payload: {},
+		};
+		this.$store.dispatch('FETCH_MY_MENUS', data);
 	},
 	methods: {
 		openModal(id, menuName) {
@@ -70,12 +78,26 @@ export default {
 		doSend() {
 			this.closeModal();
 		},
-		removeMyMenu(id) {
-			axios.delete('/my-menu/remove').then(response => {
-				console.log(response);
-			});
-			this.myMenuItems.splice(id, 1);
+		async deleteMyMenu() {
+			console.log(this.deleteMyMenuId);
+			const data = {
+				header: {
+					name: 'RemoveMyMenuRequest',
+					userId: getUserFromCookie(),
+				},
+				payload: {
+					myMenuId: this.deleteMyMenuId,
+				},
+			};
+			await removeMyMenu(data);
 			this.closeModal();
+			this.$store.dispatch('FETCH_MY_MENUS', {
+				header: {
+					name: 'GetMyMenusRequest',
+					userId: getUserFromCookie(),
+				},
+				payload: {},
+			});
 		},
 	},
 };

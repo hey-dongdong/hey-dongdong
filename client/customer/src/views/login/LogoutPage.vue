@@ -8,7 +8,10 @@
 				<ion-icon name="person" class="user-icon"></ion-icon>
 				<span>{{ $store.state.userId }} 님</span>
 			</div>
-			<button @click="openModal" type="submit" class="goldbtn">LOGOUT</button>
+			<button @click="$router.push('/change-pw')" class="greenbtn modify-pw">
+				비밀번호 수정
+			</button>
+			<button @click="openModal" class="goldbtn">LOGOUT</button>
 			<ModalWithTwoBtn @close="closeModal" v-if="modal">
 				<span slot="modal-title" class="modal-title">LOGOUT</span>
 				<span slot="modal-content" class="modal-content">로그아웃 하시겠습니까?</span>
@@ -51,6 +54,7 @@ export default {
 			this.$store.commit('CLEAR_TOKEN');
 			deleteCookie('auth');
 			deleteCookie('user');
+			deleteCookie('username');
 			this.$router.push('/sign-in');
 		},
 	},

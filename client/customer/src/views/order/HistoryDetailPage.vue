@@ -13,11 +13,26 @@
 				@toggle-like="toggleLike"
 			></OrderItems>
 			<div class="greenbtn-small-set">
-				<button type="button" class="greenbtn-small">이대로 주문하기</button>
+				<button type="button" class="greenbtn-small" @click="openModal()">
+					이대로 주문하기
+				</button>
 				<button type="button" class="greenbtn-small" @click="addToCart">
 					장바구니에 담기
 				</button>
 			</div>
+			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+				<span slot="modal-title" class="modal-title mymenu">이대로 주문하기</span>
+				<span slot="modal-content" class="modal-content">
+					{{ $route.params.store.storeName }}에 <br />
+					음료 {{ totalCount }}잔을 주문하시겠습니까?
+				</span>
+				<div slot="footer" class="popup-buttons">
+					<button @click="doSend" class="popup-button" type="button">취소</button>
+					<button @click="orderHistoryMenu" class="popup-button" type="button">
+						주문하기
+					</button>
+				</div>
+			</ModalWithTwoBtn>
 		</div>
 	</div>
 </template>
@@ -28,12 +43,23 @@ import OrderDetail from '@/components/order/OrderDetail.vue';
 import OrderItems from '@/components/order/OrderItems.vue';
 import { mapGetters } from 'vuex';
 import store from '@/store/index';
+import { getUserFromCookie } from '@/utils/cookies';
+import { addMyMenu, removeMyMenu } from '@/api/menus';
+import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+import { addOrder } from '@/api/order';
 
 export default {
 	components: {
 		BlackHeader,
 		OrderDetail,
 		OrderItems,
+		ModalWithTwoBtn,
+	},
+	data() {
+		return {
+			modal: false,
+			totalCount: this.$route.params.totalCount,
+		};
 	},
 	computed: {
 		...mapGetters(['historyDetail']),
@@ -51,35 +77,147 @@ export default {
 		this.$store.dispatch('FETCH_HISTORY_DETAIL', data);
 	},
 	methods: {
-		toggleLike({ id, checked }) {
-			console.log(id, checked);
+		openModal() {
+			this.modal = true;
 		},
-		addToCart() {
-			let maxIndex = 0;
-			if (localStorage.length > 0) {
-				for (let i = 0; i < localStorage.length; i++) {
-					if (Number(maxIndex) < Number(localStorage.key(i))) {
-						maxIndex = localStorage.key(i);
-					}
-				}
+		closeModal() {
+			this.modal = false;
+		},
+		doSend() {
+			this.closeModal();
+		},
+		async toggleLike({ id, checked, myMenuId }) {
+			console.log(id, checked, myMenuId);
+			if (checked == true) {
+				const data = {
+					header: {
+						name: 'AddMyMenuRequest',
+						userId: getUserFromCookie(),
+					},
+					payload: {
+						menuInOrderId: id,
+					},
+				};
+				await addMyMenu(data);
+				this.$store.dispatch('FETCH_HISTORY_DETAIL', {
+					header: {
+						name: 'GetUserHistoryDetailRequest',
+						userId: store.state.userId,
+					},
+					payload: {
+						orderId: this.$route.params.orderId,
+					},
+				});
+			} else {
+				const data = {
+					header: {
+						name: 'RemoveMyMenuRequest',
+						userId: getUserFromCookie(),
+					},
+					payload: {
+						myMenuId: myMenuId,
+					},
+				};
+				await removeMyMenu(data);
 			}
-			maxIndex = Number(maxIndex) + 1;
+		},
+		async orderHistoryMenu() {
+			let now = new Date();
+			let year = now.getFullYear();
+			let month = now.getMonth();
+			let date = now.getDate();
+			let hours = now.getHours();
+			let minutes = now.getMinutes();
+			let seconds = now.getSeconds();
+			var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+			var menus = [];
+
 			for (let i = 0; i < this.historyDetail.menus.length; i++) {
 				var item = this.historyDetail.menus[i];
-				console.log(item);
-				var value = {
-					id: maxIndex,
-					menu: {
-						menuId: item.menu.menuId,
-						menuName: item.menu.menuName,
-					},
+				var menu = {
+					menuId: item.menu.menuId,
 					option: item.option,
 					price: item.price,
 					count: item.count,
 				};
-				localStorage.setItem(maxIndex, JSON.stringify(value));
-				maxIndex++;
+				menus.push(menu);
 			}
+
+			const data = {
+				header: {
+					name: 'AddNewOrderRequest',
+					userId: getUserFromCookie(),
+				},
+				payload: {
+					newOrderInfo: {
+						orderAt: time,
+						progress: 'WAITING',
+						totalCount: this.totalCount,
+						totalPrice: this.$route.params.totalPrice,
+						isNoShow: false,
+						storeId: this.$route.params.store.storeId,
+						userId: getUserFromCookie(),
+					},
+					menus: menus,
+				},
+			};
+			const response = await addOrder(data);
+			this.$router.push({
+				name: 'complete',
+				path: '/complete',
+				params: response.data.payload,
+			});
+		},
+		addToCart() {
+			for (let i = 0; i < this.historyDetail.menus.length; i++) {
+				var item = this.historyDetail.menus[i];
+				let index = 0;
+				var isSame = false;
+				var menu = {
+					menuId: item.menu.menuId,
+					menuName: item.menu.menuName,
+				};
+				var option = item.option;
+				var price = 0;
+				var count = 0;
+				if (localStorage.length > 0) {
+					for (let i = 0; i < localStorage.length; i++) {
+						if (Number(index) < Number(localStorage.key(i))) {
+							index = localStorage.key(i);
+							var cartItem = JSON.parse(localStorage.getItem(localStorage.key(i)));
+							if (
+								JSON.stringify(cartItem.menu) == JSON.stringify(menu) &&
+								JSON.stringify(cartItem.option) == JSON.stringify(option)
+							) {
+								isSame = true;
+								price = cartItem.price;
+								count = cartItem.count;
+								break;
+							}
+						}
+					}
+				}
+				if (isSame == true) {
+					var value = {
+						id: Number(index),
+						menu: menu,
+						option: option,
+						price: item.price + price,
+						count: item.count + count,
+					};
+				} else {
+					index = Number(index) + 1;
+					value = {
+						id: index,
+						menu: menu,
+						option: option,
+						price: item.price,
+						count: item.count,
+					};
+				}
+				localStorage.setItem(index, JSON.stringify(value));
+			}
+			this.$router.push('/cart');
 		},
 	},
 };

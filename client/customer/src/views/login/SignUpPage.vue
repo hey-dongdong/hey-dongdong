@@ -21,7 +21,7 @@
 						<input
 							id="password"
 							type="password"
-							placeholder="비밀번호를 입력하세요"
+							placeholder="8자 이상 & 숫자, 알파벳, 특수 문자 포함"
 							minlength="8"
 							v-model="password"
 							required
@@ -97,7 +97,7 @@
 
 <script>
 import GreenHeader from '@/components/common/GreenHeader.vue';
-import { registerUser } from '@/api/index';
+import { registerUser } from '@/api/auth';
 import { validateEmail, validatePassword } from '@/utils/validation';
 
 export default {

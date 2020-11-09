@@ -159,6 +159,14 @@ transition: background-color 5000s ease-in-out 0s;
 	font-size: 13px;
 }
 
+.changepw-message {
+	display: block;
+	width: fit-content;
+	color: red;
+	font-size: 13px;
+	margin: 50px auto;
+}
+
 
 /* buttons */
 
@@ -190,6 +198,10 @@ transition: background-color 5000s ease-in-out 0s;
 	justify-content: center;
 	align-items: center;
 	margin: 0 auto;
+}
+
+.greenbtn.modify-pw {
+	margin-bottom: 15px;
 }
 
 .links {
@@ -307,6 +319,10 @@ transition: background-color 5000s ease-in-out 0s;
 .barcode-box {
 	width: fit-content;
 	margin: 0 auto 50px;
+}
+
+.barcode-box.complete {
+	margin-bottom: 5px;
 }
 
 .barcode {
@@ -684,6 +700,10 @@ input[type="radio"] {
 	display: none;
 }
 
+input[type="radio"]:disabled+label{
+	color: #555555;
+}
+
 .radio-box {
 	display: flex;
 	align-items: center;
@@ -1040,6 +1060,7 @@ input[type=checkbox]:checked + label{
 }
 
 .modal-content {
+	text-align: center;
 	font-size: 12px;
 	line-height: 1.4;
 }

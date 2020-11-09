@@ -294,6 +294,21 @@ export default {
 				selectBtn.className = 'popup-button';
 				selectBtn.appendChild(document.createTextNode('선택'));
 				selectBtn.onclick = function() {
+					if (localStorage.getItem('store-id') != pos.id) {
+						if (localStorage.length > 0) {
+							for (let i = 0; i < localStorage.length; i++) {
+								if (
+									localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
+									localStorage.key(i) !== 'store-id' &&
+									localStorage.key(i) !== 'store' &&
+									localStorage.key(i) !== 'nearest-store-id' &&
+									localStorage.key(i) !== 'nearest-store'
+								) {
+									localStorage.removeItem(localStorage.key(i));
+								}
+							}
+						}
+					}
 					localStorage.setItem('store-id', pos.id);
 					localStorage.setItem('store', pos.store);
 					customOverlay.setMap(null);
@@ -314,6 +329,21 @@ export default {
 			});
 		},
 		setNearestStore() {
+			if (localStorage.getItem('store-id') != localStorage.getItem('nearest-store-id')) {
+				if (localStorage.length > 0) {
+					for (let i = 0; i < localStorage.length; i++) {
+						if (
+							localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
+							localStorage.key(i) !== 'store-id' &&
+							localStorage.key(i) !== 'store' &&
+							localStorage.key(i) !== 'nearest-store-id' &&
+							localStorage.key(i) !== 'nearest-store'
+						) {
+							localStorage.removeItem(localStorage.key(i));
+						}
+					}
+				}
+			}
 			localStorage.setItem('store-id', localStorage.getItem('nearest-store-id'));
 			localStorage.setItem('store', localStorage.getItem('nearest-store'));
 			window.location.reload();
