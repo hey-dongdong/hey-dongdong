@@ -7,10 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class MenuInHistoryDto {
+public class SimpleUserDto {
 
-    private Integer menuId;
-    private String menuName;
-    private String menuThumbnail;
+    private String userId;
+    private String userName;
+    private String phone;
 
 }

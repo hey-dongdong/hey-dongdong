@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
 @ToString
-public class UserInStoreHistoryDto {
+public class HistoryDetailDto {
 
-    private String userId;
-    private String userName;
-    private String phone;
+    private OrderDto orderInfo;
+    private List<MenuInOrderDto> menus;
+
 }

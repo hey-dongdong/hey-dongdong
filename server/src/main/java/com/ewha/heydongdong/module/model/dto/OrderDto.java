@@ -12,11 +12,15 @@ import java.sql.Timestamp;
 @Setter
 @Builder
 @ToString
-public class StoreHistoryDto {
+public class OrderDto {
 
     private Long orderId;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
     private Timestamp orderAt;
-    private UserInStoreHistoryDto user;
+    private Integer totalPrice;
+    private Integer totalCount;
+    private SimpleMenuDto menu;
+    private SimpleStoreDto store;
+    private SimpleUserDto user;
 
 }

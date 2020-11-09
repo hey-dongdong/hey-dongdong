@@ -137,7 +137,7 @@ public class UserService {
 
 
     public String changePw(JsonNode payload) {
-        User user = findRequiredUserFromDB(payload.get("userId").asText());
+        User user = findRequiredUserById(payload.get("userId").asText());
         String newPw = payload.get("newPw").asText();
         saveUserPw(user, newPw);
         return jsonBuilder.buildJsonWithHeader("ChangePwResponse", user.getUserId());
@@ -145,11 +145,11 @@ public class UserService {
 
 
     public String getUserNoShowCount(String userId) {
-        User user = findRequiredUserFromDB(userId);
+        User user = findRequiredUserById(userId);
         return buildUserNoShowCountJsonResponse(user);
     }
 
-    private User findRequiredUserFromDB(String userId) {
+    private User findRequiredUserById(String userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new NoSuchUserException("userId=" + userId));
     }

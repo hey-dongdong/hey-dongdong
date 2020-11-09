@@ -17,5 +17,8 @@ public class MenuInOrderDto {
     private SimpleMenuDto menu;
     private Option option;
     private Integer price;
+    private Integer count;
+    private Boolean menuLiked;
+    private Long myMenuId;
 
 }
