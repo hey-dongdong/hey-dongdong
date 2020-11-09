@@ -1,18 +1,16 @@
 package com.ewha.heydongdong.module.service;
 
+import com.ewha.heydongdong.infra.JsonBuilder;
 import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
 import com.ewha.heydongdong.infra.exception.NoResultFromDBException;
-import com.ewha.heydongdong.infra.protocol.Response;
-import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.MenuInOrder;
 import com.ewha.heydongdong.module.model.domain.MyMenu;
 import com.ewha.heydongdong.module.model.domain.User;
-import com.ewha.heydongdong.module.model.dto.SimpleMenuDto;
-import com.ewha.heydongdong.module.model.dto.MenuInMyMenuDto;
+import com.ewha.heydongdong.module.model.dto.MenuInOrderDto;
 import com.ewha.heydongdong.module.model.dto.MyMenuDto;
+import com.ewha.heydongdong.module.model.dto.SimpleMenuDto;
 import com.ewha.heydongdong.module.repository.MyMenuRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,20 +27,30 @@ public class MyMenuService {
     private MyMenuRepository myMenuRepository;
 
     @Autowired
+    private JsonBuilder jsonBuilder;
+
+    @Autowired
     private ObjectMapper objectMapper;
+
 
     public String getUserMyMenu(String userId) {
         List<MyMenu> myMenus = myMenuRepository.findByUser(User.builder().userId(userId).build());
         checkIfMyMenusExist(myMenus, userId);
-        return buildJsonResponse(userId, buildMyMenuDtoFromMyMenus(myMenus));
+        List<MyMenuDto> myMenuDtos = buildMyMenuDtosFromMyMenus(myMenus);
+        return buildMyMenusJsonResponse(userId, myMenuDtos);
     }
 
-    private List<MyMenuDto> buildMyMenuDtoFromMyMenus(List<MyMenu> myMenus) {
+    private void checkIfMyMenusExist(List<MyMenu> myMenus, String userId) {
+        if (myMenus.isEmpty())
+            throw new NoResultFromDBException("No myMenu for userId=" + userId);
+    }
+
+    private List<MyMenuDto> buildMyMenuDtosFromMyMenus(List<MyMenu> myMenus) {
         List<MyMenuDto> myMenuDtos = new ArrayList<>();
         for (MyMenu myMenu : myMenus) {
             myMenuDtos.add(MyMenuDto.builder()
                     .myMenuId(myMenu.getMyMenuId())
-                    .menuInOrder(MenuInMyMenuDto.builder()
+                    .menuInOrder(MenuInOrderDto.builder()
                             .menu(SimpleMenuDto.builder()
                                     .menuId(myMenu.getMenuInOrder().getMenu().getMenuId())
                                     .menuName(myMenu.getMenuInOrder().getMenu().getMenuName())
@@ -60,28 +68,21 @@ public class MyMenuService {
         return myMenuDtos;
     }
 
-    private void checkIfMyMenusExist(List<MyMenu> myMenus, String userId) {
-        if (myMenus.isEmpty())
-            throw new NoResultFromDBException("No myMenu for userId=" + userId);
+    private String buildMyMenusJsonResponse(String userId, List<MyMenuDto> myMenus) {
+        return jsonBuilder.buildJsonWithHeaderAndPayload(
+                jsonBuilder.buildResponseHeader("GetMyMenusResponse", userId),
+                jsonBuilder.buildResponsePayloadFromObject("menus", myMenus)
+        );
     }
 
-    private String buildJsonResponse(String userId, List<MyMenuDto> myMenus) {
-        ResponseHeader header = new ResponseHeader("GetMyMenusResponse", userId);
-
-        ObjectNode payload = objectMapper.createObjectNode();
-        payload.set("menus", objectMapper.valueToTree(myMenus));
-        Response response = new Response(header, payload);
-
-        return objectMapper.valueToTree(response).toPrettyString();
-    }
 
     public String addUserMyMenu(String userId, Long menuInOrderId) {
-        checkIfDuplicate(userId, menuInOrderId);
+        checkIfMenuAlreadyLiked(userId, menuInOrderId);
         Long myMenuId = saveMyMenu(userId, menuInOrderId);
-        return buildJsonResponse("AddMyMenuResponse", myMenuId);
+        return jsonBuilder.buildJsonWithHeader("AddMyMenuResponse", String.valueOf(myMenuId));
     }
 
-    private void checkIfDuplicate(String userId, Long menuInOrderId) {
+    private void checkIfMenuAlreadyLiked(String userId, Long menuInOrderId) {
         List<MyMenu> myMenus = myMenuRepository.findByUser(User.builder().userId(userId).build());
         if (!myMenus.isEmpty())
             for (MyMenu myMenu : myMenus)
@@ -90,41 +91,25 @@ public class MyMenuService {
     }
 
     private Long saveMyMenu(String userId, Long menuInOrderId) {
-        String now = getCurrentTime();
         MyMenu myMenu = myMenuRepository.save(MyMenu.builder()
                 .menuInOrder(MenuInOrder.builder().id(menuInOrderId).build())
                 .user(User.builder().userId(userId).build())
-                .addAt(Timestamp.valueOf(now))
+                .addAt(getCurrentTime())
+                .addAt(getCurrentTime())
                 .build());
         return myMenu.getMyMenuId();
     }
 
-    private String getCurrentTime() {
-        Date now = new Date(System.currentTimeMillis());
+    private Timestamp getCurrentTime() {
+        Date nowDate = new Date(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return format.format(now);
+        String nowStr = format.format(nowDate);
+        return Timestamp.valueOf(nowStr);
     }
+
 
     public String removeUserMyMenu(String userId, Long myMenuId) {
         myMenuRepository.deleteById(myMenuId);
-        return buildJsonResponse("RemoveMyMenuResponse", userId);
-    }
-
-    private String buildJsonResponse(String responseName, String userId) {
-        Response response = Response.builder().header(
-                ResponseHeader.builder()
-                        .name(responseName)
-                        .message(userId)
-                        .build()).build();
-        return objectMapper.valueToTree(response).toPrettyString();
-    }
-
-    private String buildJsonResponse(String responseName, Long myMenuId) {
-        Response response = Response.builder().header(
-                ResponseHeader.builder()
-                        .name(responseName)
-                        .message(String.valueOf(myMenuId))
-                        .build()).build();
-        return objectMapper.valueToTree(response).toPrettyString();
+        return jsonBuilder.buildJsonWithHeader("RemoveMyMenuResponse", userId);
     }
 }
