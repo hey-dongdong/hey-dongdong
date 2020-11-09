@@ -22,4 +22,12 @@ async function fetchHistoryOrders(id, data) {
 	}
 }
 
-export { fetchOrders, fetchHistoryOrders };
+async function updateOrderProgress(data) {
+	try {
+		return await instance.post('/order/update-progress', data);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export { fetchOrders, fetchHistoryOrders, updateOrderProgress };

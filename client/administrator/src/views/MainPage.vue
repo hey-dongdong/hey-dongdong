@@ -37,6 +37,7 @@
 					v-for="cardItem in orderItems ? orderItems.waitingOrders : []"
 					:key="cardItem.id"
 					:orderItem="cardItem"
+					@fetch-again="fetchAgain"
 				></WaitingOrdersCard>
 			</div>
 			<div class="sub-title">
@@ -47,6 +48,7 @@
 					v-for="cardItem in orderItems ? orderItems.makingOrders : []"
 					:key="cardItem.id"
 					:orderItem="cardItem"
+					@fetch-again="fetchAgain"
 				></MakingOrdersCard>
 			</div>
 			<div class="sub-title">
@@ -107,6 +109,19 @@ export default {
 			};
 			this.$store.dispatch('FETCH_ORDERS', {
 				id: e.target.value,
+				data: data,
+			});
+		},
+		async fetchAgain() {
+			const data = {
+				header: {
+					name: 'GetStoreOrdersRequest',
+					userId: 'admin',
+				},
+				payload: {},
+			};
+			this.$store.dispatch('FETCH_ORDERS', {
+				id: this.selected,
 				data: data,
 			});
 		},

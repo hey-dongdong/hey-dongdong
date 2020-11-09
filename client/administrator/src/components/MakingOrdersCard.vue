@@ -11,7 +11,7 @@
 			<span class="time">{{ orderItem.orderInfo.orderAt }}</span>
 		</div>
 		<ButtonBox>
-			<button slot="button2" type="button">
+			<button slot="button2" type="button" @click="completeMakingOrder">
 				<ion-icon name="checkmark-circle" class="check"></ion-icon>
 				<span>제조완료</span>
 			</button>
@@ -22,6 +22,7 @@
 <script>
 import MenuInCard from './MenuInCard.vue';
 import ButtonBox from './ButtonBox.vue';
+import { updateOrderProgress } from '@/api/index';
 
 export default {
 	name: 'order-item',
@@ -31,6 +32,22 @@ export default {
 	components: {
 		MenuInCard,
 		ButtonBox,
+	},
+	methods: {
+		async completeMakingOrder() {
+			const data = {
+				header: {
+					name: 'UpdateOrderProgressRequest',
+					userId: 'admin',
+				},
+				payload: {
+					orderId: this.orderItem.orderInfo.orderId,
+					progress: 'READY',
+				},
+			};
+			await updateOrderProgress(data);
+			this.$emit('fetch-again');
+		},
 	},
 };
 </script>
