@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<header class="header">
-			<ion-icon name="arrow-back" class="arrow-back" @click="$router.go(-1)"></ion-icon>
+			<ion-icon name="arrow-back" class="arrow-back" @click="goBackToMain"></ion-icon>
 			<div class="header-middle">
 				<div class="logo-title">
 					<img src="../assets/logo.png" alt="로고" class="logo" />
@@ -29,9 +29,20 @@
 			</div>
 		</header>
 		<div class="bg">
-			<div class="sub-title">제조 완료된 주문</div>
-			<div class="card-list">
-				<HistoryCard></HistoryCard>
+			<div class="sub-title">
+				수령 완료된 주문
+				<div class="page-buttons">
+					<button class="goto" @click="goToHistory">수령 완료</button> |
+					<button class="goto" @click="goToNoShow">No Show</button>
+				</div>
+			</div>
+			<div class="history-card-list">
+				<HistoryCard
+					v-for="cardItem in historyItems ? historyItems.doneOrders : []"
+					:key="cardItem.id"
+					:orderItem="cardItem"
+					@fetch-again="fetchAgain"
+				></HistoryCard>
 			</div>
 		</div>
 	</div>
@@ -47,7 +58,7 @@ export default {
 	},
 	data() {
 		return {
-			selected: 1,
+			selected: this.$route.params.selectedStoreId || 1,
 		};
 	},
 	computed: {
@@ -62,7 +73,7 @@ export default {
 			payload: {},
 		};
 		this.$store.dispatch('FETCH_HISTORY_ORDERS', {
-			id: 1,
+			id: this.selected,
 			data: data,
 		});
 	},
@@ -78,6 +89,46 @@ export default {
 			this.$store.dispatch('FETCH_HISTORY_ORDERS', {
 				id: e.target.value,
 				data: data,
+			});
+		},
+		goBackToMain() {
+			this.$router.push({
+				name: 'main',
+				path: '/main',
+				params: {
+					selectedStoreId: this.selected,
+				},
+			});
+		},
+		async fetchAgain() {
+			const data = {
+				header: {
+					name: 'GetStoreOrdersRequest',
+					userId: 'admin',
+				},
+				payload: {},
+			};
+			this.$store.dispatch('FETCH_HISTORY_ORDERS', {
+				id: this.selected,
+				data: data,
+			});
+		},
+		goToHistory() {
+			this.$router.push({
+				name: 'history',
+				path: '/history',
+				params: {
+					selectedStoreId: this.selected,
+				},
+			});
+		},
+		goToNoShow() {
+			this.$router.push({
+				name: 'no-show',
+				path: '/no-show',
+				params: {
+					selectedStoreId: this.selected,
+				},
 			});
 		},
 	},

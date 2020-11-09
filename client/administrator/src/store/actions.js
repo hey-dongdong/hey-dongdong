@@ -7,7 +7,6 @@ export default {
 		return response;
 	},
 	async FETCH_HISTORY_ORDERS({ commit }, { id, data }) {
-		console.log(id, data);
 		const response = await fetchHistoryOrders(id, data);
 		commit('SET_HISTORY_ORDERS', response.data.payload);
 		return response;

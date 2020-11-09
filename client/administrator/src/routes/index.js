@@ -12,11 +12,18 @@ export default new VueRouter({
 		},
 		{
 			path: '/main',
+			name: 'main',
 			component: () => import('@/views/MainPage.vue'),
 		},
 		{
 			path: '/history',
+			name: 'history',
 			component: () => import('@/views/HistoryPage.vue'),
+		},
+		{
+			path: '/no-show',
+			name: 'no-show',
+			component: () => import('@/views/NoShowPage.vue'),
 		},
 	],
 });
