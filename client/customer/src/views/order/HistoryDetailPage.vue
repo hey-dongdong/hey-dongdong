@@ -136,6 +136,7 @@ export default {
 				var item = this.historyDetail.menus[i];
 				var menu = {
 					menuId: item.menu.menuId,
+					menuName: item.menu.menuName,
 					option: item.option,
 					price: item.price,
 					count: item.count,
