@@ -77,9 +77,8 @@ public class OrderService {
 
         ResponseHeader header = jsonBuilder.buildResponseHeader("AddNewOrderResponse", user.getUserId());
         ObjectNode payload = jsonBuilder.buildResponsePayload(
-                new String[]{"orderId", "userName", "orderAt", "totalPrice"},
-                new String[]{String.valueOf(orderId), user.getUserName(),
-                        String.valueOf(newOrderDto.getNewOrderInfo().getOrderAt()), String.valueOf(newOrderDto.getNewOrderInfo().getTotalPrice())});
+                new String[]{"orderId", "orderAt", "totalPrice"},
+                new String[]{String.valueOf(orderId), String.valueOf(newOrderDto.getNewOrderInfo().getOrderAt()), String.valueOf(newOrderDto.getNewOrderInfo().getTotalPrice())});
         payload.set("menus", objectMapper.valueToTree(newOrderDto.getMenus()));
         return jsonBuilder.buildJsonWithHeaderAndPayload(header, payload);
     }
