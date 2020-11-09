@@ -18,6 +18,7 @@ public class MenuInOrderDto {
     private Integer price;
     private Integer count;
     private Boolean menuLiked;
-    private Long myMenuId;  // TODO
+
+    private Long myMenuId;
 
 }

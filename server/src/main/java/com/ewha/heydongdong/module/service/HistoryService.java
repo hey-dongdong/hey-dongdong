@@ -8,6 +8,7 @@ import com.ewha.heydongdong.module.model.domain.datatype.Progress;
 import com.ewha.heydongdong.module.model.dto.*;
 import com.ewha.heydongdong.module.repository.MyMenuRepository;
 import com.ewha.heydongdong.module.repository.OrderRepository;
+import com.ewha.heydongdong.module.repository.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,9 @@ public class HistoryService {
 
     @Autowired
     private MyMenuRepository myMenuRepository;
+
+    @Autowired
+    private StoreRepository storeRepository;
 
     @Autowired
     private JsonBuilder jsonBuilder;
@@ -159,12 +163,18 @@ public class HistoryService {
 
 
     public String getStoreHistory(Integer storeId) {
+        checkIfInvalidStoreId(storeId);
         List<Order> doneOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.DONE);
         List<Order> noShowOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.NOSHOW);
         checkIfStoreHistoryExists(doneOrders, noShowOrders, storeId);
         List<OrderDetailDto> doneOrdersDto = buildStoreHistoryFromOrders(doneOrders);
         List<OrderDetailDto> noShowOrdersDto = buildStoreHistoryFromOrders(noShowOrders);
         return buildStoreHistoryJsonResponse(storeId, doneOrdersDto, noShowOrdersDto);
+    }
+
+    private void checkIfInvalidStoreId(Integer storeId) {
+        if (storeRepository.findById(storeId).isEmpty())
+            throw new InvalidRequestParameterException("storeId=" + storeId);
     }
 
     private void checkIfStoreHistoryExists(List<Order> doneOrders, List<Order> noShowOrders, Integer storeId) {
@@ -201,6 +211,7 @@ public class HistoryService {
 
 
     public String getStoreOrders(Integer storeId) {
+        checkIfInvalidStoreId(storeId);
         List<Order> waitingOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.WAITING);
         List<Order> makingOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.MAKING);
         List<Order> readyOrders = orderRepository.findByStoreAndProgress(Store.builder().storeId(storeId).build(), Progress.READY);
