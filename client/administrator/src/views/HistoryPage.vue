@@ -31,21 +31,19 @@
 		<div class="bg">
 			<div class="sub-title">제조 완료된 주문</div>
 			<div class="card-list">
-				<Card></Card>
-				<Card></Card>
-				<Card></Card>
+				<HistoryCard></HistoryCard>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import Card from '@/components/Card.vue';
+import HistoryCard from '@/components/HistoryCard.vue';
 import { mapGetters } from 'vuex';
 
 export default {
 	components: {
-		Card,
+		HistoryCard,
 	},
 	data() {
 		return {

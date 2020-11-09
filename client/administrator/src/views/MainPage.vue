@@ -33,43 +33,47 @@
 				들어온 주문
 			</div>
 			<div class="card-list">
-				<Card
+				<WaitingOrdersCard
 					v-for="cardItem in orderItems ? orderItems.waitingOrders : []"
 					:key="cardItem.id"
 					:orderItem="cardItem"
-				></Card>
+				></WaitingOrdersCard>
 			</div>
 			<div class="sub-title">
 				제조 중인 주문
 			</div>
 			<div class="card-list">
-				<Card
+				<MakingOrdersCard
 					v-for="cardItem in orderItems ? orderItems.makingOrders : []"
 					:key="cardItem.id"
 					:orderItem="cardItem"
-				></Card>
+				></MakingOrdersCard>
 			</div>
 			<div class="sub-title">
 				수령 대기 중인 주문
 			</div>
 			<div class="card-list">
-				<Card
+				<ReadyOrdersCard
 					v-for="cardItem in orderItems ? orderItems.readyOrders : []"
 					:key="cardItem.id"
 					:orderItem="cardItem"
-				></Card>
+				></ReadyOrdersCard>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import Card from '@/components/Card.vue';
+import WaitingOrdersCard from '@/components/WaitingOrdersCard.vue';
+import MakingOrdersCard from '@/components/MakingOrdersCard.vue';
+import ReadyOrdersCard from '@/components/ReadyOrdersCard.vue';
 import { mapGetters } from 'vuex';
 
 export default {
 	components: {
-		Card,
+		WaitingOrdersCard,
+		MakingOrdersCard,
+		ReadyOrdersCard,
 	},
 	data() {
 		return {

@@ -156,6 +156,10 @@ button {
 	border-right: 2px solid #5B5B5B;
 }
 
+.accept.ready {
+	margin-left: -24px;
+}
+
 .check {
 	color: green;
 	margin-left: 5px;
