@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/find-info/pw", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> findUserPw(@RequestBody Request request) throws JsonProcessingException {
+    public ResponseEntity<?> findUserPw(@RequestBody Request request) {
 
         log.info("[Request] find-user-pw");
         request.validateHeader("FindPwRequest");
@@ -74,7 +74,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/change-pw", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> changePw(@RequestBody Request request) throws JsonProcessingException {
+    public ResponseEntity<?> changePw(@RequestBody Request request) {
 
         log.info("[Request] change-pw");
 

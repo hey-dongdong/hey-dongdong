@@ -31,6 +31,8 @@ class MyMenuControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+
+
     @Test
     @DisplayName("Get all my menus | Success")
     void getAllMyMenus_Success() throws Exception {
@@ -58,6 +60,8 @@ class MyMenuControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
     }
+
+
 
     @Test
     @DisplayName("Add my menu | Success")
@@ -96,6 +100,8 @@ class MyMenuControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
+
+
 
     @Test
     @DisplayName("Remove my menu | Fail : Invalid myMenuId")

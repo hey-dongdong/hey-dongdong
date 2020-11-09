@@ -1,16 +1,17 @@
 package com.ewha.heydongdong.module.model.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Builder
-public class MenuInHistoryDto {
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+public class SimpleMenuDto {
 
     private Integer menuId;
     private String menuName;
-    private String menuThumbnail;
+    private String imgUrl;
 
 }

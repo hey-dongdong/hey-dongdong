@@ -7,9 +7,12 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewOrderDto {
-    private NewOrderInfoDto newOrderInfo;
-    private List<MenuInNewOrderDto> menus;
+public class OrderDetailDto {
+
+    private OrderDto orderInfo;
+    private List<MenuInOrderDto> menus;
+
 }

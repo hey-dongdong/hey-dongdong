@@ -46,6 +46,122 @@ public class UserService {
     @Autowired
     private JsonBuilder jsonBuilder;
 
+
+    public String signIn(JsonNode payload) {
+        User givenUser = buildUserFromJson(payload);
+        User expectedUser = findOptionalUserById(givenUser.getUserId());
+        checkIfEmailVerified(expectedUser);
+        checkPassword(givenUser, expectedUser);
+        String newToken = jwtTokenProvider.createJwtToken(expectedUser.getUsername(), expectedUser.getRoles());
+        return buildUserSignInJsonResponse(expectedUser, newToken);
+    }
+
+    private User buildUserFromJson(JsonNode payload) {
+        return User.builder()
+                .userId(payload.get("userId").asText())
+                .password(payload.get("password").asText())
+                .build();
+    }
+
+    private User findOptionalUserById(String userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NoResultFromDBException("userId=" + userId));
+    }
+
+    private void checkIfEmailVerified(User givenUser) {
+        if (!givenUser.getIsEmailVerified())
+            throw new NotVerifiedUserException(givenUser.getUserId());
+    }
+
+    private void checkPassword(User givenUser, User expectedUser) {
+        if (!passwordEncoder.matches(givenUser.getPassword(), expectedUser.getPassword()))
+            throw new NoResultFromDBException("Failed sign-in userId=" + givenUser.getUserId());
+    }
+
+    private String buildUserSignInJsonResponse(User user, String token) {
+        return jsonBuilder.buildJsonWithHeaderAndPayload(
+                jsonBuilder.buildResponseHeader("SignInResponse", user.getUserId()),
+                jsonBuilder.buildResponsePayloadFromText(new String[]{"token", "userName"}, new String[]{token, user.getUserName()})
+        );
+    }
+
+
+    public String findUserId(JsonNode payload) {
+        User user = findOptionalUserByEmail(payload.get("email").asText());
+        return buildUserIdJsonResponse(user);
+    }
+
+    private User findOptionalUserByEmail(String email) {
+        List<User> foundUsers = userRepository.findByEmail(email);
+        if (foundUsers.isEmpty())
+            throw new NoResultFromDBException("No user for email=" + email);
+        return foundUsers.get(0);
+    }
+
+    private String buildUserIdJsonResponse(User user) {
+        return jsonBuilder.buildJsonWithHeaderAndPayload(
+                jsonBuilder.buildResponseHeader("FindIdResponse", user.getEmail()),
+                jsonBuilder.buildResponsePayloadFromText("userId", user.getUserId())
+        );
+    }
+
+
+    public String findUserPw(JsonNode payload) {
+        User user = findOptionalUserById(payload.get("userId").asText());
+        checkGivenUserInfo(payload, user);
+        String tempPw = generateTempPw();
+        saveUserPw(user, tempPw);
+        return jsonBuilder.buildJsonWithHeaderAndPayload(
+                jsonBuilder.buildResponseHeader("FindPwResponse", user.getUserId()),
+                jsonBuilder.buildResponsePayloadFromText("tempPw", tempPw)
+        );
+    }
+
+    private void checkGivenUserInfo(JsonNode givenUser, User expectedUser) {
+        if (!givenUser.get("userId").asText().equals(expectedUser.getUserId())
+                | !givenUser.get("userName").asText().equals(expectedUser.getUserName())
+                | !givenUser.get("email").asText().equals(expectedUser.getEmail())) {
+            throw new NoResultFromDBException("No user for userId=" + expectedUser.getUserId());
+        }
+    }
+
+    private String generateTempPw() {
+        return UUID.randomUUID().toString()
+                .replaceAll("-", "").substring(0, 10);
+    }
+
+    private void saveUserPw(User user, String newPw) {
+        user.setPassword(passwordEncoder.encode(newPw));
+        userRepository.save(user);
+    }
+
+
+    public String changePw(JsonNode payload) {
+        User user = findRequiredUserById(payload.get("userId").asText());
+        String newPw = payload.get("newPw").asText();
+        saveUserPw(user, newPw);
+        return jsonBuilder.buildJsonWithHeader("ChangePwResponse", user.getUserId());
+    }
+
+
+    public String getUserNoShowCount(String userId) {
+        User user = findRequiredUserById(userId);
+        return buildUserNoShowCountJsonResponse(user);
+    }
+
+    private User findRequiredUserById(String userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchUserException("userId=" + userId));
+    }
+
+    private String buildUserNoShowCountJsonResponse(User user) {
+        return jsonBuilder.buildJsonWithHeaderAndPayload(
+                jsonBuilder.buildResponseHeader("GetNoShowCountResponse", user.getUserId()),
+                jsonBuilder.buildResponsePayloadFromText("noShowCount", user.getNoShowCount())
+        );
+    }
+
+
     public String signUp(JsonNode payload) throws JsonProcessingException {
         User newUser = saveNewUser(payload);
         emailService.sendEmail(generateSignUpVerificationEmail(newUser));
@@ -55,11 +171,11 @@ public class UserService {
     private User saveNewUser(JsonNode payload) throws JsonProcessingException {
         UserSignUpDto userSignUpDto = objectMapper.treeToValue(payload, UserSignUpDto.class);
         userSignUpDto.validateFieldsNotNull();
-        validateDuplicateUser(userSignUpDto);
-        return userRepository.save(buildUserFromDto(userSignUpDto));
+        checkDuplicateUser(userSignUpDto);
+        return userRepository.save(buildUserFromUserSignUpDto(userSignUpDto));
     }
 
-    private void validateDuplicateUser(UserSignUpDto userSignUpDto) {
+    private void checkDuplicateUser(UserSignUpDto userSignUpDto) {
         validateDuplicateId(userSignUpDto.getUserId());
         validateDuplicateEmail(userSignUpDto.getEmail());
     }
@@ -76,7 +192,7 @@ public class UserService {
             throw new DuplicateUserException("email=" + email);
     }
 
-    private User buildUserFromDto(UserSignUpDto userSignUpDto) {
+    private User buildUserFromUserSignUpDto(UserSignUpDto userSignUpDto) {
         return User.builder()
                 .userId(userSignUpDto.getUserId())
                 .userName(userSignUpDto.getUserName())
@@ -108,134 +224,30 @@ public class UserService {
                 .build();
     }
 
-    public String checkEmailToken(String email, String emailCheckToken) {
-        User user = checkIfUserExists(email);
-        if (user.getEmailCheckToken().equals(emailCheckToken))
-            updateUserEmailVerifiedOnDB(user);
-        else
-            throw new InvalidRequestParameterException("Wrong email token");
+
+    public String checkEmailToken(String email, String givenEmailCheckToken) {
+        User user = findRequiredUserByEmail(email);
+        checkIfTokenValid(givenEmailCheckToken, user.getEmailCheckToken());
+        saveUserEmailVerified(user);
         return jsonBuilder.buildJsonWithHeader("CheckEmailTokenResponse", user.getUserId());
     }
 
-    private User checkIfUserExists(String email) {
+    private User findRequiredUserByEmail(String email) {
         List<User> users = userRepository.findByEmail(email);
         if (users.isEmpty())
-            throw new InvalidRequestParameterException("No such email=" + email);
+            throw new NoSuchUserException("email=" + email);
         else
             return users.get(0);
     }
 
-    private void updateUserEmailVerifiedOnDB(User user) {
+    private void checkIfTokenValid(String givenToken, String requiredToken) {
+        if (!givenToken.equals(requiredToken))
+            throw new InvalidRequestParameterException("Wrong email token");
+    }
+
+    private void saveUserEmailVerified(User user) {
         user.setIsEmailVerified(true);
         userRepository.save(user);
     }
 
-    public String signIn(JsonNode payload) {
-        User given = buildUserFromJson(payload);
-        User expected = findOptionalUserFromDB(given.getUserId());
-        checkIfVerified(expected);
-        checkPassword(given, expected);
-        String newToken = jwtTokenProvider.createJwtToken(expected.getUsername(), expected.getRoles());
-        return buildUserSignInJsonResponse(expected, newToken);
-    }
-
-    private User buildUserFromJson(JsonNode payload) {
-        return User.builder()
-                .userId(payload.get("userId").asText())
-                .password(payload.get("password").asText())
-                .build();
-    }
-
-    private User findOptionalUserFromDB(String userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new NoResultFromDBException("userId=" + userId));
-    }
-
-    private void checkIfVerified(User given) {
-        if (!given.getIsEmailVerified())
-            throw new NotVerifiedUserException(given.getUserId());
-    }
-
-    private void checkPassword(User given, User expected) {
-        if (!passwordEncoder.matches(given.getPassword(), expected.getPassword()))
-            throw new NoResultFromDBException("Failed sign-in userId=" + given.getUserId());
-    }
-
-    private String buildUserSignInJsonResponse(User user, String token) {
-        return jsonBuilder.buildJsonWithHeaderAndPayload(
-                jsonBuilder.buildResponseHeader("SignInResponse", user.getUserId()),
-                jsonBuilder.buildResponsePayload(new String[]{"token", "userName"}, new String[]{token, user.getUserName()})
-        );
-    }
-
-    public String findUserId(JsonNode payload) {
-        User user = findUserByEmail(payload.get("email").asText());
-        return buildUserIdJsonResponse(user);
-    }
-
-    private User findUserByEmail(String email) {
-        List<User> foundUsers = userRepository.findByEmail(email);
-        if (foundUsers.isEmpty())
-            throw new NoResultFromDBException("No user for email=" + email);
-        return foundUsers.get(0);
-    }
-
-    private String buildUserIdJsonResponse(User user) {
-        return jsonBuilder.buildJsonWithHeaderAndPayload(
-                jsonBuilder.buildResponseHeader("FindIdResponse", user.getEmail()),
-                jsonBuilder.buildResponsePayload("userId", user.getUserId())
-        );
-    }
-
-    public String findUserPw(JsonNode payload) {
-        User user = findOptionalUserFromDB(payload.get("userId").asText());
-        validateGivenInfo(payload, user);
-        return jsonBuilder.buildJsonWithHeaderAndPayload(
-                jsonBuilder.buildResponseHeader("FindPwResponse", user.getUserId()),
-                jsonBuilder.buildResponsePayload("tempPassword", generateTempPw(user))
-        );
-    }
-
-    private String generateTempPw(User user) {
-        String tempPw = UUID.randomUUID().toString().replaceAll("-", "");
-        tempPw = tempPw.substring(0, 10);
-        updateUserPwOnDB(tempPw, user);
-        return tempPw;
-    }
-
-    private void validateGivenInfo(JsonNode given, User expected) {
-        if (!given.get("userId").asText().equals(expected.getUserId())
-                | !given.get("userName").asText().equals(expected.getUserName())
-                | !given.get("email").asText().equals(expected.getEmail())) {
-            throw new NoResultFromDBException("No user for userId=" + expected.getUserId());
-        }
-    }
-
-    public String changePw(JsonNode payload) {
-        User user = findRequiredUserFromDB(payload.get("userId").asText());
-        updateUserPwOnDB(payload.get("newPw").asText(), user);
-        return jsonBuilder.buildJsonWithHeader("ChangePwResponse", user.getUserId());
-    }
-
-    private void updateUserPwOnDB(String newPw, User user) {
-        user.setPassword(passwordEncoder.encode(newPw));
-        userRepository.save(user);
-    }
-
-    public String getUserNoShowCount(String userId) {
-        User user = findRequiredUserFromDB(userId);
-        return buildUserNoShowCountJsonResponse(user);
-    }
-
-    private User findRequiredUserFromDB(String userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new NoSuchUserException("userId=" + userId));
-    }
-
-    private String buildUserNoShowCountJsonResponse(User user) {
-        return jsonBuilder.buildJsonWithHeaderAndPayload(
-                jsonBuilder.buildResponseHeader("GetNoShowCountResponse", user.getUserId()),
-                jsonBuilder.buildResponsePayload("noShowCount", user.getNoShowCount())
-        );
-    }
 }

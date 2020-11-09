@@ -2,19 +2,16 @@ package com.ewha.heydongdong.module.service;
 
 import com.ewha.heydongdong.infra.JsonBuilder;
 import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
-import com.ewha.heydongdong.infra.protocol.Response;
-import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.ewha.heydongdong.module.model.domain.*;
 import com.ewha.heydongdong.module.model.domain.datatype.Progress;
-import com.ewha.heydongdong.module.model.dto.MenuInNewOrderDto;
-import com.ewha.heydongdong.module.model.dto.NewOrderDto;
-import com.ewha.heydongdong.module.model.dto.NewOrderInfoDto;
+import com.ewha.heydongdong.module.model.dto.MenuInOrderDto;
+import com.ewha.heydongdong.module.model.dto.OrderDetailDto;
+import com.ewha.heydongdong.module.model.dto.OrderDto;
 import com.ewha.heydongdong.module.repository.MenuInOrderRepository;
 import com.ewha.heydongdong.module.repository.OrderRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,72 +32,71 @@ public class OrderService {
     @Autowired
     private JsonBuilder jsonBuilder;
 
+
     public String addNewOrder(JsonNode payload) throws JsonProcessingException {
-        NewOrderDto newOrderDto = objectMapper.treeToValue(payload, NewOrderDto.class);
-        Order order = orderRepository.save(buildOrderFromNewOrderDto(newOrderDto.getNewOrderInfo()));
-        saveMenusInNewOrder(order, newOrderDto.getMenus());
-        return buildNewOrderJsonResponse(order.getOrderId(), order.getUser(), newOrderDto);
+        OrderDetailDto newOrderDetailDto = objectMapper.treeToValue(payload, OrderDetailDto.class);
+        Order newOrder = saveNewOrderAndMenus(newOrderDetailDto);
+        newOrderDetailDto.getOrderInfo().setOrderId(newOrder.getOrderId());
+        return buildNewOrderJsonResponse(newOrderDetailDto);
     }
 
-    private Order buildOrderFromNewOrderDto(NewOrderInfoDto newOrderInfo) {
+    private Order saveNewOrderAndMenus(OrderDetailDto newOrderDetailDto) {
+        Order order = saveNewOrder(newOrderDetailDto.getOrderInfo());
+        saveMenusInNewOrder(newOrderDetailDto.getMenus(), order);
+        return order;
+    }
+
+    private Order saveNewOrder(OrderDto orderDto) {
+        Order newOrder = buildOrderFromOrderDto(orderDto);
+        return orderRepository.save(newOrder);
+    }
+
+    private Order buildOrderFromOrderDto(OrderDto newOrderInfo) {
         return Order.builder()
                 .orderAt(newOrderInfo.getOrderAt())
-                .isNoShow(newOrderInfo.getIsNoShow())
+                .isNoShow(newOrderInfo.isNoShow())
                 .progress(newOrderInfo.getProgress())
                 .totalCount(newOrderInfo.getTotalCount())
                 .totalPrice(newOrderInfo.getTotalPrice())
                 .store(Store.builder()
-                        .storeId(newOrderInfo.getStoreId())
+                        .storeId(newOrderInfo.getStore().getStoreId())
                         .build())
                 .user(User.builder()
-                        .userId(newOrderInfo.getUserId())
+                        .userId(newOrderInfo.getUser().getUserId())
                         .build())
                 .build();
     }
 
-    private void saveMenusInNewOrder(Order order, List<MenuInNewOrderDto> menus) {
-        for (MenuInNewOrderDto menuInNewOrder : menus) {
+    private void saveMenusInNewOrder(List<MenuInOrderDto> menus, Order newOrder) {
+        for (MenuInOrderDto menu : menus) {
             menuInOrderRepository.save(MenuInOrder.builder()
-                    .menu(Menu.builder()
-                            .menuId(menuInNewOrder.getMenuId())
-                            .menuName(menuInNewOrder.getMenuName())
-                            .build())
-                    .order(order)
-                    .option(menuInNewOrder.getOption())
-                    .price(menuInNewOrder.getPrice())
-                    .count(menuInNewOrder.getCount())
+                    .menu(Menu.builder().menuId(menu.getMenu().getMenuId()).build())
+                    .order(newOrder)
+                    .option(menu.getOption())
+                    .price(menu.getPrice())
+                    .count(menu.getCount())
                     .build());
         }
     }
 
-    private String buildNewOrderJsonResponse(Long orderId, User user, NewOrderDto newOrderDto) {
-
-        ResponseHeader header = jsonBuilder.buildResponseHeader("AddNewOrderResponse", user.getUserId());
-        ObjectNode payload = jsonBuilder.buildResponsePayload(
-                new String[]{"orderId", "orderAt", "totalPrice"},
-                new String[]{String.valueOf(orderId), String.valueOf(newOrderDto.getNewOrderInfo().getOrderAt()), String.valueOf(newOrderDto.getNewOrderInfo().getTotalPrice())});
-        payload.set("menus", objectMapper.valueToTree(newOrderDto.getMenus()));
-        return jsonBuilder.buildJsonWithHeaderAndPayload(header, payload);
+    private String buildNewOrderJsonResponse(OrderDetailDto newOrderDetailDto) {
+        return jsonBuilder.buildJsonWithHeaderAndPayload(
+                jsonBuilder.buildResponseHeader("AddNewOrderResponse", newOrderDetailDto.getOrderInfo().getUser().getUserId()),
+                jsonBuilder.buildResponsePayloadFromObject(new String[]{"orderInfo", "menus"},
+                        new Object[]{newOrderDetailDto.getOrderInfo(), newOrderDetailDto.getMenus()})
+        );
     }
+
 
     public String updateOrderProgress(JsonNode payload) {
-        Order order = findOrderById(payload.get("orderId").asLong());
+        Order order = findRequiredOrderById(payload.get("orderId").asLong());
         order.setProgress(Progress.valueOf(payload.get("progress").asText()));
-        Order updatedOrder = orderRepository.save(order);
-        return buildUpdateOrderProgressJsonResponse(updatedOrder.getOrderId());
+        orderRepository.save(order);
+        return jsonBuilder.buildJsonWithHeader("UpdateOrderProgressResponse", String.valueOf(order.getOrderId()));
     }
 
-    private Order findOrderById(long orderId) {
+    private Order findRequiredOrderById(long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new InvalidRequestParameterException("orderId=" + orderId));
-    }
-
-    private String buildUpdateOrderProgressJsonResponse(Long orderId) {
-        return objectMapper.valueToTree(Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("UpdateOrderProgressResponse")
-                        .message(String.valueOf(orderId))
-                        .build())
-                .build()).toPrettyString();
     }
 }

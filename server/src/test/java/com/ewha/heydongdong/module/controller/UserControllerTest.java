@@ -44,161 +44,9 @@ class UserControllerTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Test
-    @DisplayName("User sign up submit | Success")
-    void signUpSubmit_Success() throws Exception {
-        String content = objectMapper.writeValueAsString(new Request(
-                new RequestHeader("SignUpRequest", "new_user"),
-                objectMapper.valueToTree(UserSignUpDto.builder()
-                        .userId("new_user")
-                        .email("new_email@email.com")
-                        .password("new_password")
-                        .phone("010-5555-6666")
-                        .userName("김익명")
-                        .build())
-        ));
-
-        Response response = Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("SignUpResponse")
-                        .message("new_user")
-                        .build())
-                .build();
-
-        mockMvc.perform(post("/user/sign-up")
-                .content(content)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
-    }
 
     @Test
-    @DisplayName("User sign up submit | Fail : Duplicate userId")
-    void signUpSubmit_Fail_DuplicateUserId() throws Exception {
-        String content = objectMapper.writeValueAsString(new Request(
-                new RequestHeader("SignUpRequest", "test_user"),
-                objectMapper.valueToTree(UserSignUpDto.builder()
-                        .userId("test_user")
-                        .email("new_email@email.com")
-                        .password("new_password")
-                        .phone("010-5555-6666")
-                        .userName("김익명")
-                        .build())
-        ));
-
-        mockMvc.perform(post("/user/sign-up")
-                .content(content)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
-    }
-
-    @Test
-    @DisplayName("User sign up submit | Fail : Duplicate email")
-    void signUpSubmit_Fail_DuplicateEmail() throws Exception {
-        String content = objectMapper.writeValueAsString(new Request(
-                new RequestHeader("SignUpRequest", "new_user"),
-                objectMapper.valueToTree(UserSignUpDto.builder()
-                        .userId("new_user")
-                        .email("email@email.com")
-                        .password("new_password")
-                        .phone("010-5555-6666")
-                        .userName("김익명")
-                        .build())
-        ));
-
-        mockMvc.perform(post("/user/sign-up")
-                .content(content)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNoContent());
-    }
-
-    @Test
-    @DisplayName("Password encoding | Success")
-    void passwordEncoding_Success() throws Exception {
-
-        // Given
-        String content = objectMapper.writeValueAsString(new Request(
-                new RequestHeader("SignUpRequest", "new_user"),
-                objectMapper.valueToTree(UserSignUpDto.builder()
-                        .userId("new_user")
-                        .email("new_email@email.com")
-                        .password("new_password")
-                        .phone("010-5555-6666")
-                        .userName("김익명")
-                        .build())
-        ));
-
-        // When
-        mockMvc.perform(post("/user/sign-up")
-                .content(content)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON));
-        User user = userRepository.findById("new_user").get();
-
-        // Then
-        assertNotNull(user);
-        assertNotEquals(user.getPassword(), "new_password");
-    }
-
-    @Test
-    @DisplayName("Check email token | Success")
-    void checkEmailToken_Success() throws Exception {
-
-        Response response = Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("CheckEmailTokenResponse")
-                        .message("test_user")
-                        .build())
-                .build();
-
-        mockMvc.perform(get("/user/check-email-token/email@email.com/cc17c1f4-5192-4ede-b1a6-4c1d4dd22d42")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
-    }
-
-    @Test
-    @DisplayName("Check email token | Fail : No such email")
-    void checkEmailToken_Fail_NoSuchEmail() throws Exception {
-
-        Response response = Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("InvalidRequestParameterError")
-                        .message("InvalidRequestParameterError: Invalid request parameter [No such email=no_email@email.com]")
-                        .build())
-                .build();
-
-        mockMvc.perform(get("/user/check-email-token/no_email@email.com/26b4e398-50b9-4c5f-bc4a-de60b9c9e21b")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
-    }
-
-    @Test
-    @DisplayName("Check email token | Fail : Wrong token")
-    void checkEmailToken_Fail_WrongToken() throws Exception {
-
-        Response response = Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("InvalidRequestParameterError")
-                        .message("InvalidRequestParameterError: Invalid request parameter [Wrong email token]")
-                        .build())
-                .build();
-
-        mockMvc.perform(get("/user/check-email-token/email@email.com/wrong-token")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest())
-                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
-    }
-
-    @Test
-    @DisplayName("User sign in submit | Success")
+    @DisplayName("User sign in | Success")
     void signInSubmit_Success() throws Exception {
 
         ObjectNode payload = objectMapper.createObjectNode();
@@ -216,7 +64,7 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("User sign in submit | Fail : No user found")
+    @DisplayName("User sign in | Fail : Wrong input")
     void signInSubmit_Fail_NoSuchUser() throws Exception {
 
         ObjectNode payload = objectMapper.createObjectNode();
@@ -234,7 +82,7 @@ class UserControllerTest {
     }
 
     @Test
-    @DisplayName("User sign in submit | Fail : Not verified")
+    @DisplayName("User sign in | Fail : Email not verified")
     void signInSubmit_Fail_NotVerified() throws Exception {
 
         ObjectNode payload = objectMapper.createObjectNode();
@@ -257,6 +105,7 @@ class UserControllerTest {
                 .andExpect(status().isForbidden())
                 .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
+
 
     @Test
     @DisplayName("Find user id | Success")
@@ -303,6 +152,7 @@ class UserControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+
     @Test
     @DisplayName("Find user pw | Success")
     void findUserPw_Success() throws Exception {
@@ -341,6 +191,7 @@ class UserControllerTest {
                 .andExpect(status().isNoContent());
     }
 
+
     @Test
     @DisplayName("Change pw | Success")
     void changePw_Success() throws Exception {
@@ -371,6 +222,34 @@ class UserControllerTest {
     }
 
     @Test
+    @DisplayName("Change pw | Fail : No such user")
+    void changePw_Fail_NoSuchUser() throws Exception {
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("userId", "no_user");
+        payload.put("newPw", "test_password");
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("ChangePwRequest", "no_user"), payload));
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("NoSuchUserError")
+                        .message("NoSuchUserError: No such user [userId=no_user]")
+                        .build())
+                .build();
+
+        mockMvc.perform(post("/user/change-pw")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+
+
+    @Test
     @DisplayName("Get no show count | Success")
     void getNoShowCount_Success() throws Exception {
 
@@ -395,5 +274,184 @@ class UserControllerTest {
                 .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
 
-    // TODO [지우] role 인증 관련 테스트 작성
+    @Test
+    @DisplayName("Get no show count | Fail : No such user")
+    void getNoShowCount_Fail_NoSuchUser() throws Exception {
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("GetNoShowCountRequest", "no_user"), null));
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("NoSuchUserError")
+                        .message("NoSuchUserError: No such user [userId=no_user]")
+                        .build())
+                .build();
+
+        mockMvc.perform(post("/user/no-show-count")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+
+
+    @Test
+    @DisplayName("User sign up | Success")
+    void signUpSubmit_Success() throws Exception {
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("SignUpRequest", "new_user"),
+                objectMapper.valueToTree(UserSignUpDto.builder()
+                        .userId("new_user")
+                        .email("new_email@email.com")
+                        .password("new_password")
+                        .phone("010-5555-6666")
+                        .userName("김익명")
+                        .build())
+        ));
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("SignUpResponse")
+                        .message("new_user")
+                        .build())
+                .build();
+
+        mockMvc.perform(post("/user/sign-up")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+    @Test
+    @DisplayName("User sign up | Fail : Duplicate userId")
+    void signUpSubmit_Fail_DuplicateUserId() throws Exception {
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("SignUpRequest", "test_user"),
+                objectMapper.valueToTree(UserSignUpDto.builder()
+                        .userId("test_user")
+                        .email("new_email@email.com")
+                        .password("new_password")
+                        .phone("010-5555-6666")
+                        .userName("김익명")
+                        .build())
+        ));
+
+        mockMvc.perform(post("/user/sign-up")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("User sign up | Fail : Duplicate email")
+    void signUpSubmit_Fail_DuplicateEmail() throws Exception {
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("SignUpRequest", "new_user"),
+                objectMapper.valueToTree(UserSignUpDto.builder()
+                        .userId("new_user")
+                        .email("email@email.com")
+                        .password("new_password")
+                        .phone("010-5555-6666")
+                        .userName("김익명")
+                        .build())
+        ));
+
+        mockMvc.perform(post("/user/sign-up")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
+
+
+
+    @Test
+    @DisplayName("Check email token | Success")
+    void checkEmailToken_Success() throws Exception {
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("CheckEmailTokenResponse")
+                        .message("test_user")
+                        .build())
+                .build();
+
+        mockMvc.perform(get("/user/check-email-token/email@email.com/cc17c1f4-5192-4ede-b1a6-4c1d4dd22d42")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+    @Test
+    @DisplayName("Check email token | Fail : No such email")
+    void checkEmailToken_Fail_NoSuchEmail() throws Exception {
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("NoSuchUserError")
+                        .message("NoSuchUserError: No such user [email=no_email@email.com]")
+                        .build())
+                .build();
+
+        mockMvc.perform(get("/user/check-email-token/no_email@email.com/26b4e398-50b9-4c5f-bc4a-de60b9c9e21b")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+    @Test
+    @DisplayName("Check email token | Fail : Wrong token")
+    void checkEmailToken_Fail_WrongToken() throws Exception {
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("InvalidRequestParameterError")
+                        .message("InvalidRequestParameterError: Invalid request parameter [Wrong email token]")
+                        .build())
+                .build();
+
+        mockMvc.perform(get("/user/check-email-token/email@email.com/wrong-token")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+
+
+    @Test
+    @DisplayName("Password encoding | Success")
+    void passwordEncoding_Success() throws Exception {
+
+        // Given
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("SignUpRequest", "new_user"),
+                objectMapper.valueToTree(UserSignUpDto.builder()
+                        .userId("new_user")
+                        .email("new_email@email.com")
+                        .password("new_password")
+                        .phone("010-5555-6666")
+                        .userName("김익명")
+                        .build())
+        ));
+
+        // When
+        mockMvc.perform(post("/user/sign-up")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+        User user = userRepository.findById("new_user").get();
+
+        // Then
+        assertNotNull(user);
+        assertNotEquals(user.getPassword(), "new_password");
+    }
 }
