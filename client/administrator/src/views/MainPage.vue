@@ -33,9 +33,31 @@
 				들어온 주문
 			</div>
 			<div class="card-list">
-				<Card></Card>
-				<Card></Card>
-				<Card></Card>
+				<Card
+					v-for="cardItem in orderItems ? orderItems.waitingOrders : []"
+					:key="cardItem.id"
+					:orderItem="cardItem"
+				></Card>
+			</div>
+			<div class="sub-title">
+				제조 중인 주문
+			</div>
+			<div class="card-list">
+				<Card
+					v-for="cardItem in orderItems ? orderItems.makingOrders : []"
+					:key="cardItem.id"
+					:orderItem="cardItem"
+				></Card>
+			</div>
+			<div class="sub-title">
+				수령 대기 중인 주문
+			</div>
+			<div class="card-list">
+				<Card
+					v-for="cardItem in orderItems ? orderItems.readyOrders : []"
+					:key="cardItem.id"
+					:orderItem="cardItem"
+				></Card>
 			</div>
 		</div>
 	</div>
@@ -72,7 +94,6 @@ export default {
 	},
 	methods: {
 		async selectStore(e) {
-			console.log(e.target.value);
 			const data = {
 				header: {
 					name: 'GetStoreOrdersRequest',

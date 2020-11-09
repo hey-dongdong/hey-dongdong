@@ -84,6 +84,7 @@ option:checked {
 	overflow-x: scroll;
 	-ms-overflow-style: none; /* IE and Edge */
 	scrollbar-width: none; /* Firefox */
+	height: 300px;
 }
 
 .card-list::-webkit-scrollbar {
@@ -95,6 +96,9 @@ option:checked {
 }
 
 .card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	width: fit-content;
 	height: 250px;
 	background-color: #2B2B2B;
@@ -103,6 +107,12 @@ option:checked {
 
 .menu-list {
 	display: flex;
+	margin-bottom: 18px;
+}
+
+.time {
+	color: #A5A5A5;
+	font-size: 15px;
 }
 
 .menu {
@@ -160,4 +170,28 @@ button {
 	top: 14px;
 	left: 14px;
 	font-size: 22px;
+}
+
+.option-list {
+	margin-left: 10px;
+}
+
+.option-list,
+.option-list > li {
+	list-style-type: disc;
+}
+
+.personal-option {
+	font-size: 15px;
+}
+
+.personal-option::after {
+	padding-left: 0px;
+	padding-right: 2px;
+	margin-left: -2px;
+	content: ",";
+}
+
+.personal-option:last-child::after {
+	content: "";
 }
