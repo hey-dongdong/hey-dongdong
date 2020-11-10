@@ -76,6 +76,19 @@ option:checked {
 	overflow-y: scroll;
 }
 
+.bg.history {
+	display: flex;
+	justify-content: center;
+	height: 52px;
+	position: fixed;
+	top: 50px;
+	padding-bottom: 7px;
+}
+
+.bg.history-card {
+	padding-top: 125px;
+}
+
 .sub-title {
 	display: flex;
 	justify-content: space-between;
@@ -84,6 +97,11 @@ option:checked {
 	padding: 10px;
 	border-bottom: 2px solid #2B2B2B;
 	font-size: 20px;
+}
+
+.sub-title.history{
+	position: fixed;
+	top: 50px;
 }
 
 .card-list {
@@ -101,6 +119,7 @@ option:checked {
 
 .card-container {
 	margin-left: 20px;
+	margin-bottom: 20px;
 }
 
 .card {
@@ -209,12 +228,7 @@ button {
 }
 
 .history-card-list {
-	display: flex;
-}
-
-.card-container.history {
-	width: fit-content;
-	margin-bottom: 20px;
+	display: block;
 }
 
 .page-buttons {
