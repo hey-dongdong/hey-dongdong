@@ -1,5 +1,5 @@
 <template>
-	<div class="card-container history">
+	<div class="card-container">
 		<div class="card">
 			<div class="menu-list">
 				<MenuInCard
