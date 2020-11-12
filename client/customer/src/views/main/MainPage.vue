@@ -41,6 +41,19 @@
 				</li>
 			</ul>
 			<img :src="selectedImage" class="ad" />
+			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+				<span slot="modal-title" class="modal-title red"
+					>NO SHOW ({{ noShowCount }}회)</span
+				>
+				<span slot="modal-content" class="modal-content">
+					제조 완료된 음료를 수령하지 않았습니다.<br />
+					{{ noShowMessage1 }}<br />
+					{{ noShowMessage2 }}
+				</span>
+				<div slot="footer" class="popup-buttons">
+					<button @click="confirm" class="popup-button red" type="button">확인</button>
+				</div>
+			</ModalWithTwoBtn>
 		</div>
 	</div>
 </template>
@@ -50,6 +63,10 @@ import MainHeader from '@/components/common/MainHeader.vue';
 import PickUpStore from '@/components/main/PickUpStore.vue';
 import RadialProgressBar from 'vue-radial-progress';
 import VueBarcode from 'vue-barcode';
+import { getUserFromCookie } from '@/utils/cookies';
+import { checkNoShowCount } from '@/api/auth';
+import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+import { deleteCookie } from '@/utils/cookies';
 
 export default {
 	components: {
@@ -57,6 +74,7 @@ export default {
 		PickUpStore,
 		VueBarcode,
 		RadialProgressBar,
+		ModalWithTwoBtn,
 	},
 	data: function() {
 		return {
@@ -69,6 +87,10 @@ export default {
 				require('../../assets/ad-4.png'),
 			],
 			selectedImage: null,
+			modal: false,
+			noShowCount: 0,
+			noShowMessage1: '',
+			noShowMessage2: '',
 		};
 	},
 	computed: {
@@ -76,12 +98,49 @@ export default {
 			return 'eng';
 		},
 	},
-	created() {
+	async created() {
 		this.selectedImage = this.randomItem(this.images);
+		const userData = {
+			header: {
+				name: 'GetNoShowCountRequest',
+				userId: getUserFromCookie(),
+			},
+			payload: {},
+		};
+		const { data } = await checkNoShowCount(userData);
+
+		if (data.payload.noShowCount === '1') {
+			this.noShowCount = 1;
+			this.noShowMessage1 = '한 달 간 헤이동동 이용이 차단되며,';
+			this.noShowMessage2 = '추가 노쇼 시 3개월 간 차단됩니다.';
+			this.openModal();
+		}
+
+		if (data.payload.noShowCount === '2') {
+			this.noShowCount = 2;
+			this.noShowMessage1 = '노쇼 누적 2회로, 헤이동동 이용이 차단되었습니다.';
+			this.noShowMessage2 = '3개월 후 이용이 가능합니다.';
+			this.openModal();
+		}
 	},
 	methods: {
 		randomItem(items) {
 			return items[Math.floor(Math.random() * items.length)];
+		},
+		openModal() {
+			this.modal = true;
+		},
+		closeModal() {
+			this.modal = false;
+		},
+		confirm() {
+			this.closeModal();
+			this.$store.commit('CLEAR_USERID');
+			this.$store.commit('CLEAR_TOKEN');
+			deleteCookie('auth');
+			deleteCookie('user');
+			deleteCookie('username');
+			this.$router.push('sign-in');
 		},
 	},
 };

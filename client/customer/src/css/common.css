@@ -537,6 +537,16 @@ transition: background-color 5000s ease-in-out 0s;
 	border-right: 1px solid #8D734A;
 }
 
+.popup-button.red {
+	border-color: rgba(255, 0, 0, 0.3);
+	color: red;
+}
+
+.popup-button.red:first-child {
+	width: 300px;
+	border-right: none;
+}
+
 
 /* menu header */
 
@@ -1053,6 +1063,11 @@ input[type=checkbox]:checked + label{
 	font-size: 12px;
 	color: #FFC52F;
 	margin: 28px 0 24px;
+}
+
+.modal-title.red {
+	color: red;
+	margin: 20px 0 18px;
 }
 
 .modal-title.mymenu {
