@@ -9,6 +9,6 @@ public class InvalidRequestFormatException extends RuntimeException implements C
 
     public InvalidRequestFormatException(String message) {
         super(message);
-        NAME = "InvalidRequestFormatError";
+        NAME = "InvalidRequestFormatException";
     }
 }

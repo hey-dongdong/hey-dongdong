@@ -9,6 +9,6 @@ public class NotVerifiedUserException extends RuntimeException implements Custom
 
     public NotVerifiedUserException(String message) {
         super(message);
-        NAME = "NotVerifiedUserError";
+        NAME = "NotVerifiedUserException";
     }
 }

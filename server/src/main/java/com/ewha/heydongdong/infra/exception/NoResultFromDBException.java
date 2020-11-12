@@ -9,6 +9,6 @@ public class NoResultFromDBException extends RuntimeException implements CustomR
 
     public NoResultFromDBException(String message) {
         super(message);
-        NAME = "NoResultFromDBError";
+        NAME = "NoResultFromDBException";
     }
 }

@@ -9,6 +9,6 @@ public class NoSuchUserException extends RuntimeException implements CustomRunti
 
     public NoSuchUserException(String message) {
         super(message);
-        NAME = "NoSuchUserError";
+        NAME = "NoSuchUserException";
     }
 }
