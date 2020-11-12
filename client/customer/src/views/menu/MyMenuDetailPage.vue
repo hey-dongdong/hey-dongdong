@@ -116,7 +116,7 @@
 					장바구니에 담기
 				</button>
 			</div>
-			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+			<ModalPopup @close="closeModal" v-if="modal">
 				<span slot="modal-title" class="modal-title mymenu">이대로 주문하기</span>
 				<span slot="modal-content" class="modal-content">
 					{{ $route.params.store.storeName }}에 <br />
@@ -128,7 +128,7 @@
 						주문하기
 					</button>
 				</div>
-			</ModalWithTwoBtn>
+			</ModalPopup>
 		</div>
 	</div>
 </template>
@@ -136,7 +136,7 @@
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
 import MenuCountBox from '@/components/menu/MenuCountBox.vue';
-import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+import ModalPopup from '@/components/common/ModalPopup.vue';
 import { getUserFromCookie } from '@/utils/cookies';
 import { addOrder } from '@/api/order';
 
@@ -145,7 +145,7 @@ export default {
 	components: {
 		BlackHeader,
 		MenuCountBox,
-		ModalWithTwoBtn,
+		ModalPopup,
 	},
 	data() {
 		return {

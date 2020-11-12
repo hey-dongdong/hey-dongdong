@@ -137,22 +137,6 @@ export default {
 					params: response.data.payload,
 				});
 			}
-			// if (localStorage.length > 0) {
-			// 	for (let i = 0; i < localStorage.length; i++) {
-			// if (
-			// 	localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
-			// 	localStorage.key(i) !== 'store-id' &&
-			// 	localStorage.key(i) !== 'store' &&
-			// 	localStorage.key(i) !== 'nearest-store-id' &&
-			// 	localStorage.key(i) !== 'nearest-store'
-			// ) {
-			// 			this.finalCartItems.push(
-			// 				JSON.parse(localStorage.getItem(localStorage.key(i))),
-			// 			);
-			// 			console.log({ ...this.finalCartItems });
-			// 		}
-			// 	}
-			// }
 		},
 		setPrice({ before, price }) {
 			// console.log(id, before, price);

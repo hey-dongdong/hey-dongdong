@@ -20,7 +20,7 @@
 					장바구니에 담기
 				</button>
 			</div>
-			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+			<ModalPopup @close="closeModal" v-if="modal">
 				<span slot="modal-title" class="modal-title mymenu">이대로 주문하기</span>
 				<span slot="modal-content" class="modal-content">
 					{{ $route.params.store.storeName }}에 <br />
@@ -32,7 +32,7 @@
 						주문하기
 					</button>
 				</div>
-			</ModalWithTwoBtn>
+			</ModalPopup>
 			<ToastPopup v-bind:show="isMyMenuAddSuccess" @close="closeAddToast">
 				<span slot="toast-message">나만의 메뉴에 음료를 저장했습니다.</span>
 			</ToastPopup>
@@ -51,7 +51,7 @@ import { mapGetters } from 'vuex';
 import store from '@/store/index';
 import { getUserFromCookie } from '@/utils/cookies';
 import { addMyMenu, removeMyMenu } from '@/api/menus';
-import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+import ModalPopup from '@/components/common/ModalPopup.vue';
 import { addOrder } from '@/api/order';
 import ToastPopup from '@/components/common/ToastPopup.vue';
 
@@ -60,7 +60,7 @@ export default {
 		BlackHeader,
 		OrderDetail,
 		OrderItems,
-		ModalWithTwoBtn,
+		ModalPopup,
 		ToastPopup,
 	},
 	data() {

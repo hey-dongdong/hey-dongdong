@@ -41,7 +41,7 @@
 				</li>
 			</ul>
 			<img :src="selectedImage" class="ad" />
-			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+			<ModalPopup @close="closeModal" v-if="modal">
 				<span slot="modal-title" class="modal-title red"
 					>NO SHOW ({{ noShowCount }}회)</span
 				>
@@ -53,7 +53,7 @@
 				<div slot="footer" class="popup-buttons">
 					<button @click="confirm" class="popup-button red" type="button">확인</button>
 				</div>
-			</ModalWithTwoBtn>
+			</ModalPopup>
 		</div>
 	</div>
 </template>
@@ -65,7 +65,7 @@ import RadialProgressBar from 'vue-radial-progress';
 import VueBarcode from 'vue-barcode';
 import { getUserFromCookie } from '@/utils/cookies';
 import { checkNoShowCount } from '@/api/auth';
-import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+import ModalPopup from '@/components/common/ModalPopup.vue';
 import { deleteCookie } from '@/utils/cookies';
 
 export default {
@@ -74,7 +74,7 @@ export default {
 		PickUpStore,
 		VueBarcode,
 		RadialProgressBar,
-		ModalWithTwoBtn,
+		ModalPopup,
 	},
 	data: function() {
 		return {

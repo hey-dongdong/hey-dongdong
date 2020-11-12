@@ -15,7 +15,7 @@
 					@click="openModal(item.myMenuId, item.menuInOrder.menu.menuName)"
 				></button>
 			</MyMenuListItem>
-			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+			<ModalPopup @close="closeModal" v-if="modal">
 				<span slot="modal-title" class="modal-title mymenu">나만의 메뉴 삭제</span>
 				<span slot="modal-content" class="modal-content">
 					{{ deleteMyMenuName }}
@@ -27,7 +27,7 @@
 						삭제
 					</button>
 				</div>
-			</ModalWithTwoBtn>
+			</ModalPopup>
 			<ToastPopup v-bind:show="isSuccess" @close="closeToast">
 				<span slot="toast-message">장바구니에 메뉴를 추가했습니다.</span>
 			</ToastPopup>
@@ -38,7 +38,7 @@
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
 import MyMenuListItem from '@/components/menu/MyMenuListItem.vue';
-import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+import ModalPopup from '@/components/common/ModalPopup.vue';
 import { mapGetters } from 'vuex';
 import { getUserFromCookie } from '@/utils/cookies';
 import { removeMyMenu } from '@/api/menus';
@@ -48,7 +48,7 @@ export default {
 	components: {
 		BlackHeader,
 		MyMenuListItem,
-		ModalWithTwoBtn,
+		ModalPopup,
 		ToastPopup,
 	},
 	data() {
