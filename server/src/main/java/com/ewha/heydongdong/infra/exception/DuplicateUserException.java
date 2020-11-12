@@ -9,6 +9,6 @@ public class DuplicateUserException extends RuntimeException implements CustomRu
 
     public DuplicateUserException(String message) {
         super(message);
-        NAME = "DuplicateUserError";
+        NAME = "DuplicateUserException";
     }
 }
