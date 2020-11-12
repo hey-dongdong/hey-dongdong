@@ -135,8 +135,10 @@ export default {
 			for (let i = 0; i < this.historyDetail.menus.length; i++) {
 				var item = this.historyDetail.menus[i];
 				var menu = {
-					menuId: item.menu.menuId,
-					menuName: item.menu.menuName,
+					menu: {
+						menuId: item.menu.menuId,
+						menuName: item.menu.menuName,
+					},
 					option: item.option,
 					price: item.price,
 					count: item.count,
@@ -150,14 +152,18 @@ export default {
 					userId: getUserFromCookie(),
 				},
 				payload: {
-					newOrderInfo: {
+					orderInfo: {
 						orderAt: time,
 						progress: 'WAITING',
 						totalCount: this.totalCount,
 						totalPrice: this.$route.params.totalPrice,
 						isNoShow: false,
-						storeId: this.$route.params.store.storeId,
-						userId: getUserFromCookie(),
+						store: {
+							storeId: this.$route.params.store.storeId,
+						},
+						user: {
+							userId: getUserFromCookie(),
+						},
 					},
 					menus: menus,
 				},

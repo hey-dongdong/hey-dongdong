@@ -77,8 +77,10 @@ export default {
 					) {
 						var item = JSON.parse(localStorage.getItem(localStorage.key(i)));
 						var menu = {
-							menuId: item.menu.menuId,
-							menuName: item.menu.menuName,
+							menu: {
+								menuId: item.menu.menuId,
+								menuName: item.menu.menuName,
+							},
 							option: item.option,
 							price: item.price,
 							count: item.count,
@@ -101,14 +103,18 @@ export default {
 						userId: getUserFromCookie(),
 					},
 					payload: {
-						newOrderInfo: {
+						orderInfo: {
 							orderAt: time,
 							progress: 'WAITING',
 							totalCount: totalCount,
 							totalPrice: this.totalPrice,
 							isNoShow: false,
-							storeId: localStorage.getItem('store-id'),
-							userId: getUserFromCookie(),
+							store: {
+								storeId: localStorage.getItem('store-id'),
+							},
+							user: {
+								userId: getUserFromCookie(),
+							},
 						},
 						menus: menus,
 					},

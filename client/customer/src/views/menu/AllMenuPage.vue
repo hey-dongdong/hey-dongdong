@@ -39,7 +39,7 @@ export default {
 				userId: getUserFromCookie(),
 			},
 			payload: {
-				storeId: localStorage.getItem('store-id'),
+				storeId: localStorage.getItem('store-id') || 1,
 			},
 		};
 		this.$store.dispatch('FETCH_MENUS', data);

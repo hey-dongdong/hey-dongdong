@@ -7,6 +7,9 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	position: fixed;
+	top: 0;
+	width: 100%;
 	background-color: #2B2B2B;
 	height: 50px;
 }
@@ -68,8 +71,22 @@ option:checked {
 .bg {
 	width: 100%;
 	height: 100vh;
+	padding-top: 50px;
 	background-color: #35363A;
 	overflow-y: scroll;
+}
+
+.bg.history {
+	display: flex;
+	justify-content: center;
+	height: 52px;
+	position: fixed;
+	top: 50px;
+	padding-bottom: 7px;
+}
+
+.bg.history-card {
+	padding-top: 125px;
 }
 
 .sub-title {
@@ -80,6 +97,11 @@ option:checked {
 	padding: 10px;
 	border-bottom: 2px solid #2B2B2B;
 	font-size: 20px;
+}
+
+.sub-title.history{
+	position: fixed;
+	top: 50px;
 }
 
 .card-list {
@@ -97,6 +119,7 @@ option:checked {
 
 .card-container {
 	margin-left: 20px;
+	margin-bottom: 20px;
 }
 
 .card {
@@ -205,11 +228,7 @@ button {
 }
 
 .history-card-list {
-	display: flex;
-}
-
-.card-container.history {
-	margin-bottom: 20px;
+	display: block;
 }
 
 .page-buttons {

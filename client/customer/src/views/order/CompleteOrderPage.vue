@@ -57,7 +57,7 @@ export default {
 		};
 	},
 	created() {
-		this.barcodeValue = this.$route.params.orderId;
+		this.barcodeValue = this.$route.params.orderInfo.orderId;
 		this.store = localStorage.getItem('store');
 	},
 	methods: {
