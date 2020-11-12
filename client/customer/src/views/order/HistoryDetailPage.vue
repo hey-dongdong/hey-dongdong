@@ -33,6 +33,12 @@
 					</button>
 				</div>
 			</ModalWithTwoBtn>
+			<ToastPopup v-bind:show="isMyMenuAddSuccess" @close="closeAddToast">
+				<span slot="toast-message">나만의 메뉴에 음료를 저장했습니다.</span>
+			</ToastPopup>
+			<ToastPopup v-bind:show="isMyMenuDeleteSuccess" @close="closeDeleteToast">
+				<span slot="toast-message">나만의 메뉴에서 음료를 삭제했습니다.</span>
+			</ToastPopup>
 		</div>
 	</div>
 </template>
@@ -47,6 +53,7 @@ import { getUserFromCookie } from '@/utils/cookies';
 import { addMyMenu, removeMyMenu } from '@/api/menus';
 import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
 import { addOrder } from '@/api/order';
+import ToastPopup from '@/components/common/ToastPopup.vue';
 
 export default {
 	components: {
@@ -54,12 +61,15 @@ export default {
 		OrderDetail,
 		OrderItems,
 		ModalWithTwoBtn,
+		ToastPopup,
 	},
 	data() {
 		return {
 			modal: false,
 			totalCount: this.$route.params.totalCount,
 			isSuccess: false,
+			isMyMenuAddSuccess: false,
+			isMyMenuDeleteSuccess: false,
 		};
 	},
 	computed: {
@@ -88,8 +98,8 @@ export default {
 			this.closeModal();
 		},
 		async toggleLike({ id, checked, myMenuId }) {
-			console.log(id, checked, myMenuId);
 			if (checked == true) {
+				this.isMyMenuAddSuccess = true;
 				const data = {
 					header: {
 						name: 'AddMyMenuRequest',
@@ -110,6 +120,7 @@ export default {
 					},
 				});
 			} else {
+				this.isMyMenuDeleteSuccess = true;
 				const data = {
 					header: {
 						name: 'RemoveMyMenuRequest',
@@ -233,6 +244,12 @@ export default {
 					isSuccess: this.isSuccess,
 				},
 			});
+		},
+		closeAddToast() {
+			this.isMyMenuAddSuccess = false;
+		},
+		closeDeleteToast() {
+			this.isMyMenuDeleteSuccess = false;
 		},
 	},
 };

@@ -940,7 +940,6 @@ input[type=checkbox]:checked + label{
 .ordered-menuname {
 	margin: 15px auto 0;
 	font-size: 15px;
-	padding-left: 15px;
 }
 
 .star-checkbox {
