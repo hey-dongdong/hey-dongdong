@@ -59,6 +59,7 @@ export default {
 		return {
 			modal: false,
 			totalCount: this.$route.params.totalCount,
+			isSuccess: false,
 		};
 	},
 	computed: {
@@ -224,7 +225,14 @@ export default {
 				}
 				localStorage.setItem(index, JSON.stringify(value));
 			}
-			this.$router.push('/cart');
+			this.isSuccess = true;
+			this.$router.push({
+				name: 'history',
+				path: '/history',
+				params: {
+					isSuccess: this.isSuccess,
+				},
+			});
 		},
 	},
 };

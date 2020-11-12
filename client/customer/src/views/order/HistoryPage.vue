@@ -14,6 +14,9 @@
 			>
 			</HistoryListItem>
 		</div>
+		<ToastPopup v-bind:show="isSuccess" @close="closeToast">
+			<span slot="toast-message">장바구니에 메뉴를 추가했습니다.</span>
+		</ToastPopup>
 	</div>
 </template>
 
@@ -22,11 +25,18 @@ import BlackHeader from '@/components/common/BlackHeader.vue';
 import HistoryListItem from '@/components/order/HistoryListItem.vue';
 import { mapGetters } from 'vuex';
 import store from '@/store/index';
+import ToastPopup from '@/components/common/ToastPopup.vue';
 
 export default {
 	components: {
 		BlackHeader,
 		HistoryListItem,
+		ToastPopup,
+	},
+	data() {
+		return {
+			isSuccess: this.$route.params.isSuccess,
+		};
 	},
 	computed: {
 		...mapGetters(['historyItems']),
@@ -40,6 +50,17 @@ export default {
 			payload: {},
 		};
 		this.$store.dispatch('FETCH_HISTORY', data);
+		if (this.isSuccess == true) {
+			this.isSuccess = false;
+			let timer;
+			clearTimeout(timer);
+			timer = setTimeout(() => (this.isSuccess = true), 1);
+		}
+	},
+	methods: {
+		closeToast() {
+			this.isSuccess = false;
+		},
 	},
 };
 </script>
