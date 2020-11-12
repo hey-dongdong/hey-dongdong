@@ -34,11 +34,13 @@ export default {
 	},
 	methods: {
 		goToMenuDetail(item) {
-			// console.log(item.menuInOrder.menu.menuName);
 			this.$router.push({
 				name: 'menu-detail',
 				path: '/menu/detail',
 				params: item,
+				query: {
+					beforePage: this.$router.currentRoute.name,
+				},
 			});
 		},
 	},
