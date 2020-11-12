@@ -99,6 +99,7 @@ export default {
 		},
 		async toggleLike({ id, checked, myMenuId }) {
 			if (checked == true) {
+				this.isMyMenuDeleteSuccess = false;
 				this.isMyMenuAddSuccess = true;
 				const data = {
 					header: {
@@ -120,6 +121,7 @@ export default {
 					},
 				});
 			} else {
+				this.isMyMenuAddSuccess = false;
 				this.isMyMenuDeleteSuccess = true;
 				const data = {
 					header: {
