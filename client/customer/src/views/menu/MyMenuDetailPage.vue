@@ -152,6 +152,7 @@ export default {
 			modal: false,
 			count: 1,
 			price: 0,
+			isSuccess: false,
 		};
 	},
 	created() {
@@ -275,7 +276,15 @@ export default {
 				};
 			}
 			localStorage.setItem(index, JSON.stringify(value));
-			this.$router.push('/cart');
+
+			this.isSuccess = true;
+			this.$router.push({
+				name: 'my-menu',
+				path: '/my-menu',
+				params: {
+					isSuccess: this.isSuccess,
+				},
+			});
 		},
 	},
 };

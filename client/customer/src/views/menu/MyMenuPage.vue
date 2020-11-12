@@ -28,6 +28,9 @@
 					</button>
 				</div>
 			</ModalWithTwoBtn>
+			<ToastPopup v-bind:show="isSuccess" @close="closeToast">
+				<span slot="toast-message">장바구니에 메뉴를 추가했습니다.</span>
+			</ToastPopup>
 		</div>
 	</div>
 </template>
@@ -39,18 +42,21 @@ import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
 import { mapGetters } from 'vuex';
 import { getUserFromCookie } from '@/utils/cookies';
 import { removeMyMenu } from '@/api/menus';
+import ToastPopup from '@/components/common/ToastPopup.vue';
 
 export default {
 	components: {
 		BlackHeader,
 		MyMenuListItem,
 		ModalWithTwoBtn,
+		ToastPopup,
 	},
 	data() {
 		return {
 			modal: false,
 			deleteMyMenuId: '',
 			deleteMyMenuName: '',
+			isSuccess: this.$route.params.isSuccess,
 		};
 	},
 	computed: {
@@ -65,6 +71,12 @@ export default {
 			payload: {},
 		};
 		this.$store.dispatch('FETCH_MY_MENUS', data);
+		if (this.isSuccess == true) {
+			this.isSuccess = false;
+			let timer;
+			clearTimeout(timer);
+			timer = setTimeout(() => (this.isSuccess = true), 1);
+		}
 	},
 	methods: {
 		openModal(id, menuName) {
@@ -98,6 +110,9 @@ export default {
 				},
 				payload: {},
 			});
+		},
+		closeToast() {
+			this.isSuccess = false;
 		},
 	},
 };
