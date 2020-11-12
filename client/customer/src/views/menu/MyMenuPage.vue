@@ -15,7 +15,7 @@
 					@click="openModal(item.myMenuId, item.menuInOrder.menu.menuName)"
 				></button>
 			</MyMenuListItem>
-			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+			<ModalPopup @close="closeModal" v-if="modal">
 				<span slot="modal-title" class="modal-title mymenu">나만의 메뉴 삭제</span>
 				<span slot="modal-content" class="modal-content">
 					{{ deleteMyMenuName }}
@@ -27,7 +27,10 @@
 						삭제
 					</button>
 				</div>
-			</ModalWithTwoBtn>
+			</ModalPopup>
+			<ToastPopup v-bind:show="isSuccess" @close="closeToast">
+				<span slot="toast-message">장바구니에 메뉴를 추가했습니다.</span>
+			</ToastPopup>
 		</div>
 	</div>
 </template>
@@ -35,22 +38,25 @@
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
 import MyMenuListItem from '@/components/menu/MyMenuListItem.vue';
-import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+import ModalPopup from '@/components/common/ModalPopup.vue';
 import { mapGetters } from 'vuex';
 import { getUserFromCookie } from '@/utils/cookies';
 import { removeMyMenu } from '@/api/menus';
+import ToastPopup from '@/components/common/ToastPopup.vue';
 
 export default {
 	components: {
 		BlackHeader,
 		MyMenuListItem,
-		ModalWithTwoBtn,
+		ModalPopup,
+		ToastPopup,
 	},
 	data() {
 		return {
 			modal: false,
 			deleteMyMenuId: '',
 			deleteMyMenuName: '',
+			isSuccess: this.$route.params.isSuccess,
 		};
 	},
 	computed: {
@@ -65,6 +71,12 @@ export default {
 			payload: {},
 		};
 		this.$store.dispatch('FETCH_MY_MENUS', data);
+		if (this.isSuccess == true) {
+			this.isSuccess = false;
+			let timer;
+			clearTimeout(timer);
+			timer = setTimeout(() => (this.isSuccess = true), 1);
+		}
 	},
 	methods: {
 		openModal(id, menuName) {
@@ -98,6 +110,9 @@ export default {
 				},
 				payload: {},
 			});
+		},
+		closeToast() {
+			this.isSuccess = false;
 		},
 	},
 };

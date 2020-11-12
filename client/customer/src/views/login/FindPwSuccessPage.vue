@@ -31,7 +31,7 @@ export default {
 		};
 	},
 	created() {
-		this.tempPassword = this.$route.params.tempPassword;
+		this.tempPassword = this.$route.params.tempPw;
 	},
 };
 </script>

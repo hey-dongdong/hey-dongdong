@@ -12,27 +12,27 @@
 				비밀번호 수정
 			</button>
 			<button @click="openModal" class="goldbtn">LOGOUT</button>
-			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+			<ModalPopup @close="closeModal" v-if="modal">
 				<span slot="modal-title" class="modal-title">LOGOUT</span>
 				<span slot="modal-content" class="modal-content">로그아웃 하시겠습니까?</span>
 				<div slot="footer" class="popup-buttons">
 					<button @click="doSend" class="popup-button" type="button">취소</button>
 					<button @click="logout" class="popup-button" type="button">로그아웃</button>
 				</div>
-			</ModalWithTwoBtn>
+			</ModalPopup>
 		</div>
 	</div>
 </template>
 
 <script>
 import BlackHeader from '@/components/common/BlackHeader.vue';
-import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+import ModalPopup from '@/components/common/ModalPopup.vue';
 import { deleteCookie } from '@/utils/cookies';
 
 export default {
 	components: {
 		BlackHeader,
-		ModalWithTwoBtn,
+		ModalPopup,
 	},
 	data() {
 		return {

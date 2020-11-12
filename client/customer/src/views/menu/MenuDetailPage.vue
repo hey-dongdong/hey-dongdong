@@ -261,6 +261,7 @@ export default {
 			soyMilk: false,
 			isOnlyHot: false,
 			isOnlyIce: false,
+			isSuccess: false,
 		};
 	},
 	created() {
@@ -547,7 +548,56 @@ export default {
 
 			localStorage.setItem(index, JSON.stringify(value));
 
-			this.$router.push('/menu/all');
+			this.isSuccess = true;
+			if (this.$route.query.beforePage === 'menu-all') {
+				this.$router.push({
+					name: 'menu-all',
+					path: '/menu/all',
+					params: {
+						isSuccess: this.isSuccess,
+					},
+				});
+			} else if (this.$route.query.beforePage === 'menu-all') {
+				this.$router.push({
+					name: 'menu-all',
+					path: '/menu/all',
+					params: {
+						isSuccess: this.isSuccess,
+					},
+				});
+			} else if (this.$route.query.beforePage === 'menu-coffee') {
+				this.$router.push({
+					name: 'menu-coffee',
+					path: '/menu/coffee',
+					params: {
+						isSuccess: this.isSuccess,
+					},
+				});
+			} else if (this.$route.query.beforePage === 'menu-tea') {
+				this.$router.push({
+					name: 'menu-tea',
+					path: '/menu/tea',
+					params: {
+						isSuccess: this.isSuccess,
+					},
+				});
+			} else if (this.$route.query.beforePage === 'menu-ade') {
+				this.$router.push({
+					name: 'menu-ade',
+					path: '/menu/ade',
+					params: {
+						isSuccess: this.isSuccess,
+					},
+				});
+			} else if (this.$route.query.beforePage === 'menu-others') {
+				this.$router.push({
+					name: 'menu-others',
+					path: '/menu/others',
+					params: {
+						isSuccess: this.isSuccess,
+					},
+				});
+			}
 		},
 	},
 };

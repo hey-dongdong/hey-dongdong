@@ -94,6 +94,7 @@ const router = new VueRouter({
 		},
 		{
 			path: '/my-menu',
+			name: 'my-menu',
 			component: () => import('@/views/menu/MyMenuPage.vue'),
 		},
 		{

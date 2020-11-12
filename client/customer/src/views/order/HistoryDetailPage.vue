@@ -20,7 +20,7 @@
 					장바구니에 담기
 				</button>
 			</div>
-			<ModalWithTwoBtn @close="closeModal" v-if="modal">
+			<ModalPopup @close="closeModal" v-if="modal">
 				<span slot="modal-title" class="modal-title mymenu">이대로 주문하기</span>
 				<span slot="modal-content" class="modal-content">
 					{{ $route.params.store.storeName }}에 <br />
@@ -32,7 +32,13 @@
 						주문하기
 					</button>
 				</div>
-			</ModalWithTwoBtn>
+			</ModalPopup>
+			<ToastPopup v-bind:show="isMyMenuAddSuccess" @close="closeAddToast">
+				<span slot="toast-message">나만의 메뉴에 음료를 저장했습니다.</span>
+			</ToastPopup>
+			<ToastPopup v-bind:show="isMyMenuDeleteSuccess" @close="closeDeleteToast">
+				<span slot="toast-message">나만의 메뉴에서 음료를 삭제했습니다.</span>
+			</ToastPopup>
 		</div>
 	</div>
 </template>
@@ -45,20 +51,25 @@ import { mapGetters } from 'vuex';
 import store from '@/store/index';
 import { getUserFromCookie } from '@/utils/cookies';
 import { addMyMenu, removeMyMenu } from '@/api/menus';
-import ModalWithTwoBtn from '@/components/common/ModalWithTwoBtn.vue';
+import ModalPopup from '@/components/common/ModalPopup.vue';
 import { addOrder } from '@/api/order';
+import ToastPopup from '@/components/common/ToastPopup.vue';
 
 export default {
 	components: {
 		BlackHeader,
 		OrderDetail,
 		OrderItems,
-		ModalWithTwoBtn,
+		ModalPopup,
+		ToastPopup,
 	},
 	data() {
 		return {
 			modal: false,
 			totalCount: this.$route.params.totalCount,
+			isSuccess: false,
+			isMyMenuAddSuccess: false,
+			isMyMenuDeleteSuccess: false,
 		};
 	},
 	computed: {
@@ -87,8 +98,9 @@ export default {
 			this.closeModal();
 		},
 		async toggleLike({ id, checked, myMenuId }) {
-			console.log(id, checked, myMenuId);
 			if (checked == true) {
+				this.isMyMenuDeleteSuccess = false;
+				this.isMyMenuAddSuccess = true;
 				const data = {
 					header: {
 						name: 'AddMyMenuRequest',
@@ -109,6 +121,8 @@ export default {
 					},
 				});
 			} else {
+				this.isMyMenuAddSuccess = false;
+				this.isMyMenuDeleteSuccess = true;
 				const data = {
 					header: {
 						name: 'RemoveMyMenuRequest',
@@ -224,7 +238,20 @@ export default {
 				}
 				localStorage.setItem(index, JSON.stringify(value));
 			}
-			this.$router.push('/cart');
+			this.isSuccess = true;
+			this.$router.push({
+				name: 'history',
+				path: '/history',
+				params: {
+					isSuccess: this.isSuccess,
+				},
+			});
+		},
+		closeAddToast() {
+			this.isMyMenuAddSuccess = false;
+		},
+		closeDeleteToast() {
+			this.isMyMenuDeleteSuccess = false;
 		},
 	},
 };

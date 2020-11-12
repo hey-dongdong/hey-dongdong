@@ -41,4 +41,19 @@ async function changeUserPw(userData) {
 	}
 }
 
-export { registerUser, signInUser, findUserId, findUserPw, changeUserPw };
+async function checkNoShowCount(userData) {
+	try {
+		return await instanceWithAuth.post('/user/no-show-count', userData);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export {
+	registerUser,
+	signInUser,
+	findUserId,
+	findUserPw,
+	changeUserPw,
+	checkNoShowCount,
+};
