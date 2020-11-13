@@ -2,10 +2,10 @@ const MessageType = {
     MESSAGE: 'message'
 };
 
-export default class WebSocketAdmin {
+export default class WebSocketCustomer {
     connect() {
         this.socket = new WebSocket('ws://localhost:8082');
-        this.onOpen = this.onOpen.bind(this); //TODO 연결이 수립되면 서버에 메시지 전송
+        this.onOpen = this.onOpen.bind(this);
         this.onMessage = this.onMessage.bind(this);
         this.socket.addEventListener('open', this.onOpen);
         this.socket.addEventListener('message', this.onMessage);
