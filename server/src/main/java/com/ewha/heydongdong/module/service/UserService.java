@@ -92,6 +92,14 @@ public class UserService {
     }
 
 
+    public String signOut(String userId) {
+        User user = findRequiredUserById(userId);
+        user.setDeviceToken(null);
+        userRepository.save(user);
+        return jsonBuilder.buildJsonWithHeader("SignOutResponse", userId);
+    }
+
+
     public String findUserId(JsonNode payload) {
         User user = findOptionalUserByEmail(payload.get("email").asText());
         return buildUserIdJsonResponse(user);

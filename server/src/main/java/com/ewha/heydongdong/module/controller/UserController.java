@@ -51,6 +51,16 @@ public class UserController {
         return new ResponseEntity<>(signInResult, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/sign-out", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> signOut(@RequestBody Request request) {
+
+        log.info("[Request] user-sign-out");
+        request.validateHeader("SignOutRequest");
+
+        String signOutResult = userService.signOut(request.getHeader().getUserId());
+        return new ResponseEntity<>(signOutResult, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/find-info/id", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> findUserId(@RequestBody Request request) {
 

@@ -298,6 +298,51 @@ class UserControllerTest {
 
 
     @Test
+    @DisplayName("User sign out | Success")
+    void signOutSubmit_Success() throws Exception {
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("SignOutRequest", "tester"), null));
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("SignOutResponse")
+                        .message("tester")
+                        .build())
+                .build();
+
+        mockMvc.perform(post("/user/sign-out")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+    @Test
+    @DisplayName("User sign out | Fail : No Such User")
+    void signOutSubmit_Fail_NoSuchUser() throws Exception {
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("SignOutRequest", "no_user"), null));
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("InvalidRequestParameterException")
+                        .message("InvalidRequestParameterException: Invalid request parameter [userId=no_user]")
+                        .build())
+                .build();
+
+        mockMvc.perform(post("/user/sign-out")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+
+    @Test
     @DisplayName("User sign up | Success")
     void signUpSubmit_Success() throws Exception {
         String content = objectMapper.writeValueAsString(new Request(
