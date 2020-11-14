@@ -373,18 +373,10 @@ class UserControllerTest {
     @DisplayName("Check email token | Success")
     void checkEmailToken_Success() throws Exception {
 
-        Response response = Response.builder()
-                .header(ResponseHeader.builder()
-                        .name("CheckEmailTokenResponse")
-                        .message("test_user")
-                        .build())
-                .build();
-
         mockMvc.perform(get("/user/check-email-token/email@email.com/cc17c1f4-5192-4ede-b1a6-4c1d4dd22d42")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+                .andExpect(status().isOk());
     }
 
     @Test
