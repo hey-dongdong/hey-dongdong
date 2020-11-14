@@ -135,8 +135,8 @@ class OrderControllerTest {
 
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
-                        .name("InvalidRequestParameterError")
-                        .message("InvalidRequestParameterError: Invalid request parameter [orderId=50000]")
+                        .name("InvalidRequestParameterException")
+                        .message("InvalidRequestParameterException: Invalid request parameter [orderId=50000]")
                         .build())
                 .build();
 
