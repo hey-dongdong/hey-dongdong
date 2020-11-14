@@ -231,11 +231,10 @@ public class UserService {
     }
 
 
-    public String checkEmailToken(String email, String givenEmailCheckToken) {
+    public void checkEmailToken(String email, String givenEmailCheckToken) {
         User user = findRequiredUserByEmail(email);
         checkIfTokenValid(givenEmailCheckToken, user.getEmailCheckToken());
         saveUserEmailVerified(user);
-        return jsonBuilder.buildJsonWithHeader("CheckEmailTokenResponse", user.getUserId());
     }
 
     private User findRequiredUserByEmail(String email) {
