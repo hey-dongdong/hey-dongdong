@@ -31,7 +31,7 @@ public class OrderController {
     }
 
     @PostMapping(value = "/update-progress", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> updateOrderProgress(@RequestBody Request request) {
+    public ResponseEntity<?> updateOrderProgress(@RequestBody Request request) throws InterruptedException {
 
         log.info("[Request] update-order-progress");
         request.validateHeader("UpdateOrderProgressRequest");

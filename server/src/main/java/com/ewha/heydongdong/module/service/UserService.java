@@ -52,8 +52,9 @@ public class UserService {
         User expectedUser = findOptionalUserById(givenUser.getUserId());
         checkIfEmailVerified(expectedUser);
         checkPassword(givenUser, expectedUser);
-        String newToken = jwtTokenProvider.createJwtToken(expectedUser.getUsername(), expectedUser.getRoles());
-        return buildUserSignInJsonResponse(expectedUser, newToken);
+        saveDeviceToken(expectedUser, payload.get("deviceToken").asText());
+        String userToken = jwtTokenProvider.createJwtToken(expectedUser.getUsername(), expectedUser.getRoles());
+        return buildUserSignInJsonResponse(expectedUser, userToken);
     }
 
     private User buildUserFromJson(JsonNode payload) {
@@ -78,11 +79,24 @@ public class UserService {
             throw new NoResultFromDBException("Failed sign-in userId=" + givenUser.getUserId());
     }
 
+    private void saveDeviceToken(User expectedUser, String deviceToken) {
+        expectedUser.setDeviceToken(deviceToken);
+        userRepository.save(expectedUser);
+    }
+
     private String buildUserSignInJsonResponse(User user, String token) {
         return jsonBuilder.buildJsonWithHeaderAndPayload(
                 jsonBuilder.buildResponseHeader("SignInResponse", user.getUserId()),
                 jsonBuilder.buildResponsePayloadFromText(new String[]{"token", "userName"}, new String[]{token, user.getUserName()})
         );
+    }
+
+
+    public String signOut(String userId) {
+        User user = findRequiredUserById(userId);
+        user.setDeviceToken(null);
+        userRepository.save(user);
+        return jsonBuilder.buildJsonWithHeader("SignOutResponse", userId);
     }
 
 
@@ -225,11 +239,10 @@ public class UserService {
     }
 
 
-    public String checkEmailToken(String email, String givenEmailCheckToken) {
+    public void checkEmailToken(String email, String givenEmailCheckToken) {
         User user = findRequiredUserByEmail(email);
         checkIfTokenValid(givenEmailCheckToken, user.getEmailCheckToken());
         saveUserEmailVerified(user);
-        return jsonBuilder.buildJsonWithHeader("CheckEmailTokenResponse", user.getUserId());
     }
 
     private User findRequiredUserByEmail(String email) {
@@ -250,4 +263,9 @@ public class UserService {
         userRepository.save(user);
     }
 
+
+    public String getUserDeviceToken(User user) {
+        User foundUser = findRequiredUserById(user.getUserId());
+        return foundUser.getDeviceToken();
+    }
 }

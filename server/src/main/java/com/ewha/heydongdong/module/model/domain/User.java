@@ -57,6 +57,10 @@ public class User implements UserDetails {
     @Column(name = "is_email_verified")
     private Boolean isEmailVerified;
 
+    @Setter
+    @Column(name = "device_token")
+    private String deviceToken;
+
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 

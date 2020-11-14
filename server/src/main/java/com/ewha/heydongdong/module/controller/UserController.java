@@ -36,8 +36,8 @@ public class UserController {
 
         log.info("[Request] check-email-token");
 
-        String checkEmailResult = userService.checkEmailToken(email, emailCheckToken);
-        return new ResponseEntity<>(checkEmailResult, HttpStatus.OK);
+        userService.checkEmailToken(email, emailCheckToken);
+        return new ResponseEntity<>("이메일 인증 완료되었습니다.\n헤이동동 앱에서 로그인하세요.", HttpStatus.OK);
     }
 
     @PostMapping(value = "/sign-in", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -49,6 +49,16 @@ public class UserController {
 
         String signInResult = userService.signIn(request.getPayload());
         return new ResponseEntity<>(signInResult, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/sign-out", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> signOut(@RequestBody Request request) {
+
+        log.info("[Request] user-sign-out");
+        request.validateHeader("SignOutRequest");
+
+        String signOutResult = userService.signOut(request.getHeader().getUserId());
+        return new ResponseEntity<>(signOutResult, HttpStatus.OK);
     }
 
     @PostMapping(value = "/find-info/id", produces = {MediaType.APPLICATION_JSON_VALUE})
