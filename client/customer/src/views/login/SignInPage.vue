@@ -16,6 +16,14 @@
 						placeholder="비밀번호를 입력하세요"
 					/>
 				</li>
+				<li>
+					<input
+						id="deviceToken"
+						type="text"
+						v-model="deviceToken"
+						class="device-token"
+					/>
+				</li>
 			</ul>
 
 			<button type="submit" class="goldbtn">LOGIN</button>
@@ -44,6 +52,7 @@ export default {
 		return {
 			id: '',
 			password: '',
+			deviceToken: '',
 			logMessage: '',
 		};
 	},
@@ -58,6 +67,7 @@ export default {
 					payload: {
 						userId: this.id,
 						password: this.password,
+						deviceToken: this.deviceToken,
 					},
 				};
 				const { data } = await signInUser(userData);
@@ -80,6 +90,7 @@ export default {
 		initForm() {
 			this.id = '';
 			this.password = '';
+			this.deviceToken = '';
 			this.logMessage = '';
 		},
 	},

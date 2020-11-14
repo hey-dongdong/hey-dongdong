@@ -9,6 +9,6 @@ public class InvalidRequestParameterException extends RuntimeException implement
 
     public InvalidRequestParameterException(String message) {
         super(message);
-        NAME = "InvalidRequestParameterError";
+        NAME = "InvalidRequestParameterException";
     }
 }
