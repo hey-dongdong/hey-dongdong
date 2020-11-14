@@ -256,4 +256,9 @@ public class UserService {
         userRepository.save(user);
     }
 
+
+    public String getUserDeviceToken(User user) {
+        User foundUser = findRequiredUserById(user.getUserId());
+        return foundUser.getDeviceToken();
+    }
 }

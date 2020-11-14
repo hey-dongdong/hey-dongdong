@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/order/add").hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/order/update-progress").permitAll()
                 .antMatchers(HttpMethod.POST, "/admin/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/send/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),

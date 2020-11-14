@@ -5,6 +5,7 @@ import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -73,14 +74,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @ExceptionHandler({JsonProcessingException.class})
-    public ResponseEntity<?> handleJsonProcessingException(final JsonProcessingException e) {
+    @ExceptionHandler({JsonProcessingException.class, JSONException.class})
+    public ResponseEntity<?> handleJsonException(final Exception e) {
 
-        String msg = "Json processing exception [" + e.getMessage() + "]";
+        String msg = "Json exception [" + e.getMessage() + "]";
         log.error(msg);
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
-                        .name("JsonProcessingException")
+                        .name("JsonException")
                         .message(msg)
                         .build())
                 .build();
