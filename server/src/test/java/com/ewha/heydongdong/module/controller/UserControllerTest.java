@@ -50,11 +50,12 @@ class UserControllerTest {
     void signInSubmit_Success() throws Exception {
 
         ObjectNode payload = objectMapper.createObjectNode();
-        payload.put("userId", "ewha555");
-        payload.put("password", "ewha555");
+        payload.put("userId", "tester");
+        payload.put("password", "tester");
+        payload.put("deviceToken", "someTokenValue");
 
         String content = objectMapper.writeValueAsString(new Request(
-                new RequestHeader("SignInRequest", "ewha555"), payload));
+                new RequestHeader("SignInRequest", "tester"), payload));
 
         mockMvc.perform(post("/user/sign-in")
                 .content(content)
@@ -234,8 +235,8 @@ class UserControllerTest {
 
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
-                        .name("NoSuchUserError")
-                        .message("NoSuchUserError: No such user [userId=no_user]")
+                        .name("InvalidRequestParameterException")
+                        .message("InvalidRequestParameterException: Invalid request parameter [userId=no_user]")
                         .build())
                 .build();
 
@@ -246,7 +247,6 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
-
 
 
     @Test
@@ -283,8 +283,8 @@ class UserControllerTest {
 
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
-                        .name("NoSuchUserError")
-                        .message("NoSuchUserError: No such user [userId=no_user]")
+                        .name("InvalidRequestParameterException")
+                        .message("InvalidRequestParameterException: Invalid request parameter [userId=no_user]")
                         .build())
                 .build();
 
@@ -295,7 +295,6 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
-
 
 
     @Test
@@ -370,7 +369,6 @@ class UserControllerTest {
     }
 
 
-
     @Test
     @DisplayName("Check email token | Success")
     void checkEmailToken_Success() throws Exception {
@@ -395,8 +393,8 @@ class UserControllerTest {
 
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
-                        .name("NoSuchUserError")
-                        .message("NoSuchUserError: No such user [email=no_email@email.com]")
+                        .name("InvalidRequestParameterException")
+                        .message("InvalidRequestParameterException: Invalid request parameter [email=no_email@email.com]")
                         .build())
                 .build();
 
@@ -413,8 +411,8 @@ class UserControllerTest {
 
         Response response = Response.builder()
                 .header(ResponseHeader.builder()
-                        .name("InvalidRequestParameterError")
-                        .message("InvalidRequestParameterError: Invalid request parameter [Wrong email token]")
+                        .name("InvalidRequestParameterException")
+                        .message("InvalidRequestParameterException: Invalid request parameter [Wrong email token]")
                         .build())
                 .build();
 
@@ -424,7 +422,6 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
-
 
 
     @Test

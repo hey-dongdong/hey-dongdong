@@ -52,8 +52,9 @@ public class UserService {
         User expectedUser = findOptionalUserById(givenUser.getUserId());
         checkIfEmailVerified(expectedUser);
         checkPassword(givenUser, expectedUser);
-        String newToken = jwtTokenProvider.createJwtToken(expectedUser.getUsername(), expectedUser.getRoles());
-        return buildUserSignInJsonResponse(expectedUser, newToken);
+        saveDeviceToken(expectedUser, payload.get("deviceToken").asText());
+        String userToken = jwtTokenProvider.createJwtToken(expectedUser.getUsername(), expectedUser.getRoles());
+        return buildUserSignInJsonResponse(expectedUser, userToken);
     }
 
     private User buildUserFromJson(JsonNode payload) {
@@ -76,6 +77,11 @@ public class UserService {
     private void checkPassword(User givenUser, User expectedUser) {
         if (!passwordEncoder.matches(givenUser.getPassword(), expectedUser.getPassword()))
             throw new NoResultFromDBException("Failed sign-in userId=" + givenUser.getUserId());
+    }
+
+    private void saveDeviceToken(User expectedUser, String deviceToken) {
+        expectedUser.setDeviceToken(deviceToken);
+        userRepository.save(expectedUser);
     }
 
     private String buildUserSignInJsonResponse(User user, String token) {

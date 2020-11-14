@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({NoSuchUserException.class})
     public ResponseEntity<?> handleNoSuchUserException(final NoSuchUserException e) {
-        throw new InvalidRequestParameterException(e.getMessage());
+        return handleInvalidRequestParameterException(new InvalidRequestParameterException(e.getMessage()));
     }
 
     @ExceptionHandler({WrongOriginalPwException.class})
