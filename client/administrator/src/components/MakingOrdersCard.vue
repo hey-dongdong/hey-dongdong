@@ -23,6 +23,7 @@
 import MenuInCard from './MenuInCard.vue';
 import ButtonBox from './ButtonBox.vue';
 import { updateOrderProgress } from '@/api/index';
+import WebSocketAdmin from "@/common/WebSocketAdmin";
 
 export default {
 	name: 'order-item',
@@ -47,6 +48,9 @@ export default {
 			};
 			await updateOrderProgress(data);
 			this.$emit('fetch-again');
+
+      const websocket = new WebSocketAdmin();
+      websocket.sendData(data);
 		},
 	},
 };
