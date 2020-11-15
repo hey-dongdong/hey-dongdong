@@ -20,9 +20,9 @@ const router = new VueRouter({
 			component: () => import('@/views/login/SignUpPage.vue'),
 		},
 		{
-			path: '/logout',
-			name: 'logout',
-			component: () => import('@/views/login/LogoutPage.vue'),
+			path: '/sign-out',
+			name: 'sign-out',
+			component: () => import('@/views/login/SignOutPage.vue'),
 		},
 		{
 			path: '/main',

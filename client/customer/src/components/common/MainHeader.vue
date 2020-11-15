@@ -1,6 +1,6 @@
 <template>
 	<header class="mainheader">
-		<router-link to="/logout">
+		<router-link to="/sign-out">
 			<ion-icon name="person" class="header-left"></ion-icon>
 		</router-link>
 		<router-link to="/main" class="pagename">

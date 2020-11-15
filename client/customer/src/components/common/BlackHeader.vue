@@ -28,7 +28,7 @@ export default {
 			}
 		},
 		goToMain() {
-			if (this.$route.name === 'logout') {
+			if (this.$route.name === 'sign-out') {
 				this.$router.push('/main');
 			}
 		},
