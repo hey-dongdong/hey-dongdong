@@ -56,9 +56,8 @@ export default class WebSocketAdmin {
         }
     }
 
-    sendData (command, payload) {
+    sendData (payload) {
         const data = {
-            command,
             data: btoa(payload)
         };
 

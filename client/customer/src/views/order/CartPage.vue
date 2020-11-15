@@ -30,6 +30,7 @@
 import CartListItem from '@/components/order/CartListItem.vue';
 import { getUserFromCookie } from '@/utils/cookies';
 import { addOrder } from '@/api/order';
+import WebSocketCustomer from "@/common/WebSocketCustomer";
 
 export default {
 	components: {
@@ -136,7 +137,10 @@ export default {
 					path: '/complete',
 					params: response.data.payload,
 				});
-			}
+
+        const websocket = new WebSocketCustomer();
+        websocket.sendData(data);
+      }
 		},
 		setPrice({ before, price }) {
 			// console.log(id, before, price);

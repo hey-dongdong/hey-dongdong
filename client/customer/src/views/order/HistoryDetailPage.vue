@@ -54,6 +54,7 @@ import { addMyMenu, removeMyMenu } from '@/api/menus';
 import ModalPopup from '@/components/common/ModalPopup.vue';
 import { addOrder } from '@/api/order';
 import ToastPopup from '@/components/common/ToastPopup.vue';
+import WebSocketCustomer from "@/common/WebSocketCustomer";
 
 export default {
 	components: {
@@ -188,6 +189,9 @@ export default {
 				path: '/complete',
 				params: response.data.payload,
 			});
+
+      const websocket = new WebSocketCustomer();
+      websocket.sendData(data);
 		},
 		addToCart() {
 			for (let i = 0; i < this.historyDetail.menus.length; i++) {
