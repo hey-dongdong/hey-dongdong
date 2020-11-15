@@ -55,8 +55,8 @@ class AdminControllerTest {
                 new RequestHeader("GetStoreHistoryRequest", "admin"), null));
 
         Response response = Response.builder()
-                .header(ResponseHeader.builder().name("InvalidRequestParameterError")
-                        .message("InvalidRequestParameterError: Invalid request parameter [storeId=5000]")
+                .header(ResponseHeader.builder().name("InvalidRequestParameterException")
+                        .message("InvalidRequestParameterException: Invalid request parameter [storeId=5000]")
                         .build())
                 .build();
 
@@ -92,8 +92,8 @@ class AdminControllerTest {
                 new RequestHeader("GetStoreOrdersRequest", "admin"), null));
 
         Response response = Response.builder()
-                .header(ResponseHeader.builder().name("InvalidRequestParameterError")
-                        .message("InvalidRequestParameterError: Invalid request parameter [storeId=5000]")
+                .header(ResponseHeader.builder().name("InvalidRequestParameterException")
+                        .message("InvalidRequestParameterException: Invalid request parameter [storeId=5000]")
                         .build())
                 .build();
 

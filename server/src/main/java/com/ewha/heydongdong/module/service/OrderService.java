@@ -2,6 +2,7 @@ package com.ewha.heydongdong.module.service;
 
 import com.ewha.heydongdong.infra.JsonBuilder;
 import com.ewha.heydongdong.infra.exception.InvalidRequestParameterException;
+import com.ewha.heydongdong.infra.push.PushService;
 import com.ewha.heydongdong.module.model.domain.*;
 import com.ewha.heydongdong.module.model.domain.datatype.Progress;
 import com.ewha.heydongdong.module.model.dto.MenuInOrderDto;
@@ -31,6 +32,9 @@ public class OrderService {
 
     @Autowired
     private JsonBuilder jsonBuilder;
+
+    @Autowired
+    private PushService pushService;
 
 
     public String addNewOrder(JsonNode payload) throws JsonProcessingException {
@@ -88,10 +92,11 @@ public class OrderService {
     }
 
 
-    public String updateOrderProgress(JsonNode payload) {
+    public String updateOrderProgress(JsonNode payload) throws InterruptedException {
         Order order = findRequiredOrderById(payload.get("orderId").asLong());
         order.setProgress(Progress.valueOf(payload.get("progress").asText()));
         orderRepository.save(order);
+        pushService.sendCustomerPush(order.getUser(), order.getProgress());
         return jsonBuilder.buildJsonWithHeader("UpdateOrderProgressResponse", String.valueOf(order.getOrderId()));
     }
 
