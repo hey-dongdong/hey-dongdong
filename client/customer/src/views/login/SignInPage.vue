@@ -71,7 +71,6 @@ export default {
 					},
 				};
 				const { data } = await signInUser(userData);
-				console.log(data.payload.token);
 				this.$store.commit('SET_TOKEN', data.payload.token);
 				this.$store.commit('SET_USERID', data.header.message);
 				saveAuthToCookie(data.payload.token);

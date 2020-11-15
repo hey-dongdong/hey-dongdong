@@ -17,6 +17,14 @@ async function signInUser(userData) {
 	}
 }
 
+async function signOutUser(userData) {
+	try {
+		return await instanceWithAuth.post('/user/sign-out', userData);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 async function findUserId(userData) {
 	try {
 		return await instance.post('/user/find-info/id', userData);
@@ -52,6 +60,7 @@ async function checkNoShowCount(userData) {
 export {
 	registerUser,
 	signInUser,
+	signOutUser,
 	findUserId,
 	findUserPw,
 	changeUserPw,

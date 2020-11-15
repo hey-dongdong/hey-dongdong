@@ -28,6 +28,8 @@
 import BlackHeader from '@/components/common/BlackHeader.vue';
 import ModalPopup from '@/components/common/ModalPopup.vue';
 import { deleteCookie } from '@/utils/cookies';
+import { signOutUser } from '@/api/auth';
+import { getUserFromCookie } from '@/utils/cookies';
 
 export default {
 	components: {
@@ -49,7 +51,16 @@ export default {
 		doSend() {
 			this.closeModal();
 		},
-		logout() {
+		async logout() {
+			const userData = {
+				header: {
+					name: 'SignOutRequest',
+					userId: getUserFromCookie(),
+				},
+				payload: {
+				},
+			};
+			await signOutUser(userData);
 			this.$store.commit('CLEAR_USERID');
 			this.$store.commit('CLEAR_TOKEN');
 			deleteCookie('auth');
