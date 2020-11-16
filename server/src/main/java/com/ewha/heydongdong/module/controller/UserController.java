@@ -107,6 +107,7 @@ public class UserController {
 
         log.info("[Request] refresh-user-tokens");
         request.validateHeader("RefreshTokensRequest");
+        request.validatePayload();
 
         String refreshTokensResult = userService.refreshUserTokens(request.getPayload());
         return new ResponseEntity<>(refreshTokensResult, HttpStatus.OK);
