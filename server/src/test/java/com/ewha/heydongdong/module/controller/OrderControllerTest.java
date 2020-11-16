@@ -9,7 +9,6 @@ import com.ewha.heydongdong.module.model.domain.datatype.CustomOption;
 import com.ewha.heydongdong.module.model.domain.datatype.Option;
 import com.ewha.heydongdong.module.model.domain.datatype.Progress;
 import com.ewha.heydongdong.module.model.dto.*;
-import com.ewha.heydongdong.module.repository.OrderRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.jupiter.api.DisplayName;
@@ -39,7 +38,6 @@ class OrderControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
-
 
 
     @Test
@@ -92,6 +90,60 @@ class OrderControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+
+
+    @Test
+    @DisplayName("Get order progress | Success")
+    void getOrderProgress_Success() throws Exception {
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("orderId", 1);
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("GetOrderProgressRequest", "test_user"), objectMapper.valueToTree(payload)));
+
+        payload.removeAll();
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("GetOrderProgressResponse")
+                        .message("1")
+                        .build())
+                .payload(payload.put("progress", "DONE"))
+                .build();
+
+        mockMvc.perform(post("/order/get-progress")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
+    }
+
+    @Test
+    @DisplayName("Get order progress | Fail : Invalid orderId")
+    void getOrderProgress_Fail_InvalidOrderId() throws Exception {
+
+        ObjectNode payload = objectMapper.createObjectNode();
+        payload.put("orderId", 50000);
+
+        String content = objectMapper.writeValueAsString(new Request(
+                new RequestHeader("GetOrderProgressRequest", "test_user"), objectMapper.valueToTree(payload)));
+
+        Response response = Response.builder()
+                .header(ResponseHeader.builder()
+                        .name("InvalidRequestParameterException")
+                        .message("InvalidRequestParameterException: Invalid request parameter [orderId=50000]")
+                        .build())
+                .build();
+
+        mockMvc.perform(post("/order/get-progress")
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
 
 
