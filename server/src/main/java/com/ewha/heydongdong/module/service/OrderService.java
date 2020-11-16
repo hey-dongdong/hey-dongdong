@@ -92,6 +92,19 @@ public class OrderService {
     }
 
 
+    public String getOrderProgress(long orderId) {
+        Order order = findRequiredOrderById(orderId);
+        return buildOrderProgressJsonResponse(order);
+    }
+
+    private String buildOrderProgressJsonResponse(Order order) {
+        return jsonBuilder.buildJsonWithHeaderAndPayload(
+                jsonBuilder.buildResponseHeader("GetOrderProgressResponse", (String.valueOf(order.getOrderId()))),
+                jsonBuilder.buildResponsePayloadFromText("progress", order.getProgress())
+        );
+    }
+
+
     public String updateOrderProgress(JsonNode payload) throws InterruptedException {
         Order order = findRequiredOrderById(payload.get("orderId").asLong());
         order.setProgress(Progress.valueOf(payload.get("progress").asText()));

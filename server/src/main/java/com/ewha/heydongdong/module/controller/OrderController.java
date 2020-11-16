@@ -30,6 +30,17 @@ public class OrderController {
         return new ResponseEntity<>(addNewOrderResult, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/get-progress", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getOrderProgress(@RequestBody Request request) {
+
+        log.info("[Request] get-order-progress");
+        request.validateHeader("GetOrderProgressRequest");
+        request.validatePayload();
+
+        String orderProgress = orderService.getOrderProgress(request.getPayload().get("orderId").asLong());
+        return new ResponseEntity<>(orderProgress, HttpStatus.OK);
+    }
+
     @PostMapping(value = "/update-progress", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> updateOrderProgress(@RequestBody Request request) throws InterruptedException {
 
