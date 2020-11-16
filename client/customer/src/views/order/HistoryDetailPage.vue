@@ -189,9 +189,6 @@ export default {
 				path: '/complete',
 				params: response.data.payload,
 			});
-
-      const websocket = new WebSocketCustomer();
-      websocket.sendData(data);
 		},
 		addToCart() {
 			for (let i = 0; i < this.historyDetail.menus.length; i++) {

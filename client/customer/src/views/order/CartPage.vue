@@ -138,8 +138,14 @@ export default {
 					params: response.data.payload,
 				});
 
-        const websocket = new WebSocketCustomer();
-        websocket.sendData(data);
+        const websocket = new WebSocketCustomer("AddNewOrderRequest");
+        websocket.on('message', message => {
+          const {data} = JSON.parse(message);
+          websocket.send(JSON.stringify({
+            type: 'AddNewOrderRequest',
+            payload: data
+          }));
+        });
       }
 		},
 		setPrice({ before, price }) {
