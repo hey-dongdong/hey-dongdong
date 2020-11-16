@@ -101,6 +101,16 @@ public class UserController {
         String noShowCount = userService.getUserNoShowCount(request.getHeader().getUserId());
         return new ResponseEntity<>(noShowCount, HttpStatus.OK);
     }
+
+    @PostMapping(value = "/refresh-tokens", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> refreshUserToken(@RequestBody Request request) {
+
+        log.info("[Request] refresh-user-tokens");
+        request.validateHeader("RefreshTokensRequest");
+
+        String refreshTokensResult = userService.refreshUserTokens(request.getPayload());
+        return new ResponseEntity<>(refreshTokensResult, HttpStatus.OK);
+    }
 }
 
 
