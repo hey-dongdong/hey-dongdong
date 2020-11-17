@@ -4,6 +4,9 @@ import com.ewha.heydongdong.infra.protocol.Response;
 import com.ewha.heydongdong.infra.protocol.ResponseHeader;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,5 +117,13 @@ public class GlobalExceptionHandler {
                         .build())
                 .build();
         return new ResponseEntity<>(objectMapper.valueToTree(response).toPrettyString(), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler({ExpiredJwtException.class, SignatureException.class, MalformedJwtException.class})
+    public ResponseEntity<?> handleInvalidJwtException(final Exception e) {
+
+        String msg = "Invalid JWT exception [" + e.getMessage() + "]";
+        log.error(msg);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 }
