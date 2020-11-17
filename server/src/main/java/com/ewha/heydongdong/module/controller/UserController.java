@@ -3,6 +3,8 @@ package com.ewha.heydongdong.module.controller;
 import com.ewha.heydongdong.infra.protocol.Request;
 import com.ewha.heydongdong.module.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

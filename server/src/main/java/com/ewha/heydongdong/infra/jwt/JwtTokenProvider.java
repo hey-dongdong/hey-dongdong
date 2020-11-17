@@ -1,9 +1,6 @@
 package com.ewha.heydongdong.infra.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,7 +23,7 @@ public class JwtTokenProvider {
     private String secretKey = "tlzmfltzl";
 
     private final long ACCESS_TOKEN_VALID_TIME = 1 * 60 * 1000L;   // 1분
-    private final long REFRESH_TOKEN_VALID_TIME = 10 * 60 * 1000L;   // 10분
+    private final long REFRESH_TOKEN_VALID_TIME = 1 * 60 * 1000L;   // 10분
 
     private final UserDetailsService userDetailsService;
 
@@ -85,7 +82,7 @@ public class JwtTokenProvider {
         }
     }
 
-    public Jws<Claims> getClaimsFromJwtToken(String jwtToken) {
+    public Jws<Claims> getClaimsFromJwtToken(String jwtToken) throws JwtException {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
     }
 }
