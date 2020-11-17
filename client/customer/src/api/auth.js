@@ -57,6 +57,14 @@ async function checkNoShowCount(userData) {
 	}
 }
 
+async function getRefreshToken(userData) {
+	try {
+		return await instance.post('/user/refresh-tokens', userData);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 export {
 	registerUser,
 	signInUser,
@@ -65,4 +73,5 @@ export {
 	findUserPw,
 	changeUserPw,
 	checkNoShowCount,
+	getRefreshToken,
 };

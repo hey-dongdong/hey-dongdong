@@ -62,8 +62,10 @@ export default {
 			};
 			await signOutUser(userData);
 			this.$store.commit('CLEAR_USERID');
-			this.$store.commit('CLEAR_TOKEN');
+			this.$store.commit('CLEAR_ACCESS_TOKEN');
+			this.$store.commit('CLEAR_REFRESH_TOKEN');
 			deleteCookie('auth');
+			deleteCookie('refresh_token')
 			deleteCookie('user');
 			deleteCookie('username');
 			this.$router.push('/sign-in');

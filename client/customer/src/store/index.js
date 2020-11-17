@@ -2,14 +2,15 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import mutations from './mutations';
 import actions from './actions';
-import { getAuthFromCookie, getUserFromCookie } from '@/utils/cookies';
+import { getAuthFromCookie, getRefreshTokenFromCookie, getUserFromCookie } from '@/utils/cookies';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
 		userId: getUserFromCookie() || '',
-		token: getAuthFromCookie() || '',
+		accessToken: getAuthFromCookie() || '',
+		refreshToken: getRefreshTokenFromCookie() || '',
 		menus: [],
 		myMenus: [],
 		history: [],

@@ -5,11 +5,17 @@ export default {
 	CLEAR_USERID(state) {
 		state.userId = '';
 	},
-	SET_TOKEN(state, token) {
-		state.token = token;
+	SET_ACCESS_TOKEN(state, token) {
+		state.accessToken = token;
 	},
-	CLEAR_TOKEN(state) {
-		state.token = '';
+	SET_REFRESH_TOKEN(state, token) {
+		state.refreshToken = token;
+	},
+	CLEAR_ACCESS_TOKEN(state) {
+		state.accessToken = '';
+	},
+	CLEAR_REFRESH_TOKEN(state) {
+		state.refreshToken = '';
 	},
 	SET_MENUS(state, data) {
 		state.menus = data;

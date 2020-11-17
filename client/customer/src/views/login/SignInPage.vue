@@ -43,6 +43,7 @@
 import { signInUser } from '@/api/auth';
 import {
 	saveAuthToCookie,
+	saveRefreshTokenToCookie,
 	saveUserToCookie,
 	saveUserNameToCookie,
 } from '@/utils/cookies';
@@ -71,9 +72,11 @@ export default {
 					},
 				};
 				const { data } = await signInUser(userData);
-				this.$store.commit('SET_TOKEN', data.payload.token);
+				this.$store.commit('SET_ACCESS_TOKEN', data.payload.accessToken);
+				this.$store.commit('SET_REFRESH_TOKEN', data.payload.refreshToken);
 				this.$store.commit('SET_USERID', data.header.message);
-				saveAuthToCookie(data.payload.token);
+				saveAuthToCookie(data.payload.accessToken);
+				saveRefreshTokenToCookie(data.payload.refreshToken);
 				saveUserToCookie(data.header.message);
 				saveUserNameToCookie(data.payload.userName);
 				this.initForm();

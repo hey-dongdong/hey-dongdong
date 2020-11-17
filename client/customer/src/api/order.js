@@ -9,4 +9,12 @@ async function addOrder(data) {
 	}
 }
 
-export { addOrder };
+async function getProgress(data) {
+	try {
+		return await instanceWithAuth.post('/order/get-progress', data);
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export { addOrder, getProgress };
