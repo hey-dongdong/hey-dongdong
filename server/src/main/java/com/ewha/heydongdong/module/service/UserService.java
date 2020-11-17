@@ -11,6 +11,9 @@ import com.ewha.heydongdong.module.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -294,7 +297,7 @@ public class UserService {
         return buildRefreshUserTokensJsonResponse(user.getUserId(), jwtTokens);
     }
 
-    private void checkIfRefreshTokenValid(String requiredValue, String givenRefreshToken) {
+    private void checkIfRefreshTokenValid(String requiredValue, String givenRefreshToken) throws JwtException {
         String givenValue = String.valueOf(jwtTokenProvider.getClaimsFromJwtToken(givenRefreshToken).getBody().get("value"));
         if (!givenValue.equals(requiredValue))
             throw new InvalidRequestParameterException("Invalid refreshToken");
