@@ -1091,6 +1091,10 @@ input[type=checkbox]:checked + label{
 	line-height: 1.4;
 }
 
+.modal-content.order {
+	line-height: 1.8;
+}
+
 
 /* cart */
 

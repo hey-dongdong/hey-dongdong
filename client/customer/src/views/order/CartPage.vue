@@ -21,25 +21,42 @@
 				<button @click="completeOrder" type="submit" class="greenbtn fixed cart-menu">
 					<span>{{ totalPrice }}원 주문하기</span>
 				</button>
+				
 			</div>
+			<ModalPopup @close="closeModal" v-if="modal">
+				<span slot="modal-title" class="modal-title red"
+					>중복 주문 불가</span
+				>
+				<span slot="modal-content" class="modal-content order">
+					이미 제조 중인 음료가 있습니다.<br />
+					음료를 수령한 뒤 다시 주문해주세요.
+				</span>
+				<div slot="footer" class="popup-buttons">
+					<button @click="confirm" class="popup-button red" type="button">확인</button>
+				</div>
+			</ModalPopup>
 		</div>
+		
 	</div>
 </template>
 
 <script>
 import CartListItem from '@/components/order/CartListItem.vue';
-import { getUserFromCookie } from '@/utils/cookies';
-import { addOrder } from '@/api/order';
+import { getUserFromCookie, getOrderIdFromCookie } from '@/utils/cookies';
+import { addOrder, getProgress } from '@/api/order';
+import ModalPopup from '@/components/common/ModalPopup.vue';
 
 export default {
 	components: {
 		CartListItem,
+		ModalPopup,
 	},
 	data() {
 		return {
 			store: '',
 			cartItems: [],
 			totalPrice: 0,
+			modal: true,
 		};
 	},
 	created() {
@@ -89,58 +106,85 @@ export default {
 						menus.push(menu);
 					}
 				}
-				let now = new Date();
-				let year = now.getFullYear();
-				let month = now.getMonth();
-				let date = now.getDate();
-				let hours = now.getHours();
-				let minutes = now.getMinutes();
-				let seconds = now.getSeconds();
-				var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
-				const data = {
+				const orderData = {
 					header: {
-						name: 'AddNewOrderRequest',
+						name: "GetOrderProgressRequest",
 						userId: getUserFromCookie(),
 					},
 					payload: {
-						orderInfo: {
-							orderAt: time,
-							progress: 'WAITING',
-							totalCount: totalCount,
-							totalPrice: this.totalPrice,
-							isNoShow: false,
-							store: {
-								storeId: localStorage.getItem('store-id'),
-							},
-							user: {
-								userId: getUserFromCookie(),
-							},
-						},
-						menus: menus,
+						orderId: getOrderIdFromCookie(),
 					},
 				};
-				const response = await addOrder(data);
-				for (let i = 0; i < localStorage.length; i++) {
-					if (
-						localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
-						localStorage.key(i) !== 'store-id' &&
-						localStorage.key(i) !== 'store' &&
-						localStorage.key(i) !== 'nearest-store-id' &&
-						localStorage.key(i) !== 'nearest-store'
-					) {
-						localStorage.removeItem(localStorage.key(i));
-					}
+				const { data } = await getProgress(orderData);
+				if(data.payload.progress === 'WAITING' ||
+						data.payload.progress === 'MAKING' ||
+						data.payload.progress === 'READY') {
+					this.openModal();
 				}
-				this.$router.push({
-					name: 'complete',
-					path: '/complete',
-					params: response.data.payload,
-				});
+				else {
+					let now = new Date();
+					let year = now.getFullYear();
+					let month = now.getMonth();
+					let date = now.getDate();
+					let hours = now.getHours();
+					let minutes = now.getMinutes();
+					let seconds = now.getSeconds();
+					var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+					const data2 = {
+						header: {
+							name: 'AddNewOrderRequest',
+							userId: getUserFromCookie(),
+						},
+						payload: {
+							orderInfo: {
+								orderAt: time,
+								progress: 'WAITING',
+								totalCount: totalCount,
+								totalPrice: this.totalPrice,
+								isNoShow: false,
+								store: {
+									storeId: localStorage.getItem('store-id'),
+								},
+								user: {
+									userId: getUserFromCookie(),
+								},
+							},
+							menus: menus,
+						},
+					};
+					const response = await addOrder(data2);
+					for (let i = 0; i < localStorage.length; i++) {
+						if (
+							localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
+							localStorage.key(i) !== 'store-id' &&
+							localStorage.key(i) !== 'store' &&
+							localStorage.key(i) !== 'nearest-store-id' &&
+							localStorage.key(i) !== 'nearest-store'
+						) {
+							localStorage.removeItem(localStorage.key(i));
+						}
+					}
+					this.$router.push({
+						name: 'complete',
+						path: '/complete',
+						params: response.data.payload,
+					});
+				}
+				
       }
 		},
 		setPrice({ before, price }) {
 			this.totalPrice -= before;
 			this.totalPrice += price;
+		},
+		openModal() {
+			this.modal = true;
+		},
+		closeModal() {
+			this.modal = false;
+		},
+		confirm() {
+			this.closeModal();
 		},
 	},
 };
