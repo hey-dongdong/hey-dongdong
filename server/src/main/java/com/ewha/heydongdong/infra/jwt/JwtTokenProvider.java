@@ -22,8 +22,8 @@ public class JwtTokenProvider {
 
     private String secretKey = "tlzmfltzl";
 
-    private final long ACCESS_TOKEN_VALID_TIME = 1 * 60 * 1000L;   // 1분
-    private final long REFRESH_TOKEN_VALID_TIME = 1 * 60 * 1000L;   // 10분
+    private final long ACCESS_TOKEN_VALID_TIME = 30 * 60 * 1000L;   // 30분
+    private final long REFRESH_TOKEN_VALID_TIME = 60 * 60 * 24 * 14 * 1000L;   // 2주
 
     private final UserDetailsService userDetailsService;
 
