@@ -95,7 +95,7 @@ public class UserService {
     }
 
     private void saveRefreshTokenValue(User user, String refreshToken) {
-        user.setRefreshToken(refreshToken);
+        user.setRefreshTokenValue(refreshToken);
         userRepository.save(user);
     }
 
@@ -110,7 +110,7 @@ public class UserService {
     public String signOut(String userId) {
         User user = findRequiredUserById(userId);
         user.setDeviceToken(null);
-        user.setRefreshToken(null);
+        user.setRefreshTokenValue(null);
         userRepository.save(user);
         return jsonBuilder.buildJsonWithHeader("SignOutResponse", userId);
     }
@@ -289,19 +289,15 @@ public class UserService {
     public String refreshUserTokens(JsonNode payload) {
         User user = findRequiredUserById(payload.get("userId").asText());
         String givenRefreshToken = payload.get("refreshToken").asText();
-        checkIfRefreshTokenValid(user, givenRefreshToken);
+        checkIfRefreshTokenValid(user.getRefreshTokenValue(), givenRefreshToken);
         String[] jwtTokens = createJwtTokens(user, user.getRoles());
         return buildRefreshUserTokensJsonResponse(user.getUserId(), jwtTokens);
     }
 
-    private void checkIfRefreshTokenValid(User user, String givenRefreshToken) {
-        if (isTokenValueInvalid(user.getRefreshToken(), givenRefreshToken))
-            throw new InvalidRequestParameterException("Invalid refreshToken");
-    }
-
-    private boolean isTokenValueInvalid(String requiredValue, String givenRefreshToken) {
+    private void checkIfRefreshTokenValid(String requiredValue, String givenRefreshToken) {
         String givenValue = String.valueOf(jwtTokenProvider.getClaimsFromJwtToken(givenRefreshToken).getBody().get("value"));
-        return !givenValue.equals(requiredValue);
+        if (!givenValue.equals(requiredValue))
+            throw new InvalidRequestParameterException("Invalid refreshToken");
     }
 
     private String buildRefreshUserTokensJsonResponse(String userId, String[] jwtTokens) {
