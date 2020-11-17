@@ -62,8 +62,8 @@ public class User implements UserDetails {
     private String deviceToken;
 
     @Setter
-    @Column(name = "refresh_token")
-    private String refreshToken;
+    @Column(name = "refresh_token_value")
+    private String refreshTokenValue;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
