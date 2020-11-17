@@ -1,6 +1,9 @@
 package com.ewha.heydongdong.infra.jwt;
 
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Component
@@ -24,7 +26,7 @@ public class JwtTokenProvider {
     private String secretKey = "tlzmfltzl";
 
     private final long ACCESS_TOKEN_VALID_TIME = 1 * 60 * 1000L;   // 1분
-    private final long REFRESH_TOKEN_VALID_TIME = 60 * 60 * 24 * 7 * 1000L;   // 1주
+    private final long REFRESH_TOKEN_VALID_TIME = 10 * 60 * 1000L;   // 10분
 
     private final UserDetailsService userDetailsService;
 
@@ -61,6 +63,10 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    public String resolveJwtToken(HttpServletRequest request) {
+        return request.getHeader("Authorization");
+    }
+
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserId(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
@@ -68,10 +74,6 @@ public class JwtTokenProvider {
 
     public String getUserId(String token) {
         return getClaimsFromJwtToken(token).getBody().getSubject();
-    }
-
-    public String resolveJwtToken(HttpServletRequest request) {
-        return request.getHeader("Authorization");
     }
 
     public boolean isTokenValid(String jwtToken) {
@@ -84,12 +86,6 @@ public class JwtTokenProvider {
     }
 
     public Jws<Claims> getClaimsFromJwtToken(String jwtToken) {
-        Jws<Claims> claims = null;
-        try {
-            claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
-        } catch (ExpiredJwtException e) {
-//            e.getClaims().get("");
-        }
-        return claims;
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
     }
 }
