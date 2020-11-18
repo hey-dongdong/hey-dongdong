@@ -40,7 +40,7 @@ import BlackHeader from '@/components/common/BlackHeader.vue';
 import VueBarcode from 'vue-barcode';
 import CompleteOrderDetail from '@/components/order/CompleteOrderDetail.vue';
 import CompleteOrderItems from '@/components/order/CompleteOrderItems.vue';
-import { getUserFromCookie } from '@/utils/cookies';
+import { getUserFromCookie, saveOrderIdToCookie } from '@/utils/cookies';
 import { addMyMenu } from '@/api/menus';
 
 export default {
@@ -59,6 +59,7 @@ export default {
 	created() {
 		this.barcodeValue = this.$route.params.orderInfo.orderId;
 		this.store = localStorage.getItem('store');
+		saveOrderIdToCookie(this.$route.params.orderInfo.orderId);
 	},
 	methods: {
 		async toggleLike({ id, checked }) {

@@ -129,6 +129,18 @@
 					</button>
 				</div>
 			</ModalPopup>
+			<ModalPopup @close="closeOrderModal" v-if="orderModal">
+				<span slot="modal-title" class="modal-title red"
+					>중복 주문 불가</span
+				>
+				<span slot="modal-content" class="modal-content order">
+					이미 제조 중인 음료가 있습니다.<br />
+					음료를 수령한 뒤 다시 주문해주세요.
+				</span>
+				<div slot="footer" class="popup-buttons">
+					<button @click="doOrderModalSend" class="popup-button red" type="button">확인</button>
+				</div>
+			</ModalPopup>
 		</div>
 	</div>
 </template>
@@ -137,8 +149,8 @@
 import BlackHeader from '@/components/common/BlackHeader.vue';
 import MenuCountBox from '@/components/menu/MenuCountBox.vue';
 import ModalPopup from '@/components/common/ModalPopup.vue';
-import { getUserFromCookie } from '@/utils/cookies';
-import { addOrder } from '@/api/order';
+import { getUserFromCookie, getOrderIdFromCookie } from '@/utils/cookies';
+import { addOrder, getProgress } from '@/api/order';
 
 export default {
 	name: 'MyMenuItemDetail',
@@ -150,6 +162,7 @@ export default {
 	data() {
 		return {
 			modal: false,
+			orderModal: false,
 			count: 1,
 			price: 0,
 			isSuccess: false,
@@ -180,55 +193,82 @@ export default {
 		doSend() {
 			this.closeModal();
 		},
+		openOrderModal() {
+			this.orderModal = true;
+		},
+		closeOrderModal() {
+			this.orderModal = false;
+		},
+		doOrderModalSend() {
+			this.closeOrderModal();
+		},
 		async orderMyMenu() {
-			let now = new Date();
-			let year = now.getFullYear();
-			let month = now.getMonth();
-			let date = now.getDate();
-			let hours = now.getHours();
-			let minutes = now.getMinutes();
-			let seconds = now.getSeconds();
-			var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
-			var menus = [];
-			var menu = {
-				menu: {
-					menuId: this.$route.params.menuInOrder.menu.menuId,
-					menuName: this.$route.params.menuInOrder.menu.menuName,
-				},
-				option: this.$route.params.menuInOrder.option,
-				price: this.price,
-				count: this.count,
-			};
-			menus.push(menu);
-			const data = {
+			const orderData = {
 				header: {
-					name: 'AddNewOrderRequest',
+					name: "GetOrderProgressRequest",
 					userId: getUserFromCookie(),
 				},
 				payload: {
-					orderInfo: {
-						orderAt: time,
-						progress: 'WAITING',
-						totalCount: this.count,
-						totalPrice: this.price,
-						isNoShow: false,
-						store: {
-							storeId: this.$route.params.store.storeId,
-						},
-						user: {
-							userId: getUserFromCookie(),
-						},
-					},
-					menus: menus,
+					orderId: getOrderIdFromCookie(),
 				},
 			};
-			const response = await addOrder(data);
-			console.log(response);
-			this.$router.push({
-				name: 'complete',
-				path: '/complete',
-				params: response.data.payload,
-			});
+			const { data } = await getProgress(orderData);
+			if(data.payload.progress === 'WAITING' ||
+					data.payload.progress === 'MAKING' ||
+					data.payload.progress === 'READY') {
+				this.closeModal();
+				this.openOrderModal();
+			}
+			else {
+				let now = new Date();
+				let year = now.getFullYear();
+				let month = now.getMonth() + 1;
+				let date = now.getDate();
+				let hours = now.getHours();
+				let minutes = now.getMinutes();
+				let seconds = now.getSeconds();
+				var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+				var menus = [];
+				var menu = {
+					menu: {
+						menuId: this.$route.params.menuInOrder.menu.menuId,
+						menuName: this.$route.params.menuInOrder.menu.menuName,
+					},
+					option: this.$route.params.menuInOrder.option,
+					price: this.price,
+					count: this.count,
+				};
+				menus.push(menu);
+				const data2 = {
+					header: {
+						name: 'AddNewOrderRequest',
+						userId: getUserFromCookie(),
+					},
+					payload: {
+						orderInfo: {
+							orderAt: time,
+							progress: 'WAITING',
+							totalCount: this.count,
+							totalPrice: this.price,
+							isNoShow: false,
+							store: {
+								storeId: this.$route.params.store.storeId,
+							},
+							user: {
+								userId: getUserFromCookie(),
+							},
+						},
+						menus: menus,
+					},
+				};
+				const response = await addOrder(data2);
+				console.log(response);
+				this.$router.push({
+					name: 'complete',
+					path: '/complete',
+					params: response.data.payload,
+				});
+			}
 		},
 		addToCart() {
 			let index = 0;

@@ -2,6 +2,10 @@ function saveAuthToCookie(value) {
 	document.cookie = `auth=${value}`;
 }
 
+function saveRefreshTokenToCookie(value) {
+	document.cookie = `refresh_token=${value}`;
+}
+
 function saveUserToCookie(value) {
 	document.cookie = `user=${value}`;
 }
@@ -10,8 +14,16 @@ function saveUserNameToCookie(value) {
 	document.cookie = `username=${value}`;
 }
 
+function saveOrderIdToCookie(value) {
+	document.cookie = `order_id=${value}`;
+}
+
 function getAuthFromCookie() {
 	return document.cookie.replace(/(?:(?:^|.*;\s*)auth\s*=\s*([^;]*).*$)|^.*$/, '$1');
+}
+
+function getRefreshTokenFromCookie() {
+	return document.cookie.replace(/(?:(?:^|.*;\s*)refresh_token\s*=\s*([^;]*).*$)|^.*$/, '$1');
 }
 
 function getUserFromCookie() {
@@ -22,16 +34,24 @@ function getUserNameFromCookie() {
 	return document.cookie.replace(/(?:(?:^|.*;\s*)username\s*=\s*([^;]*).*$)|^.*$/, '$1');
 }
 
+function getOrderIdFromCookie() {
+	return document.cookie.replace(/(?:(?:^|.*;\s*)order_id\s*=\s*([^;]*).*$)|^.*$/, '$1');
+}
+
 function deleteCookie(value) {
 	document.cookie = `${value}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 }
 
 export {
 	saveAuthToCookie,
+	saveRefreshTokenToCookie,
 	saveUserToCookie,
 	saveUserNameToCookie,
+	saveOrderIdToCookie,
 	getAuthFromCookie,
+	getRefreshTokenFromCookie,
 	getUserFromCookie,
 	getUserNameFromCookie,
+	getOrderIdFromCookie,
 	deleteCookie,
 };

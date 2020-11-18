@@ -16,6 +16,14 @@
 						placeholder="비밀번호를 입력하세요"
 					/>
 				</li>
+				<li>
+					<input
+						id="deviceToken"
+						type="text"
+						v-model="deviceToken"
+						class="device-token"
+					/>
+				</li>
 			</ul>
 
 			<button type="submit" class="goldbtn">LOGIN</button>
@@ -35,6 +43,7 @@
 import { signInUser } from '@/api/auth';
 import {
 	saveAuthToCookie,
+	saveRefreshTokenToCookie,
 	saveUserToCookie,
 	saveUserNameToCookie,
 } from '@/utils/cookies';
@@ -44,6 +53,7 @@ export default {
 		return {
 			id: '',
 			password: '',
+			deviceToken: '',
 			logMessage: '',
 		};
 	},
@@ -58,13 +68,15 @@ export default {
 					payload: {
 						userId: this.id,
 						password: this.password,
+						deviceToken: this.deviceToken,
 					},
 				};
 				const { data } = await signInUser(userData);
-				console.log(data.payload.token);
-				this.$store.commit('SET_TOKEN', data.payload.token);
+				this.$store.commit('SET_ACCESS_TOKEN', data.payload.accessToken);
+				this.$store.commit('SET_REFRESH_TOKEN', data.payload.refreshToken);
 				this.$store.commit('SET_USERID', data.header.message);
-				saveAuthToCookie(data.payload.token);
+				saveAuthToCookie(data.payload.accessToken);
+				saveRefreshTokenToCookie(data.payload.refreshToken);
 				saveUserToCookie(data.header.message);
 				saveUserNameToCookie(data.payload.userName);
 				this.initForm();
@@ -80,6 +92,7 @@ export default {
 		initForm() {
 			this.id = '';
 			this.password = '';
+			this.deviceToken = '';
 			this.logMessage = '';
 		},
 	},

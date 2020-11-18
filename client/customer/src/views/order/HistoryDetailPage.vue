@@ -39,6 +39,18 @@
 			<ToastPopup v-bind:show="isMyMenuDeleteSuccess" @close="closeDeleteToast">
 				<span slot="toast-message">나만의 메뉴에서 음료를 삭제했습니다.</span>
 			</ToastPopup>
+			<ModalPopup @close="closeOrderModal" v-if="orderModal">
+				<span slot="modal-title" class="modal-title red"
+					>중복 주문 불가</span
+				>
+				<span slot="modal-content" class="modal-content order">
+					이미 제조 중인 음료가 있습니다.<br />
+					음료를 수령한 뒤 다시 주문해주세요.
+				</span>
+				<div slot="footer" class="popup-buttons">
+					<button @click="doOrderModalSend" class="popup-button red" type="button">확인</button>
+				</div>
+			</ModalPopup>
 		</div>
 	</div>
 </template>
@@ -49,10 +61,10 @@ import OrderDetail from '@/components/order/OrderDetail.vue';
 import OrderItems from '@/components/order/OrderItems.vue';
 import { mapGetters } from 'vuex';
 import store from '@/store/index';
-import { getUserFromCookie } from '@/utils/cookies';
+import { getUserFromCookie, getOrderIdFromCookie } from '@/utils/cookies';
 import { addMyMenu, removeMyMenu } from '@/api/menus';
 import ModalPopup from '@/components/common/ModalPopup.vue';
-import { addOrder } from '@/api/order';
+import { addOrder, getProgress } from '@/api/order';
 import ToastPopup from '@/components/common/ToastPopup.vue';
 
 export default {
@@ -66,10 +78,12 @@ export default {
 	data() {
 		return {
 			modal: false,
+			orderModal: false,
 			totalCount: this.$route.params.totalCount,
 			isSuccess: false,
 			isMyMenuAddSuccess: false,
 			isMyMenuDeleteSuccess: false,
+			connection: null,
 		};
 	},
 	computed: {
@@ -96,6 +110,15 @@ export default {
 		},
 		doSend() {
 			this.closeModal();
+		},
+		openOrderModal() {
+			this.orderModal = true;
+		},
+		closeOrderModal() {
+			this.orderModal = false;
+		},
+		doOrderModalSend() {
+			this.closeOrderModal();
 		},
 		async toggleLike({ id, checked, myMenuId }) {
 			if (checked == true) {
@@ -136,58 +159,77 @@ export default {
 			}
 		},
 		async orderHistoryMenu() {
-			let now = new Date();
-			let year = now.getFullYear();
-			let month = now.getMonth();
-			let date = now.getDate();
-			let hours = now.getHours();
-			let minutes = now.getMinutes();
-			let seconds = now.getSeconds();
-			var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
-			var menus = [];
-
-			for (let i = 0; i < this.historyDetail.menus.length; i++) {
-				var item = this.historyDetail.menus[i];
-				var menu = {
-					menu: {
-						menuId: item.menu.menuId,
-						menuName: item.menu.menuName,
-					},
-					option: item.option,
-					price: item.price,
-					count: item.count,
-				};
-				menus.push(menu);
-			}
-
-			const data = {
+			const orderData = {
 				header: {
-					name: 'AddNewOrderRequest',
+					name: "GetOrderProgressRequest",
 					userId: getUserFromCookie(),
 				},
 				payload: {
-					orderInfo: {
-						orderAt: time,
-						progress: 'WAITING',
-						totalCount: this.totalCount,
-						totalPrice: this.$route.params.totalPrice,
-						isNoShow: false,
-						store: {
-							storeId: this.$route.params.store.storeId,
-						},
-						user: {
-							userId: getUserFromCookie(),
-						},
-					},
-					menus: menus,
+					orderId: getOrderIdFromCookie(),
 				},
 			};
-			const response = await addOrder(data);
-			this.$router.push({
-				name: 'complete',
-				path: '/complete',
-				params: response.data.payload,
-			});
+			const { data } = await getProgress(orderData);
+			if(data.payload.progress === 'WAITING' ||
+					data.payload.progress === 'MAKING' ||
+					data.payload.progress === 'READY') {
+				this.closeModal();
+				this.openOrderModal();
+			}
+			else {
+				let now = new Date();
+				let year = now.getFullYear();
+				let month = now.getMonth() + 1;
+				let date = now.getDate();
+				let hours = now.getHours();
+				let minutes = now.getMinutes();
+				let seconds = now.getSeconds();
+				var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+				var menus = [];
+
+				for (let i = 0; i < this.historyDetail.menus.length; i++) {
+					var item = this.historyDetail.menus[i];
+					var menu = {
+						menu: {
+							menuId: item.menu.menuId,
+							menuName: item.menu.menuName,
+						},
+						option: item.option,
+						price: item.price,
+						count: item.count,
+					};
+					menus.push(menu);
+				}
+
+				const data2 = {
+					header: {
+						name: 'AddNewOrderRequest',
+						userId: getUserFromCookie(),
+					},
+					payload: {
+						orderInfo: {
+							orderAt: time,
+							progress: 'WAITING',
+							totalCount: this.totalCount,
+							totalPrice: this.$route.params.totalPrice,
+							isNoShow: false,
+							store: {
+								storeId: this.$route.params.store.storeId,
+							},
+							user: {
+								userId: getUserFromCookie(),
+							},
+						},
+						menus: menus,
+					},
+				};
+				const response = await addOrder(data2);
+				this.$router.push({
+					name: 'complete',
+					path: '/complete',
+					params: response.data.payload,
+				});
+			}
+			
 		},
 		addToCart() {
 			for (let i = 0; i < this.historyDetail.menus.length; i++) {
