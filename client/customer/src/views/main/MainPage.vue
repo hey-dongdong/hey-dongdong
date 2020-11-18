@@ -164,7 +164,7 @@ export default {
 					break;
 				}
 			} catch (error) {
-					console.log("주문한 음료가 없음");
+					this.progressExplain = "주문한 음료가 없습니다"
 			}
 			
 		}
