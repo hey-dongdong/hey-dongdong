@@ -73,7 +73,6 @@ import WaitingOrdersCard from '@/components/WaitingOrdersCard.vue';
 import MakingOrdersCard from '@/components/MakingOrdersCard.vue';
 import ReadyOrdersCard from '@/components/ReadyOrdersCard.vue';
 import { mapGetters } from 'vuex';
-// import WebSocketAdmin from '@/common/WebSocketAdmin';
 
 export default {
 	components: {
@@ -84,7 +83,6 @@ export default {
 	data() {
 		return {
 			selected: this.$route.params.selectedStoreId || 1,
-			connection: null,
 		};
 	},
 	computed: {
@@ -118,7 +116,6 @@ export default {
 				id: e.target.value,
 				data: data,
 			});
-			this.connection.send('data');
 		},
 		async fetchAgain() {
 			const data = {

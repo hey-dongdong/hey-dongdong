@@ -12,9 +12,9 @@ export function setInterceptors(instance) {
 			let expiry = decoded.exp - Number(now.getTime().toString().substr(0, 10));
 			// console.log(expiry);
 
-			var dec = jwt_decode(store.state.refreshToken);
-			let expi = dec.exp - Number(now.getTime().toString().substr(0, 10));
-			console.log(expi);
+			// var dec = jwt_decode(store.state.refreshToken);
+			// let expi = dec.exp - Number(now.getTime().toString().substr(0, 10));
+			// console.log(expi);
 			if(expiry < 30) {
 				try {
 					const userData = {
