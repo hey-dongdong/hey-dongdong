@@ -150,7 +150,7 @@ export default {
 					},
 				};
 				const { data } = await registerUser(userData);
-				console.log(data.header.message);
+				// console.log(data.header.message);
 				this.signupMessage = `${data.header.message}님이 가입되었습니다.`;
 				this.initForm();
 			} catch (error) {

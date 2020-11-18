@@ -90,7 +90,7 @@ export default {
 					},
 				};
 				const { data } = await changeUserPw(userData);
-				console.log(data.header.message);
+				// console.log(data.header.message);
 				this.changePwMessage = `${data.header.message}님의 비밀번호가 변경되었습니다.`;
 				this.initForm();
 			} catch (error) {
