@@ -62,6 +62,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/order/get-progress").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/api/get-test").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/post-test").permitAll()
+                .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
 
