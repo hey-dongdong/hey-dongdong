@@ -22,7 +22,7 @@ public class AdminController {
     public ResponseEntity<?> getStoreHistory(@PathVariable(value = "store-id") Integer storeId,
                                              @RequestBody Request request) {
 
-        log.info("[Request] get-store-history");
+//        log.info("[Request] get-store-history");
         request.validateHeader("GetStoreHistoryRequest");
 
         String history = historyService.getStoreHistory(storeId);
@@ -33,7 +33,7 @@ public class AdminController {
     public ResponseEntity<?> getStoreOrders(@PathVariable(value = "store-id") Integer storeId,
                                             @RequestBody Request request) {
 
-        log.info("[Request] get-store-orders");
+//        log.info("[Request] get-store-orders");
         request.validateHeader("GetStoreOrdersRequest");
 
         String orders = historyService.getStoreOrders(storeId);
