@@ -15,11 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.util.Assert.noNullElements;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
@@ -29,6 +27,7 @@ class MenuInOrderServiceTest {
 
     @Autowired
     private MenuInOrderRepository menuInOrderRepository;
+
     @Autowired
     private OrderRepository orderRepository;
 

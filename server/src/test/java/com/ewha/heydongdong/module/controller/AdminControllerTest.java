@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -32,7 +32,6 @@ class AdminControllerTest {
     private ObjectMapper objectMapper;
 
 
-
     @Test
     @DisplayName("Get history of a store | Success")
     void getHistory_Success() throws Exception {
@@ -40,7 +39,7 @@ class AdminControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("GetStoreHistoryRequest", "admin"), null));
 
-        mockMvc.perform(post("/admin/history/1")
+        mockMvc.perform(put("/admin/history/1")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -60,14 +59,13 @@ class AdminControllerTest {
                         .build())
                 .build();
 
-        mockMvc.perform(post("/admin/history/5000")
+        mockMvc.perform(put("/admin/history/5000")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
-
 
 
     @Test
@@ -77,7 +75,7 @@ class AdminControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("GetStoreOrdersRequest", "admin"), null));
 
-        mockMvc.perform(post("/admin/orders/1")
+        mockMvc.perform(put("/admin/orders/1")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -97,7 +95,7 @@ class AdminControllerTest {
                         .build())
                 .build();
 
-        mockMvc.perform(post("/admin/orders/5000")
+        mockMvc.perform(put("/admin/orders/5000")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
