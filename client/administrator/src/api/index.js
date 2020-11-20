@@ -8,7 +8,7 @@ const instance = createInstance();
 
 async function fetchOrders(id, data) {
 	try {
-		return await instance.post(`/admin/orders/${id}`, data);
+		return await instance.put(`/admin/orders/${id}`, data);
 	} catch (error) {
 		console.log(error);
 	}
@@ -16,7 +16,7 @@ async function fetchOrders(id, data) {
 
 async function fetchHistoryOrders(id, data) {
 	try {
-		return await instance.post(`/admin/history/${id}`, data);
+		return await instance.put(`/admin/history/${id}`, data);
 	} catch (error) {
 		console.log(error);
 	}
@@ -24,7 +24,7 @@ async function fetchHistoryOrders(id, data) {
 
 async function updateOrderProgress(data) {
 	try {
-		return await instance.post('/order/update-progress', data);
+		return await instance.put('/order/update-progress', data);
 	} catch (error) {
 		console.log(error);
 	}

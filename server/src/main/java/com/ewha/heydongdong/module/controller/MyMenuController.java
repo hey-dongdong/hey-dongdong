@@ -18,7 +18,7 @@ public class MyMenuController {
     @Autowired
     private MyMenuService myMenuService;
 
-    @PutMapping(value = "/get-all", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/get-all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserMyMenu(@RequestBody Request request) {
 
         log.info("[Request] get-user-my-menu");
@@ -28,7 +28,7 @@ public class MyMenuController {
         return new ResponseEntity<>(myMenu, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/add", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/add", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> addUserMyMenu(@RequestBody Request request) {
 
         log.info("[Request] add-user-my-menu");
@@ -41,7 +41,7 @@ public class MyMenuController {
         return new ResponseEntity<>(myMenu, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/remove", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/remove", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> removeUserMyMenu(@RequestBody Request request) {
 
         log.info("[Request] remove-user-my-menu");

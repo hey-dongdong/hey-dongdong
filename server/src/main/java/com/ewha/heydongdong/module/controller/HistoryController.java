@@ -18,7 +18,7 @@ public class HistoryController {
     @Autowired
     private HistoryService historyService;
 
-    @PutMapping(value = "/get-all", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/get-all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserHistory(@RequestBody Request request) {
 
         log.info("[Request] get-user-history");
@@ -28,7 +28,7 @@ public class HistoryController {
         return new ResponseEntity<>(history, HttpStatus.OK);
     }
 
-    @PutMapping(value = "/detail", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/detail", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserHistoryDetail(@RequestBody Request request) {
 
         log.info("[Request] get-user-history-detail");

@@ -41,7 +41,7 @@ class MyMenuControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("GetMyMenusRequest", "test_user"), null));
 
-        mockMvc.perform(put("/my-menu/get-all")
+        mockMvc.perform(post("/my-menu/get-all")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -55,7 +55,7 @@ class MyMenuControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("GetMyMenusRequest", "user_with_no_my_menu"), null));
 
-        mockMvc.perform(put("/my-menu/get-all")
+        mockMvc.perform(post("/my-menu/get-all")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -73,7 +73,7 @@ class MyMenuControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("AddMyMenuRequest", "test_user"), payload));
 
-        mockMvc.perform(put("/my-menu/add")
+        mockMvc.perform(post("/my-menu/add")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -94,7 +94,7 @@ class MyMenuControllerTest {
                         .name("InvalidRequestFormatException")
                         .message("InvalidRequestFormatException: Invalid request format [Invalid header name=AddMyMenuResponse]")
                         .build()).build();
-        mockMvc.perform(put("/my-menu/add")
+        mockMvc.perform(post("/my-menu/add")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -118,7 +118,7 @@ class MyMenuControllerTest {
                         .name("EmptyResultDataAccessException")
                         .message("Empty result data access exception [No class com.ewha.heydongdong.module.model.domain.MyMenu entity with id 4000 exists!]")
                         .build()).build();
-        mockMvc.perform(put("/my-menu/remove")
+        mockMvc.perform(post("/my-menu/remove")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))

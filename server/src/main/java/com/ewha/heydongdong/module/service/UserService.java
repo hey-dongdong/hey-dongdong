@@ -246,7 +246,7 @@ public class UserService {
         context.setVariable("userName", newUser.getUserName());
         context.setVariable("linkName", "이메일 인증하기");
         context.setVariable("message", "헤이동동 서비스를 사용하려면 링크를 클릭하세요.");
-        context.setVariable("host", "http://13.209.112.163:8080/");
+        context.setVariable("host", "http://13.209.112.163:8080");
 
         String message = templateEngine.process("verify-email-on-sign-up", context);
 

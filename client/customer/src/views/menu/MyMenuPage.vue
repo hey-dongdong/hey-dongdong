@@ -91,7 +91,7 @@ export default {
 			this.closeModal();
 		},
 		async deleteMyMenu() {
-			console.log(this.deleteMyMenuId);
+			// console.log(this.deleteMyMenuId);
 			const data = {
 				header: {
 					name: 'RemoveMyMenuRequest',

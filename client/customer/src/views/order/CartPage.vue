@@ -106,22 +106,31 @@ export default {
 						menus.push(menu);
 					}
 				}
-				const orderData = {
-					header: {
-						name: "GetOrderProgressRequest",
-						userId: getUserFromCookie(),
-					},
-					payload: {
-						orderId: getOrderIdFromCookie(),
-					},
-				};
-				const { data } = await getProgress(orderData);
-				if(data.payload.progress === 'WAITING' ||
-						data.payload.progress === 'MAKING' ||
-						data.payload.progress === 'READY') {
-					this.openModal();
+				var flag = 0;
+				if(getOrderIdFromCookie() === '') {
+					flag = 1;
 				}
-				else {
+				if(flag === 0) {
+					const orderData = {
+						header: {
+							name: "GetOrderProgressRequest",
+							userId: getUserFromCookie(),
+						},
+						payload: {
+							orderId: getOrderIdFromCookie(),
+						},
+					};
+					const { data } = await getProgress(orderData);
+					if(data.payload.progress === 'WAITING' ||
+							data.payload.progress === 'MAKING' ||
+							data.payload.progress === 'READY') {
+						this.openModal();
+					}
+					else {
+						flag = 1;
+					}
+				}
+				if (flag === 1){
 					let now = new Date();
 					let year = now.getFullYear();
 					let month = now.getMonth() + 1;
