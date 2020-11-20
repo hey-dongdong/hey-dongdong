@@ -1,5 +1,5 @@
 module.exports = {
-	devServer: {
+    devServer: {
 		overlay: false,
 		proxy: {
 			'/user': {
@@ -24,4 +24,6 @@ module.exports = {
 			},
 		},
 	},
+
+    
 };
