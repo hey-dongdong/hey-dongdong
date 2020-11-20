@@ -203,66 +203,74 @@ export default {
 			this.closeOrderModal();
 		},
 		async orderMyMenu() {
-			const orderData = {
-				header: {
-					name: "GetOrderProgressRequest",
-					userId: getUserFromCookie(),
-				},
-				payload: {
-					orderId: getOrderIdFromCookie(),
-				},
-			};
-			const { data } = await getProgress(orderData);
-			if(data.payload.progress === 'WAITING' ||
-					data.payload.progress === 'MAKING' ||
-					data.payload.progress === 'READY') {
-				this.closeModal();
-				this.openOrderModal();
-			}
-			else {
-				let now = new Date();
-				let year = now.getFullYear();
-				let month = now.getMonth() + 1;
-				let date = now.getDate();
-				let hours = now.getHours();
-				let minutes = now.getMinutes();
-				let seconds = now.getSeconds();
-				var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
-				var menus = [];
-				var menu = {
-					menu: {
-						menuId: this.$route.params.menuInOrder.menu.menuId,
-						menuName: this.$route.params.menuInOrder.menu.menuName,
-					},
-					option: this.$route.params.menuInOrder.option,
-					price: this.price,
-					count: this.count,
-				};
-				menus.push(menu);
-				const data2 = {
-					header: {
-						name: 'AddNewOrderRequest',
-						userId: getUserFromCookie(),
-					},
-					payload: {
-						orderInfo: {
-							orderAt: time,
-							progress: 'WAITING',
-							totalCount: this.count,
-							totalPrice: this.price,
-							isNoShow: false,
-							store: {
-								storeId: this.$route.params.store.storeId,
-							},
-							user: {
-								userId: getUserFromCookie(),
-							},
+			var flag = 0;
+				if(getOrderIdFromCookie() === '') {
+					flag = 1;
+				}
+				if(flag === 0) {
+					const orderData = {
+						header: {
+							name: "GetOrderProgressRequest",
+							userId: getUserFromCookie(),
 						},
-						menus: menus,
-					},
-				};
+						payload: {
+							orderId: getOrderIdFromCookie(),
+						},
+					};
+					const { data } = await getProgress(orderData);
+					if(data.payload.progress === 'WAITING' ||
+							data.payload.progress === 'MAKING' ||
+							data.payload.progress === 'READY') {
+						this.openModal();
+					}
+					else {
+						flag = 1;
+					}
+				}
+				if (flag === 1) {
+					let now = new Date();
+					let year = now.getFullYear();
+					let month = now.getMonth() + 1;
+					let date = now.getDate();
+					let hours = now.getHours();
+					let minutes = now.getMinutes();
+					let seconds = now.getSeconds();
+					var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+					var menus = [];
+					var menu = {
+						menu: {
+							menuId: this.$route.params.menuInOrder.menu.menuId,
+							menuName: this.$route.params.menuInOrder.menu.menuName,
+						},
+						option: this.$route.params.menuInOrder.option,
+						price: this.price,
+						count: this.count,
+					};
+					menus.push(menu);
+					const data2 = {
+						header: {
+							name: 'AddNewOrderRequest',
+							userId: getUserFromCookie(),
+						},
+						payload: {
+							orderInfo: {
+								orderAt: time,
+								progress: 'WAITING',
+								totalCount: this.count,
+								totalPrice: this.price,
+								isNoShow: false,
+								store: {
+									storeId: this.$route.params.store.storeId,
+								},
+								user: {
+									userId: getUserFromCookie(),
+								},
+							},
+							menus: menus,
+						},
+					};
 				const response = await addOrder(data2);
-				console.log(response);
+				// console.log(response);
 				this.$router.push({
 					name: 'complete',
 					path: '/complete',

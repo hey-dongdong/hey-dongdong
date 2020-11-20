@@ -63,7 +63,7 @@ export default {
 	},
 	methods: {
 		async toggleLike({ id, checked }) {
-			console.log(id, checked);
+			// console.log(id, checked);
 			if (checked == true) {
 				const data = {
 					header: {
