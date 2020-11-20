@@ -51,6 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/order/update-progress").permitAll()
                 .antMatchers(HttpMethod.POST, "/admin/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/menu/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/get-test").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/post-test").permitAll()
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/user/change-pw").hasRole("USER")
@@ -61,10 +63,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/order/add").hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/order/get-progress").hasRole("USER")
                 .anyRequest().authenticated()
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/get-test").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/post-test").permitAll()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
