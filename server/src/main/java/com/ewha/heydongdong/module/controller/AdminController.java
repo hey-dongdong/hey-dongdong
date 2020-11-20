@@ -18,7 +18,7 @@ public class AdminController {
     @Autowired
     private HistoryService historyService;
 
-    @PostMapping(value = "/history/{store-id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/history/{store-id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getStoreHistory(@PathVariable(value = "store-id") Integer storeId,
                                              @RequestBody Request request) {
 
@@ -29,7 +29,7 @@ public class AdminController {
         return new ResponseEntity<>(history, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/orders/{store-id}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/orders/{store-id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getStoreOrders(@PathVariable(value = "store-id") Integer storeId,
                                             @RequestBody Request request) {
 

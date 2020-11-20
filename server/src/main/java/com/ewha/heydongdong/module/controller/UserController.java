@@ -21,7 +21,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "/sign-up", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/sign-up", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> signUp(@RequestBody Request request) throws JsonProcessingException {
 
         log.info("[Request] user-sign-up");
@@ -42,7 +42,7 @@ public class UserController {
         return new ResponseEntity<>("이메일 인증 완료되었습니다.\n헤이동동 앱에서 로그인하세요.", HttpStatus.OK);
     }
 
-    @PostMapping(value = "/sign-in", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/sign-in", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> signInSubmit(@RequestBody Request request) {
 
         log.info("[Request] user-sign-in");
@@ -53,7 +53,7 @@ public class UserController {
         return new ResponseEntity<>(signInResult, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/sign-out", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/sign-out", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> signOut(@RequestBody Request request) {
 
         log.info("[Request] user-sign-out");
@@ -63,7 +63,7 @@ public class UserController {
         return new ResponseEntity<>(signOutResult, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/find-info/id", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/find-info/id", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> findUserId(@RequestBody Request request) {
 
         log.info("[Request] find-user-id");
@@ -74,7 +74,7 @@ public class UserController {
         return new ResponseEntity<>(userId, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/find-info/pw", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/find-info/pw", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> findUserPw(@RequestBody Request request) {
 
         log.info("[Request] find-user-pw");
@@ -85,7 +85,7 @@ public class UserController {
         return new ResponseEntity<>(userPw, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/change-pw", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/change-pw", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> changePw(@RequestBody Request request) {
 
         log.info("[Request] change-pw");
@@ -94,7 +94,7 @@ public class UserController {
         return new ResponseEntity<>(changePwResult, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/no-show-count", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/no-show-count", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserNoShowCount(@RequestBody Request request) {
 
         log.info("[Request] get-user-no-show-count");
@@ -104,7 +104,7 @@ public class UserController {
         return new ResponseEntity<>(noShowCount, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/refresh-tokens", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/refresh-tokens", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> refreshUserToken(@RequestBody Request request) {
 
         log.info("[Request] refresh-user-tokens");

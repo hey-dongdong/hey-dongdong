@@ -18,7 +18,7 @@ public class MenuController {
     @Autowired
     private MenuService menuService;
 
-    @PostMapping(value = "/get-all", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/get-all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getUserHistory(@RequestBody Request request) {
 
         log.info("[Request] get-all-menus");
