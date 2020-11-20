@@ -159,75 +159,83 @@ export default {
 			}
 		},
 		async orderHistoryMenu() {
-			const orderData = {
-				header: {
-					name: "GetOrderProgressRequest",
-					userId: getUserFromCookie(),
-				},
-				payload: {
-					orderId: getOrderIdFromCookie(),
-				},
-			};
-			const { data } = await getProgress(orderData);
-			if(data.payload.progress === 'WAITING' ||
-					data.payload.progress === 'MAKING' ||
-					data.payload.progress === 'READY') {
-				this.closeModal();
-				this.openOrderModal();
-			}
-			else {
-				let now = new Date();
-				let year = now.getFullYear();
-				let month = now.getMonth() + 1;
-				let date = now.getDate();
-				let hours = now.getHours();
-				let minutes = now.getMinutes();
-				let seconds = now.getSeconds();
-				var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
-				var menus = [];
-
-				for (let i = 0; i < this.historyDetail.menus.length; i++) {
-					var item = this.historyDetail.menus[i];
-					var menu = {
-						menu: {
-							menuId: item.menu.menuId,
-							menuName: item.menu.menuName,
-						},
-						option: item.option,
-						price: item.price,
-						count: item.count,
-					};
-					menus.push(menu);
+			var flag = 0;
+				if(getOrderIdFromCookie() === '') {
+					flag = 1;
 				}
-
-				const data2 = {
-					header: {
-						name: 'AddNewOrderRequest',
-						userId: getUserFromCookie(),
-					},
-					payload: {
-						orderInfo: {
-							orderAt: time,
-							progress: 'WAITING',
-							totalCount: this.totalCount,
-							totalPrice: this.$route.params.totalPrice,
-							isNoShow: false,
-							store: {
-								storeId: this.$route.params.store.storeId,
-							},
-							user: {
-								userId: getUserFromCookie(),
-							},
+				if(flag === 0) {
+					const orderData = {
+						header: {
+							name: "GetOrderProgressRequest",
+							userId: getUserFromCookie(),
 						},
-						menus: menus,
-					},
-				};
-				const response = await addOrder(data2);
-				this.$router.push({
-					name: 'complete',
-					path: '/complete',
-					params: response.data.payload,
-				});
+						payload: {
+							orderId: getOrderIdFromCookie(),
+						},
+					};
+					const { data } = await getProgress(orderData);
+					if(data.payload.progress === 'WAITING' ||
+							data.payload.progress === 'MAKING' ||
+							data.payload.progress === 'READY') {
+						this.openModal();
+					}
+					else {
+						flag = 1;
+					}
+				}
+				if (flag === 1) {
+					let now = new Date();
+					let year = now.getFullYear();
+					let month = now.getMonth() + 1;
+					let date = now.getDate();
+					let hours = now.getHours();
+					let minutes = now.getMinutes();
+					let seconds = now.getSeconds();
+					var time = `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
+					var menus = [];
+
+					for (let i = 0; i < this.historyDetail.menus.length; i++) {
+						var item = this.historyDetail.menus[i];
+						var menu = {
+							menu: {
+								menuId: item.menu.menuId,
+								menuName: item.menu.menuName,
+							},
+							option: item.option,
+							price: item.price,
+							count: item.count,
+						};
+						menus.push(menu);
+					}
+
+					const data2 = {
+						header: {
+							name: 'AddNewOrderRequest',
+							userId: getUserFromCookie(),
+						},
+						payload: {
+							orderInfo: {
+								orderAt: time,
+								progress: 'WAITING',
+								totalCount: this.totalCount,
+								totalPrice: this.$route.params.totalPrice,
+								isNoShow: false,
+								store: {
+									storeId: this.$route.params.store.storeId,
+								},
+								user: {
+									userId: getUserFromCookie(),
+								},
+							},
+							menus: menus,
+						},
+					};
+					const response = await addOrder(data2);
+					this.$router.push({
+						name: 'complete',
+						path: '/complete',
+						params: response.data.payload,
+					});
 			}
 			
 		},
