@@ -1,6 +1,5 @@
 package com.ewha.heydongdong.module.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +17,11 @@ public class TestController {
 
     @PostMapping(value = "/post-test", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> postTest() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value = "/put-test", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> putTest() {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
