@@ -32,7 +32,7 @@ public class UserController {
         return new ResponseEntity<>(signUpResult, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/check-email-token/{email}/{emailCheckToken}", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/check-email-token/{email}/{emailCheckToken}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> checkEmailToken(@PathVariable(value = "email") String email,
                                              @PathVariable(value = "emailCheckToken") String emailCheckToken) {
 

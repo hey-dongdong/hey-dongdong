@@ -21,8 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -57,7 +56,7 @@ class UserControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("SignInRequest", "tester"), payload));
 
-        mockMvc.perform(put("/user/sign-in")
+        mockMvc.perform(post("/user/sign-in")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -75,7 +74,7 @@ class UserControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("SignInRequest", "no_user"), payload));
 
-        mockMvc.perform(put("/user/sign-in")
+        mockMvc.perform(post("/user/sign-in")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -99,7 +98,7 @@ class UserControllerTest {
                         .message("Email not verified [userId=ewha111]")
                         .build())
                 .build();
-        mockMvc.perform(put("/user/sign-in")
+        mockMvc.perform(post("/user/sign-in")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -128,7 +127,7 @@ class UserControllerTest {
                 .payload(responsePayload)
                 .build();
 
-        mockMvc.perform(put("/user/find-info/id")
+        mockMvc.perform(post("/user/find-info/id")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -146,7 +145,7 @@ class UserControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("FindIdRequest", "N/A"), payload));
 
-        mockMvc.perform(put("/user/find-info/id")
+        mockMvc.perform(post("/user/find-info/id")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -166,7 +165,7 @@ class UserControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("FindPwRequest", "test_user"), payload));
 
-        mockMvc.perform(put("/user/find-info/pw")
+        mockMvc.perform(post("/user/find-info/pw")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -185,7 +184,7 @@ class UserControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("FindPwRequest", "no_user"), payload));
 
-        mockMvc.perform(put("/user/find-info/pw")
+        mockMvc.perform(post("/user/find-info/pw")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -211,7 +210,7 @@ class UserControllerTest {
                         .build())
                 .build();
 
-        mockMvc.perform(put("/user/change-pw")
+        mockMvc.perform(post("/user/change-pw")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -240,7 +239,7 @@ class UserControllerTest {
                         .build())
                 .build();
 
-        mockMvc.perform(put("/user/change-pw")
+        mockMvc.perform(post("/user/change-pw")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -266,7 +265,7 @@ class UserControllerTest {
                 .payload(objectMapper.valueToTree(payload))
                 .build();
 
-        mockMvc.perform(put("/user/no-show-count")
+        mockMvc.perform(post("/user/no-show-count")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -288,7 +287,7 @@ class UserControllerTest {
                         .build())
                 .build();
 
-        mockMvc.perform(put("/user/no-show-count")
+        mockMvc.perform(post("/user/no-show-count")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -311,7 +310,7 @@ class UserControllerTest {
                         .build())
                 .build();
 
-        mockMvc.perform(put("/user/sign-out")
+        mockMvc.perform(post("/user/sign-out")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -333,7 +332,7 @@ class UserControllerTest {
                         .build())
                 .build();
 
-        mockMvc.perform(put("/user/sign-out")
+        mockMvc.perform(post("/user/sign-out")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -363,7 +362,7 @@ class UserControllerTest {
                         .build())
                 .build();
 
-        mockMvc.perform(put("/user/sign-up")
+        mockMvc.perform(post("/user/sign-up")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -385,7 +384,7 @@ class UserControllerTest {
                         .build())
         ));
 
-        mockMvc.perform(put("/user/sign-up")
+        mockMvc.perform(post("/user/sign-up")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -406,7 +405,7 @@ class UserControllerTest {
                         .build())
         ));
 
-        mockMvc.perform(put("/user/sign-up")
+        mockMvc.perform(post("/user/sign-up")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -478,7 +477,7 @@ class UserControllerTest {
         ));
 
         // When
-        mockMvc.perform(put("/user/sign-up")
+        mockMvc.perform(post("/user/sign-up")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON));

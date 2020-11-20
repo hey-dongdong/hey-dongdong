@@ -67,7 +67,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/user/sign-in").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/find-info/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/user/refresh-tokens").permitAll()
-                .antMatchers(HttpMethod.GET, "/user/check-email-token/**").permitAll()
+                .antMatchers("/user/check-email-token/**").permitAll()
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/order/update-progress").permitAll()

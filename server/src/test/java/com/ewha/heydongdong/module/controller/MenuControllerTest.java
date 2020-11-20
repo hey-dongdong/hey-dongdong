@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.transaction.Transactional;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -37,7 +38,7 @@ class MenuControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("GetAllMenusRequest", "admin"), payload));
 
-        mockMvc.perform(put("/menu/get-all")
+        mockMvc.perform(post("/menu/get-all")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -53,7 +54,7 @@ class MenuControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("GetAllMenusRequest", "admin"), payload));
 
-        mockMvc.perform(put("/menu/get-all")
+        mockMvc.perform(post("/menu/get-all")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
