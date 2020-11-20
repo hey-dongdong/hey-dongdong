@@ -8,7 +8,7 @@
 				<RadialProgressBar
 					class="progress"
 					:diameter="200"
-					:completed-steps="50"
+					:completed-steps="this.percent"
 					:total-steps="100"
 					:startColor="color"
 					:stopColor="color"
@@ -16,15 +16,16 @@
 				</RadialProgressBar>
 				<img src="../../assets/logo.png" alt="logo" class="small-logo" />
 				<div class="progress-percent">
-					<p class="percent">50</p>
+					<p class="percent">{{ percent }}</p>
 					<p class="total-percent">/100%</p>
 				</div>
-				<p class="progress-explain">주문 확인 중입니다</p>
+				<p class="progress-explain">{{ progressExplain }}</p>
 			</div>
 			<!-- <img src="../../assets/barcode.png" alt="barcode" class="barcode" /> -->
 			<!-- <input v-model="barcodeValue" /><br /> -->
 			<VueBarcode
-				v-bind:value="barcodeValue"
+				v-if="orderId != ''"
+				v-bind:value="orderId"
 				class="barcode-box"
 				height="50"
 				format="CODE39"
@@ -63,10 +64,10 @@ import MainHeader from '@/components/common/MainHeader.vue';
 import PickUpStore from '@/components/main/PickUpStore.vue';
 import RadialProgressBar from 'vue-radial-progress';
 import VueBarcode from 'vue-barcode';
-import { getUserFromCookie } from '@/utils/cookies';
+import { getUserFromCookie, getOrderIdFromCookie, deleteCookie } from '@/utils/cookies';
+import { getProgress } from '@/api/order';
 import { checkNoShowCount } from '@/api/auth';
 import ModalPopup from '@/components/common/ModalPopup.vue';
-import { deleteCookie } from '@/utils/cookies';
 
 export default {
 	components: {
@@ -78,7 +79,6 @@ export default {
 	},
 	data: function() {
 		return {
-			barcodeValue: '317',
 			color: '#00462A',
 			images: [
 				require('../../assets/ad-1.png'),
@@ -91,6 +91,9 @@ export default {
 			noShowCount: 0,
 			noShowMessage1: '',
 			noShowMessage2: '',
+			orderId: getOrderIdFromCookie() || 0,
+			percent: 0,
+			progressExplain: '주문한 음료가 없습니다',
 		};
 	},
 	computed: {
@@ -107,6 +110,7 @@ export default {
 			},
 			payload: {},
 		};
+		
 		const { data } = await checkNoShowCount(userData);
 
 		if (data.payload.noShowCount === '1') {
@@ -115,13 +119,56 @@ export default {
 			this.noShowMessage2 = '추가 노쇼 시 3개월 간 차단됩니다.';
 			this.openModal();
 		}
-
-		if (data.payload.noShowCount === '2') {
+		else if (data.payload.noShowCount === '2') {
 			this.noShowCount = 2;
 			this.noShowMessage1 = '노쇼 누적 2회로, 헤이동동 이용이 차단되었습니다.';
 			this.noShowMessage2 = '3개월 후 이용이 가능합니다.';
 			this.openModal();
 		}
+		else {
+			try {
+				const orderData = {
+				header: {
+					name: "GetOrderProgressRequest",
+					userId: getUserFromCookie(),
+				},
+				payload: {
+					orderId: this.orderId,
+				},
+			};
+			const { data } = await getProgress(orderData);
+			switch(data.payload.progress) {
+				case 'WAITING':
+					this.percent = 30;
+					this.progressExplain = "주문 확인 중입니다";
+					break;
+				case 'DECLINED':
+					this.percent = 0;
+					this.progressExplain = "주문이 거절되었습니다";
+					break;
+				case 'MAKING':
+					this.percent = 60;
+					this.progressExplain = "음료 제조 중입니다";
+					break;
+				case 'READY':
+					this.percent = 100;
+					this.progressExplain = "음료를 찾아가세요"
+					break;
+				case 'DONE':
+					this.percent = 0;
+					this.progressExplain = "주문한 음료가 없습니다"
+					break;
+				case 'NOSHOW':
+					this.percent = 0;
+					this.progressExplain = "제조 완료된 음료를 찾아가지 않았습니다"
+					break;
+				}
+			} catch (error) {
+					this.progressExplain = "주문한 음료가 없습니다"
+			}
+			
+		}
+		
 	},
 	methods: {
 		randomItem(items) {

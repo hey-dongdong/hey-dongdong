@@ -137,6 +137,10 @@ transition: background-color 5000s ease-in-out 0s;
 	margin-bottom: 10px;
 }
 
+.device-token {
+	display: none;
+}
+
 .form-items > li:last-child {
 	margin-bottom: 70px;
 }
@@ -1085,6 +1089,10 @@ input[type=checkbox]:checked + label{
 	text-align: center;
 	font-size: 12px;
 	line-height: 1.4;
+}
+
+.modal-content.order {
+	line-height: 1.8;
 }
 
 

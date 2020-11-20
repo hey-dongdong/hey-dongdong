@@ -51,6 +51,7 @@ export default {
 			};
 			await updateOrderProgress(data);
 			this.$emit('fetch-again');
+			
 		},
 		async declineOrder() {
 			const data = {

@@ -20,13 +20,15 @@ const router = new VueRouter({
 			component: () => import('@/views/login/SignUpPage.vue'),
 		},
 		{
-			path: '/logout',
-			name: 'logout',
-			component: () => import('@/views/login/LogoutPage.vue'),
+			path: '/sign-out',
+			name: 'sign-out',
+			component: () => import('@/views/login/SignOutPage.vue'),
+			meta: { auth: true },
 		},
 		{
 			path: '/main',
 			component: () => import('@/views/main/MainPage.vue'),
+			meta: { auth: true },
 		},
 		{
 			path: '/store-info',
@@ -96,11 +98,13 @@ const router = new VueRouter({
 			path: '/my-menu',
 			name: 'my-menu',
 			component: () => import('@/views/menu/MyMenuPage.vue'),
+			meta: { auth: true },
 		},
 		{
 			path: '/my-menu/detail',
 			name: 'my-menu-detail',
 			component: () => import('@/views/menu/MyMenuDetailPage.vue'),
+			meta: { auth: true },
 		},
 		{
 			path: '/history',
@@ -112,23 +116,26 @@ const router = new VueRouter({
 			path: '/history/detail',
 			name: 'history-detail',
 			component: () => import('@/views/order/HistoryDetailPage.vue'),
+			meta: { auth: true },
 		},
 		{
 			path: '/cart',
 			name: 'cart',
 			component: () => import('@/views/order/CartPage.vue'),
+			meta: { auth: true },
 		},
 		{
 			path: '/complete',
 			name: 'complete',
 			component: () => import('@/views/order/CompleteOrderPage.vue'),
+			meta: { auth: true },
 		},
 	],
 });
 
 router.beforeEach((to, from, next) => {
 	if (to.meta.auth && !store.getters.isLogin) {
-		console.log('인증이 필요합니다');
+		alert('로그인 해주세요');
 		next('/sign-in');
 		return;
 	}
