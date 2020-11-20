@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -85,13 +86,12 @@ class OrderControllerTest {
         String content = objectMapper.writeValueAsString(new Request(
                 new RequestHeader("AddNewOrderRequest", "test_user"), objectMapper.valueToTree(newOrder)));
 
-        mockMvc.perform(post("/order/add")
+        mockMvc.perform(put("/order/add")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-
 
 
     @Test
@@ -113,7 +113,7 @@ class OrderControllerTest {
                 .payload(payload.put("progress", "DONE"))
                 .build();
 
-        mockMvc.perform(post("/order/get-progress")
+        mockMvc.perform(put("/order/get-progress")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -138,14 +138,13 @@ class OrderControllerTest {
                         .build())
                 .build();
 
-        mockMvc.perform(post("/order/get-progress")
+        mockMvc.perform(put("/order/get-progress")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andExpect(content().string(objectMapper.valueToTree(response).toPrettyString()));
     }
-
 
 
     @Test
@@ -166,7 +165,7 @@ class OrderControllerTest {
                         .build())
                 .build();
 
-        mockMvc.perform(post("/order/update-progress")
+        mockMvc.perform(put("/order/update-progress")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -192,7 +191,7 @@ class OrderControllerTest {
                         .build())
                 .build();
 
-        mockMvc.perform(post("/order/update-progress")
+        mockMvc.perform(put("/order/update-progress")
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))

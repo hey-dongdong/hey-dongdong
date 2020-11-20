@@ -8,7 +8,6 @@ import com.ewha.heydongdong.module.model.dto.OrderDto;
 import com.ewha.heydongdong.module.model.dto.SimpleMenuDto;
 import com.ewha.heydongdong.module.model.dto.SimpleStoreDto;
 import com.ewha.heydongdong.module.repository.OrderRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,9 +30,6 @@ class HistoryServiceTest {
 
     @Autowired
     private OrderRepository orderRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Test
     @DisplayName("Get all history of test user | Success")
