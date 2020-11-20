@@ -62,8 +62,25 @@
 					:key="cardItem.id"
 					:orderItem="cardItem"
 					@fetch-again="fetchAgain"
+					@no-show="noShow"
 				></ReadyOrdersCard>
 			</div>
+			<ModalPopup @close="closeModal" v-if="modal">
+				<span slot="modal-title" class="modal-title red"
+					>고객이 주문 후 방문하지 않았나요?</span
+				>
+				<span slot="modal-content" class="modal-content">
+					아래버튼을 누르면 위 고객은 <span class="yellow">일정 기간 동안</span><br />
+					<span class="yellow">헤이동동 서비스를 이용할 수 없게 됩니다.</span><br/>
+					<span class="name">{{ this.userName }}</span><br />
+					<span class="phone">{{ this.phone }}</span>
+				</span>
+				
+				<div slot="footer" class="popup-buttons">
+					<button @click="confirm" class="popup-button green" type="button">취소</button>
+					<button @click="confirmNoShow" class="popup-button red" type="button">노쇼</button>
+				</div>
+			</ModalPopup>
 		</div>
 	</div>
 </template>
@@ -73,16 +90,23 @@ import WaitingOrdersCard from '@/components/WaitingOrdersCard.vue';
 import MakingOrdersCard from '@/components/MakingOrdersCard.vue';
 import ReadyOrdersCard from '@/components/ReadyOrdersCard.vue';
 import { mapGetters } from 'vuex';
+import ModalPopup from '@/components/ModalPopup.vue';
+import { updateOrderProgress } from '@/api/index';
 
 export default {
 	components: {
 		WaitingOrdersCard,
 		MakingOrdersCard,
 		ReadyOrdersCard,
+		ModalPopup,
 	},
 	data() {
 		return {
 			selected: this.$route.params.selectedStoreId || 1,
+			modal: false,
+			id: '',
+			userName: '',
+			phone: '',
 		};
 	},
 	computed: {
@@ -96,12 +120,10 @@ export default {
 			},
 			payload: {},
 		};
-		setInterval(() => {
-			this.$store.dispatch('FETCH_ORDERS', {
+		this.$store.dispatch('FETCH_ORDERS', {
 				id: this.selected,
 				data: data,
 			});
-		}, 2000); 
 	},
 	methods: {
 		async selectStore(e) {
@@ -139,6 +161,36 @@ export default {
 				},
 			});
 		},
+		openModal() {
+			this.modal = true;
+		},
+		closeModal() {
+			this.modal = false;
+		},
+		confirm() {
+			this.closeModal();
+		},
+		noShow({ id, userName, phone }) {
+			this.id = id;
+			this.userName = userName;
+			this.phone = phone;
+			this.openModal();
+		},
+		async confirmNoShow() {
+			const data = {
+				header: {
+					name: 'UpdateOrderProgressRequest',
+					userId: 'admin',
+				},
+				payload: {
+					orderId: this.id,
+					progress: 'NOSHOW',
+				},
+			};
+			await updateOrderProgress(data);
+			this.fetchAgain();
+			this.closeModal();
+		}
 	},
 };
 </script>

@@ -52,19 +52,24 @@ export default {
 			await updateOrderProgress(data);
 			this.$emit('fetch-again');
 		},
-		async noShowOrder() {
-			const data = {
-				header: {
-					name: 'UpdateOrderProgressRequest',
-					userId: 'admin',
-				},
-				payload: {
-					orderId: this.orderItem.orderInfo.orderId,
-					progress: 'NOSHOW',
-				},
-			};
-			await updateOrderProgress(data);
-			this.$emit('fetch-again');
+		noShowOrder() {
+			// const data = {
+			// 	header: {
+			// 		name: 'UpdateOrderProgressRequest',
+			// 		userId: 'admin',
+			// 	},
+			// 	payload: {
+			// 		orderId: this.orderItem.orderInfo.orderId,
+			// 		progress: 'NOSHOW',
+			// 	},
+			// };
+			// await updateOrderProgress(data);
+			// this.$emit('fetch-again');
+			this.$emit('no-show', {
+				id: this.orderItem.orderInfo.orderId,
+				userName: this.orderItem.orderInfo.user.userName,
+				phone: this.orderItem.orderInfo.user.phone,
+			});
 		},
 	},
 };

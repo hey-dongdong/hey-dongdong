@@ -238,3 +238,88 @@ button {
 .goto {
 	color: white;
 }
+
+/* modal popup */
+
+.modal.modal-overlay {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	z-index: 30;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.08);
+}
+
+.modal-window {
+	width: 300px;
+	height: 165px;
+  background: #2B2B2B;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.modal-content-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 120px;
+}
+
+.modal-title {
+	font-size: 12px;
+	margin: 15px 0 0px;
+}
+
+.modal-content {
+	text-align: center;
+	font-size: 12px;
+	line-height: 1.4;
+}
+
+.yellow {
+	font-size: 12px;
+	color: #FFC52F;
+}
+
+.name {
+	display: block;
+	margin: 3px 0;
+}
+
+.phone {
+	display: block;
+	margin-top: -15px;
+	font-size: 13px;
+}
+
+.popup-buttons {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	position: relative;
+	bottom: 0;
+}
+
+.popup-button {
+	display: block;
+	background-color: transparent;
+	border: none;
+	border-top: 1px solid #8D734A ;
+	color: white;
+	width: 150px;
+	height: 45px;
+	font-size: 12px;
+	margin-left: 0;
+}
+
+.popup-button:first-child {
+	border-right: 1px solid #8D734A;
+}
+
+.popup-button.red {
+	color: #FF3333
+}
