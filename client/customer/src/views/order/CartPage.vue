@@ -81,7 +81,7 @@ export default {
 	},
 	methods: {
 		async completeOrder() {
-			if (localStorage.length > 5) {
+			if (localStorage.length > 4) {
 				var menus = [];
 				let totalCount = 0;
 				for (let i = 0; i < localStorage.length; i++) {
@@ -106,6 +106,8 @@ export default {
 						menus.push(menu);
 					}
 				}
+
+				console.log("1");
 				var flag = 0;
 				if(getOrderIdFromCookie() === '') {
 					flag = 1;
@@ -162,6 +164,7 @@ export default {
 						},
 					};
 					const response = await addOrder(data2);
+					console.log(response);
 					for (let i = 0; i < localStorage.length; i++) {
 						if (
 							localStorage.key(i) !== 'loglevel:webpack-dev-server' &&

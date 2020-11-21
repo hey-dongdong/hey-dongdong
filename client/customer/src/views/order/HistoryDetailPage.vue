@@ -177,7 +177,8 @@ export default {
 					if(data.payload.progress === 'WAITING' ||
 							data.payload.progress === 'MAKING' ||
 							data.payload.progress === 'READY') {
-						this.openModal();
+						this.closeModal();
+						this.openOrderModal();
 					}
 					else {
 						flag = 1;
