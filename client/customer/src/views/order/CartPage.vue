@@ -69,7 +69,8 @@ export default {
 					localStorage.key(i) !== 'store-id' &&
 					localStorage.key(i) !== 'store' &&
 					localStorage.key(i) !== 'nearest-store-id' &&
-					localStorage.key(i) !== 'nearest-store'
+					localStorage.key(i) !== 'nearest-store' &&
+						localStorage.key(i) !== 'device-token'
 				) {
 					this.cartItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
 				}
@@ -90,7 +91,8 @@ export default {
 						localStorage.key(i) !== 'store-id' &&
 						localStorage.key(i) !== 'store' &&
 						localStorage.key(i) !== 'nearest-store-id' &&
-						localStorage.key(i) !== 'nearest-store'
+						localStorage.key(i) !== 'nearest-store' &&
+						localStorage.key(i) !== 'device-token'
 					) {
 						var item = JSON.parse(localStorage.getItem(localStorage.key(i)));
 						var menu = {
@@ -173,7 +175,8 @@ export default {
 							localStorage.key(i) !== 'store-id' &&
 							localStorage.key(i) !== 'store' &&
 							localStorage.key(i) !== 'nearest-store-id' &&
-							localStorage.key(i) !== 'nearest-store'
+							localStorage.key(i) !== 'nearest-store' &&
+						localStorage.key(i) !== 'device-token'
 						) {
 							localStorage.removeItem(localStorage.key(i));
 						}
