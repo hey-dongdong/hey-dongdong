@@ -32,7 +32,7 @@
 		</header>
 		<div class="bg">
 			<div class="sub-title">
-				들어온 주문
+				<span>들어온 주문</span>
 			</div>
 			<div class="card-list">
 				<WaitingOrdersCard
@@ -43,7 +43,7 @@
 				></WaitingOrdersCard>
 			</div>
 			<div class="sub-title">
-				제조 중인 주문
+				<span>제조 중인 주문</span>
 			</div>
 			<div class="card-list">
 				<MakingOrdersCard
@@ -54,7 +54,7 @@
 				></MakingOrdersCard>
 			</div>
 			<div class="sub-title">
-				수령 대기 중인 주문
+				<span>수령 대기 중인 주문</span>
 			</div>
 			<div class="card-list">
 				<ReadyOrdersCard

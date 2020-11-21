@@ -25,6 +25,7 @@ body {
 	justify-content: center;
 	align-items: center;
 	margin-right: 10px;
+	width: 150px;
 }
 
 .logo {
@@ -96,6 +97,10 @@ option:checked {
 	margin: 10px auto 20px;
 	padding: 10px;
 	border-bottom: 2px solid #2B2B2B;
+	font-size: 20px;
+}
+
+.sub-title-inside {
 	font-size: 20px;
 }
 
