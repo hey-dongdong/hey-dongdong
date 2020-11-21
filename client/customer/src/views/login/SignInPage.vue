@@ -20,8 +20,8 @@
 					<input
 						id="deviceToken"
 						type="text"
-						v-model="deviceToken"
 						class="device-token"
+						readonly
 					/>
 				</li>
 			</ul>
@@ -29,11 +29,11 @@
 			<button type="submit" class="goldbtn">LOGIN</button>
 		</form>
 		<div class="links">
-			<router-link to="/find-id">아이디 찾기</router-link>
+			<button class="bottom-buttons" @click="findId">아이디 찾기</button>
 			|
-			<router-link to="/find-pw">비밀번호 찾기</router-link>
+			<button class="bottom-buttons" @click="findPw">비밀번호 찾기</button>
 			|
-			<router-link to="/sign-up">회원가입</router-link>
+			<button class="bottom-buttons" @click="signUp">회원가입</button>
 		</div>
 		<span class="login-message">{{ logMessage }}</span>
 	</div>
@@ -53,7 +53,6 @@ export default {
 		return {
 			id: '',
 			password: '',
-			deviceToken: '',
 			logMessage: '',
 		};
 	},
@@ -68,10 +67,11 @@ export default {
 					payload: {
 						userId: this.id,
 						password: this.password,
-						deviceToken: this.deviceToken,
+						deviceToken: document.getElementById('deviceToken').value || localStorage.getItem('device-token'),
 					},
 				};
 				const { data } = await signInUser(userData);
+				localStorage.setItem('device-token', document.getElementById('deviceToken').value);
 				this.$store.commit('SET_ACCESS_TOKEN', data.payload.accessToken);
 				this.$store.commit('SET_REFRESH_TOKEN', data.payload.refreshToken);
 				this.$store.commit('SET_USERID', data.header.message);
@@ -99,6 +99,18 @@ export default {
 			this.deviceToken = '';
 			this.logMessage = '';
 		},
+		findId() {
+			localStorage.setItem('device-token', document.getElementById('deviceToken').value);
+			this.$router.push('/find-id');
+		},
+		findPw() {
+			localStorage.setItem('device-token', document.getElementById('deviceToken').value);
+			this.$router.push('/find-pw');
+		},
+		signUp() {
+			localStorage.setItem('device-token', document.getElementById('deviceToken').value);
+			this.$router.push('/sign-up');
+		}
 	},
 };
 </script>

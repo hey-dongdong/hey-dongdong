@@ -141,6 +141,12 @@ transition: background-color 5000s ease-in-out 0s;
 	display: none;
 }
 
+.bottom-buttons {
+	background: transparent;
+	border: none;
+	color: white;
+}
+
 .form-items > li:last-child {
 	margin-bottom: 70px;
 }
