@@ -86,7 +86,8 @@ export default {
 				}
 				this.$router.push('/main');
 			} catch (error) {
-				if (error.message == "Cannot read property 'token' of undefined") {
+				console.log(error.message);
+				if (error.message == "Cannot read property 'accessToken' of undefined") {
 					this.logMessage = '아이디 혹은 비밀번호가 잘못되었습니다.';
 				} else {
 					this.logMessage = '이메일 인증이 필요합니다.';
