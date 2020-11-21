@@ -249,7 +249,7 @@ export default {
 				var customOverlay = new kakao.maps.CustomOverlay({
 					position: pos.latlng,
 					xAnchor: 0.5,
-					yAnchor: 1.05,
+					yAnchor: 1.18,
 				});
 
 				var content = document.createElement('div');
@@ -290,14 +290,14 @@ export default {
 				buttonContainer.className = 'popup-buttons';
 
 				var closeBtn = document.createElement('button');
-				closeBtn.className = 'popup-button';
+				closeBtn.className = 'popup-button map';
 				closeBtn.appendChild(document.createTextNode('취소'));
 				closeBtn.onclick = function() {
 					customOverlay.setMap(null);
 				};
 
 				var selectBtn = document.createElement('button');
-				selectBtn.className = 'popup-button';
+				selectBtn.className = 'popup-button map';
 				selectBtn.appendChild(document.createTextNode('선택'));
 				selectBtn.onclick = function() {
 					if (localStorage.getItem('store-id') != pos.id) {
