@@ -3,8 +3,6 @@ package com.ewha.heydongdong.module.controller;
 import com.ewha.heydongdong.infra.protocol.Request;
 import com.ewha.heydongdong.module.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,7 +43,7 @@ public class UserController {
     @PostMapping(value = "/sign-in", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> signInSubmit(@RequestBody Request request) {
 
-        log.info("[Request] user-sign-in");
+        log.info("[Request] user-sign-in [userId=" + request.getPayload().get("userId").asText() + ",deviceToken=" + request.getPayload().get("deviceToken").asText() + "]");
         request.validateHeader("SignInRequest");
         request.validatePayload();
 
