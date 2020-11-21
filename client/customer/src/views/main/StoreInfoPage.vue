@@ -217,6 +217,12 @@ export default {
 					localStorage.setItem('nearest-store-id', positions[minIndex].id);
 					localStorage.setItem('nearest-store', positions[minIndex].store);
 				});
+				if(localStorage.getItem('nearest-store-id') == null) {
+					localStorage.setItem('nearest-store-id', 8);
+				}
+				if(localStorage.getItem('nearest-store') == null) {
+					localStorage.setItem('nearest-store', '공학관점');
+				}
 			} else {
 				// HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 				// eslint-disable-next-line no-unused-vars

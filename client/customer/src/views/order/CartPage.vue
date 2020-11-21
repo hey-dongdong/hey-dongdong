@@ -81,7 +81,7 @@ export default {
 	},
 	methods: {
 		async completeOrder() {
-			if (localStorage.length > 4) {
+			if (localStorage.length > 0) {
 				var menus = [];
 				let totalCount = 0;
 				for (let i = 0; i < localStorage.length; i++) {
@@ -106,8 +106,6 @@ export default {
 						menus.push(menu);
 					}
 				}
-
-				console.log("1");
 				var flag = 0;
 				if(getOrderIdFromCookie() === '') {
 					flag = 1;
@@ -122,13 +120,17 @@ export default {
 							orderId: getOrderIdFromCookie(),
 						},
 					};
-					const { data } = await getProgress(orderData);
-					if(data.payload.progress === 'WAITING' ||
-							data.payload.progress === 'MAKING' ||
-							data.payload.progress === 'READY') {
-						this.openModal();
-					}
-					else {
+					try {
+						const { data } = await getProgress(orderData);
+						if(data.payload.progress === 'WAITING' ||
+								data.payload.progress === 'MAKING' ||
+								data.payload.progress === 'READY') {
+							this.openModal();
+						}
+						else {
+							flag = 1;
+						}
+					} catch (error) {
 						flag = 1;
 					}
 				}

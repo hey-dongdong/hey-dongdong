@@ -80,6 +80,10 @@ export default {
 				saveUserToCookie(data.header.message);
 				saveUserNameToCookie(data.payload.userName);
 				this.initForm();
+				if(localStorage.getItem('store') == null) {
+					localStorage.setItem('store-id', 8);
+					localStorage.setItem('store', '공학관점');
+				}
 				this.$router.push('/main');
 			} catch (error) {
 				if (error.message == "Cannot read property 'token' of undefined") {
