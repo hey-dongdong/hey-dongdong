@@ -10,6 +10,7 @@ import com.ewha.heydongdong.module.model.dto.OrderDetailDto;
 import com.ewha.heydongdong.module.model.dto.OrderDto;
 import com.ewha.heydongdong.module.repository.MenuInOrderRepository;
 import com.ewha.heydongdong.module.repository.OrderRepository;
+import com.ewha.heydongdong.module.repository.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +27,9 @@ public class OrderService {
 
     @Autowired
     private MenuInOrderRepository menuInOrderRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -109,6 +113,7 @@ public class OrderService {
         Order order = findRequiredOrderById(payload.get("orderId").asLong());
         order.setProgress(Progress.valueOf(payload.get("progress").asText()));
         orderRepository.save(order);
+        updateUserIfNoShow(order);
         pushService.sendCustomerPush(order.getUser(), order.getProgress());
         return jsonBuilder.buildJsonWithHeader("UpdateOrderProgressResponse", String.valueOf(order.getOrderId()));
     }
@@ -116,5 +121,13 @@ public class OrderService {
     private Order findRequiredOrderById(long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new InvalidRequestParameterException("orderId=" + orderId));
+    }
+
+    private void updateUserIfNoShow(Order order) {
+        if (order.getProgress().equals(Progress.NOSHOW)) {
+            User user = order.getUser();
+            user.setNoShowCount(user.getNoShowCount() + 1);
+            userRepository.save(user);
+        }
     }
 }

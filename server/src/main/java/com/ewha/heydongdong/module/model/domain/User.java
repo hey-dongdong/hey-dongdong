@@ -43,6 +43,7 @@ public class User implements UserDetails {
     @Column(name = "phone")
     private String phone;
 
+    @Setter
     @Column(name = "no_show_count")
     private Integer noShowCount;
 
