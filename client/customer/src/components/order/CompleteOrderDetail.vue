@@ -27,7 +27,7 @@ export default {
 		};
 	},
 	created() {
-		this.store = localStorage.getItem('store');
+		this.store = this.completeOrderDetail.orderInfo.store.storeName;
 		this.user = getUserNameFromCookie();
 		this.orderAt = this.completeOrderDetail.orderInfo.orderAt.toString().substring(0, 19);
 	},

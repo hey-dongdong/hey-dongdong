@@ -30,7 +30,7 @@
 		</header>
 		<div class="bg history">
 			<div class="sub-title history">
-				No Show 주문
+				<span>No Show 주문</span>
 				<div class="page-buttons">
 					<button class="goto" @click="goToHistory">수령 완료</button> |
 					<button class="goto" @click="goToNoShow">No Show</button>

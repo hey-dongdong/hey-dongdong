@@ -91,7 +91,7 @@ export default {
 			noShowCount: 0,
 			noShowMessage1: '',
 			noShowMessage2: '',
-			orderId: getOrderIdFromCookie() || 0,
+			orderId: getOrderIdFromCookie() || '',
 			percent: 0,
 			progressExplain: '주문한 음료가 없습니다',
 		};
@@ -157,6 +157,7 @@ export default {
 				case 'DONE':
 					this.percent = 0;
 					this.progressExplain = "주문한 음료가 없습니다"
+					this.orderId = '';
 					break;
 				case 'NOSHOW':
 					this.percent = 0;

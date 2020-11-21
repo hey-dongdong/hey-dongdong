@@ -217,6 +217,12 @@ export default {
 					localStorage.setItem('nearest-store-id', positions[minIndex].id);
 					localStorage.setItem('nearest-store', positions[minIndex].store);
 				});
+				if(localStorage.getItem('nearest-store-id') == null) {
+					localStorage.setItem('nearest-store-id', 8);
+				}
+				if(localStorage.getItem('nearest-store') == null) {
+					localStorage.setItem('nearest-store', '공학관점');
+				}
 			} else {
 				// HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정합니다
 				// eslint-disable-next-line no-unused-vars
@@ -243,7 +249,7 @@ export default {
 				var customOverlay = new kakao.maps.CustomOverlay({
 					position: pos.latlng,
 					xAnchor: 0.5,
-					yAnchor: 1.05,
+					yAnchor: 1.18,
 				});
 
 				var content = document.createElement('div');
@@ -284,14 +290,14 @@ export default {
 				buttonContainer.className = 'popup-buttons';
 
 				var closeBtn = document.createElement('button');
-				closeBtn.className = 'popup-button';
+				closeBtn.className = 'popup-button map';
 				closeBtn.appendChild(document.createTextNode('취소'));
 				closeBtn.onclick = function() {
 					customOverlay.setMap(null);
 				};
 
 				var selectBtn = document.createElement('button');
-				selectBtn.className = 'popup-button';
+				selectBtn.className = 'popup-button map';
 				selectBtn.appendChild(document.createTextNode('선택'));
 				selectBtn.onclick = function() {
 					if (localStorage.getItem('store-id') != pos.id) {
@@ -302,7 +308,8 @@ export default {
 									localStorage.key(i) !== 'store-id' &&
 									localStorage.key(i) !== 'store' &&
 									localStorage.key(i) !== 'nearest-store-id' &&
-									localStorage.key(i) !== 'nearest-store'
+									localStorage.key(i) !== 'nearest-store' &&
+									localStorage.key(i) !== 'device-token'
 								) {
 									localStorage.removeItem(localStorage.key(i));
 								}
@@ -337,7 +344,8 @@ export default {
 							localStorage.key(i) !== 'store-id' &&
 							localStorage.key(i) !== 'store' &&
 							localStorage.key(i) !== 'nearest-store-id' &&
-							localStorage.key(i) !== 'nearest-store'
+							localStorage.key(i) !== 'nearest-store' &&
+							localStorage.key(i) !== 'device-token'
 						) {
 							localStorage.removeItem(localStorage.key(i));
 						}

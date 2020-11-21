@@ -69,7 +69,8 @@ export default {
 					localStorage.key(i) !== 'store-id' &&
 					localStorage.key(i) !== 'store' &&
 					localStorage.key(i) !== 'nearest-store-id' &&
-					localStorage.key(i) !== 'nearest-store'
+					localStorage.key(i) !== 'nearest-store' &&
+						localStorage.key(i) !== 'device-token'
 				) {
 					this.cartItems.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
 				}
@@ -81,7 +82,7 @@ export default {
 	},
 	methods: {
 		async completeOrder() {
-			if (localStorage.length > 5) {
+			if (localStorage.length > 0) {
 				var menus = [];
 				let totalCount = 0;
 				for (let i = 0; i < localStorage.length; i++) {
@@ -90,7 +91,8 @@ export default {
 						localStorage.key(i) !== 'store-id' &&
 						localStorage.key(i) !== 'store' &&
 						localStorage.key(i) !== 'nearest-store-id' &&
-						localStorage.key(i) !== 'nearest-store'
+						localStorage.key(i) !== 'nearest-store' &&
+						localStorage.key(i) !== 'device-token'
 					) {
 						var item = JSON.parse(localStorage.getItem(localStorage.key(i)));
 						var menu = {
@@ -120,13 +122,17 @@ export default {
 							orderId: getOrderIdFromCookie(),
 						},
 					};
-					const { data } = await getProgress(orderData);
-					if(data.payload.progress === 'WAITING' ||
-							data.payload.progress === 'MAKING' ||
-							data.payload.progress === 'READY') {
-						this.openModal();
-					}
-					else {
+					try {
+						const { data } = await getProgress(orderData);
+						if(data.payload.progress === 'WAITING' ||
+								data.payload.progress === 'MAKING' ||
+								data.payload.progress === 'READY') {
+							this.openModal();
+						}
+						else {
+							flag = 1;
+						}
+					} catch (error) {
 						flag = 1;
 					}
 				}
@@ -162,13 +168,15 @@ export default {
 						},
 					};
 					const response = await addOrder(data2);
+					console.log(response);
 					for (let i = 0; i < localStorage.length; i++) {
 						if (
 							localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
 							localStorage.key(i) !== 'store-id' &&
 							localStorage.key(i) !== 'store' &&
 							localStorage.key(i) !== 'nearest-store-id' &&
-							localStorage.key(i) !== 'nearest-store'
+							localStorage.key(i) !== 'nearest-store' &&
+						localStorage.key(i) !== 'device-token'
 						) {
 							localStorage.removeItem(localStorage.key(i));
 						}
@@ -177,6 +185,9 @@ export default {
 						name: 'complete',
 						path: '/complete',
 						params: response.data.payload,
+						query: {
+							storeName: localStorage.getItem('store'),
+						}
 					});
 				}
 				
