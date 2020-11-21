@@ -185,6 +185,9 @@ export default {
 						name: 'complete',
 						path: '/complete',
 						params: response.data.payload,
+						query: {
+							storeName: localStorage.getItem('store'),
+						}
 					});
 				}
 				

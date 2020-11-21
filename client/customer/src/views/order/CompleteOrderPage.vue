@@ -54,12 +54,15 @@ export default {
 		return {
 			barcodeValue: 0,
 			store: '',
+			orderDetail: {},
 		};
 	},
 	created() {
 		this.barcodeValue = this.$route.params.orderInfo.orderId;
-		this.store = localStorage.getItem('store');
+		this.store = this.$route.query.storeName;
 		saveOrderIdToCookie(this.$route.params.orderInfo.orderId);
+		this.orderDetail = this.$route.params;
+		this.orderDetail.orderInfo.store.storeName = this.$route.query.storeName;
 	},
 	methods: {
 		async toggleLike({ id, checked }) {

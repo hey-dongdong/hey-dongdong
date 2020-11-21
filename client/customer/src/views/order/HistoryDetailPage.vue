@@ -232,10 +232,31 @@ export default {
 						},
 					};
 					const response = await addOrder(data2);
+					if(localStorage.getItem('store-id') !== this.$route.params.store.storeId) {
+						if (localStorage.length > 0) {
+							for (let i = 0; i < localStorage.length; i++) {
+								if (
+									localStorage.key(i) !== 'loglevel:webpack-dev-server' &&
+									localStorage.key(i) !== 'store-id' &&
+									localStorage.key(i) !== 'store' &&
+									localStorage.key(i) !== 'nearest-store-id' &&
+									localStorage.key(i) !== 'nearest-store' &&
+									localStorage.key(i) !== 'device-token'
+								) {
+									localStorage.removeItem(localStorage.key(i));
+								}
+							}
+						}
+						localStorage.setItem('store-id', this.$route.params.store.storeId);
+						localStorage.setItem('store', this.$route.params.store.storeName);
+					}
 					this.$router.push({
 						name: 'complete',
 						path: '/complete',
 						params: response.data.payload,
+						query: {
+							storeName: this.$route.params.store.storeName,
+						}
 					});
 			}
 			
