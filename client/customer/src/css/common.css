@@ -481,7 +481,7 @@ transition: background-color 5000s ease-in-out 0s;
 	background-size: contain;
 	width: 300px;
 	height: 190px;
-	padding-top: 10px;
+	padding-top: 3px;
 }
 
 .map-popup-title {
@@ -568,7 +568,6 @@ transition: background-color 5000s ease-in-out 0s;
 
 .popup-button.map {
 	border: none;
-	margin-top: 8px;
 }
 
 
