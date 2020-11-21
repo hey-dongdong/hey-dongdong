@@ -120,10 +120,13 @@ export default {
 			},
 			payload: {},
 		};
-		this.$store.dispatch('FETCH_ORDERS', {
+		setInterval(() => {
+			this.$store.dispatch('FETCH_ORDERS', {
 				id: this.selected,
 				data: data,
 			});
+		}, 2000);
+		
 	},
 	methods: {
 		async selectStore(e) {
