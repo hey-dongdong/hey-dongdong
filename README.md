@@ -1,5 +1,5 @@
 # ☕헤이동동 : 생협 음료 원격 주문 서비스
-[소개영상](https://www.youtube.com/watch?v=K7VUM9Tr9lc&feature=youtu.be) | [포스터](https://drive.google.com/file/d/1dcohV72zb7PYVf9d2sa2x1ekA8XKiOC7/view?usp=sharing)
+[소개영상](https://www.youtube.com/watch?v=K7VUM9Tr9lc&feature=youtu.be) | [포스터](https://drive.google.com/file/d/1dcohV72zb7PYVf9d2sa2x1ekA8XKiOC7/view?usp=sharing) | [안드로이드앱](https://drive.google.com/file/d/1ws15Om2kMVmC_nhBDx3golVSHj6f4BZv/view?usp=sharing)
 
 <center><img src="/img/logo.png" width="300" height="300"></center>
 
