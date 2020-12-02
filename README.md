@@ -3,7 +3,6 @@
 [소개영상](https://www.youtube.com/watch?v=K7VUM9Tr9lc&feature=youtu.be) | [포스터](https://drive.google.com/file/d/1dcohV72zb7PYVf9d2sa2x1ekA8XKiOC7/view?usp=sharing) | [안드로이드앱](https://drive.google.com/file/d/1ws15Om2kMVmC_nhBDx3golVSHj6f4BZv/view?usp=sharing)
 
 <center><img src="/img/logo.png" width="300" height="300"></center>
-
 <br>
 
 ## 💡주요 기능
@@ -46,7 +45,7 @@
 |이름|담당|
 |--|--|
 |[김지우](https://github.com/jiwoo-kimm)|[백엔드 구현 및 서비스 설계](https://velog.io/@jwkim/series/%EC%A1%B8%EC%97%85%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%97%A4%EC%9D%B4%EB%8F%99%EB%8F%99)|
-|[배소연](https://github.com/sdsdsrd)||
+|[배소연](https://github.com/sdsdsrd)|[프론트엔드 구현 및 서비스 설계](https://velog.io/@sdsdsrd/series/%EC%A1%B8%EC%97%85%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8)|
 |[이정원](https://github.com/jeongwon-iee)||
 
 <br>
