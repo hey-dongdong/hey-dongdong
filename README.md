@@ -48,3 +48,12 @@
 |[김지우](https://github.com/jiwoo-kimm)|[백엔드 구현 및 서비스 설계](https://velog.io/@jwkim/series/%EC%A1%B8%EC%97%85%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%97%A4%EC%9D%B4%EB%8F%99%EB%8F%99)|
 |[배소연](https://github.com/sdsdsrd)||
 |[이정원](https://github.com/jeongwon-iee)||
+
+<br>
+
+## 📚참고 자료
+
+* [Vue.js 끝장내기 - 실무에 필요한 모든 것](https://www.inflearn.com/course/vue-js-%EB%81%9D%EB%82%B4%EA%B8%B0-%EC%BA%A1%ED%8B%B4%ED%8C%90%EA%B5%90/dashboard)
+* [스프링과 JPA 기반 웹 애플리케이션 개발](https://www.inflearn.com/course/%EC%8A%A4%ED%94%84%EB%A7%81-JPA-%EC%9B%B9%EC%95%B1/dashboard)
+* [자바 ORM 표준 JPA 프로그래밍](http://www.kyobobook.co.kr/product/detailViewKor.laf?ejkGb=KOR&mallGb=KOR&barcode=9788960777330&orderClick=LAG&Kc=)
+
