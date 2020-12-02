@@ -44,3 +44,8 @@
 [김지우](https://github.com/jiwoo-kimm)
 [배소연](https://github.com/sdsdsrd)
 [이정원](https://github.com/jeongwon-iee)
+
+<br>
+
+## 📝 License
+This project is [MIT](./LICENSE) licensed.
