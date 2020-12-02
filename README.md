@@ -46,7 +46,7 @@
 |--|--|
 |[김지우](https://github.com/jiwoo-kimm)|[백엔드 구현 및 서비스 설계](https://velog.io/@jwkim/series/%EC%A1%B8%EC%97%85%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%97%A4%EC%9D%B4%EB%8F%99%EB%8F%99)|
 |[배소연](https://github.com/sdsdsrd)|[프론트엔드 구현 및 서비스 설계](https://velog.io/@sdsdsrd/series/%EC%A1%B8%EC%97%85%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8)|
-|[이정원](https://github.com/jeongwon-iee)|[백엔드 구현 및 서비스 설계](https://velog.io/@lychee)|
+|[이정원](https://github.com/jeongwon-iee)|[백엔드 구현 및 서비스 설계](https://velog.io/@lychee?tag=졸프)|
 
 <br>
 
